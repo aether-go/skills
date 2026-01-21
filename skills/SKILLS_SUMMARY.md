@@ -1,10 +1,10 @@
 # Aether.go Skills Summary
 
-根据 `overall.md` 中的规划和 OpenCode skills 规范，已成功创建所有 23 个技能（原有18个 + 新增5个）。
+根据 `overall.md` 中的规划和 OpenCode skills 规范，已成功创建所有 24 个技能（原有18个 + 新增6个）。
 
 ## 新增 Skills 背景：基于 bitcms 代码库分析
 
-新增的 5 个技能基于对 `~/workspace/dgbic/bitcms` 代码库的深入分析，该代码库是一个完整的 Go + Vue 3 + Quasar 全栈项目。
+新增的 6 个技能基于对 `~/workspace/dgbic/bitcms` 代码库的深入分析，该代码库是一个完整的 Go + Vue 3 + Quasar 全栈项目。
 
 ### bitcms 代码库分析结果
 
@@ -124,7 +124,7 @@
    - 功能：版本控制，性能跟踪，A/B 测试
    - 位置：`skills/prompt-template-manager/SKILL.md`
 
-### Go + Vue + Quasar 全栈开发 Skills - 5个（基于 bitcms 模式）
+### Go + Vue + Quasar 全栈开发 Skills - 6个（基于 bitcms 模式）
 
 18. **go-backend-scaffolder**
    - 描述：基于 bitcms 模式生成干净架构的 Go 后端代码
@@ -147,16 +147,21 @@
    - 位置：`skills/requirements-to-code-docs/SKILL.md`
 
 22. **go-vue-fullstack-workflow**
-   - 描述：协调使用 bitcms 模式和文档的 Go + Vue + Quasar 全栈开发工作流
-   - 功能：集成所有相关技能，提供端到端开发工作流指导
-   - 位置：`skills/go-vue-fullstack-workflow/SKILL.md`
+    - 描述：协调使用 bitcms 模式和文档的 Go + Vue + Quasar 全栈开发工作流
+    - 功能：集成所有相关技能，提供端到端开发工作流指导
+    - 位置：`skills/go-vue-fullstack-workflow/SKILL.md`
+
+23. **makefile-backend-generator**
+    - 描述：基于 bitcms 模式为 Go 后端项目创建生产级 Makefile
+    - 功能：生成包含构建、测试、部署、数据库操作的完整 Makefile，支持跨平台编译
+    - 位置：`skills/makefile-backend-generator/SKILL.md`
 
 ### 工具与集成 Skills - 1个
 
-23. **skill-packaging-tool**
-   - 描述：将技能打包为可分发的可安装包
-   - 功能：版本管理，依赖声明，安装脚本
-   - 位置：`skills/skill-packaging-tool/SKILL.md`
+24. **skill-packaging-tool**
+    - 描述：将技能打包为可分发的可安装包
+    - 功能：版本管理，依赖声明，安装脚本
+    - 位置：`skills/skill-packaging-tool/SKILL.md`
 
 ## 技能特点
 
@@ -195,13 +200,14 @@
 
 ### Go + Vue + Quasar 全栈技能套件工作流
 
-新增的 5 个技能设计为模块化组合使用，既可独立完成特定任务，也可通过 `go-vue-fullstack-workflow` 技能协调完成端到端开发。
+新增的 6 个技能设计为模块化组合使用，既可独立完成特定任务，也可通过 `go-vue-fullstack-workflow` 技能协调完成端到端开发。
 
 ```
 go-vue-fullstack-workflow (主工作流)
     ├── fullstack-project-setup (项目初始化)
     ├── requirements-to-code-docs (文档生成)
     ├── go-backend-scaffolder (后端开发)
+    ├── makefile-backend-generator (Makefile 生成)
     └── vue-quasar-scaffolder (前端开发)
 ```
 
@@ -220,6 +226,10 @@ go-vue-fullstack-workflow (主工作流)
 
 3. **后端开发阶段**
    ```bash
+   # 生成项目结构后，创建标准化的 Makefile
+   makefile-backend-generator create --app-name=myapp --module=github.com/org/myapp
+   
+   # 生成领域模型和 CRUD 端点
    go-backend-scaffolder generate domain User --fields="email:string,username:string"
    go-backend-scaffolder generate crud User --auth=required
    ```
@@ -247,6 +257,7 @@ go-vue-fullstack-workflow (主工作流)
 | vue-quasar-scaffolder | test-pyramid-analyzer | 前端组件生成时包含测试金字塔配置 |
 | requirements-to-code-docs | spec-parser, spec-to-code-tracer | 需求文档自动转换为规范并建立追溯 |
 | go-vue-fullstack-workflow | business-value-mapper, architecture-decision-recorder | 工作流中集成业务价值映射和架构决策记录 |
+| makefile-backend-generator | go-backend-scaffolder | 为生成的 Go 后端项目创建标准化 Makefile |
 
 ### 技能依赖关系
 
@@ -256,6 +267,7 @@ go-vue-fullstack-workflow → [all other new skills]
 requirements-to-code-docs → [spec-parser, spec-to-code-tracer]
 go-backend-scaffolder → [tdd-red-green-refactor]
 vue-quasar-scaffolder → [test-pyramid-analyzer]
+makefile-backend-generator → [go-backend-scaffolder]  # 通常在后端项目创建后使用
 ```
 
 ## 使用说明
@@ -297,6 +309,6 @@ OpenCode 会自动从以下位置发现技能：
 ---
 
 创建日期：2024-01-16  
-最后更新：2026-01-16  
+最后更新：2026-01-21  
 创建者：AI Assistant based on Aether.go methodology  
 参考文档：`overall.md`, `https://opencode.ai/docs/skills/`
