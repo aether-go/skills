@@ -128,7 +128,8 @@
 
 18. **go-backend-scaffolder**
    - 描述：基于 bitcms 模式生成干净架构的 Go 后端代码
-   - 功能：创建 Fiber + GORM + Swagger 后端，支持分层架构
+   - 功能：创建 Fiber + GORM + Swagger 后端，支持分层架构和 Cobra 命令结构
+   - 特点：main.go 在根目录作为 Cobra 入口，cmd/ 存放独立命令（version/daemon/server），包含默认 version 命令
    - 位置：`skills/go-backend-scaffolder/SKILL.md`
 
 19. **vue-quasar-scaffolder**
@@ -232,6 +233,10 @@ go-vue-fullstack-workflow (主工作流)
    # 生成领域模型和 CRUD 端点
    go-backend-scaffolder generate domain User --fields="email:string,username:string"
    go-backend-scaffolder generate crud User --auth=required
+   
+   # 生成命令结构（自动包含 version 命令）
+   go-backend-scaffolder command version
+   go-backend-scaffolder command daemon --port=8080
    ```
 
 4. **前端开发阶段**
@@ -268,6 +273,20 @@ requirements-to-code-docs → [spec-parser, spec-to-code-tracer]
 go-backend-scaffolder → [tdd-red-green-refactor]
 vue-quasar-scaffolder → [test-pyramid-analyzer]
 makefile-backend-generator → [go-backend-scaffolder]  # 通常在后端项目创建后使用
+
+目录结构特点（基于 bitcms 模式）：
+backend/
+├── main.go                         # Cobra 根命令入口
+├── cmd/                            # 独立命令
+│   ├── version/                    # 默认 version 命令
+│   ├── daemon/                     # 服务器命令
+│   └── server/                     # 可选服务器入口
+├── internal/                       # 私有应用代码
+│   ├── app/                        # 应用层配置
+│   ├── domain/                     # 领域模型
+│   ├── interfaces/                 # API 处理器
+│   └── services/                   # 业务逻辑
+└── ...                             # 其他标准目录
 ```
 
 ## 使用说明
@@ -304,6 +323,7 @@ OpenCode 会自动从以下位置发现技能：
 - **新增的 Go + Vue + Quasar 技能**：基于 bitcms 代码库模式，适用于快速创建全栈 Web 应用
 - **技能组合使用**：建议通过 `go-vue-fullstack-workflow` 技能协调使用其他相关技能
 - **文档可追溯性**：新增技能支持需求到代码的完整可追溯性
+- **目录结构优化**：go-backend-scaffolder 已更新为 bitcms 风格的 Cobra 命令结构，main.go 在根目录，cmd/ 存放独立命令，包含默认 version 命令
 - 欢迎反馈和改进建议
 
 ---
@@ -312,3 +332,5 @@ OpenCode 会自动从以下位置发现技能：
 最后更新：2026-01-21  
 创建者：AI Assistant based on Aether.go methodology  
 参考文档：`overall.md`, `https://opencode.ai/docs/skills/`
+更新记录：
+- 2026-01-21: 更新 go-backend-scaffolder 技能，采用 bitcms 风格的 Cobra 命令结构，main.go 在根目录，cmd/ 存放独立命令，包含默认 version 命令
