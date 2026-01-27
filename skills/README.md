@@ -22,10 +22,14 @@ skills/
 │   │   └── SKILL.md
 │   ├── sit-scenario-generator/    # SIT 场景生成器
 │   │   └── SKILL.md
-│   └── chaos-test-designer/       # 混沌工程实验设计
+│   ├── chaos-test-designer/       # 混沌工程实验设计
+│   │   └── SKILL.md
+│   └── atdd-acceptance-test-generator/ # ATDD 验收测试生成器
 │       └── SKILL.md
 │
 ├── 战略层 Skills (BMAD 驱动)
+│   ├── business-requirements-collector/ # 业务需求收集器
+│   │   └── SKILL.md
 │   ├── business-value-mapper/     # 业务价值映射器
 │   │   └── SKILL.md
 │   ├── metrics-definer/           # 指标定义器
@@ -42,7 +46,9 @@ skills/
 │   │   └── SKILL.md
 │   ├── spec-to-code-tracer/       # 规范代码追溯器
 │   │   └── SKILL.md
-│   └── spec-evolution-tracker/    # 规范演进跟踪器
+│   ├── spec-evolution-tracker/    # 规范演进跟踪器
+│   │   └── SKILL.md
+│   └── architecture-pattern-selector/ # 架构模式选择器
 │       └── SKILL.md
 │
 ├── AI 协作与优化 Skills
@@ -69,33 +75,40 @@ skills/
 │   └── makefile-backend-generator/ # Makefile 生成器
 │       └── SKILL.md
 │
-└── 工具与集成 Skills
-    ├── skill-packaging-tool/      # 技能打包工具
-    │   └── SKILL.md
-    └── go-cli-builder/            # Go CLI 应用构建器
+├── 工具与集成 Skills
+│   ├── skill-packaging-tool/      # 技能打包工具
+│   │   └── SKILL.md
+│   └── go-cli-builder/            # Go CLI 应用构建器
+│       └── SKILL.md
+│
+└── 方法论融合协调层 Skills
+    └── methodology-fusion-orchestrator/ # 方法论融合协调器
         └── SKILL.md
 ```
 
 ## 技能分类
 
-### 执行层 (5个)
+### 执行层 (6个)
 - `bdd-scenario-writer` - 将需求转为 Gherkin BDD 场景
 - `tdd-red-green-refactor` - 指导 TDD RED-GREEN-REFACTOR 循环
 - `test-pyramid-analyzer` - 分析测试分布和覆盖率
 - `sit-scenario-generator` - 生成系统集成测试场景
 - `chaos-test-designer` - 设计混沌工程实验
+- `atdd-acceptance-test-generator` - 生成 ATDD 验收测试
 
-### 战略层 (4个)
+### 战略层 (5个)
+- `business-requirements-collector` - 业务需求收集与分析
 - `business-value-mapper` - BMAD 业务价值映射
 - `metrics-definer` - 定义业务和技术指标
 - `architecture-decision-recorder` - 记录架构决策 (ADR)
 - `data-flow-analyzer` - 分析数据流和价值链
 
-### 战术层 (4个)
+### 战术层 (5个)
 - `spec-parser` - 解析自然语言需求为结构化规范
 - `constitution-validator` - 验证宪法原则合规性
 - `spec-to-code-tracer` - 建立规范与代码双向追溯
 - `spec-evolution-tracker` - 跟踪规范变更历史
+- `architecture-pattern-selector` - 基于需求选择架构模式
 
 ### AI 协作层 (4个)
 - `context-manager` - 管理项目上下文
@@ -114,6 +127,9 @@ skills/
 ### 工具与集成层 (2个)
 - `skill-packaging-tool` - 打包技能为可分发包
 - `go-cli-builder` - 构建企业级 Go CLI 应用，基于 cobra+viper 最佳实践
+
+### 方法论融合协调层 (1个)
+- `methodology-fusion-orchestrator` - 协调端到端方法论融合工作流
 
 ## 使用方式
 
@@ -176,11 +192,12 @@ description: Use when [specific triggering conditions]
 
 这些技能与 Aether.go 核心方法论深度集成：
 
-- **BMAD** (Business-Driven Metrics) - business-value-mapper, metrics-definer
+- **BMAD** (Business-Driven Metrics) - business-requirements-collector, business-value-mapper, metrics-definer
 - **SDD** (Spec-Driven Development) - spec-parser, spec-to-code-tracer
 - **Constitution** - constitution-validator, architecture-decision-recorder
-- **Testing** - bdd-scenario-writer, tdd-red-green-refactor, test-pyramid-analyzer
+- **Testing** - bdd-scenario-writer, tdd-red-green-refactor, test-pyramid-analyzer, atdd-acceptance-test-generator
 - **Resilience** - sit-scenario-generator, chaos-test-designer
+- **Methodology Fusion** - methodology-fusion-orchestrator
 
 ## 开发与维护
 
