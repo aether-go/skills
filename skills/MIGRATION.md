@@ -22,25 +22,45 @@ skills/<skill-name>/SKILL.md
 skills/
 ├── README.md                       # Skills 总体说明
 ├── SKILLS_SUMMARY.md               # 技能详细清单
+├── MIGRATION.md                    # 迁移说明
 ├── skills.sh                       # Skills 管理脚本
-├── bdd-scenario-writer/           # 执行层技能
-├── tdd-red-green-refactor/
-├── test-pyramid-analyzer/
-├── sit-scenario-generator/
-├── chaos-test-designer/
-├── business-value-mapper/           # 战略层技能
-├── metrics-definer/
-├── architecture-decision-recorder/
-├── data-flow-analyzer/
-├── spec-parser/                    # 战术层技能
-├── constitution-validator/
-├── spec-to-code-tracer/
-├── spec-evolution-tracker/
-├── context-manager/                # AI 协作层技能
-├── skill-recommender/
-├── recursive-optimizer/
-├── prompt-template-manager/
-└── skill-packaging-tool/           # 工具集成层技能
+│
+├── 执行层 Skills
+│   ├── bdd-scenario-writer/       # BDD 场景编写器
+│   ├── tdd-red-green-refactor/    # TDD 循环指导
+│   ├── test-pyramid-analyzer/     # 测试金字塔分析
+│   ├── sit-scenario-generator/    # SIT 场景生成器
+│   └── chaos-test-designer/       # 混沌工程实验设计
+│
+├── 战略层 Skills
+│   ├── business-value-mapper/     # 业务价值映射器
+│   ├── metrics-definer/           # 指标定义器
+│   ├── architecture-decision-recorder/ # 架构决策记录器
+│   └── data-flow-analyzer/        # 数据流分析器
+│
+├── 战术层 Skills
+│   ├── spec-parser/               # 规范解析器
+│   ├── constitution-validator/    # 宪法验证器
+│   ├── spec-to-code-tracer/       # 规范代码追溯器
+│   └── spec-evolution-tracker/    # 规范演进跟踪器
+│
+├── AI 协作层 Skills
+│   ├── context-manager/           # 上下文管理器
+│   ├── skill-recommender/         # 技能推荐器
+│   ├── recursive-optimizer/       # 递归优化器
+│   └── prompt-template-manager/   # 提示词模板管理器
+│
+├── Go + Vue + Quasar 全栈开发 Skills
+│   ├── go-backend-scaffolder/     # Go 后端脚手架
+│   ├── vue-quasar-scaffolder/     # Vue + Quasar 前端脚手架
+│   ├── fullstack-project-setup/   # 全栈项目初始化
+│   ├── requirements-to-code-docs/ # 需求到代码文档生成
+│   ├── go-vue-fullstack-workflow/ # Go + Vue 全栈工作流
+│   └── makefile-backend-generator/ # Makefile 生成器
+│
+└── 工具与集成 Skills
+    ├── skill-packaging-tool/      # 技能打包工具
+    └── go-cli-builder/            # Go CLI 应用构建器
 ```
 
 ## 使用方式
@@ -86,16 +106,17 @@ cd /path/to/project
 
 ## 技能统计
 
-- **总技能数**: 18
+- **总技能数**: 25
 - **执行层**: 5 (BDD, TDD, 测试分析, SIT, Chaos)
 - **战略层**: 4 (BMAD, 指标, ADR, 数据流)
 - **战术层**: 4 (解析, 宪法, 追溯, 演进)
 - **AI协作层**: 4 (上下文, 推荐, 优化, 模板)
-- **工具集成层**: 1 (打包)
+- **Go + Vue + Quasar 全栈开发层**: 6 (后端脚手架, 前端脚手架, 项目初始化, 文档生成, 工作流协调, Makefile生成)
+- **工具与集成层**: 2 (技能打包, CLI构建器)
 
 ## 验证结果
 
-所有 18 个技能已通过格式验证：
+所有 25 个技能已通过格式验证：
 - ✅ 所有技能包含必需的 `name` 字段
 - ✅ 所有技能包含必需的 `description` 字段
 - ✅ 所有 description 以 "Use when" 开头

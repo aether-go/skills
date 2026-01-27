@@ -43,9 +43,7 @@ Don't use when:
 ```
 myapp/
 ├── backend/                      # Go backend application
-│   ├── cmd/
-│   │   └── server/
-│   │       └── main.go
+│   ├── main.go                  # Application entry point
 │   ├── internal/
 │   │   ├── app/
 │   │   ├── application/
@@ -166,7 +164,7 @@ dev: dev-backend dev-frontend
 
 dev-backend:
 	@echo "Starting backend development server..."
-	cd backend && go run ./cmd/server
+	cd backend && go run . daemon
 
 dev-frontend:
 	@echo "Starting frontend development server..."
@@ -177,7 +175,7 @@ build: build-backend build-frontend
 
 build-backend:
 	@echo "Building backend..."
-	cd backend && go build -o ./bin/server ./cmd/server
+	cd backend && go build -o ./bin/bitcms .
 
 build-frontend:
 	@echo "Building frontend..."
@@ -430,7 +428,7 @@ RUN go mod download
 COPY backend/ ./
 
 # Build the application
-RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /app/bin/server ./cmd/server
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /app/bin/server .
 
 # Runtime stage
 FROM alpine:3.19
@@ -674,7 +672,7 @@ tmp_dir = "tmp"
 [build]
   args_bin = []
   bin = "./tmp/main"
-  cmd = "go build -o ./tmp/main ./cmd/server"
+  cmd = "go build -o ./tmp/main ."
   delay = 1000
   exclude_dir = ["assets", "tmp", "vendor", "testdata"]
   exclude_file = []

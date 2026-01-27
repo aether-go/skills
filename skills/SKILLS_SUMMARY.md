@@ -1,6 +1,6 @@
 # Aether.go Skills Summary
 
-根据 `overall.md` 中的规划和 OpenCode skills 规范，已成功创建所有 24 个技能（原有18个 + 新增6个）。
+根据 `overall.md` 中的规划和 OpenCode skills 规范，已成功创建所有 25 个技能（原有18个 + 新增7个）。
 
 ## 新增 Skills 背景：基于 bitcms 代码库分析
 
@@ -28,6 +28,8 @@
 2. **支持 OpenCode/Claude Code 规范**：遵循技能规范，可与现有AI助手协同工作
 3. **模块化组合工作流**：单个技能可独立使用，也可组合成完整工作流
 4. **文档与代码同步**：自动化文档生成和可追溯性管理
+
+**注意**：除了上述基于 bitcms 的 6 个技能外，还新增了独立的 Go CLI 开发技能 `go-cli-builder`，用于构建企业级命令行应用。
 
 ## 技能清单
 
@@ -157,12 +159,18 @@
     - 功能：生成包含构建、测试、部署、数据库操作的完整 Makefile，支持跨平台编译
     - 位置：`skills/makefile-backend-generator/SKILL.md`
 
-### 工具与集成 Skills - 1个
+### 工具与集成 Skills - 2个
 
 24. **skill-packaging-tool**
     - 描述：将技能打包为可分发的可安装包
     - 功能：版本管理，依赖声明，安装脚本
     - 位置：`skills/skill-packaging-tool/SKILL.md`
+
+25. **go-cli-builder**
+    - 描述：构建企业级 Go CLI 应用，基于 cobra+viper 和最佳实践
+    - 功能：生成生产级 CLI 应用结构，包含配置管理、结构化日志、自动版本嵌入、多平台构建和完整测试策略
+    - 特点：支持多路径配置文件搜索（./ → ./config → /etc/应用名称），自动获取 Git 版本和 Go SDK 版本，内置 shell 补全命令
+    - 位置：`skills/go-cli-builder/SKILL.md`
 
 ## 技能特点
 
@@ -263,6 +271,7 @@ go-vue-fullstack-workflow (主工作流)
 | requirements-to-code-docs | spec-parser, spec-to-code-tracer | 需求文档自动转换为规范并建立追溯 |
 | go-vue-fullstack-workflow | business-value-mapper, architecture-decision-recorder | 工作流中集成业务价值映射和架构决策记录 |
 | makefile-backend-generator | go-backend-scaffolder | 为生成的 Go 后端项目创建标准化 Makefile |
+| go-cli-builder | tdd-red-green-refactor, test-pyramid-analyzer | CLI 应用开发时应用 TDD 和测试金字塔策略 |
 
 ### 技能依赖关系
 
@@ -273,6 +282,7 @@ requirements-to-code-docs → [spec-parser, spec-to-code-tracer]
 go-backend-scaffolder → [tdd-red-green-refactor]
 vue-quasar-scaffolder → [test-pyramid-analyzer]
 makefile-backend-generator → [go-backend-scaffolder]  # 通常在后端项目创建后使用
+go-cli-builder → [tdd-red-green-refactor, test-pyramid-analyzer]  # CLI 开发时应用 TDD 和测试金字塔
 
 目录结构特点（基于 bitcms 模式）：
 backend/

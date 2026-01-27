@@ -145,7 +145,7 @@ build-backend:
 		-ldflags "-X $(GO_MODULE)/pkg/version.Version=$(VERSION) \
 				  -X $(GO_MODULE)/pkg/version.BuildTime=$(BUILD_TIME) \
 				  -X $(GO_MODULE)/pkg/version.Commit=$(COMMIT_HASH)" \
-		-o bin/$(APP_NAME) ./cmd/server
+		-o bin/$(APP_NAME) .
 
 ## 构建所有组件
 build: build-backend
@@ -211,7 +211,7 @@ db-restore:
 ## 启动开发环境
 dev-backend:
 	@echo "Starting backend development server..."
-	go run ./cmd/server
+	go run . daemon
 
 ## 升级依赖
 update:
@@ -253,7 +253,7 @@ version:
 ## 生成Swagger文档
 swagger:
 	@echo "Generating Swagger documentation..."
-	swag init -g cmd/server/main.go -o api/swagger
+	swag init -g main.go -o api/swagger
 
 ## 统计代码行数
 cloc:
@@ -280,7 +280,7 @@ $(PLATFORMS):
 		-ldflags "-X $(GO_MODULE)/pkg/version.Version=$(VERSION) \
 				  -X $(GO_MODULE)/pkg/version.BuildTime=$(BUILD_TIME) \
 				  -X $(GO_MODULE)/pkg/version.Commit=$(COMMIT_HASH)" \
-		-o dist/$(OS)-$(ARCH)/$(APP_NAME) ./cmd/server
+		-o dist/$(OS)-$(ARCH)/$(APP_NAME) .
 ifneq ($(UPX),)
 	@echo "Compressing binary with upx..."
 	$(UPX) -9 dist/$(OS)-$(ARCH)/$(APP_NAME)
@@ -327,7 +327,7 @@ help:
 1. **Replace placeholders**:
    - `APP_NAME` → Your application name
    - `GO_MODULE` → Your Go module path
-   - Update `cmd/server` to your main package path
+   - Update `.` to your main package path
 
 2. **Customize for your project**:
    - Add/remove platforms in `PLATFORMS`
@@ -351,7 +351,7 @@ VERSION := $(shell git describe --tags --always --dirty)
 .PHONY: build test lint clean help
 
 build:
-	CGO_ENABLED=0 go build -o bin/$(APP_NAME) ./cmd/server
+	CGO_ENABLED=0 go build -o bin/$(APP_NAME) .
 
 test:
 	go test ./... -v

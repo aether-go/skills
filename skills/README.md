@@ -8,42 +8,72 @@ Aether.go 项目的一套智能化 AI 技能，基于规范驱动、价值导向
 skills/
 ├── README.md                       # 本文件
 ├── SKILLS_SUMMARY.md               # 技能详细清单
-├── bdd-scenario-writer/           # BDD 场景编写器
-│   └── SKILL.md
-├── tdd-red-green-refactor/        # TDD 循环指导
-│   └── SKILL.md
-├── test-pyramid-analyzer/         # 测试金字塔分析
-│   └── SKILL.md
-├── sit-scenario-generator/         # SIT 场景生成器
-│   └── SKILL.md
-├── chaos-test-designer/           # 混沌工程实验设计
-│   └── SKILL.md
-├── business-value-mapper/          # 业务价值映射器
-│   └── SKILL.md
-├── metrics-definer/               # 指标定义器
-│   └── SKILL.md
-├── architecture-decision-recorder/ # 架构决策记录器
-│   └── SKILL.md
-├── data-flow-analyzer/            # 数据流分析器
-│   └── SKILL.md
-├── spec-parser/                  # 规范解析器
-│   └── SKILL.md
-├── constitution-validator/        # 宪法验证器
-│   └── SKILL.md
-├── spec-to-code-tracer/          # 规范代码追溯器
-│   └── SKILL.md
-├── spec-evolution-tracker/        # 规范演进跟踪器
-│   └── SKILL.md
-├── context-manager/              # 上下文管理器
-│   └── SKILL.md
-├── skill-recommender/            # 技能推荐器
-│   └── SKILL.md
-├── recursive-optimizer/         # 递归优化器
-│   └── SKILL.md
-├── prompt-template-manager/      # 提示词模板管理器
-│   └── SKILL.md
-└── skill-packaging-tool/        # 技能打包工具
-    └── SKILL.md
+├── MIGRATION.md                    # 迁移说明
+├── skills.sh                       # 技能管理脚本
+├── AGENTS.md                       # AI 助手使用说明
+├── .gitignore                      # Git 忽略配置
+│
+├── 执行层 Skills (ATDD/BDD/TDD/SIT/Chaos)
+│   ├── bdd-scenario-writer/       # BDD 场景编写器
+│   │   └── SKILL.md
+│   ├── tdd-red-green-refactor/    # TDD 循环指导
+│   │   └── SKILL.md
+│   ├── test-pyramid-analyzer/     # 测试金字塔分析
+│   │   └── SKILL.md
+│   ├── sit-scenario-generator/    # SIT 场景生成器
+│   │   └── SKILL.md
+│   └── chaos-test-designer/       # 混沌工程实验设计
+│       └── SKILL.md
+│
+├── 战略层 Skills (BMAD 驱动)
+│   ├── business-value-mapper/     # 业务价值映射器
+│   │   └── SKILL.md
+│   ├── metrics-definer/           # 指标定义器
+│   │   └── SKILL.md
+│   ├── architecture-decision-recorder/ # 架构决策记录器
+│   │   └── SKILL.md
+│   └── data-flow-analyzer/        # 数据流分析器
+│       └── SKILL.md
+│
+├── 战术层 Skills (SDD + 宪法约束)
+│   ├── spec-parser/               # 规范解析器
+│   │   └── SKILL.md
+│   ├── constitution-validator/    # 宪法验证器
+│   │   └── SKILL.md
+│   ├── spec-to-code-tracer/       # 规范代码追溯器
+│   │   └── SKILL.md
+│   └── spec-evolution-tracker/    # 规范演进跟踪器
+│       └── SKILL.md
+│
+├── AI 协作与优化 Skills
+│   ├── context-manager/           # 上下文管理器
+│   │   └── SKILL.md
+│   ├── skill-recommender/         # 技能推荐器
+│   │   └── SKILL.md
+│   ├── recursive-optimizer/       # 递归优化器
+│   │   └── SKILL.md
+│   └── prompt-template-manager/   # 提示词模板管理器
+│       └── SKILL.md
+│
+├── Go + Vue + Quasar 全栈开发 Skills (基于 bitcms 模式)
+│   ├── go-backend-scaffolder/     # Go 后端脚手架
+│   │   └── SKILL.md
+│   ├── vue-quasar-scaffolder/     # Vue + Quasar 前端脚手架
+│   │   └── SKILL.md
+│   ├── fullstack-project-setup/   # 全栈项目初始化
+│   │   └── SKILL.md
+│   ├── requirements-to-code-docs/ # 需求到代码文档生成
+│   │   └── SKILL.md
+│   ├── go-vue-fullstack-workflow/ # Go + Vue 全栈工作流
+│   │   └── SKILL.md
+│   └── makefile-backend-generator/ # Makefile 生成器
+│       └── SKILL.md
+│
+└── 工具与集成 Skills
+    ├── skill-packaging-tool/      # 技能打包工具
+    │   └── SKILL.md
+    └── go-cli-builder/            # Go CLI 应用构建器
+        └── SKILL.md
 ```
 
 ## 技能分类
@@ -73,8 +103,17 @@ skills/
 - `recursive-optimizer` - 基于反馈优化技能
 - `prompt-template-manager` - 管理提示词模板
 
-### 工具集成层 (1个)
+### Go + Vue + Quasar 全栈开发层 (6个)
+- `go-backend-scaffolder` - 基于 bitcms 模式生成 Go 后端代码
+- `vue-quasar-scaffolder` - 基于 bitcms 模式生成 Vue 3 + Quasar 前端组件
+- `fullstack-project-setup` - 初始化完整的 Go + Vue + Quasar 全栈项目
+- `requirements-to-code-docs` - 从需求到用例到实现生成结构化文档
+- `go-vue-fullstack-workflow` - 协调 Go + Vue + Quasar 全栈开发工作流
+- `makefile-backend-generator` - 为 Go 后端项目创建生产级 Makefile
+
+### 工具与集成层 (2个)
 - `skill-packaging-tool` - 打包技能为可分发包
+- `go-cli-builder` - 构建企业级 Go CLI 应用，基于 cobra+viper 最佳实践
 
 ## 使用方式
 
