@@ -50,7 +50,9 @@ skills/
 │   │   └── SKILL.md
 │   ├── architecture-pattern-selector/ # 架构模式选择器
 │   │   └── SKILL.md
-│   └── generic-code-generator/    # 通用代码生成器
+│   ├── generic-code-generator/    # 通用代码生成器
+│   │   └── SKILL.md
+│   └── contract-test-generator/    # 契约测试生成器
 │       └── SKILL.md
 │
 ├── AI 协作与优化 Skills
@@ -105,13 +107,14 @@ skills/
 - `architecture-decision-recorder` - 记录架构决策 (ADR)
 - `data-flow-analyzer` - 分析数据流和价值链
 
-### 战术层 (6个)
+### 战术层 (7个)
 - `spec-parser` - 解析自然语言需求为结构化规范
 - `constitution-validator` - 验证宪法原则合规性
 - `spec-to-code-tracer` - 建立规范与代码双向追溯
 - `spec-evolution-tracker` - 跟踪规范变更历史
 - `architecture-pattern-selector` - 基于需求选择架构模式
 - `generic-code-generator` - 根据规范、模板或TDD模式跨语言生成代码
+- `contract-test-generator` - 生成消费者驱动的契约测试，确保微服务API兼容性
 
 ### AI 协作层 (4个)
 - `context-manager` - 管理项目上下文
