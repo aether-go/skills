@@ -16,9 +16,9 @@
 - ✅ **AI协作**：上下文管理、技能推荐、递归优化
 
 **识别出的关键缺口：**
-- ❌ **业务分析**：缺少需求收集、利益相关者分析
-- ❌ **验收测试**：缺少ATDD验收测试生成
-- ❌ **流程协调**：缺少端到端方法论融合协调
+- ✅ **业务分析**：已解决 - business-requirements-collector技能提供需求收集和利益相关者分析
+- ✅ **验收测试**：已解决 - atdd-acceptance-test-generator技能提供ATDD验收测试生成
+- ✅ **流程协调**：已解决 - methodology-fusion-orchestrator技能提供端到端方法论融合协调
 
 ### 新增 Skills 设计目标
 
