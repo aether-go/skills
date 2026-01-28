@@ -1,36 +1,66 @@
 ---
 name: makefile-backend-generator
-description: Use when creating or refactoring Makefiles for Go backend projects, especially those following bitcms patterns with Fiber, GORM, and Swagger
+description: Use when creating or refactoring Makefiles for Go projects (CLI, backend, or fullstack), especially those following bitcms patterns with modular templates and project type support
 ---
 
-# Makefile Backend Generator
+# Makefile Generator (Backend/CLI/Fullstack)
 
 ## Overview
-Generate comprehensive Makefiles for Go backend projects following bitcms patterns. Creates production-ready Makefiles with build, test, deployment, database operations, and development workflows.
+Generate comprehensive Makefiles for Go projects (CLI, backend, or fullstack) following bitcms patterns with modular templates. Creates production-ready Makefiles with build, test, deployment, database operations, and development workflows tailored to project type.
 
 ## When to Use
 
+### Project Type Selection
 ```
 Need Makefile? ───────────────────────┐
                                       │
-Go backend project? ──────────────────├─► Use makefile-backend-generator
+Select project type:                  │
+  --type=cli     (CLI tools)          │
+  --type=backend (Backend services)   ├─► Use makefile-backend-generator
+  --type=fullstack (Fullstack apps)   │
                                       │
-Bitcms/Fiber/GORM patterns? ──────────┘
+Bitcms/modular patterns? ─────────────┘
 ```
 
-Use when:
-- Starting new Go backend project
+**Use when:**
+- Starting new Go project (CLI, backend, or fullstack)
 - Refactoring existing project's Makefile
 - Need consistent build/deployment workflows
-- Want bitcms-style Makefile organization
+- Want modular Makefile organization by project type
 - Need cross-platform compilation support
-- Require database migration/backup targets
+- Require project-type-specific features (CLI helpers, database ops, etc.)
 
-Don't use when:
-- Frontend-only projects
-- Simple scripts or CLI tools
-- Projects with established Makefile conventions
-- Non-Go backend projects
+**Don't use when:**
+- Frontend-only projects (no Go backend)
+- Projects with established Makefile conventions you want to keep
+- Non-Go projects
+
+## Project Type Support
+
+This skill now supports multiple project types via the `--type` parameter:
+
+### `--type=cli` (CLI Tools)
+- Version injection into `internal/version` package
+- Multi-platform builds with Windows .exe support
+- CLI-specific test helpers and utilities
+- Shell completion generation targets
+- Binary distribution packaging
+
+### `--type=backend` (Backend Services)
+- Version injection into `pkg/version` package  
+- Database migration/backup/restore operations
+- Deployment targets (dev/staging/production)
+- Swagger documentation generation
+- Service health checks and monitoring
+
+### `--type=fullstack` (Fullstack Applications)
+- Combined backend and frontend build targets
+- Coordinated deployment workflows
+- Asset compilation and bundling
+- Environment configuration management
+
+### Default Behavior
+If no `--type` specified, defaults to `--type=backend` for backward compatibility.
 
 ## Core Pattern
 
@@ -114,198 +144,155 @@ PLATFORMS = linux/amd64 linux/arm64 darwin/amd64 windows/amd64
 
 ## Implementation
 
-### Complete Makefile Template
+### Modular Template System
+
+This skill now provides modular Makefile templates for different project types. Each template follows the bitcms pattern but is customized for specific needs.
+
+#### Template Selection
+- **CLI Template** (`--type=cli`): Optimized for command-line tools
+- **Backend Template** (`--type=backend`): Optimized for backend services (default)
+- **Fullstack Template** (`--type=fullstack`): Optimized for fullstack applications
+
+### CLI Makefile Template
 
 ```makefile
-# Backend Makefile (bitcms pattern)
+# CLI Makefile (bitcms pattern)
 # ===========================================
 
-# 定义变量
-APP_NAME := myapp
-GO_MODULE := github.com/user/myapp
-VERSION := $(shell git describe --tags --always --dirty)
+# Project variables
+APP_NAME := mycli
+GO_MODULE := github.com/user/mycli
+
+# Version information (git-based with fallbacks)
+VERSION := $(shell git describe --tags --always --dirty 2>/dev/null || echo "v0.0.0-dev")
 BUILD_TIME := $(shell date -u +"%Y-%m-%dT%H:%M:%SZ")
-COMMIT_HASH := $(shell git rev-parse --short HEAD)
+COMMIT_HASH := $(shell git rev-parse --short HEAD 2>/dev/null || echo "unknown")
+BUILD_TYPE := $(if $(findstring dirty,$(VERSION)),dev,$(if $(findstring -,$(VERSION)),dev,release))
 
-# 跨平台编译目标
-PLATFORMS = linux/amd64 linux/arm64 darwin/amd64 windows/amd64
-TEMP = $(subst /, ,$@)
-OS = $(word 1, $(TEMP))
-ARCH = $(word 2, $(TEMP))
+# Cross-platform compilation targets
+PLATFORMS := \
+	linux/amd64 \
+	linux/arm64 \
+	linux/386 \
+	darwin/amd64 \
+	darwin/arm64 \
+	windows/amd64 \
+	windows/386
 
-# UPX压缩工具
-UPX = $(shell which upx)
+# Version injection path (CLI-specific)
+VERSION_PACKAGE := $(GO_MODULE)/internal/version
 
-# ========== 构建相关 ==========
+# LDFLAGS for version injection
+LDFLAGS := -X $(VERSION_PACKAGE).Version=$(VERSION) \
+		   -X $(VERSION_PACKAGE).BuildTime=$(BUILD_TIME) \
+		   -X $(VERSION_PACKAGE).Commit=$(COMMIT_HASH) \
+		   -X $(VERSION_PACKAGE).BuildType=$(BUILD_TYPE)
 
-## 构建后端
-build-backend:
-	@echo "Building backend..."
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
-		-ldflags "-X $(GO_MODULE)/pkg/version.Version=$(VERSION) \
-				  -X $(GO_MODULE)/pkg/version.BuildTime=$(BUILD_TIME) \
-				  -X $(GO_MODULE)/pkg/version.Commit=$(COMMIT_HASH)" \
+# ========== Build Targets ==========
+
+## Build CLI for current platform
+build:
+	@echo "Building $(APP_NAME)..."
+	CGO_ENABLED=0 go build \
+		-ldflags "$(LDFLAGS)" \
 		-o bin/$(APP_NAME) .
 
-## 构建所有组件
-build: build-backend
+## Build for all platforms
+build-all: clean
+	@echo "Building for all platforms..."
+	@for platform in $(PLATFORMS); do \
+		os=$$(echo $$platform | cut -d'/' -f1); \
+		arch=$$(echo $$platform | cut -d'/' -f2); \
+		output=dist/$$os-$$arch/$(APP_NAME); \
+		ext=""; \
+		if [ $$os = "windows" ]; then ext=".exe"; fi; \
+		echo "Building $$os/$$arch..."; \
+		mkdir -p dist/$$os-$$arch; \
+		CGO_ENABLED=0 GOOS=$$os GOARCH=$$arch go build \
+			-ldflags "$(LDFLAGS)" \
+			-o $$output$$ext .; \
+	done
 
-# ========== 测试相关 ==========
+# ========== Test Targets ==========
 
-## 运行所有测试
+## Run all tests
 test:
 	@echo "Running tests..."
 	go test ./... -v
 
-## 运行单元测试
+## Run unit tests
 test-unit:
 	@echo "Running unit tests..."
-	go test ./... -v
+	go test ./... -v -short
 
-## 运行集成测试
+## Run integration tests  
 test-integration:
 	@echo "Running integration tests..."
-	cd tests/integration && go test ./... -v
+	go test ./... -v -tags=integration
 
-## 运行性能测试
-test-performance:
-	@echo "Running performance tests..."
-	cd tests/performance && go test ./... -v
+## Run CLI-specific tests
+test-cli:
+	@echo "Running CLI tests..."
+	cd tests/cli && go test ./... -v
 
-# ========== 部署相关 ==========
+# ========== Development Targets ==========
 
-## 部署到开发环境
-deploy-dev:
-	@echo "Deploying to development environment..."
-	./scripts/deploy/deploy-dev.sh
+## Install development dependencies
+install-deps:
+	@echo "Installing development dependencies..."
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+	go install github.com/spf13/cobra-cli@latest
 
-## 部署到预发布环境
-deploy-staging:
-	@echo "Deploying to staging environment..."
-	./scripts/deploy/deploy-staging.sh
+## Generate shell completions
+completion:
+	@echo "Generating shell completions..."
+	mkdir -p completions
+	go run . completion bash > completions/$(APP_NAME).bash
+	go run . completion zsh > completions/$(APP_NAME).zsh
+	go run . completion fish > completions/$(APP_NAME).fish
+	go run . completion powershell > completions/$(APP_NAME).ps1
 
-## 部署到生产环境
-deploy-prod:
-	@echo "Deploying to production environment..."
-	./scripts/deploy/deploy-prod.sh
-
-# ========== 数据库相关 ==========
-
-## 运行数据库迁移
-db-migrate:
-	@echo "Running database migrations..."
-	./scripts/database/migrate.sh
-
-## 创建数据库备份
-db-backup:
-	@echo "Creating database backup..."
-	./scripts/database/backup.sh
-
-## 从备份恢复数据库
-db-restore:
-	@echo "Restoring database from backup..."
-	./scripts/database/restore.sh
-
-# ========== 开发相关 ==========
-
-## 启动开发环境
-dev-backend:
-	@echo "Starting backend development server..."
-	go run . daemon
-
-## 升级依赖
-update:
-	@echo "Updating dependencies..."
-	go get -u && go mod tidy
-
-# ========== 工具相关 ==========
-
-## 运行代码检查
+## Run linter
 lint:
-	@echo "Running Go code check..."
+	@echo "Running code check..."
 	golangci-lint run
 
-## 格式化代码
+## Format code
 format:
 	@echo "Formatting code..."
 	go fmt ./...
 
-## 清理构建文件
+## Clean build artifacts
 clean:
 	@echo "Cleaning build files..."
 	rm -rf bin
 	rm -rf dist
-	find . -name "*.log" -delete
+	rm -rf completions
 
-## 安装开发依赖
-install-deps:
-	@echo "Installing development dependencies..."
-	go install github.com/air-verse/air@latest
-	go install github.com/swaggo/swag/cmd/swag@latest
-	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
-
-## 显示版本信息
+## Show version information
 version:
 	@echo "Version: $(VERSION)"
 	@echo "Build time: $(BUILD_TIME)"
 	@echo "Commit hash: $(COMMIT_HASH)"
 
-## 生成Swagger文档
-swagger:
-	@echo "Generating Swagger documentation..."
-	swag init -g main.go -o api/swagger
+## Create release packages
+release: build-all
+	@echo "Creating release packages..."
+	@for platform in $(PLATFORMS); do \
+		os=$$(echo $$platform | cut -d'/' -f1); \
+		arch=$$(echo $$platform | cut -d'/' -f2); \
+		dir=dist/$$os-$$arch; \
+		name=$(APP_NAME); \
+		if [ $$os = "windows" ]; then name=$${name}.exe; fi; \
+		tar -czf dist/$(APP_NAME)-$(VERSION)-$$os-$$arch.tar.gz -C $$dir $$name; \
+		echo "Created: dist/$(APP_NAME)-$(VERSION)-$$os-$$arch.tar.gz"; \
+	done
 
-## 统计代码行数
-cloc:
-	@echo "Go code line count (sorted by lines):"
-	@echo ""
-	@echo "Lines | File"
-	@echo "----- | ----"
-	@find . -name "*.go" -type f \
-		-not -path "./vendor/*" \
-		-not -path "./docs/*" \
-		| while read file; do \
-			lines=$$(wc -l < "$$file"); \
-			echo "$$lines $$file"; \
-		done \
-		| sort -nr \
-		| awk '{printf "%5d | %s\n", $$1, $$2}'
-
-# ========== 跨平台编译 ==========
-
-## 跨平台编译目标
-$(PLATFORMS):
-	@echo "Building for $(OS)/$(ARCH)..."
-	CGO_ENABLED=0 GOOS=$(OS) GOARCH=$(ARCH) go build \
-		-ldflags "-X $(GO_MODULE)/pkg/version.Version=$(VERSION) \
-				  -X $(GO_MODULE)/pkg/version.BuildTime=$(BUILD_TIME) \
-				  -X $(GO_MODULE)/pkg/version.Commit=$(COMMIT_HASH)" \
-		-o dist/$(OS)-$(ARCH)/$(APP_NAME) .
-ifneq ($(UPX),)
-	@echo "Compressing binary with upx..."
-	$(UPX) -9 dist/$(OS)-$(ARCH)/$(APP_NAME)
-else
-	@echo "Warning: upx not found, skipping compression"
-endif
-
-## 跨平台编译所有平台
-cross-build: $(PLATFORMS)
-
-## 创建发布包
-release: cross-build
-	@echo "Copying config files to release directory..."
-	mkdir -p dist/linux-amd64/configs
-	mkdir -p dist/linux-arm64/configs
-	cp configs/*.yaml dist/linux-amd64/configs/
-	cp configs/*.yaml dist/linux-arm64/configs/
-	tar -czvf dist/$(APP_NAME)-$(VERSION)-linux-amd64.tar.gz -C dist/linux-amd64 $(APP_NAME) configs/
-	tar -czvf dist/$(APP_NAME)-$(VERSION)-linux-arm64.tar.gz -C dist/linux-arm64 $(APP_NAME) configs/
-
-# ========== 默认目标 ==========
+# ========== Default Target ==========
 .PHONY: all
-all: build-backend
+all: build
 
-# ========== 帮助信息 ==========
+# ========== Help ==========
 .PHONY: help
 help:
 	@printf "\033[36mUsage: make [target]\033[0m\n"
@@ -322,27 +309,354 @@ help:
 	{ lastLine = $$0 }' $(MAKEFILE_LIST)
 ```
 
-### Adaptation Guidelines
+### Backend Makefile Template
 
-1. **Replace placeholders**:
-   - `APP_NAME` → Your application name
-   - `GO_MODULE` → Your Go module path
-   - Update `.` to your main package path
+```makefile
+# Backend Makefile (bitcms pattern)
+# ===========================================
 
-2. **Customize for your project**:
-   - Add/remove platforms in `PLATFORMS`
-   - Modify deployment scripts paths
-   - Adjust database migration commands
+# Project variables
+APP_NAME := myapp
+GO_MODULE := github.com/user/myapp
 
-3. **Add project-specific targets**:
-   - Custom build steps
-   - Additional test suites
-   - Environment-specific configurations
+# Version information (git-based)
+VERSION := $(shell git describe --tags --always --dirty)
+BUILD_TIME := $(shell date -u +"%Y-%m-%dT%H:%M:%SZ")
+COMMIT_HASH := $(shell git rev-parse --short HEAD)
 
-### Minimal Viable Makefile
+# Cross-platform compilation targets
+PLATFORMS = linux/amd64 linux/arm64 darwin/amd64 windows/amd64
+TEMP = $(subst /, ,$@)
+OS = $(word 1, $(TEMP))
+ARCH = $(word 2, $(TEMP))
 
-For simpler projects, this core structure is essential:
+# UPX compression tool
+UPX = $(shell which upx)
 
+# Version injection path (Backend-specific)
+VERSION_PACKAGE := $(GO_MODULE)/pkg/version
+
+# LDFLAGS for version injection
+LDFLAGS := -X $(VERSION_PACKAGE).Version=$(VERSION) \
+		   -X $(VERSION_PACKAGE).BuildTime=$(BUILD_TIME) \
+		   -X $(VERSION_PACKAGE).Commit=$(COMMIT_HASH)
+
+# ========== Build Targets ==========
+
+## Build backend
+build-backend:
+	@echo "Building backend..."
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
+		-ldflags "$(LDFLAGS)" \
+		-o bin/$(APP_NAME) .
+
+## Build all components
+build: build-backend
+
+# ========== Test Targets ==========
+
+## Run all tests
+test:
+	@echo "Running tests..."
+	go test ./... -v
+
+## Run unit tests
+test-unit:
+	@echo "Running unit tests..."
+	go test ./... -v
+
+## Run integration tests
+test-integration:
+	@echo "Running integration tests..."
+	cd tests/integration && go test ./... -v
+
+## Run performance tests
+test-performance:
+	@echo "Running performance tests..."
+	cd tests/performance && go test ./... -v
+
+# ========== Deployment Targets ==========
+
+## Deploy to development environment
+deploy-dev:
+	@echo "Deploying to development environment..."
+	./scripts/deploy/deploy-dev.sh
+
+## Deploy to staging environment
+deploy-staging:
+	@echo "Deploying to staging environment..."
+	./scripts/deploy/deploy-staging.sh
+
+## Deploy to production environment
+deploy-prod:
+	@echo "Deploying to production environment..."
+	./scripts/deploy/deploy-prod.sh
+
+# ========== Database Targets ==========
+
+## Run database migrations
+db-migrate:
+	@echo "Running database migrations..."
+	./scripts/database/migrate.sh
+
+## Create database backup
+db-backup:
+	@echo "Creating database backup..."
+	./scripts/database/backup.sh
+
+## Restore database from backup
+db-restore:
+	@echo "Restoring database from backup..."
+	./scripts/database/restore.sh
+
+# ========== Development Targets ==========
+
+## Start development server
+dev-backend:
+	@echo "Starting backend development server..."
+	go run . daemon
+
+## Update dependencies
+update:
+	@echo "Updating dependencies..."
+	go get -u && go mod tidy
+
+# ========== Tool Targets ==========
+
+## Run code check
+lint:
+	@echo "Running Go code check..."
+	golangci-lint run
+
+## Format code
+format:
+	@echo "Formatting code..."
+	go fmt ./...
+
+## Clean build artifacts
+clean:
+	@echo "Cleaning build files..."
+	rm -rf bin
+	rm -rf dist
+	find . -name "*.log" -delete
+
+## Install development dependencies
+install-deps:
+	@echo "Installing development dependencies..."
+	go install github.com/air-verse/air@latest
+	go install github.com/swaggo/swag/cmd/swag@latest
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+
+## Show version information
+version:
+	@echo "Version: $(VERSION)"
+	@echo "Build time: $(BUILD_TIME)"
+	@echo "Commit hash: $(COMMIT_HASH)"
+
+## Generate Swagger documentation
+swagger:
+	@echo "Generating Swagger documentation..."
+	swag init -g main.go -o api/swagger
+
+## Count code lines
+cloc:
+	@echo "Go code line count (sorted by lines):"
+	@echo ""
+	@echo "Lines | File"
+	@echo "----- | ----"
+	@find . -name "*.go" -type f \
+		-not -path "./vendor/*" \
+		-not -path "./docs/*" \
+		| while read file; do \
+			lines=$$(wc -l < "$$file"); \
+			echo "$$lines $$file"; \
+		done \
+		| sort -nr \
+		| awk '{printf "%5d | %s\n", $$1, $$2}'
+
+# ========== Cross-Platform Build ==========
+
+## Cross-platform build target
+$(PLATFORMS):
+	@echo "Building for $(OS)/$(ARCH)..."
+	CGO_ENABLED=0 GOOS=$(OS) GOARCH=$(ARCH) go build \
+		-ldflags "$(LDFLAGS)" \
+		-o dist/$(OS)-$(ARCH)/$(APP_NAME) .
+ifneq ($(UPX),)
+	@echo "Compressing binary with upx..."
+	$(UPX) -9 dist/$(OS)-$(ARCH)/$(APP_NAME)
+else
+	@echo "Warning: upx not found, skipping compression"
+endif
+
+## Cross-build for all platforms
+cross-build: $(PLATFORMS)
+
+## Create release packages
+release: cross-build
+	@echo "Copying config files to release directory..."
+	mkdir -p dist/linux-amd64/configs
+	mkdir -p dist/linux-arm64/configs
+	cp configs/*.yaml dist/linux-amd64/configs/
+	cp configs/*.yaml dist/linux-arm64/configs/
+	tar -czvf dist/$(APP_NAME)-$(VERSION)-linux-amd64.tar.gz -C dist/linux-amd64 $(APP_NAME) configs/
+	tar -czvf dist/$(APP_NAME)-$(VERSION)-linux-arm64.tar.gz -C dist/linux-arm64 $(APP_NAME) configs/
+
+# ========== Default Target ==========
+.PHONY: all
+all: build-backend
+
+# ========== Help ==========
+.PHONY: help
+help:
+	@printf "\033[36mUsage: make [target]\033[0m\n"
+	@echo ""
+	@printf "\033[36mTargets:\033[0m\n"
+	@awk '/^[a-zA-Z\-_0-9]+:/ { \
+		helpMessage = match(lastLine, /^## (.*)/); \
+		if (helpMessage) { \
+			helpCommand = substr($$1, 0, index($$1, ":")-1); \
+			helpMessage = substr(lastLine, RSTART + 3, RLENGTH); \
+			printf "  \033[33m%-20s\033[0m %s\n", helpCommand, helpMessage; \
+		} \
+	} \
+	{ lastLine = $$0 }' $(MAKEFILE_LIST)
+```
+
+### Fullstack Template Notes
+
+The fullstack template combines CLI and backend features with additional frontend targets:
+
+```makefile
+# Key additions for fullstack projects:
+
+## Frontend build targets
+build-frontend:
+	@echo "Building frontend..."
+	cd frontend && npm run build
+
+## Combined build
+build: build-backend build-frontend
+
+## Development with hot reload
+dev: dev-backend dev-frontend
+
+dev-frontend:
+	@echo "Starting frontend development server..."
+	cd frontend && npm run dev
+
+## Asset compilation
+assets:
+	@echo "Compiling assets..."
+	cd frontend && npm run build:assets
+```
+
+### Template Usage Instructions
+
+1. **Select template type** based on your project:
+   - CLI tools: Use CLI template
+   - Backend services: Use Backend template  
+   - Fullstack apps: Use Backend template + add frontend targets
+
+2. **Customize variables**:
+   - `APP_NAME`: Your application name
+   - `GO_MODULE`: Your Go module path
+   - `VERSION_PACKAGE`: Adjust based on your project structure
+
+3. **Add project-specific targets** as needed
+
+4. **Keep the modular structure** - add new targets in appropriate sections
+
+### Template Adaptation Guidelines
+
+#### 1. **Select Appropriate Template**
+Choose the template that matches your project type:
+- **CLI projects**: Use CLI template (version in `internal/version`)
+- **Backend services**: Use Backend template (version in `pkg/version`)  
+- **Fullstack apps**: Use Backend template + add frontend targets
+
+#### 2. **Customize Core Variables**
+Replace these placeholders in your chosen template:
+
+```makefile
+# Project identification
+APP_NAME := myapp                    # Your application name
+GO_MODULE := github.com/user/myapp   # Your Go module path
+
+# Version injection path (adjust based on template)
+VERSION_PACKAGE := $(GO_MODULE)/internal/version   # For CLI
+# OR
+VERSION_PACKAGE := $(GO_MODULE)/pkg/version        # For Backend
+```
+
+#### 3. **Adjust Platform Support**
+Modify `PLATFORMS` based on your target deployment environments:
+
+```makefile
+# Default platforms (adjust as needed)
+PLATFORMS := \
+	linux/amd64 \
+	linux/arm64 \
+	darwin/amd64 \
+	darwin/arm64 \
+	windows/amd64
+```
+
+#### 4. **Add Project-Specific Targets**
+Extend the template with your custom needs:
+
+```makefile
+# ========== Custom Targets ==========
+
+## Your custom build step
+custom-build:
+	@echo "Running custom build..."
+	# Your commands here
+
+## Environment-specific configuration  
+deploy-custom:
+	@echo "Deploying to custom environment..."
+	./scripts/deploy-custom.sh
+```
+
+#### 5. **Script Organization**
+For complex commands, create scripts instead of inline shell:
+
+```bash
+# Instead of:
+# deploy-prod:
+# 	@complex command here
+
+# Create: scripts/deploy/prod.sh
+# Then:
+deploy-prod:
+	./scripts/deploy/prod.sh
+```
+
+### Quick Start Templates
+
+#### Minimal CLI Makefile
+```makefile
+APP_NAME := mycli
+GO_MODULE := github.com/user/mycli
+VERSION := $(shell git describe --tags --always --dirty 2>/dev/null || echo "v0.0.0-dev")
+
+.PHONY: build test clean help
+
+build:
+	CGO_ENABLED=0 go build -o bin/$(APP_NAME) .
+
+test:
+	go test ./... -v
+
+clean:
+	rm -rf bin
+
+help:
+	@echo "Available targets: build, test, clean"
+```
+
+#### Minimal Backend Makefile  
 ```makefile
 APP_NAME := myapp
 GO_MODULE := github.com/user/myapp
@@ -410,21 +724,42 @@ From baseline testing, these are common excuses for skipping bitcms patterns:
 
 This skill works with:
 
+- `go-cli-builder` - Generate CLI structure (uses this skill for Makefile generation)
 - `go-backend-scaffolder` - Generate backend code structure
 - `fullstack-project-setup` - Initialize complete project
 - `requirements-to-code-docs` - Generate API documentation
 - `go-vue-fullstack-workflow` - Coordinated fullstack development
 
-### Example Workflow
+### Example Workflows
 
+#### CLI Project Workflow
+```bash
+# 1. Generate CLI structure
+go-cli-builder create-project mycli-tool
+
+# 2. Create Makefile using CLI template
+makefile-backend-generator create --type=cli
+
+# 3. Customize for CLI needs
+# Edit APP_NAME and GO_MODULE variables
+# Add CLI-specific test targets
+
+# 4. Use in development
+make install-deps
+make build
+make test-cli
+make completion
+```
+
+#### Backend Project Workflow
 ```bash
 # 1. Generate backend structure
 go-backend-scaffolder create-project myapp-backend
 
-# 2. Create Makefile using bitcms patterns
-makefile-backend-generator create
+# 2. Create Makefile using backend template
+makefile-backend-generator create --type=backend
 
-# 3. Customize for project needs
+# 3. Customize for backend needs
 # Edit variables at top of Makefile
 # Add project-specific targets
 
@@ -435,21 +770,61 @@ make test
 make lint
 ```
 
+#### Fullstack Project Workflow
+```bash
+# 1. Initialize fullstack project
+fullstack-project-setup create myapp-fullstack
+
+# 2. Create Makefile using backend template + frontend targets
+makefile-backend-generator create --type=backend
+# Add frontend build targets manually
+
+# 3. Use in development
+make install-deps
+make dev  # starts both backend and frontend
+make test-all
+```
+
 ## Real-World Impact
 
-**Before (Generic Makefile):**
-- Inconsistent target naming
-- Missing critical operations (deployment, db backup)
-- No version information in binaries
-- Hard to navigate and maintain
-- Limited cross-platform support
+### Before Modular Templates
 
-**After (Bitcms Pattern):**
-- Consistent, organized structure
-- Complete development workflow
-- Production-ready deployment targets
-- Versioned binaries with git metadata
-- Easy maintenance and extension
-- Multi-platform distribution support
+**CLI Projects:**
+- Manual Makefile creation for each CLI tool
+- Inconsistent version injection (`internal/version` vs `pkg/version`)
+- Missing CLI-specific features (shell completion, multi-platform builds)
+- Duplicate effort across projects
 
-**Outcome:** Professional-grade build system, reduced maintenance overhead, consistent team workflow, reliable deployment process.
+**Backend Projects:**
+- Generic Makefiles missing backend-specific operations
+- No database migration/backup targets
+- Limited deployment workflow support
+- Hard to maintain and extend
+
+### After Modular Templates
+
+**CLI Projects:**
+- Standardized CLI template with `internal/version` injection
+- Built-in shell completion generation
+- Comprehensive multi-platform build support
+- Consistent structure across all CLI tools
+
+**Backend Projects:**
+- Specialized backend template with `pkg/version` injection
+- Database operations (migrations, backups, restoration)
+- Complete deployment workflow (dev/staging/prod)
+- Swagger documentation generation
+
+**Fullstack Projects:**
+- Combined backend + frontend build targets
+- Coordinated development and deployment
+- Consistent structure for mixed technology stacks
+
+### Unified Benefits
+- **Consistency**: Same patterns across project types
+- **Maintainability**: Easy to update and extend
+- **Productivity**: Faster project setup
+- **Reliability**: Production-ready from start
+- **Team Alignment**: Clear conventions for everyone
+
+**Outcome:** Professional-grade build system tailored to project type, reduced maintenance overhead, consistent team workflow, reliable deployment process across all project types.

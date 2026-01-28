@@ -123,6 +123,7 @@ dependencies:
   go-cli-builder:
     depends_on:
       - generic-code-generator
+      - makefile-backend-generator
     provides: "Go CLI application scaffolding"
     stage: "code_generation"
 
@@ -254,7 +255,7 @@ dependencies:
   makefile-backend-generator:
     depends_on:
       - go-backend-scaffolder
-    provides: "Makefile generation for Go backends"
+    provides: "Makefile generation for Go projects (CLI, backend, fullstack)"
     stage: "build_automation"
 
   # Tools & Integration

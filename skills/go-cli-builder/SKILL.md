@@ -326,43 +326,99 @@ func GetInfo() Info {
 // 	-X $(GO_MODULE)/internal/version.BuildType=$(BUILD_TYPE)
 ```
 
-### Production Makefile (Excerpt)
+### Makefile Generation (Using makefile-backend-generator)
+
+Go CLI Builder now uses `makefile-backend-generator` for production-ready Makefile generation with CLI-specific optimizations. This provides standardized build systems across all CLI projects.
+
+#### CLI-Specific Makefile Requirements
+
+CLI tools have specific Makefile needs that differ from backend services:
+
+1. **Version injection**: Into `internal/version` package (not `pkg/version`)
+2. **Windows support**: `.exe` file extension handling
+3. **Shell completion**: Generation targets for bash, zsh, fish, PowerShell
+4. **CLI test helpers**: Specialized testing targets for command-line interfaces
+5. **Multi-platform distribution**: Comprehensive cross-compilation support
+
+#### Using makefile-backend-generator for CLI Projects
+
+```bash
+# Generate CLI-optimized Makefile
+makefile-backend-generator create --type=cli
+
+# Or integrate into your workflow:
+makefile-backend-generator create \
+  --type=cli \
+  --app-name="mycli" \
+  --module="github.com/user/mycli"
+```
+
+#### Key CLI Template Features
+
+The CLI template from `makefile-backend-generator` includes:
 
 ```makefile
-# Go CLI Builder Makefile
-# ===========================================
+# Version injection for CLI projects (internal/version)
+VERSION_PACKAGE := $(GO_MODULE)/internal/version
 
-# 版本信息 (git自动获取)
-VERSION := $(shell git describe --tags --always --dirty 2>/dev/null || echo "v0.0.0-dev")
-BUILD_TIME := $(shell date -u +"%Y-%m-%dT%H:%M:%SZ")
-COMMIT_HASH := $(shell git rev-parse --short HEAD 2>/dev/null || echo "unknown")
-BUILD_TYPE := $(if $(findstring dirty,$(VERSION)),dev,$(if $(findstring -,$(VERSION)),dev,release))
+# CLI-specific build flags
+LDFLAGS := -X $(VERSION_PACKAGE).Version=$(VERSION) \
+           -X $(VERSION_PACKAGE).BuildTime=$(BUILD_TIME) \
+           -X $(VERSION_PACKAGE).Commit=$(COMMIT_HASH) \
+           -X $(VERSION_PACKAGE).BuildType=$(BUILD_TYPE)
 
-# 跨平台编译目标
+# Windows .exe support in build-all target
+if [ $$os = "windows" ]; then ext=".exe"; fi;
+
+# Shell completion targets
+completion:
+	@echo "Generating shell completions..."
+	go run . completion bash > completions/$(APP_NAME).bash
+	go run . completion zsh > completions/$(APP_NAME).zsh
+	# ... more shell types
+
+# CLI-specific test targets
+test-cli:
+	@echo "Running CLI tests..."
+	cd tests/cli && go test ./... -v
+```
+
+#### Customizing for Your CLI
+
+After generating the Makefile, customize these key variables:
+
+```makefile
+# Your CLI-specific settings
+APP_NAME := mycli
+GO_MODULE := github.com/user/mycli
+
+# Adjust platforms based on your target audience
 PLATFORMS := \
 	linux/amd64 \
-	linux/arm64 \
-	linux/386 \
 	darwin/amd64 \
 	darwin/arm64 \
-	windows/amd64 \
-	windows/386
+	windows/amd64
+```
 
-# 构建所有平台
-build-all: clean
-	@echo "Building for all platforms..."
-	@for platform in $(PLATFORMS); do \
-		os=$$(echo $$platform | cut -d'/' -f1); \
-		arch=$$(echo $$platform | cut -d'/' -f2); \
-		output=build/$$os-$$arch/$(APP_NAME); \
-		ext=""; \
-		if [ $$os = "windows" ]; then ext=".exe"; fi; \
-		echo "Building $$os/$$arch..."; \
-		mkdir -p build/$$os-$$arch; \
-		CGO_ENABLED=0 GOOS=$$os GOARCH=$$arch go build \
-			-ldflags "$(LDFLAGS)" \
-			-o $$output$$ext .; \
-	done
+#### Complete Workflow Example
+
+```bash
+# 1. Initialize CLI project
+go-cli-builder init mycli-tool
+
+# 2. Generate CLI-optimized Makefile  
+makefile-backend-generator create --type=cli
+
+# 3. Customize Makefile variables
+# Edit APP_NAME, GO_MODULE, PLATFORMS
+
+# 4. Use standard build targets
+make install-deps
+make build
+make test-cli
+make completion
+make build-all
+make release
 ```
 
 ### Test Helpers
@@ -430,9 +486,10 @@ func (tc *TestCLI) RunCommand(args ...string) (string, string, int) {
 | Direct os.Exit in commands | Hard to test, no cleanup | Return errors and let cobra handle |
 | Missing shell completion | Poor user experience | Include auto-generated completion |
 | No structured logging | Difficult to debug in production | Use zap with structured fields |
-| Ignoring cross-platform builds | Limited distribution | Use Makefile with multi-arch support |
-| Skipping version embedding | Unknown binary versions | Auto-embed Git tags and build info |
+| Ignoring cross-platform builds | Limited distribution | Use `makefile-backend-generator --type=cli` for standardized multi-arch support |
+| Skipping version embedding | Unknown binary versions | Use `makefile-backend-generator --type=cli` for automatic Git tag embedding into `internal/version` |
 | No configuration validation | Runtime errors | Use viper with struct binding |
+| Manual Makefile creation | Inconsistent build systems, maintenance burden | Use `makefile-backend-generator --type=cli` for standardized CLI Makefiles |
 | Mixing business logic in commands | Hard to test and reuse | Separate command and business logic |
 | Missing test helpers | Inconsistent test quality | Provide TestCLI helper package |
 | Mixed language code (Chinese/English) | Inconsistent for international teams | Use English for all code, comments, and messages |
@@ -601,7 +658,7 @@ This skill works with:
 |-------|-------------------|
 | `tdd-red-green-refactor` | Test-driven development for new commands |
 | `test-pyramid-analyzer` | Ensure balanced test strategy |
-| `makefile-backend-generator` | Extend build system for CLI needs |
+| `makefile-backend-generator` | **Required**: Generate CLI-optimized Makefiles with version injection, cross-platform builds, and shell completion |
 | `requirements-to-code-docs` | Document command interfaces |
 | `skill-packaging-tool` | Package and distribute CLI tools |
 
@@ -611,27 +668,30 @@ This skill works with:
 # 1. Initialize new CLI project
 go-cli-builder init mytool
 
-# 2. Add new command with TDD
+# 2. Generate CLI-optimized Makefile
+makefile-backend-generator create --type=cli
+
+# 3. Add new command with TDD
 tdd-red-green-refactor start cmd/process
 go-cli-builder command process --desc "Process data files"
 
-# 3. Implement command logic
+# 4. Implement command logic
 # ... implement business logic ...
 
-# 4. Run comprehensive tests
+# 5. Run comprehensive tests
 make test-all
 make coverage
 
-# 5. Analyze test pyramid
+# 6. Analyze test pyramid
 test-pyramid-analyzer analyze .
 
-# 6. Build for all platforms
+# 7. Build for all platforms
 make build-all
 
-# 7. Create release packages
+# 8. Create release packages
 make release
 
-# 8. Quality gate check
+# 9. Quality gate check
 make quality-gate
 ```
 
