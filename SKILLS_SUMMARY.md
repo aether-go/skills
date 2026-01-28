@@ -321,6 +321,8 @@
   └── prompt-template-manager
 ```
 
+*注：工作流图示显示每个阶段的关键代表技能，并非列出全部38个技能。完整技能清单请参阅上文的技能清单部分。*
+
 ### 宪法贯穿执行
 
 `methodology-fusion-orchestrator`确保宪法原则在所有阶段得到执行：
