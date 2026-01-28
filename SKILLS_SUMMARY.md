@@ -1,10 +1,10 @@
 # Aether.go Skills Summary
 
-根据 `overall.md` 中的规划和 OpenCode skills 规范，已成功创建所有 31 个技能（原有25个 + 新增6个），覆盖Aether.go方法论融合框架的完整七个阶段。
+根据 `overall.md` 中的规划和 OpenCode skills 规范，已成功创建所有 38 个技能（原有31个 + 新增7个），覆盖Aether.go方法论融合框架的完整七个阶段。
 
 ## 新增 Skills 背景：方法论融合框架完善
 
-基于对 `method-paper.md` 中描述的Aether.go方法论融合框架的深入分析，新增了5个关键技能以填补方法论执行缺口，实现端到端的智能软件生命周期管理。
+基于对 `method-paper.md` 中描述的Aether.go方法论融合框架的深入分析，新增了7个关键技能以填补方法论执行缺口，实现端到端的智能软件生命周期管理。
 
 ### 方法论融合框架分析结果
 
@@ -133,70 +133,106 @@
     - 描述：设计混沌工程实验以测试系统弹性和容错能力
     - 功能：定义故障注入场景，支持LitmusChaos/Chaos Mesh
     - 位置：`skills/chaos-test-designer/SKILL.md`
+### ITIL Service Management & Deployment Operations Skills - 7个
+
+20. **incident-management**
+    - 描述：ITIL对齐的事件处理流程和响应工作流
+    - 功能：事件分类、优先级排序、升级、解决跟踪
+    - 位置：`skills/incident-management/SKILL.md`
+
+21. **problem-management**
+    - 描述：根本原因分析和永久性修复管理
+    - 功能：问题识别、根本原因分析、解决方案实施、预防措施
+    - 位置：`skills/problem-management/SKILL.md`
+
+22. **change-management**
+    - 描述：受控变更流程与变更咨询委员会（CAB）审批
+    - 功能：变更请求评估、风险评估、CAB审批、实施协调
+    - 位置：`skills/change-management/SKILL.md`
+
+23. **service-desk**
+    - 描述：用户请求和问题的单一联系点管理
+    - 功能：服务目录、SLA协议、用户沟通、请求跟踪
+    - 位置：`skills/service-desk/SKILL.md`
+
+24. **deployment-orchestrator**
+    - 描述：高级部署策略编排（金丝雀、蓝绿、滚动更新）
+    - 功能：部署策略选择、环境管理、发布协调、监控集成
+    - 位置：`skills/deployment-orchestrator/SKILL.md`
+
+25. **release-manager**
+    - 描述：发布规划、版本管理和利益相关者协调
+    - 功能：发布日历、版本控制、沟通计划、上线协调
+    - 位置：`skills/release-manager/SKILL.md`
+
+26. **rollback-manager**
+    - 描述：失败部署的自动化回滚程序
+    - 功能：回滚触发器、状态恢复、数据一致性验证
+    - 位置：`skills/rollback-manager/SKILL.md`
 
 ### AI 协作与优化 Skills - 4个
 
-20. **context-manager**
+27. **context-manager**
     - 描述：管理项目上下文、对话历史和信息检索
     - 功能：保存和恢复上下文，最小化token使用
     - 位置：`skills/context-manager/SKILL.md`
 
-21. **skill-recommender**
+28. **skill-recommender**
     - 描述：根据当前任务、项目上下文和开发阶段推荐相关AI技能
     - 功能：智能推荐，提高效率
     - 位置：`skills/skill-recommender/SKILL.md`
 
-22. **recursive-optimizer**
+29. **recursive-optimizer**
     - 描述：基于执行结果和用户反馈优化AI技能、提示词和工作流
     - 功能：A/B测试，持续改进循环
     - 位置：`skills/recursive-optimizer/SKILL.md`
 
-23. **prompt-template-manager**
+30. **prompt-template-manager**
     - 描述：管理、版本化和优化AI提示词模板
     - 功能：版本控制，性能跟踪，A/B测试
     - 位置：`skills/prompt-template-manager/SKILL.md`
 
 ### Go + Vue + Quasar 全栈开发 Skills - 6个（基于 bitcms 模式）
 
-24. **go-backend-scaffolder**
+31. **go-backend-scaffolder**
     - 描述：基于bitcms模式生成干净架构的Go后端代码
     - 功能：创建Fiber + GORM + Swagger后端，支持分层架构和Cobra命令结构
     - 特点：main.go在根目录作为Cobra入口，cmd/存放独立命令（version/daemon/server），包含默认version命令
     - 位置：`skills/go-backend-scaffolder/SKILL.md`
 
-25. **vue-quasar-scaffolder**
+32. **vue-quasar-scaffolder**
     - 描述：基于bitcms前端模式生成Vue 3 + Quasar + TypeScript组件
     - 功能：创建Composition API组件、Pinia存储、测试配置
     - 位置：`skills/vue-quasar-scaffolder/SKILL.md`
 
-26. **fullstack-project-setup**
+33. **fullstack-project-setup**
     - 描述：基于bitcms结构初始化完整的Go + Vue + Quasar全栈项目
     - 功能：创建项目结构、Docker配置、CI/CD管道、开发环境
     - 位置：`skills/fullstack-project-setup/SKILL.md`
 
-27. **requirements-to-code-docs**
+34. **requirements-to-code-docs**
     - 描述：基于bitcms文档工作流从需求到用例到实现生成结构化文档
     - 功能：需求文档、用例文档、API文档、可追溯性矩阵
     - 位置：`skills/requirements-to-code-docs/SKILL.md`
 
-28. **go-vue-fullstack-workflow**
+35. **go-vue-fullstack-workflow**
     - 描述：协调使用bitcms模式和文档的Go + Vue + Quasar全栈开发工作流
     - 功能：集成所有相关技能，提供端到端开发工作流指导
     - 位置：`skills/go-vue-fullstack-workflow/SKILL.md`
 
-29. **makefile-backend-generator**
+36. **makefile-backend-generator**
     - 描述：基于bitcms模式为Go后端项目创建生产级Makefile
     - 功能：生成包含构建、测试、部署、数据库操作的完整Makefile，支持跨平台编译
     - 位置：`skills/makefile-backend-generator/SKILL.md`
 
 ### 工具与集成 Skills - 2个
 
-30. **skill-packaging-tool**
+37. **skill-packaging-tool**
     - 描述：将技能打包为可分发的可安装包
     - 功能：版本管理，依赖声明，安装脚本
     - 位置：`skills/skill-packaging-tool/SKILL.md`
 
-31. **go-cli-builder**
+38. **go-cli-builder**
     - 描述：构建企业级Go CLI应用，基于cobra+viper和最佳实践
     - 功能：生成生产级CLI应用结构，包含配置管理、结构化日志、自动版本嵌入、多平台构建和完整测试策略
     - 特点：支持多路径配置文件搜索（./ → ./config → /etc/应用名称），自动获取Git版本和Go SDK版本，内置shell补全命令
@@ -269,8 +305,15 @@
   ├── sit-scenario-generator
   └── chaos-test-designer
 
-阶段7: 部署度量 (Deployment Metrics)
-  └── metrics-definer
+阶段7: 部署与运维 (Deployment & Operations)
+   ├── deployment-orchestrator
+   ├── incident-management
+   ├── change-management
+   ├── release-manager
+   ├── metrics-definer
+   ├── problem-management
+   ├── service-desk
+   └── rollback-manager
 
 阶段8: 递归优化 (Recursive Optimization)
   ├── recursive-optimizer
@@ -317,6 +360,18 @@ constitution_enforcement:
   stage_7_deployment:
     - principle: "Observability & Monitoring"
       check: "Metrics and monitoring configured"
+      enforcement: strict
+    - principle: "Deployment Safety"
+      check: "Rollback procedures tested and available"
+      enforcement: strict
+    - principle: "Incident Response"
+      check: "Incident management procedures defined"
+      enforcement: strict
+    - principle: "Change Control"
+      check: "Change management processes followed"
+      enforcement: strict
+    - principle: "Service Continuity"
+      check: "Problem and service desk management established"
       enforcement: strict
     
   stage_8_optimization:

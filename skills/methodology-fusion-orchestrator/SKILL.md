@@ -115,12 +115,25 @@ phases_executed:
       output: Resilience test plans
       duration: "8h"
     
-  - phase_7_deployment_metrics:
+  - phase_7_deployment_operations:
+      skill: deployment-orchestrator
+      input: Validated system
+      output: Deployed system with canary/blue-green strategy
+      skill: incident-management
+      output: Incident response procedures, on-call rotations
+      skill: change-management
+      output: CAB-approved change plans, rollback procedures
+      skill: release-manager
+      output: Release calendar, stakeholder communications
       skill: metrics-definer
-      input: Deployed system
-      output: Business + technical metrics
-      monitoring: Auto-configured
-      duration: "2h"
+      output: Business + technical metrics dashboard
+      skill: problem-management
+      output: Root cause analyses, permanent fixes
+      skill: service-desk
+      output: Service catalog, SLA agreements
+      skill: rollback-manager
+      output: Automated rollback procedures
+      duration: "8h"
     
   - phase_8_recursive_optimization:
       skill: recursive-optimizer
@@ -131,7 +144,7 @@ phases_executed:
       duration: "4h"
 
 metrics_summary:
-  total_duration: "40h"
+  total_duration: "46h"
   constitutional_compliance: "96%"
   requirement_traceability: "100%"
   test_coverage: "92%"
@@ -151,7 +164,7 @@ metrics_summary:
 | **4. Implementation Planning** | architecture-decision-recorder | data-flow-analyzer | ADRs + data flows |
 | **5. Code Generation** | tdd-red-green-refactor, go-backend-scaffolder, vue-quasar-scaffolder | spec-to-code-tracer | Test-driven code |
 | **6. Integration Validation** | sit-scenario-generator, chaos-test-designer | test-pyramid-analyzer | Integration + resilience tests |
-| **7. Deployment Metrics** | metrics-definer | - | Metrics dashboard |
+| **7. Deployment & Operations** | deployment-orchestrator, incident-management, change-management, release-manager | metrics-definer, problem-management, service-desk, rollback-manager | Deployment execution, ITIL operations, metrics dashboard |
 | **8. Recursive Optimization** | recursive-optimizer | prompt-template-manager, skill-recommender | Optimized skills |
 
 ### Constitutional Principles Enforcement
@@ -191,6 +204,18 @@ constitution_enforcement:
   stage_7_deployment:
     - principle: "Observability & Monitoring"
       check: "Metrics and monitoring configured"
+      enforcement: strict
+    - principle: "Deployment Safety"
+      check: "Rollback procedures tested and available"
+      enforcement: strict
+    - principle: "Incident Response"
+      check: "Incident management procedures defined"
+      enforcement: strict
+    - principle: "Change Control"
+      check: "Change management processes followed"
+      enforcement: strict
+    - principle: "Service Continuity"
+      check: "Problem and service desk management established"
       enforcement: strict
     
   stage_8_optimization:
@@ -327,12 +352,12 @@ class MethodologyFusionOrchestrator:
         )
         workflow_result['stages'].append(stage6_result)
         
-        # Stage 7: Deployment Metrics
+        # Stage 7: Deployment & Operations
         stage7_result = self._execute_stage(
             stage_id=7,
-            skills=['metrics-definer'],
+            skills=['deployment-orchestrator', 'incident-management', 'change-management', 'release-manager', 'metrics-definer', 'problem-management', 'service-desk', 'rollback-manager'],
             input=stage6_result['validated_system'],
-            constitution_checks=['Observability & Monitoring']
+            constitution_checks=['Observability & Monitoring', 'Deployment Safety', 'Incident Response', 'Change Control', 'Service Continuity']
         )
         workflow_result['stages'].append(stage7_result)
         

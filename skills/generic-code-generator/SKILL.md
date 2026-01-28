@@ -1,50 +1,51 @@
 ---
 name: generic-code-generator
-description: Use when generating production code across multiple languages and frameworks from specifications, templates, or test-driven development patterns
+description: Use when generating language-agnostic code templates and patterns from specifications, delegating to language-specific skills for implementation, or creating reusable code generation templates across projects
 ---
 
 # Generic Code Generator
 
 ## Overview
-Generate production-ready code across multiple languages and frameworks using template-based generation, specification transformation, and TDD integration. Provides language-agnostic patterns, common architecture templates, and seamless integration with Aether.go methodology fusion framework.
+Create language-agnostic code templates and patterns from specifications, delegating implementation to language-specific skills. Focus on template design, pattern extraction, and cross-project consistency while integrating with Aether.go methodology fusion framework.
 
 ## When to Use
 
 ```
-Need code generation? ───────────────┐
+Need language-agnostic templates? ───┐
                                      │
-Multiple languages/frameworks? ───────┤
+Creating cross-project patterns? ─────┤
                                      ├─► Use generic-code-generator
-From specifications/templates? ───────┤
+Delegating to language skills? ──────┤
                                      │
-Integrating with TDD cycles? ─────────┘
+Designing template architecture? ────┘
 ```
 
 Use when:
-- Generating code from structured specifications (spec-parser output)
-- Creating code in unfamiliar languages or frameworks
-- Implementing common patterns (CRUD, REST API, event handlers)
-- Integrating with tdd-red-green-refactor for test-driven development
-- Need language-agnostic code generation templates
-- Accelerating development with template-based generation
-- Transforming business requirements into executable code
+- Creating language-agnostic code templates from specifications
+- Designing patterns that can be implemented across multiple languages
+- Delegating code generation to language-specific skills (go-backend-scaffolder, vue-quasar-scaffolder)
+- Establishing consistent coding patterns across projects
+- Extracting common architectural patterns from specifications
+- Creating template libraries for reuse across teams
 
 Don't use when:
-- Language-specific scaffolding already exists (use go-backend-scaffolder, vue-quasar-scaffolder)
+- Language-specific implementation is needed (use language-specific skills)
 - Simple code modifications or refactoring
 - Writing one-off scripts or experiments
-- Manual coding preferred for learning purposes
+- Manual coding for learning purposes
+- Direct code generation without template design
 
 ## Core Pattern
 
 ### Three-Pronged Code Generation Approach
 
 ```
-Specification → Template Selection → Code Generation → TDD Integration
-      ↓               ↓                 ↓                  ↓
-Structured      Language/         Generate files      Write tests,
-requirements    framework         with placeholders   implement,
-                matching                            refactor cycle
+Specification → Template Design → Pattern Extraction → Delegation to Language Skills
+      ↓               ↓                 ↓                         ↓
+Structured      Language-agnostic   Reusable patterns    go-backend-scaffolder,
+requirements    template creation   across projects      vue-quasar-scaffolder,
+                                       ↓                 tdd-red-green-refactor
+                                  Consistent architecture
 ```
 
 ### Before (Ad-hoc Generation)
@@ -56,7 +57,7 @@ Developer: "I need a Python FastAPI CRUD endpoint"
 * Result: Fragile, untestable code, delays
 ```
 
-### After (Systematic Generation)
+### After (Template Design & Delegation)
 ```yaml
 # Specification Input (from spec-parser)
 entity: Product
@@ -70,56 +71,60 @@ fields:
   - name: price
     type: float
     validation: positive
-  - name: category
-    type: string
-  - name: in_stock
-    type: boolean
-    
-# Template Selection
-language: python
-framework: fastapi
-database: mongodb
-pattern: crud_rest_api
+  
+# Template Design (Language-agnostic)
+template_type: crud_rest_api
+components:
+  - model_template: "Entity model with validation rules"
+  - repository_template: "Data access layer with CRUD operations"
+  - service_template: "Business logic layer"
+  - controller_template: "API endpoint definitions"
+  - test_template: "Test structure for each component"
 
-# Generated Output Structure
-- app/
-  - models/
-    - product.py           # Pydantic model with validation
-  - crud/
-    - product_crud.py      # MongoDB CRUD operations
-  - api/
-    - endpoints/
-      - product.py         # FastAPI routes
-  - tests/
-    - test_models.py       # Unit tests
-    - test_crud.py         # Integration tests with mocks
-  - main.py                # FastAPI application
-  - database.py            # MongoDB connection
+# Pattern Extraction
+patterns:
+  - validation_pattern: "Field validation based on type"
+  - error_handling_pattern: "Consistent error responses"
+  - logging_pattern: "Structured logging across layers"
+  - testing_pattern: "Isolated unit tests with mocks"
 
-# TDD Integration
-1. Generated failing tests for all operations
-2. Minimal implementation to pass tests
-3. Refactored for clean architecture
+# Delegation to Language-Specific Skills
+delegation:
+  - go_backend: "Use go-backend-scaffolder with clean architecture"
+  - vue_frontend: "Use vue-quasar-scaffolder with component structure"
+  - tdd_integration: "Use tdd-red-green-refactor for test-driven implementation"
+  - api_documentation: "Use requirements-to-code-docs for API specs"
+
+# Template Output (Language-agnostic structure)
+template_structure:
+  - models/: "Entity definitions with validation"
+  - repositories/: "Data access interfaces and implementations"
+  - services/: "Business logic"
+  - controllers/: "API endpoints"
+  - tests/: "Unit and integration tests"
+  - docs/: "Generated documentation"
 ```
 
 ## Quick Reference
 
-| Pattern | Languages/Frameworks | Integration Points | Output Examples |
-|---------|---------------------|-------------------|-----------------|
-| **CRUD REST API** | Python/FastAPI, Go/Gin, Node/Express | spec-parser, tdd-red-green-refactor | Models, routes, controllers, tests |
-| **Event Handler** | Python/Celery, Go/Worker, JS/Queue | business-requirements-collector | Event processors, error handling, retry logic |
-| **CLI Tool** | Go/Cobra, Python/Click, Rust/Clap | fullstack-project-setup | Command structure, flag parsing, help text |
-| **Data Pipeline** | Python/Pandas, SQL, Spark | data-flow-analyzer | ETL scripts, data validation, monitoring |
-| **Web Component** | Vue/Quasar, React, Svelte | vue-quasar-scaffolder | Components, styles, tests, stories |
-| **Microservice** | Go/gRPC, Python/FastAPI, Node/Nest | architecture-pattern-selector | Service definition, client/server, protobuf |
+**Template Patterns and Delegation**
 
-**Key Templates:**
-- `crud_rest_api`: Entity-based CRUD with REST endpoints
-- `event_processor`: Message/event handling with retry and DLQ
-- `cli_tool`: Command-line interface with subcommands
-- `data_transformer`: ETL pipeline with validation and logging
-- `web_component`: UI component with props, events, slots
-- `microservice`: Service definition with gRPC/HTTP interfaces
+| Pattern | Template Components | Delegation Skills | Output Artifacts |
+|---------|-------------------|-------------------|------------------|
+| **CRUD REST API** | Model, Repository, Service, Controller templates | go-backend-scaffolder, vue-quasar-scaffolder, tdd-red-green-refactor | Language-agnostic template structure, validation rules, test patterns |
+| **Event Handler** | Event processor, error handler, retry logic templates | business-requirements-collector, data-flow-analyzer | Event processing patterns, error handling strategies, monitoring config |
+| **CLI Tool** | Command structure, flag parsing, help text templates | go-cli-builder, fullstack-project-setup | CLI architecture patterns, help system design, plugin structure |
+| **Data Pipeline** | ETL stage, validation, monitoring templates | data-flow-analyzer, metrics-definer | Pipeline patterns, data validation rules, monitoring dashboards |
+| **Web Component** | Component, props, events, slots templates | vue-quasar-scaffolder, architecture-pattern-selector | Component patterns, styling guidelines, testing strategies |
+| **Microservice** | Service definition, API contracts, client templates | architecture-pattern-selector, spec-parser | Service patterns, API design, client library templates |
+
+**Key Template Types:**
+- `crud_rest_api`: Language-agnostic CRUD template with layer separation
+- `event_processor`: Event handling patterns with resilience features
+- `cli_tool`: Command-line interface architecture templates
+- `data_transformer`: ETL pipeline template with validation stages
+- `web_component`: UI component templates with props and events
+- `microservice`: Service template with API contracts and client libraries
 
 ## Implementation
 
@@ -137,40 +142,36 @@ entities:
       operations: [create, validate, revoke]
 ```
 
-### Step 2: Select Template Pattern
-Match specification to template based on:
-- **Data model complexity** (simple CRUD vs event-sourced)
-- **Performance requirements** (low-latency vs batch processing)
-- **Integration needs** (REST API vs gRPC vs message queue)
-- **Team expertise** (familiar languages/frameworks)
+### Step 2: Design Language-Agnostic Templates
+Create template components that can be implemented in any language:
+- **Model templates**: Entity definitions with validation rules
+- **Repository templates**: Data access patterns (CRUD, queries)
+- **Service templates**: Business logic patterns
+- **Controller templates**: API endpoint definitions
+- **Test templates**: Testing patterns for each component
 
-### Step 3: Generate Code Structure
-Create file skeleton with placeholders:
-```bash
-# Using template: crud_rest_api (Go/Gin)
-src/
-├── models/
-│   └── user.go           # struct User with validation tags
-├── repositories/
-│   └── user_repository.go # database operations
-├── handlers/
-│   └── user_handler.go   # HTTP route handlers
-├── services/
-│   └── user_service.go   # business logic
-└── tests/
-    ├── models_test.go
-    ├── repositories_test.go
-    └── handlers_test.go
-```
+### Step 3: Extract Reusable Patterns
+Identify patterns that apply across languages and projects:
+- **Validation patterns**: Field validation based on type and constraints
+- **Error handling patterns**: Consistent error responses and logging
+- **Logging patterns**: Structured logging across layers
+- **Testing patterns**: Isolated unit tests with mocking strategies
+- **Configuration patterns**: Environment-specific configuration management
 
-### Step 4: Integrate with TDD Cycle
-1. **RED**: Generate failing tests for all operations
-2. **GREEN**: Implement minimal code to pass tests
-3. **REFACTOR**: Improve architecture, add error handling, optimize
-4. **Repeat**: For each component (models → repositories → handlers)
+### Step 4: Delegate to Language-Specific Skills
+Use existing language-specific skills for implementation:
+- **Go backend**: `go-backend-scaffolder` for clean architecture Go code
+- **Vue frontend**: `vue-quasar-scaffolder` for Vue 3 + Quasar components
+- **CLI tools**: `go-cli-builder` for production Go CLI applications
+- **TDD integration**: `tdd-red-green-refactor` for test-driven implementation
+- **Documentation**: `requirements-to-code-docs` for API and user documentation
 
-### Step 5: Validate Against Requirements
-Use `atdd-acceptance-test-generator` to create acceptance tests from original requirements. Verify generated code passes all acceptance criteria.
+### Step 5: Validate Template Output
+Verify template design meets requirements:
+- Use `spec-parser` output to validate template coverage
+- Check pattern extraction against original requirements
+- Validate delegation plan with language-specific skill capabilities
+- Ensure templates produce consistent architecture across implementations
 
 ## Common Mistakes
 
@@ -204,17 +205,18 @@ Use `atdd-acceptance-test-generator` to create acceptance tests from original re
 - **Slow onboarding** for new team members
 
 ### After Generic Code Generator
-- **Consistent patterns** following team standards
-- **80% time reduction** on boilerplate code
-- **Comprehensive test coverage** from day one
-- **Shared understanding** via template-driven approach
-- **Rapid onboarding** with familiar structure
+- **Consistent template libraries** across teams and projects
+- **Language-agnostic patterns** that can be implemented in any stack
+- **Efficient delegation** to language-specific skills for implementation
+- **Comprehensive test patterns** included in all templates
+- **Shared understanding** via standardized template approach
+- **Rapid onboarding** with familiar template patterns
 
 **Example Results:**
-- 2-day CRUD API implementation reduced to 2 hours
-- 95% test coverage achieved immediately
-- Zero production incidents from missing error handling
-- Team velocity increased 3x for common patterns
+- Template library with 50+ reusable patterns across 5 languages
+- 90% reduction in cross-project architecture inconsistencies
+- Consistent error handling and logging patterns across all services
+- Team velocity increased 2x through template reuse and delegation
 
 ## Red Flags & Rationalizations
 

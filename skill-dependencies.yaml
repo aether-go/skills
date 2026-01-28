@@ -1,0 +1,370 @@
+# Skill Dependencies Metadata
+# This file defines dependencies between skills for proper orchestration and sequencing
+
+version: "1.0"
+updated: "2026-01-28"
+
+dependencies:
+  # Methodology Fusion Orchestrator - Core coordinator
+  methodology-fusion-orchestrator:
+    depends_on:
+      - business-requirements-collector
+      - business-value-mapper
+      - metrics-definer
+      - spec-parser
+      - bdd-scenario-writer
+      - atdd-acceptance-test-generator
+      - constitution-validator
+      - architecture-decision-recorder
+      - data-flow-analyzer
+      - tdd-red-green-refactor
+      - go-backend-scaffolder
+      - vue-quasar-scaffolder
+      - sit-scenario-generator
+      - chaos-test-designer
+      - recursive-optimizer
+      - skill-recommender
+      - prompt-template-manager
+    provides: "end-to-end methodology orchestration"
+    stage: "coordination"
+
+  # Business Analysis Stage
+  business-requirements-collector:
+    depends_on: []
+    provides: "structured business requirements"
+    stage: "business_analysis"
+    
+  business-value-mapper:
+    depends_on:
+      - business-requirements-collector
+    provides: "BMAD matrix with business-to-technical mapping"
+    stage: "business_analysis"
+    
+  metrics-definer:
+    depends_on:
+      - business-value-mapper
+    provides: "business and technical metrics definition"
+    stage: "business_analysis"
+
+  # Specification Stage
+  spec-parser:
+    depends_on:
+      - business-value-mapper
+    provides: "structured technical specifications"
+    stage: "specification_definition"
+    
+  bdd-scenario-writer:
+    depends_on:
+      - spec-parser
+    provides: "Gherkin BDD scenarios"
+    stage: "specification_definition"
+    
+  atdd-acceptance-test-generator:
+    depends_on:
+      - bdd-scenario-writer
+    provides: "executable acceptance tests"
+    stage: "specification_definition"
+
+  # Constitutional Review Stage
+  constitution-validator:
+    depends_on:
+      - spec-parser
+      - bdd-scenario-writer
+    provides: "constitutional compliance report"
+    stage: "constitutional_review"
+
+  # Implementation Planning Stage
+  architecture-decision-recorder:
+    depends_on:
+      - constitution-validator
+    provides: "architecture decision records (ADRs)"
+    stage: "implementation_planning"
+    
+  data-flow-analyzer:
+    depends_on:
+      - architecture-decision-recorder
+    provides: "data flow diagrams and analysis"
+    stage: "implementation_planning"
+    
+  architecture-pattern-selector:
+    depends_on:
+      - architecture-decision-recorder
+    provides: "architecture pattern selection"
+    stage: "implementation_planning"
+
+  # Code Generation Stage
+  generic-code-generator:
+    depends_on:
+      - spec-parser
+      - architecture-pattern-selector
+    provides: "language-agnostic code generation"
+    stage: "code_generation"
+    
+  tdd-red-green-refactor:
+    depends_on:
+      - atdd-acceptance-test-generator
+    provides: "test-driven implementation"
+    stage: "code_generation"
+    
+  go-backend-scaffolder:
+    depends_on:
+      - generic-code-generator
+      - architecture-pattern-selector
+    provides: "Go backend scaffolding"
+    stage: "code_generation"
+    
+  vue-quasar-scaffolder:
+    depends_on:
+      - generic-code-generator
+      - architecture-pattern-selector
+    provides: "Vue + Quasar frontend scaffolding"
+    stage: "code_generation"
+    
+  go-cli-builder:
+    depends_on:
+      - generic-code-generator
+    provides: "Go CLI application scaffolding"
+    stage: "code_generation"
+
+  # Integration Validation Stage
+  sit-scenario-generator:
+    depends_on:
+      - go-backend-scaffolder
+      - vue-quasar-scaffolder
+    provides: "system integration test scenarios"
+    stage: "integration_validation"
+    
+  chaos-test-designer:
+    depends_on:
+      - sit-scenario-generator
+    provides: "chaos engineering test plans"
+    stage: "integration_validation"
+    
+  contract-test-generator:
+    depends_on:
+      - spec-parser
+    provides: "contract tests for microservices"
+    stage: "integration_validation"
+    
+  test-pyramid-analyzer:
+    depends_on:
+      - tdd-red-green-refactor
+      - sit-scenario-generator
+    provides: "test coverage and distribution analysis"
+    stage: "integration_validation"
+
+  # Deployment & Operations Stage (New)
+  deployment-orchestrator:
+    depends_on:
+      - go-backend-scaffolder
+      - vue-quasar-scaffolder
+      - metrics-definer
+    provides: "deployment orchestration across environments"
+    stage: "deployment_operations"
+    
+  incident-management:
+    depends_on:
+      - deployment-orchestrator
+      - metrics-definer
+    provides: "ITIL incident management"
+    stage: "deployment_operations"
+    
+  problem-management:
+    depends_on:
+      - incident-management
+    provides: "ITIL problem management"
+    stage: "deployment_operations"
+    
+  change-management:
+    depends_on:
+      - deployment-orchestrator
+      - incident-management
+    provides: "ITIL change management"
+    stage: "deployment_operations"
+    
+  service-desk:
+    depends_on:
+      - incident-management
+      - change-management
+    provides: "ITIL service desk operations"
+    stage: "deployment_operations"
+
+  release-manager:
+    depends_on:
+      - deployment-orchestrator
+      - metrics-definer
+    provides: "release planning and stakeholder coordination"
+    stage: "deployment_operations"
+
+  rollback-manager:
+    depends_on:
+      - deployment-orchestrator
+      - incident-management
+    provides: "automated rollback procedures for failed deployments"
+    stage: "deployment_operations"
+
+  # AI Collaboration & Optimization Stage
+  context-manager:
+    depends_on: []
+    provides: "context management across sessions"
+    stage: "ai_collaboration"
+    
+  skill-recommender:
+    depends_on:
+      - context-manager
+    provides: "skill recommendation based on context"
+    stage: "ai_collaboration"
+    
+  recursive-optimizer:
+    depends_on:
+      - metrics-definer
+      - skill-recommender
+    provides: "recursive optimization of skills and processes"
+    stage: "ai_collaboration"
+    
+  prompt-template-manager:
+    depends_on:
+      - recursive-optimizer
+    provides: "prompt template management and versioning"
+    stage: "ai_collaboration"
+
+  # Fullstack Development Workflow
+  fullstack-project-setup:
+    depends_on:
+      - go-backend-scaffolder
+      - vue-quasar-scaffolder
+      - requirements-to-code-docs
+    provides: "complete fullstack project setup"
+    stage: "project_initialization"
+    
+  go-vue-fullstack-workflow:
+    depends_on:
+      - fullstack-project-setup
+      - methodology-fusion-orchestrator
+    provides: "integrated Go + Vue development workflow"
+    stage: "project_workflow"
+    
+  requirements-to-code-docs:
+    depends_on:
+      - business-requirements-collector
+      - spec-parser
+    provides: "structured documentation workflow"
+    stage: "documentation"
+    
+  makefile-backend-generator:
+    depends_on:
+      - go-backend-scaffolder
+    provides: "Makefile generation for Go backends"
+    stage: "build_automation"
+
+  # Tools & Integration
+  skill-packaging-tool:
+    depends_on: []
+    provides: "skill packaging and distribution"
+    stage: "tools"
+    
+  spec-evolution-tracker:
+    depends_on:
+      - spec-parser
+    provides: "specification change tracking"
+    stage: "specification_management"
+    
+  spec-to-code-tracer:
+    depends_on:
+      - spec-parser
+      - generic-code-generator
+    provides: "specification to code traceability"
+    stage: "traceability"
+
+# Stage Definitions
+stages:
+  business_analysis:
+    description: "Business requirements collection and analysis"
+    order: 1
+    
+  specification_definition:
+    description: "Technical specification creation"
+    order: 2
+    
+  constitutional_review:
+    description: "Constitutional compliance validation"
+    order: 3
+    
+  implementation_planning:
+    description: "Architecture and implementation planning"
+    order: 4
+    
+  code_generation:
+    description: "Code implementation and generation"
+    order: 5
+    
+  integration_validation:
+    description: "Testing and quality validation"
+    order: 6
+    
+  deployment_operations:
+    description: "Deployment and ITIL operations management"
+    order: 7
+    
+  ai_collaboration:
+    description: "AI collaboration and optimization"
+    order: 8
+    
+  project_initialization:
+    description: "Project setup and initialization"
+    order: 0
+    
+  project_workflow:
+    description: "Integrated development workflows"
+    order: 9
+    
+  documentation:
+    description: "Documentation generation and management"
+    order: 10
+    
+  build_automation:
+    description: "Build and automation tools"
+    order: 11
+    
+  tools:
+    description: "Supporting tools and utilities"
+    order: 12
+    
+  traceability:
+    description: "Traceability and impact analysis"
+    order: 13
+    
+  specification_management:
+    description: "Specification evolution management"
+    order: 14
+
+# Cross-cutting Concerns
+cross_cutting:
+  constitution:
+    skills:
+      - constitution-validator
+      - spec-parser
+      - architecture-decision-recorder
+    description: "Constitutional principles enforcement"
+    
+  metrics:
+    skills:
+      - metrics-definer
+      - recursive-optimizer
+      - test-pyramid-analyzer
+    description: "Metrics definition and analysis"
+    
+  quality:
+    skills:
+      - tdd-red-green-refactor
+      - test-pyramid-analyzer
+      - sit-scenario-generator
+      - chaos-test-designer
+    description: "Quality assurance and testing"
+    
+  automation:
+    skills:
+      - generic-code-generator
+      - deployment-orchestrator
+      - makefile-backend-generator
+    description: "Automation and code generation"
