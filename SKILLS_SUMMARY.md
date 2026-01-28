@@ -523,4 +523,4 @@ OpenCode会自动从以下位置发现技能：
 参考文档：`method-paper.md`, `https://opencode.ai/docs/skills/`
 更新记录：
 - 2026-01-21: 更新go-backend-scaffolder技能，采用bitcms风格的Cobra命令结构
-- 2026-01-27: 新增3个关键技能填补方法论缺口，实现完整的七阶段融合工作流
+- 2026-01-27: 新增7个关键技能填补方法论缺口，实现完整的七阶段融合工作流
