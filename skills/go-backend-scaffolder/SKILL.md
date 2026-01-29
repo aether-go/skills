@@ -1,12 +1,12 @@
 ---
 name: go-backend-scaffolder
-description: Use when generating clean architecture Go backend code based on bitcms patterns
+description: Use when generating clean architecture Go backend code with production-ready patterns
 ---
 
 # Go Backend Scaffolder
 
 ## Overview
-Generate clean architecture Go backend code following bitcms patterns. Creates Fiber-based REST APIs with GORM, repository pattern, structured logging, Swagger docs, and comprehensive testing.
+Generate clean architecture Go backend code following production-ready patterns. Creates Fiber-based REST APIs with GORM, repository pattern, structured logging, Swagger docs, and comprehensive testing.
 
 ## When to Use
 
@@ -17,7 +17,7 @@ Building REST API? ────────────────┤
                                  ├─► Use go-backend-scaffolder
 Clean architecture? ──────────────┤
                                  │
-Bitcms patterns? ─────────────────┘
+Production-ready patterns? ─────────────────┘
 ```
 
 Use when:
@@ -25,7 +25,7 @@ Use when:
 - Adding new domain/service to existing backend
 - Implementing REST API endpoints
 - Need Fiber + GORM + Swagger setup
-- Want bitcms-style clean architecture
+- Want production-ready clean architecture
 - Need standardized error handling and logging
 
 Don't use when:
@@ -36,7 +36,7 @@ Don't use when:
 
 ## Core Pattern
 
-### Backend Structure (bitcms-inspired)
+### Backend Structure (bi-cms-isspirrd
 
 ```
 backend/
@@ -93,14 +93,14 @@ func main() {
 }
 ```
 
-### After (bitcms Clean Architecture)
+### After (Production-Ready Clean Architecture)
 ```go
 // main.go - organized entry point
 package main
 
 import (
-    "bitcms/backend/internal/app"
-    "bitcms/backend/internal/pkg/logger"
+    "myapp/backend/internal/app"
+    "myapp/backend/internal/pkg/logger"
 )
 
 func main() {
@@ -330,9 +330,9 @@ package services
 
 import (
     "context"
-    "bitcms/backend/internal/domain/users"
-    "bitcms/backend/internal/pkg/errors"
-    "bitcms/backend/internal/pkg/logger"
+    "myapp/backend/internal/domain/users"
+    "myapp/backend/internal/pkg/errors"
+    "myapp/backend/internal/pkg/logger"
 )
 
 type UserService struct {
@@ -381,9 +381,9 @@ package handlers
 
 import (
     "github.com/gofiber/fiber/v2"
-    "bitcms/backend/internal/application/commands"
-    "bitcms/backend/internal/pkg/errors"
-    "bitcms/backend/internal/pkg/response"
+    "myapp/backend/internal/application/commands"
+    "myapp/backend/internal/pkg/errors"
+    "myapp/backend/internal/pkg/response"
 )
 
 type UserHandler struct {
@@ -723,9 +723,9 @@ import (
     "github.com/stretchr/testify/assert"
     "github.com/stretchr/testify/mock"
     
-    "bitcms/backend/internal/domain/users"
-    "bitcms/backend/internal/pkg/errors"
-    "bitcms/backend/internal/services"
+    "myapp/backend/internal/domain/users"
+    "myapp/backend/internal/pkg/errors"
+    "myapp/backend/internal/services"
 )
 
 type MockUserRepository struct {
@@ -790,7 +790,7 @@ import (
     "github.com/gofiber/fiber/v2"
     "github.com/stretchr/testify/assert"
     
-    "bitcms/backend/internal/interfaces/handlers"
+    "myapp/backend/internal/interfaces/handlers"
 )
 
 func TestUserHandler_CreateUser(t *testing.T) {

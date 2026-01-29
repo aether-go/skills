@@ -1,12 +1,12 @@
 ---
 name: vue-quasar-scaffolder
-description: Use when generating Vue 3 + Quasar + TypeScript components based on bitcms frontend patterns
+description: Use when generating Vue 3 + Quasar + TypeScript components with production-ready patterns
 ---
 
 # Vue Quasar Scaffolder
 
 ## Overview
-Generate Vue 3 + Quasar + TypeScript components following bitcms frontend patterns. Creates production-ready UI components, pages, stores, and utilities with Composition API, Pinia state management, and comprehensive TypeScript support.
+Generate Vue 3 + Quasar + TypeScript components following production-ready patterns. Creates production-ready UI components, pages, stores, and utilities with Composition API, Pinia state management, and comprehensive TypeScript support.
 
 ## When to Use
 
@@ -17,7 +17,7 @@ Building Quasar UI? ───────────────┤
                                  ├─► Use vue-quasar-scaffolder
 TypeScript components? ────────────┤
                                  │
-Bitcms patterns? ─────────────────┘
+Production-ready patterns? ─────────────────┘
 ```
 
 Use when:
@@ -26,7 +26,7 @@ Use when:
 - Implementing CRUD interfaces
 - Setting up Pinia stores for state management
 - Need TypeScript with strict mode
-- Want bitcms-style component structure
+- Want production-ready component structure
 - Building admin dashboards or data-heavy applications
 
 Don't use when:
@@ -38,7 +38,7 @@ Don't use when:
 
 ## Core Pattern
 
-### Frontend Structure (bitcms-inspired)
+### Frontend Structure (Production-Ready Pattern)
 
 ```
 frontend/
@@ -100,7 +100,7 @@ export default {
 </script>
 ```
 
-### After (bitcms Vue 3 + TypeScript)
+### After (Production-Ready Vue 3 + TypeScript)
 ```vue
 <template>
   <q-card class="my-component">

@@ -1,221 +1,265 @@
-# Skills 目录迁移说明
+# Skills Directory Migration Guide
 
-## 迁移概述
+---
 
-Skills 目录已从 `.opencode/skill/` 迁移到项目根目录下的 `skills/` 目录，便于工具调用和统一管理。
+**Language**: [English](MIGRATION.md) | [中文](MIGRATION_CN.md)
 
-## 迁移详情
+---
 
-### 原始位置
+## Migration Overview
+
+The skills directory has been migrated from `.opencode/skill/` to the `skills/` directory in the project root, for easier tool invocation and unified management.
+
+## Migration Details
+
+### Original Location
 ```
 .opencode/skill/<skill-name>/SKILL.md
 ```
 
-### 新位置
+### New Location
 ```
 skills/<skill-name>/SKILL.md
 ```
 
-## 新目录结构
+## New Directory Structure
 
 ```
 skills/
-├── README.md                       # Skills 总体说明
-├── SKILLS_SUMMARY.md               # 技能详细清单
-├── MIGRATION.md                    # 迁移说明
-├── skills.sh                       # Skills 管理脚本
+├── README.md                       # Skills overview (English)
+├── README_CN.md                    # Skills overview (Chinese)
+├── SKILLS_SUMMARY.md               # Detailed skills list (English)
+├── SKILLS_SUMMARY_CN.md            # Detailed skills list (Chinese)
+├── MIGRATION.md                   # Migration guide (English)
+├── MIGRATION_CN.md                # Migration guide (Chinese)
+├── skills.sh                       # Skills management script
 │
-├── 执行层 Skills
-│   ├── bdd-scenario-writer/       # BDD 场景编写器
-│   ├── tdd-red-green-refactor/    # TDD 循环指导
-│   ├── test-pyramid-analyzer/     # 测试金字塔分析
-│   ├── sit-scenario-generator/    # SIT 场景生成器
-│   └── chaos-test-designer/       # 混沌工程实验设计
+├── Execution Layer Skills
+│   ├── bdd-scenario-writer/       # BDD scenario writer
+│   ├── tdd-red-green-refactor/    # TDD cycle guide
+│   ├── test-pyramid-analyzer/     # Test pyramid analyzer
+│   ├── sit-scenario-generator/    # SIT scenario generator
+│   └── chaos-test-designer/       # Chaos engineering experiment designer
 │
-├── 战略层 Skills
-│   ├── business-value-mapper/     # 业务价值映射器
-│   ├── metrics-definer/           # 指标定义器
-│   ├── architecture-decision-recorder/ # 架构决策记录器
-│   └── data-flow-analyzer/        # 数据流分析器
+├── Strategic Layer Skills
+│   ├── business-value-mapper/     # Business value mapper
+│   ├── metrics-definer/           # Metrics definer
+│   ├── architecture-decision-recorder/ # Architecture decision recorder
+│   └── data-flow-analyzer/        # Data flow analyzer
 │
-├── 战术层 Skills
-│   ├── spec-parser/               # 规范解析器
-│   ├── constitution-validator/    # 宪法验证器
-│   ├── spec-to-code-tracer/       # 规范代码追溯器
-│   └── spec-evolution-tracker/    # 规范演进跟踪器
+├── Tactical Layer Skills
+│   ├── spec-parser/               # Specification parser
+│   ├── constitution-validator/    # Constitution validator
+│   ├── spec-to-code-tracer/       # Specification to code tracer
+│   └── spec-evolution-tracker/    # Specification evolution tracker
 │
-├── AI 协作层 Skills
-│   ├── context-manager/           # 上下文管理器
-│   ├── skill-recommender/         # 技能推荐器
-│   ├── recursive-optimizer/       # 递归优化器
-│   └── prompt-template-manager/   # 提示词模板管理器
+├── AI Collaboration Layer Skills
+│   ├── context-manager/           # Context manager
+│   ├── skill-recommender/         # Skill recommender
+│   ├── recursive-optimizer/       # Recursive optimizer
+│   └── prompt-template-manager/   # Prompt template manager
 │
-├── Go + Vue + Quasar 全栈开发 Skills
-│   ├── go-backend-scaffolder/     # Go 后端脚手架
-│   ├── vue-quasar-scaffolder/     # Vue + Quasar 前端脚手架
-│   ├── fullstack-project-setup/   # 全栈项目初始化
-│   ├── requirements-to-code-docs/ # 需求到代码文档生成
-│   ├── go-vue-fullstack-workflow/ # Go + Vue 全栈工作流
-│   └── makefile-backend-generator/ # Makefile 生成器
+├── Go + Vue + Quasar Fullstack Development Skills
+│   ├── go-backend-scaffolder/     # Go backend scaffolder
+│   ├── vue-quasar-scaffolder/     # Vue + Quasar frontend scaffolder
+│   ├── fullstack-project-setup/   # Fullstack project initialization
+│   ├── requirements-to-code-docs/ # Requirements to code documentation generator
+│   ├── go-vue-fullstack-workflow/ # Go + Vue fullstack workflow
+│   └── makefile-backend-generator/ # Makefile generator
 │
-└── 工具与集成 Skills
-    ├── skill-packaging-tool/      # 技能打包工具
-    └── go-cli-builder/            # Go CLI 应用构建器
+└── Tools & Integration Skills
+    ├── skill-packaging-tool/      # Skill packaging tool
+    └── go-cli-builder/            # Go CLI application builder
 ```
 
-## 使用方式
+## Usage
 
-### 1. Skills 管理脚本
+### 1. Skills Management Script
 
-提供了便捷的 `skills.sh` 脚本来管理技能：
+A convenient `skills.sh` script is provided to manage skills:
 
 ```bash
-# 列出所有技能
+# List all skills
 cd skills
 ./skills.sh list
 
-# 显示技能详细信息
+# Show skill details
 ./skills.sh show bdd-scenario-writer
 
-# 搜索技能
+# Search skills
 ./skills.sh search testing
 
-# 查看统计信息
+# View statistics
 ./skills.sh stats
 
-# 验证技能格式
+# Validate skill format
 ./skills.sh validate
 
-# 安装技能到全局位置
+# Install skill to global location
 ./skills.sh install bdd-scenario-writer
 ```
 
-### 2. OpenCode 自动发现
+### 2. OpenCode Auto-discovery
 
-OpenCode 会从当前工作目录自动发现 `skills/` 目录下的所有技能。
+OpenCode automatically discovers all skills in the `skills/` directory from the current working directory.
 
-在项目根目录下：
+In the project root directory:
 ```bash
 cd /path/to/project
-# OpenCode 会自动发现 skills/ 目录
+# OpenCode will automatically discover the skills/ directory
 ```
 
-### 3. 手动技能调用
+### 3. Manual Skill Invocation
 
-在对话中，AI 助手会根据任务自动推荐和加载相关技能。
+In conversation, the AI assistant will automatically recommend and load relevant skills based on tasks.
 
-## 技能统计
+## Validation Results
 
-- **总技能数**: 25
-- **执行层**: 5 (BDD, TDD, 测试分析, SIT, Chaos)
-- **战略层**: 4 (BMAD, 指标, ADR, 数据流)
-- **战术层**: 4 (解析, 宪法, 追溯, 演进)
-- **AI协作层**: 4 (上下文, 推荐, 优化, 模板)
-- **Go + Vue + Quasar 全栈开发层**: 6 (后端脚手架, 前端脚手架, 项目初始化, 文档生成, 工作流协调, Makefile生成)
-- **工具与集成层**: 2 (技能打包, CLI构建器)
+All 25 skills have passed format validation:
+- ✅ All skills contain the required `name` field
+- ✅ All skills contain the required `description` field
+- ✅ All descriptions start with "Use when"
+- ✅ All skill files are in the correct location
 
-## 验证结果
+## OpenCode Integration
 
-所有 25 个技能已通过格式验证：
-- ✅ 所有技能包含必需的 `name` 字段
-- ✅ 所有技能包含必需的 `description` 字段
-- ✅ 所有 description 以 "Use when" 开头
-- ✅ 所有技能文件位于正确位置
+OpenCode is a terminal-based AI agent that supports Skills functionality. See [OpenCode Official Documentation](https://opencode.ai/docs/skills/) and [GitHub Repository](https://github.com/anthropics/skills).
 
-## OpenCode 集成
+### Project Configuration
 
-### 项目配置
+To use these skills in OpenCode, ensure:
 
-如果需要在 OpenCode 中使用这些技能，确保：
+1. The `skills/` directory is located in the project root
+2. Start OpenCode from the project root
 
-1. `skills/` 目录位于项目根目录
-2. 在项目根目录启动 OpenCode
+OpenCode will automatically search upwards from the current working directory for the `skills/` directory and load all skills within it.
+
+### Global Installation
+
+If you need to use these skills in all projects, there are several installation methods:
+
+#### Method 1: Install Using OpenSkills (Recommended)
+
+OpenSkills is an open-source tool for managing and installing skills. See [OpenSkills GitHub](https://github.com/numman-ali/openskills).
 
 ```bash
-cd /home/bison/workspace/aether-go/skills
-opencode
+# Install OpenSkills (if not already installed)
+npm install -g @openskills/cli
+
+# Install from local project to global
+openskills install ./skills --global
+
+# Or install from GitHub repository
+openskills install <your-github-username>/aether-go-skills --global
 ```
 
-### 全局安装
-
-如果需要在所有项目中使用这些技能：
+#### Method 2: Manual Copy to Global Directory
 
 ```bash
-# 安装单个技能到全局位置
-./skills/skills.sh install bdd-scenario-writer
+# Copy the entire skills directory to the global Claude skills directory
+cp -r skills/* ~/.claude/skills/
 
-# 或复制整个目录
+# Or copy to OpenCode's global skills directory
 cp -r skills/* ~/.config/opencode/skill/
 ```
 
-## 维护说明
+#### Method 3: Project-level Installation (Current Project Only)
 
-### 添加新技能
+```bash
+# Create .claude/skills directory in project root
+mkdir -p .claude/skills
 
-1. 在 `skills/` 目录创建新子目录
-2. 添加 `SKILL.md` 文件，遵循规范
-3. 运行 `./skills.sh validate` 验证格式
+# Copy skills to project-level directory
+cp -r skills/* .claude/skills/
+```
 
-### 修改现有技能
+#### Directory Path Explanation
 
-1. 编辑对应的 `SKILL.md` 文件
-2. 使用 `./skills.sh validate` 验证格式
-3. 使用 `./skills.sh show <skill-name>` 预览
+OpenCode searches for SKILL.md files in the following paths:
 
-### 版本控制
+- **Project-level path**: `./.claude/skills/` - Available only in the current project
+- **Global path**: `~/.claude/skills/` - Available in all projects
+- **OpenCode configuration path**: `~/.config/opencode/skill/` - OpenCode-specific path
 
-所有技能文件应纳入 Git 版本控制：
+Choose the appropriate installation method:
+- If skills are only for the current project, use project-level installation
+- If skills need to be used in multiple projects, use global installation
+- If using OpenCode, you can copy to the OpenCode configuration path
+
+## Maintenance
+
+### Adding New Skills
+
+1. Create a new subdirectory in the `skills/` directory
+2. Add a `SKILL.md` file, following the specification
+3. Run `./skills.sh validate` to verify format
+
+### Modifying Existing Skills
+
+1. Edit the corresponding `SKILL.md` file
+2. Use `./skills.sh validate` to verify format
+3. Use `./skills.sh show <skill-name>` to preview
+
+### Version Control
+
+All skill files should be under Git version control:
 
 ```bash
 git add skills/
 git commit -m "Add/update skills"
 ```
 
-## 相关文档
+## Related Documentation
 
-- `skills/README.md` - Skills 使用说明
-- `skills/SKILLS_SUMMARY.md` - 技能详细清单
-- `overall.md` - Aether.go 方法论规划
-- `AGENTS.md` - AI 助手使用指南
+- **[README.md](README.md)** - Skills usage guide
+- **[SKILLS_SUMMARY.md](SKILLS_SUMMARY.md)** - Detailed skills list
+- **[overall.md](overall.md)** - Aether.go methodology planning
+- **[AGENTS.md](AGENTS.md)** - AI assistant usage guide
 
-## 问题排查
+### External Resources
 
-### 技能未被发现
+- **[OpenCode Official Documentation](https://opencode.ai/docs/skills/)** - OpenCode Skills functionality documentation
+- **[Anthropic Skills GitHub](https://github.com/anthropics/skills)** - Official Skills repository
+- **[OpenSkills GitHub](https://github.com/numman-ali/openskills)** - OpenSkills tool repository
 
-1. 确认在项目根目录启动 OpenCode
-2. 检查 `skills/` 目录是否存在
-3. 验证技能文件名是否为 `SKILL.md` (大写)
+## Troubleshooting
 
-### 格式验证失败
+### Skills Not Discovered
 
-1. 检查 YAML frontmatter 是否正确
-2. 确认 `description` 以 "Use when" 开头
-3. 验证文件编码为 UTF-8
+1. Confirm that OpenCode is started from the project root
+2. Check if the `skills/` directory exists
+3. Verify that skill filenames are `SKILL.md` (uppercase)
 
-### 技能无法加载
+### Format Validation Failed
 
-1. 检查 OpenCode 版本 (>= 1.0.0)
-2. 验证技能文件权限
-3. 查看 OpenCode 日志中的错误信息
+1. Check if YAML frontmatter is correct
+2. Confirm that `description` starts with "Use when"
+3. Verify that file encoding is UTF-8
 
-## 迁移日期
+### Skills Cannot Load
 
-- 执行日期：2024-01-16
-- 执行人：AI Assistant
-- 状态：✅ 完成
+1. Check OpenCode version (>= 1.0.0)
+2. Verify skill file permissions
+3. Check OpenCode logs for error messages
 
-## 回滚方案
+## Migration Date
 
-如果需要回滚到旧位置：
+- Execution Date: 2024-01-16
+- Executor: AI Assistant
+- Status: ✅ Completed
+
+## Rollback Plan
+
+If you need to rollback to the old location:
 
 ```bash
-# 恢复到 .opencode/skill
+# Restore to .opencode/skill
 mkdir -p .opencode/skill
 mv skills/* .opencode/skill/
 
-# 但建议继续使用新的 skills/ 目录
+# However, it is recommended to continue using the new skills/ directory
 ```
 
 ---
 
-**注意**: 推荐使用新的 `skills/` 目录结构，便于工具调用和管理。
+**Note**: It is recommended to use the new `skills/` directory structure for easier tool invocation and management.

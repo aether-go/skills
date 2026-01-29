@@ -1,12 +1,12 @@
 ---
 name: fullstack-project-setup
-description: Use when initializing complete Go + Vue + Quasar fullstack projects based on bitcms structure
+description: Use when initializing complete Go + Vue + Quasar fullstack projects with production-ready structure
 ---
 
 # Fullstack Project Setup
 
 ## Overview
-Initialize complete Go + Vue + Quasar fullstack projects following bitcms structure. Creates production-ready project with monorepo setup, Docker configuration, CI/CD pipelines, and development environment.
+Initialize complete Go + Vue + Quasar fullstack projects following production-ready structure. Creates production-ready project with monorepo setup, Docker configuration, CI/CD pipelines, and development environment.
 
 ## When to Use
 
@@ -17,7 +17,7 @@ Go + Vue fullstack? ──────────────┤
                                  ├─► Use fullstack-project-setup
 Production ready setup? ──────────┤
                                  │
-Bitcms structure? ────────────────┘
+Production-ready structure? ────────────────┘
 ```
 
 Use when:
@@ -26,7 +26,7 @@ Use when:
 - Want Docker and deployment configuration
 - Need CI/CD pipeline setup
 - Require monorepo structure
-- Want bitcms-inspired architecture
+- Want production-ready-inspired architecture
 - Need production-ready configuration from day one
 
 Don't use when:
@@ -38,7 +38,7 @@ Don't use when:
 
 ## Core Pattern
 
-### Project Structure (bitcms-inspired)
+### Project Structure (Production-Ready Pattern)
 
 ```
 myapp/
@@ -109,7 +109,7 @@ myapp/
     └── index.html
 ```
 
-### After (bitcms Fullstack Structure)
+### After (Production-Ready Fullstack Structure)
 ```
 myapp/
 ├── backend/                     # Production-ready Go backend
@@ -175,7 +175,7 @@ build: build-backend build-frontend
 
 build-backend:
 	@echo "Building backend..."
-	cd backend && go build -o ./bin/bitcms .
+	cd backend && go build -o ./bin/myapp .
 
 build-frontend:
 	@echo "Building frontend..."

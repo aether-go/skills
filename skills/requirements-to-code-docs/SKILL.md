@@ -1,12 +1,12 @@
 ---
 name: requirements-to-code-docs
-description: Use when generating structured documentation from requirements to use cases to implementation based on bitcms documentation workflow
+description: Use when generating structured documentation from requirements to use cases to implementation with traceability
 ---
 
 # Requirements to Code Docs
 
 ## Overview
-Generate comprehensive documentation following bitcms workflow: from business requirements to use cases to implementation. Creates structured documentation that traces requirements through design to code implementation with traceability matrices.
+Generate comprehensive documentation following industry best practices: from business requirements to use cases to implementation. Creates structured documentation that traces requirements through design to code implementation with traceability matrices.
 
 ## When to Use
 
@@ -27,7 +27,7 @@ Use when:
 - Generating API documentation from code
 - Building traceability matrices
 - Maintaining documentation as code evolves
-- Need bitcms-style documentation structure
+- Need production-ready documentation structure
 - Creating developer onboarding materials
 
 Don't use when:
@@ -38,7 +38,7 @@ Don't use when:
 
 ## Core Pattern
 
-### Documentation Structure (bitcms-inspired)
+### Documentation Structure (Industry Standard)
 
 ```
 docs/
@@ -776,7 +776,7 @@ func Login(client *http.Client, username, password string) (*LoginResponse, erro
 # Initialize documentation structure
 requirements-to-code-docs init \
   --project="MyApp" \
-  --structure="bitcms"
+  --structure="production-ready"
 
 # Create business requirement
 requirements-to-code-docs requirement "User Management System" \

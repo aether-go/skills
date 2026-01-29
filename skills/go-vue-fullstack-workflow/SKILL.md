@@ -1,12 +1,12 @@
 ---
 name: go-vue-fullstack-workflow
-description: Use when coordinating Go + Vue + Quasar fullstack development workflow with bitcms patterns and documentation
+description: Use when coordinating Go + Vue + Quasar fullstack development workflow with production-ready patterns and documentation
 ---
 
 # Go Vue Fullstack Workflow
 
 ## Overview
-Coordinate complete Go + Vue + Quasar fullstack development workflow using bitcms patterns. Guides from project initialization through requirements, development, testing, and deployment with integrated documentation.
+Coordinate complete Go + Vue + Quasar fullstack development workflow using production-ready patterns. Guides from project initialization through requirements, development, testing, and deployment with integrated documentation.
 
 ## When to Use
 
@@ -23,11 +23,11 @@ End-to-end process? ──────────────┘
 Use when:
 - Starting new fullstack project from scratch
 - Need guidance on development workflow
-- Want to use all bitcms-inspired skills together
+- Want to use all production-ready-inspired skills together
 - Need end-to-end process from requirements to deployment
 - Managing team development with standardized workflow
 - Ensuring documentation and code quality throughout
-- Following bitcms patterns and best practices
+- Following production-ready patterns and best practices
 
 Don't use when:
 - Working on isolated component or bug fix
@@ -142,7 +142,7 @@ cd ecommerce-platform
 # Step 3: Initialize documentation
 requirements-to-code-docs init \
   --project="Ecommerce Platform" \
-  --template="bitcms" \
+  --template="production-ready" \
   --sections="all"
 
 # Step 4: Set up development environment

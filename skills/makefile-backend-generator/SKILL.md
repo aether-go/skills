@@ -1,12 +1,12 @@
 ---
 name: makefile-backend-generator
-description: Use when creating or refactoring Makefiles for Go projects (CLI, backend, or fullstack), especially those following bitcms patterns with modular templates and project type support
+description: Use when creating or refactoring Makefiles for Go projects (CLI, backend, or fullstack) with modular templates and project type support
 ---
 
 # Makefile Generator (Backend/CLI/Fullstack)
 
 ## Overview
-Generate comprehensive Makefiles for Go projects (CLI, backend, or fullstack) following bitcms patterns with modular templates. Creates production-ready Makefiles with build, test, deployment, database operations, and development workflows tailored to project type.
+Generate comprehensive Makefiles for Go projects (CLI, backend, or fullstack) with modular templates. Creates production-ready Makefiles with build, test, deployment, database operations, and development workflows tailored to project type.
 
 ## When to Use
 
@@ -19,7 +19,7 @@ Select project type:                  │
   --type=backend (Backend services)   ├─► Use makefile-backend-generator
   --type=fullstack (Fullstack apps)   │
                                       │
-Bitcms/modular patterns? ─────────────┘
+Production-ready/modular patterns? ─────────────┘
 ```
 
 **Use when:**
@@ -64,9 +64,9 @@ If no `--type` specified, defaults to `--type=backend` for backward compatibilit
 
 ## Core Pattern
 
-### Bitcms Makefile Structure
+### Production-Ready Makefile Structure
 
-Bitcms Makefiles follow a logical grouping with clear sections:
+Production-ready Makefiles follow a logical grouping with clear sections:
 
 ```makefile
 # ========== Section 1: Variables ==========
@@ -97,9 +97,9 @@ Bitcms Makefiles follow a logical grouping with clear sections:
 # Auto-generated help from comments
 ```
 
-### Key Bitcms Features Missing in Baseline
+### Key Production-Ready Features Missing in Baseline
 
-From baseline testing, these bitcms features are often missing:
+From baseline testing, these production-ready features are often missing:
 
 1. **Auto-generated help** from `##` comments vs hardcoded help
 2. **Complete cross-platform builds** with UPX compression
@@ -114,7 +114,7 @@ From baseline testing, these bitcms features are often missing:
 
 ### Essential Targets
 
-| Target | Purpose | Bitcms Pattern |
+| Target | Purpose | Production-Ready Pattern |
 |--------|---------|----------------|
 | `build` | Build backend binary | Uses `CGO_ENABLED=0`, injects version into package |
 | `test` | Run all tests | Separate targets for unit/integration/e2e |
@@ -146,17 +146,16 @@ PLATFORMS = linux/amd64 linux/arm64 darwin/amd64 windows/amd64
 
 ### Modular Template System
 
-This skill now provides modular Makefile templates for different project types. Each template follows the bitcms pattern but is customized for specific needs.
+This skill now provides modular Makefile templates for different project types. Each template follows production-ready pattern but is customized for specific needs.
 
 #### Template Selection
 - **CLI Template** (`--type=cli`): Optimized for command-line tools
 - **Backend Template** (`--type=backend`): Optimized for backend services (default)
 - **Fullstack Template** (`--type=fullstack`): Optimized for fullstack applications
 
-### CLI Makefile Template
-
+####### CLI Makefile Template
 ```makefile
-# CLI Makefile (bitcms pattern)
+# CLI Makefile (production-ready pattern)
 # ===========================================
 
 # Project variables
@@ -309,10 +308,9 @@ help:
 	{ lastLine = $$0 }' $(MAKEFILE_LIST)
 ```
 
-### Backend Makefile Template
-
+####### Backend Makefile Template
 ```makefile
-# Backend Makefile (bitcms pattern)
+# Backend Makefile (production-ready pattern)
 # ===========================================
 
 # Project variables
@@ -695,7 +693,7 @@ help:
 
 ### Rationalization Table
 
-From baseline testing, these are common excuses for skipping bitcms patterns:
+From baseline testing, these are common excuses for skipping production-ready patterns:
 
 | Excuse | Reality | Fix |
 |--------|---------|-----|

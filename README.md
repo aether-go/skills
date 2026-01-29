@@ -1,168 +1,242 @@
 # Aether.go Skills
 
-Aether.go 项目的一套智能化 AI 技能，基于规范驱动、价值导向、测试先行的开发方法论。
+A set of intelligent AI skills for the Aether.go project, based on spec-driven, value-oriented, and test-first development methodology.
 
-## 目录结构
+---
+
+**Language**: [English](README.md) | [中文](README_CN.md)
+
+---
+
+## Directory Structure
 
 ```
 skills/
-├── README.md                       # 本文件
-├── SKILLS_SUMMARY.md               # 技能详细清单
-├── MIGRATION.md                    # 迁移说明
-├── skills.sh                       # 技能管理脚本
-├── AGENTS.md                       # AI 助手使用说明
-├── .gitignore                      # Git 忽略配置
+├── README.md                       # This file (English)
+├── README_CN.md                    # This file (Chinese)
+├── SKILLS_SUMMARY.md               # Detailed skills list (English)
+├── SKILLS_SUMMARY_CN.md            # Detailed skills list (Chinese)
+├── MIGRATION.md                   # Migration guide (English)
+├── MIGRATION_CN.md                # Migration guide (Chinese)
+├── skills.sh                       # Skills management script
+├── AGENTS.md                       # AI assistant usage guide
+├── LICENSE                         # MIT License
+├── .gitignore                      # Git ignore configuration
 │
-├── 执行层 Skills (ATDD/BDD/TDD/SIT/Chaos)
-│   ├── bdd-scenario-writer/       # BDD 场景编写器
+├── Execution Layer Skills (ATDD/BDD/TDD/SIT/Chaos)
+│   ├── bdd-scenario-writer/       # BDD scenario writer
 │   │   └── SKILL.md
-│   ├── tdd-red-green-refactor/    # TDD 循环指导
+│   ├── tdd-red-green-refactor/    # TDD cycle guide
 │   │   └── SKILL.md
-│   ├── test-pyramid-analyzer/     # 测试金字塔分析
+│   ├── test-pyramid-analyzer/     # Test pyramid analyzer
 │   │   └── SKILL.md
-│   ├── sit-scenario-generator/    # SIT 场景生成器
+│   ├── sit-scenario-generator/    # SIT scenario generator
 │   │   └── SKILL.md
-│   ├── chaos-test-designer/       # 混沌工程实验设计
+│   ├── chaos-test-designer/       # Chaos engineering experiment designer
 │   │   └── SKILL.md
-│   └── atdd-acceptance-test-generator/ # ATDD 验收测试生成器
+│   └── atdd-acceptance-test-generator/ # ATDD acceptance test generator
 │       └── SKILL.md
 │
-├── 战略层 Skills (BMAD 驱动)
-│   ├── business-requirements-collector/ # 业务需求收集器
+├── Strategic Layer Skills (BMAD Driven)
+│   ├── business-requirements-collector/ # Business requirements collector
 │   │   └── SKILL.md
-│   ├── business-value-mapper/     # 业务价值映射器
+│   ├── business-value-mapper/     # Business value mapper
 │   │   └── SKILL.md
-│   ├── metrics-definer/           # 指标定义器
+│   ├── metrics-definer/           # Metrics definer
 │   │   └── SKILL.md
-│   ├── architecture-decision-recorder/ # 架构决策记录器
+│   ├── architecture-decision-recorder/ # Architecture decision recorder
 │   │   └── SKILL.md
-│   └── data-flow-analyzer/        # 数据流分析器
+│   └── data-flow-analyzer/        # Data flow analyzer
 │       └── SKILL.md
 │
-├── 战术层 Skills (SDD + 宪法约束)
-│   ├── spec-parser/               # 规范解析器
+├── Tactical Layer Skills (SDD + Constitution Constraints)
+│   ├── spec-parser/               # Specification parser
 │   │   └── SKILL.md
-│   ├── constitution-validator/    # 宪法验证器
+│   ├── constitution-validator/    # Constitution validator
 │   │   └── SKILL.md
-│   ├── spec-to-code-tracer/       # 规范代码追溯器
+│   ├── spec-to-code-tracer/       # Specification to code tracer
 │   │   └── SKILL.md
-│   ├── spec-evolution-tracker/    # 规范演进跟踪器
+│   ├── spec-evolution-tracker/    # Specification evolution tracker
 │   │   └── SKILL.md
-│   ├── architecture-pattern-selector/ # 架构模式选择器
+│   ├── architecture-pattern-selector/ # Architecture pattern selector
 │   │   └── SKILL.md
-│   ├── generic-code-generator/    # 通用代码生成器
+│   ├── generic-code-generator/    # Generic code generator
 │   │   └── SKILL.md
-│   └── contract-test-generator/    # 契约测试生成器
+│   └── contract-test-generator/    # Contract test generator
 │       └── SKILL.md
 │
-├── AI 协作与优化 Skills
-│   ├── context-manager/           # 上下文管理器
+├── AI Collaboration & Optimization Skills
+│   ├── context-manager/           # Context manager
 │   │   └── SKILL.md
-│   ├── skill-recommender/         # 技能推荐器
+│   ├── skill-recommender/         # Skill recommender
 │   │   └── SKILL.md
-│   ├── recursive-optimizer/       # 递归优化器
+│   ├── recursive-optimizer/       # Recursive optimizer
 │   │   └── SKILL.md
-│   └── prompt-template-manager/   # 提示词模板管理器
+│   └── prompt-template-manager/   # Prompt template manager
 │       └── SKILL.md
 │
-├── Go + Vue + Quasar 全栈开发 Skills (基于 bitcms 模式)
-│   ├── go-backend-scaffolder/     # Go 后端脚手架
+├── Go + Vue + Quasar Fullstack Development Skills (Production-Ready Patterns)
+│   ├── go-backend-scaffolder/     # Go backend scaffolder
 │   │   └── SKILL.md
-│   ├── vue-quasar-scaffolder/     # Vue + Quasar 前端脚手架
+│   ├── vue-quasar-scaffolder/     # Vue + Quasar frontend scaffolder
 │   │   └── SKILL.md
-│   ├── fullstack-project-setup/   # 全栈项目初始化
+│   ├── fullstack-project-setup/   # Fullstack project initialization
 │   │   └── SKILL.md
-│   ├── requirements-to-code-docs/ # 需求到代码文档生成
+│   ├── requirements-to-code-docs/ # Requirements to code documentation generator
 │   │   └── SKILL.md
-│   ├── go-vue-fullstack-workflow/ # Go + Vue 全栈工作流
+│   ├── go-vue-fullstack-workflow/ # Go + Vue fullstack workflow
 │   │   └── SKILL.md
-│   └── makefile-backend-generator/ # Makefile 生成器
+│   └── makefile-backend-generator/ # Makefile generator
 │       └── SKILL.md
 │
-├── 工具与集成 Skills
-│   ├── skill-packaging-tool/      # 技能打包工具
+├── Tools & Integration Skills
+│   ├── skill-packaging-tool/      # Skill packaging tool
 │   │   └── SKILL.md
-│   └── go-cli-builder/            # Go CLI 应用构建器
+│   └── go-cli-builder/            # Go CLI application builder
 │       └── SKILL.md
 │
-└── 方法论融合协调层 Skills
-    └── methodology-fusion-orchestrator/ # 方法论融合协调器
+└── Methodology Fusion Orchestration Layer Skills
+    └── methodology-fusion-orchestrator/ # Methodology fusion orchestrator
         └── SKILL.md
 ```
 
-## 技能分类
+## Skill Categories
 
-### 执行层 (6个)
-- `bdd-scenario-writer` - 将需求转为 Gherkin BDD 场景
-- `tdd-red-green-refactor` - 指导 TDD RED-GREEN-REFACTOR 循环
-- `test-pyramid-analyzer` - 分析测试分布和覆盖率
-- `sit-scenario-generator` - 生成系统集成测试场景
-- `chaos-test-designer` - 设计混沌工程实验
-- `atdd-acceptance-test-generator` - 生成 ATDD 验收测试
+### Quick Start
 
-### 战略层 (5个)
-- `business-requirements-collector` - 业务需求收集与分析
-- `business-value-mapper` - BMAD 业务价值映射
-- `metrics-definer` - 定义业务和技术指标
-- `architecture-decision-recorder` - 记录架构决策 (ADR)
-- `data-flow-analyzer` - 分析数据流和价值链
+#### 1. View Skills List
+See [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md) for detailed descriptions of all 38 skills.
 
-### 战术层 (7个)
-- `spec-parser` - 解析自然语言需求为结构化规范
-- `constitution-validator` - 验证宪法原则合规性
-- `spec-to-code-tracer` - 建立规范与代码双向追溯
-- `spec-evolution-tracker` - 跟踪规范变更历史
-- `architecture-pattern-selector` - 基于需求选择架构模式
-- `generic-code-generator` - 根据规范、模板或TDD模式跨语言生成代码
-- `contract-test-generator` - 生成消费者驱动的契约测试，确保微服务API兼容性
+#### 2. Choose the Right Skill
+Select the appropriate skill based on your development phase:
+- **Project Initialization**: `fullstack-project-setup`, `go-backend-scaffolder`, `vue-quasar-scaffolder`
+- **Requirements Analysis**: `business-requirements-collector`, `business-value-mapper`, `metrics-definer`
+- **Specification Definition**: `spec-parser`, `bdd-scenario-writer`, `atdd-acceptance-test-generator`
+- **Code Development**: `tdd-red-green-refactor`, `generic-code-generator`
+- **Testing & Validation**: `test-pyramid-analyzer`, `sit-scenario-generator`, `chaos-test-designer`
+- **Deployment & Operations**: `deployment-orchestrator`, `release-manager`, `incident-management`
 
-### AI 协作层 (4个)
-- `context-manager` - 管理项目上下文
-- `skill-recommender` - 智能推荐相关技能
-- `recursive-optimizer` - 基于反馈优化技能
-- `prompt-template-manager` - 管理提示词模板
+#### 3. Use Skills
+Request to use a specific skill directly in conversation, and the AI assistant will automatically load and execute it.
 
-### Go + Vue + Quasar 全栈开发层 (6个)
-- `go-backend-scaffolder` - 基于 bitcms 模式生成 Go 后端代码
-- `vue-quasar-scaffolder` - 基于 bitcms 模式生成 Vue 3 + Quasar 前端组件
-- `fullstack-project-setup` - 初始化完整的 Go + Vue + Quasar 全栈项目
-- `requirements-to-code-docs` - 从需求到用例到实现生成结构化文档
-- `go-vue-fullstack-workflow` - 协调 Go + Vue + Quasar 全栈开发工作流
-- `makefile-backend-generator` - 为 Go 后端项目创建生产级 Makefile
+#### 4. View Migration Guide
+If migrating from an old version, see [MIGRATION.md](MIGRATION.md) for detailed migration steps.
 
-### 工具与集成层 (2个)
-- `skill-packaging-tool` - 打包技能为可分发包
-- `go-cli-builder` - 构建企业级 Go CLI 应用，基于 cobra+viper 最佳实践
+---
 
-### 方法论融合协调层 (1个)
-- `methodology-fusion-orchestrator` - 协调端到端方法论融合工作流
+### Execution Layer (6 skills)
+- `bdd-scenario-writer` - Convert requirements to Gherkin BDD scenarios
+- `tdd-red-green-refactor` - Guide TDD RED-GREEN-REFACTOR cycle
+- `test-pyramid-analyzer` - Analyze test distribution and coverage
+- `sit-scenario-generator` - Generate system integration test scenarios
+- `chaos-test-designer` - Design chaos engineering experiments
+- `atdd-acceptance-test-generator` - Generate ATDD acceptance tests
 
-## 使用方式
+### Strategic Layer (5 skills)
+- `business-requirements-collector` - Collect and analyze business requirements
+- `business-value-mapper` - BMAD business value mapping
+- `metrics-definer` - Define business and technical metrics
+- `architecture-decision-recorder` - Record architecture decisions (ADR)
+- `data-flow-analyzer` - Analyze data flow and value chain
 
-### 通过 OpenCode 自动发现
+### Tactical Layer (7 skills)
+- `spec-parser` - Parse natural language requirements into structured specifications
+- `constitution-validator` - Validate constitution principle compliance
+- `spec-to-code-tracer` - Establish bidirectional tracing between specifications and code
+- `spec-evolution-tracker` - Track specification change history
+- `architecture-pattern-selector` - Select architecture patterns based on requirements
+- `generic-code-generator` - Generate code across languages based on specifications, templates, or TDD patterns
+- `contract-test-generator` - Generate consumer-driven contract tests to ensure microservice API compatibility
 
-OpenCode 会从当前工作目录向上搜索，自动发现 `skills/` 目录下的所有技能。
+### AI Collaboration Layer (4 skills)
+- `context-manager` - Manage project context
+- `skill-recommender` - Intelligently recommend relevant skills
+- `recursive-optimizer` - Optimize skills based on feedback
+- `prompt-template-manager` - Manage prompt templates
+
+### Go + Vue + Quasar Fullstack Development Layer (6 skills)
+- `go-backend-scaffolder` - Generate Go backend code based on production-ready patterns
+- `vue-quasar-scaffolder` - Generate Vue 3 + Quasar frontend components based on production-ready patterns
+- `fullstack-project-setup` - Initialize complete Go + Vue + Quasar fullstack project
+- `requirements-to-code-docs` - Generate structured documentation from requirements to use cases to implementation
+- `go-vue-fullstack-workflow` - Coordinate Go + Vue + Quasar fullstack development workflow
+- `makefile-backend-generator` - Create production-ready Makefiles for Go backend projects
+
+### Tools & Integration Layer (2 skills)
+- `skill-packaging-tool` - Package skills into distributable packages
+- `go-cli-builder` - Build enterprise-grade Go CLI applications based on cobra+viper best practices
+
+### Methodology Fusion Orchestration Layer (1 skill)
+- `methodology-fusion-orchestrator` - Coordinate end-to-end methodology fusion workflow
+
+---
+
+**Total**: 38 skills covering the complete software development lifecycle
+
+## Usage
+
+### Auto-discovery via OpenCode
+
+OpenCode automatically searches from the current working directory upwards and discovers all skills in the `skills/` directory.
 
 ```bash
-# 在项目根目录下
+# In the project root directory
 cd /home/bison/workspace/aether-go/skills
 
-# OpenCode 会自动发现 skills/ 目录下的所有技能
+# OpenCode will automatically discover all skills in the skills/ directory
 ```
 
-### 手动调用技能
+### Skills Management Script
 
-在对话中，AI 助手会根据任务自动推荐和加载相关技能：
+The project provides a convenient `skills.sh` script to manage skills (see [MIGRATION.md](MIGRATION.md) for details):
+
+```bash
+# List all skills
+cd skills
+./skills.sh list
+
+# Show skill details
+./skills.sh show bdd-scenario-writer
+
+# Search skills
+./skills.sh search testing
+
+# View statistics
+./skills.sh stats
+
+# Validate skill format
+./skills.sh validate
+
+# Install skill to global location
+./skills.sh install bdd-scenario-writer
+```
+
+### Manual Skill Invocation
+
+In conversation, the AI assistant will automatically recommend and load relevant skills based on tasks:
 
 ```
-用户: "我需要为用户登录功能编写 BDD 测试场景"
+User: "I need to write BDD test scenarios for user login functionality"
 
-AI助手: 使用 bdd-scenario-writer 技能来转换需求为 Gherkin 场景...
+AI Assistant: Using bdd-scenario-writer skill to convert requirements to Gherkin scenarios...
 ```
 
-### 技能文件格式
+### Skill Statistics
 
-每个技能遵循 OpenCode 规范：
+According to the detailed list in [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md):
+
+- **Total Skills**: 38
+- **Execution Layer**: 6 (BDD, TDD, Test Analysis, SIT, Chaos, ATDD)
+- **Strategic Layer**: 5 (BMAD, Metrics, ADR, Data Flow, Requirements Collection)
+- **Tactical Layer**: 7 (Parsing, Constitution, Tracing, Evolution, Architecture Selection, Code Generation, Contract Testing)
+- **AI Collaboration Layer**: 4 (Context, Recommendation, Optimization, Templates)
+- **Go + Vue + Quasar Fullstack Development Layer**: 6 (Backend Scaffolder, Frontend Scaffolder, Project Initialization, Documentation Generation, Workflow Coordination, Makefile Generation)
+- **Tools & Integration Layer**: 2 (Skill Packaging, CLI Builder)
+- **Methodology Fusion Orchestration Layer**: 1 (Methodology Fusion Orchestrator)
+
+### Skill File Format
+
+Each skill follows the OpenCode specification:
 
 ```markdown
 ---
@@ -194,60 +268,186 @@ description: Use when [specific triggering conditions]
 [Concrete results and benefits]
 ```
 
-## Aether.go 方法论集成
+## Aether.go Methodology Integration
 
-这些技能与 Aether.go 核心方法论深度集成：
+These skills are deeply integrated with the Aether.go core methodology, covering the complete software development lifecycle:
 
-- **BMAD** (Business-Driven Metrics) - business-requirements-collector, business-value-mapper, metrics-definer
-- **SDD** (Spec-Driven Development) - spec-parser, spec-to-code-tracer
-- **Constitution** - constitution-validator, architecture-decision-recorder
-- **Testing** - bdd-scenario-writer, tdd-red-green-refactor, test-pyramid-analyzer, atdd-acceptance-test-generator
-- **Resilience** - sit-scenario-generator, chaos-test-designer
-- **Methodology Fusion** - methodology-fusion-orchestrator
+### Seven-Stage Methodology Fusion Workflow
 
-## 开发与维护
+See the complete workflow diagram in [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md):
 
-### 添加新技能
+1. **Stage 1: Business Analysis**
+   - `business-requirements-collector` - Collect and analyze business requirements
+   - `business-value-mapper` - Map business objectives to technical metrics
+   - `metrics-definer` - Define measurable business and technical metrics
 
-1. 在 `skills/` 目录下创建新子目录
-2. 添加 `SKILL.md` 文件
-3. 遵循 writing-skills 规范和 TDD 原则
+2. **Stage 2: Specification Definition**
+   - `spec-parser` - Parse natural language requirements into structured specifications
+   - `bdd-scenario-writer` - Convert requirements to Gherkin BDD scenarios
+   - `atdd-acceptance-test-generator` - Generate executable acceptance tests
 
-### 修改现有技能
+3. **Stage 3: Constitutional Review**
+   - `constitution-validator` - Validate that code and specifications comply with architectural principles
 
-1. 阅读 `SKILL.md` 文件
-2. 使用 TDD 方法修改（先写测试）
-3. 使用 recursive-optimizer 持续改进
+4. **Stage 4: Implementation Planning**
+   - `architecture-decision-recorder` - Record architecture decisions (ADR)
+   - `data-flow-analyzer` - Analyze data flow and value chain
+   - `architecture-pattern-selector` - Select appropriate architecture patterns
 
-### 测试技能
+5. **Stage 5: Code Generation**
+   - `tdd-red-green-refactor` - Implement features using TDD methodology
+   - `go-backend-scaffolder` - Generate Go backend code
+   - `vue-quasar-scaffolder` - Generate Vue frontend components
+   - `generic-code-generator` - Generate code across languages
 
-使用 subagent 驱动开发进行技能验证：
+6. **Stage 6: Integration Validation**
+   - `sit-scenario-generator` - Generate system integration test scenarios
+   - `chaos-test-designer` - Design chaos engineering experiments
+   - `test-pyramid-analyzer` - Analyze test coverage and distribution
+   - `contract-test-generator` - Generate contract tests
+
+7. **Stage 7: Deployment & Operations**
+   - `deployment-orchestrator` - Advanced deployment strategy orchestration
+   - `release-manager` - Release planning and version management
+   - `incident-management` - ITIL-aligned incident handling
+   - `problem-management` - Root cause analysis
+   - `change-management` - Controlled change process
+   - `service-desk` - User request and issue management
+   - `rollback-manager` - Automatic rollback of failed deployments
+
+8. **Stage 8: Recursive Optimization**
+   - `methodology-fusion-orchestrator` - Coordinate end-to-end methodology fusion workflow
+   - `recursive-optimizer` - Optimize skills based on feedback
+   - `skill-recommender` - Intelligently recommend relevant skills
+   - `prompt-template-manager` - Manage prompt templates
+
+### Core Methodologies
+
+- **BMAD** (Business-Driven Metrics) - Business-driven metrics
+  - `business-requirements-collector` - Collect and analyze business requirements
+  - `business-value-mapper` - BMAD business value mapping
+  - `metrics-definer` - Define business and technical metrics
+
+- **SDD** (Spec-Driven Development) - Specification-driven development
+  - `spec-parser` - Parse natural language requirements into structured specifications
+  - `spec-to-code-tracer` - Establish bidirectional tracing between specifications and code
+  - `spec-evolution-tracker` - Track specification change history
+
+- **Constitution** - Constitution constraint principles
+  - `constitution-validator` - Validate constitution principle compliance
+  - `architecture-decision-recorder` - Record architecture decisions (ADR)
+
+- **Testing** - Test-driven development
+  - `bdd-scenario-writer` - Convert requirements to Gherkin BDD scenarios
+  - `tdd-red-green-refactor` - Guide TDD RED-GREEN-REFACTOR cycle
+  - `test-pyramid-analyzer` - Analyze test distribution and coverage
+  - `atdd-acceptance-test-generator` - Generate ATDD acceptance tests
+
+- **Resilience** - Resilience and reliability
+  - `sit-scenario-generator` - Generate system integration test scenarios
+  - `chaos-test-designer` - Design chaos engineering experiments
+  - `contract-test-generator` - Generate contract tests to ensure microservice compatibility
+
+- **Methodology Fusion** - Methodology fusion orchestration
+  - `methodology-fusion-orchestrator` - Coordinate end-to-end methodology fusion workflow
+  - `context-manager` - Manage project context
+  - `recursive-optimizer` - Optimize skills based on feedback
+
+## Development & Maintenance
+
+### Adding New Skills
+
+1. Create a new subdirectory in the `skills/` directory
+2. Add a `SKILL.md` file
+3. Follow the writing-skills specification and TDD principles
+4. Run `./skills.sh validate` to verify format
+5. Update [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md) to add new skill description
+
+### Modifying Existing Skills
+
+1. Read the `SKILL.md` file
+2. Modify using TDD methodology (write tests first)
+3. Use recursive-optimizer for continuous improvement
+4. Run `./skills.sh validate` to verify format
+5. Update [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md) to update skill description
+
+### Testing Skills
+
+Use subagent-driven development for skill validation:
 
 ```bash
-# 测试技能有效性
+# Test skill effectiveness
 python scripts/test-skill.py <skill-name>
+
+# Or use skills.sh to validate
+./skills.sh validate <skill-name>
 ```
 
-## 相关文档
+### Skill Version Management
 
-- `SKILLS_SUMMARY.md` - 所有技能的详细清单和说明
-- `overall.md` - Aether.go 方法论融合框架规划
-- `AGENTS.md` - AI 助手使用说明
+All skill files should be under Git version control:
 
-## 贡献
+```bash
+# Add new skills or modifications
+git add skills/<skill-name>/SKILL.md
+git add SKILLS_SUMMARY.md
+git add README.md
 
-欢迎贡献新技能和改进！
+# Commit changes
+git commit -m "feat: add/update <skill-name> skill"
+```
 
-1. Fork 项目
-2. 创建特性分支
-3. 遵循 writing-skills 规范
-4. 提交 Pull Request
+## Contributing
 
-## 许可证
+Contributions are welcome!
 
-MIT License
+### Contribution Process
+
+1. Fork the project
+2. Create a feature branch (`git checkout -b feature/my-skill`)
+3. Follow the writing-skills specification
+4. Run `./skills.sh validate` to verify format
+5. Update [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md) to add new skill description
+6. Update [README.md](README.md) with relevant documentation links
+7. Submit a Pull Request
+
+### Skill Specification
+
+Each skill must follow these specifications:
+
+1. **File Naming**: `skills/<skill-name>/SKILL.md` (SKILL.md must be uppercase)
+2. **YAML Frontmatter**: Must include `name` and `description` fields
+3. **Description Format**: Must start with "Use when"
+4. **Naming Convention**: Skill names use lowercase letters, numbers, and hyphens
+5. **Content Structure**: Include Overview, When to Use, Core Pattern, Quick Reference, Implementation, Common Mistakes, Real-World Impact
+
+### Code Review Checklist
+
+- [ ] Skill file is in the correct directory
+- [ ] Filename is `SKILL.md` (uppercase)
+- [ ] Contains required YAML frontmatter
+- [ ] description starts with "Use when"
+- [ ] Follows OpenCode specification
+- [ ] Updated SKILLS_SUMMARY.md
+- [ ] Run `./skills.sh validate`
+- [ ] Added necessary tests
+
+## License
+
+This project is licensed under MIT License - see [LICENSE](LICENSE) file for details
 
 ---
 
-创建日期：2024-01-16
-维护者：Aether.go Team
+Created: 2024-01-16
+Last Updated: 2026-01-29
+Maintainer: Aether.go Team
+
+## Changelog
+
+### 2026-01-29
+- Removed all bitcms references to make skills more universally applicable
+- Enhanced README.md documentation, added links to SKILLS_SUMMARY and MIGRATION
+- Added quick start guide for skills
+- Improved skill classification and statistics
+- Added contribution process and code review checklist
+- Added English and Chinese versions of documentation
