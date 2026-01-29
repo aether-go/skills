@@ -1,6 +1,12 @@
 # Aether.go Skills Summary
 
-Based on the planning in `overall.md` and OpenCode skills specifications, 38 skills have been successfully created (31 original + 7 new), covering the complete seven stages of the Aether.go methodology fusion framework.
+---
+
+**Language**: [English](SKILLS_SUMMARY.md) | [中文](SKILLS_SUMMARY_CN.md)
+
+---
+
+Based on planning in `overall.md` and OpenCode skills specifications, 38 skills have been successfully created (31 original + 7 new), covering complete seven stages of Aether.go methodology fusion framework.
 
 ## Background of New Skills: Methodology Fusion Framework Enhancement
 
@@ -496,5 +502,3 @@ In conversation, the AI assistant will automatically recommend and load relevant
 - Feedback and improvement suggestions are welcome
 
 ---
-
-**Language**: [English](SKILLS_SUMMARY.md) | [中文](SKILLS_SUMMARY_CN.md)
