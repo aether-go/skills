@@ -6,7 +6,7 @@
 
 ---
 
-Based on planning in `overall.md` and OpenCode skills specifications, 38 skills have been successfully created (31 original + 7 new), covering complete seven stages of Aether.go methodology fusion framework.
+Based on planning in `overall.md` and OpenCode skills specifications, 39 skills have been successfully created (31 original + 7 new + 1 Rust CLI builder), covering complete seven stages of Aether.go methodology fusion framework.
 
 ## Background of New Skills: Methodology Fusion Framework Enhancement
 
@@ -209,7 +209,7 @@ Based on an in-depth analysis of the Aether.go methodology fusion framework desc
     - Functions: Generate complete Makefile with build, test, deployment, database operations, support cross-platform compilation
     - Location: `skills/makefile-backend-generator/SKILL.md`
 
-### Tools & Integration Skills - 2
+### Tools & Integration Skills - 3
 
 37. **skill-packaging-tool**
     - Description: Package skills into distributable installable packages
@@ -221,6 +221,12 @@ Based on an in-depth analysis of the Aether.go methodology fusion framework desc
     - Functions: Generate production-grade CLI application structure, includes configuration management, structured logging, automatic version injection, multi-platform builds, and comprehensive testing strategy
     - Features: Support multi-path configuration file search (./ → ./config → /etc/app-name), automatic Git version and Go SDK version retrieval, built-in shell completion commands
     - Location: `skills/go-cli-builder/SKILL.md`
+
+39. **rust-cli-builder**
+    - Description: Build enterprise-grade Rust CLI applications based on clap+serde+config and best practices
+    - Functions: Generate production-grade CLI application structure, includes configuration management, structured logging, automatic version injection, multi-platform builds, and comprehensive testing strategy
+    - Features: Support multi-path configuration file search (./ → ./config → /etc/app-name), automatic Git version and Rust version retrieval, built-in shell completion commands
+    - Location: `skills/rust-cli-builder/SKILL.md`
 
 ## Skill Characteristics
 
@@ -305,7 +311,7 @@ Stage 8: Recursive Optimization
   └── prompt-template-manager
 ```
 
-*Note: The workflow diagram shows key representative skills for each stage, not all 38 skills. For the complete skills list, please refer to the Skills List section above.*
+*Note: The workflow diagram shows key representative skills for each stage, not all 39 skills. For the complete skills list, please refer to the Skills List section above.*
 
 ### Constitution Enforcement Throughout Execution
 

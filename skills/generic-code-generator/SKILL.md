@@ -113,7 +113,7 @@ template_structure:
 |---------|-------------------|-------------------|------------------|
 | **CRUD REST API** | Model, Repository, Service, Controller templates | go-backend-scaffolder, vue-quasar-scaffolder, tdd-red-green-refactor | Language-agnostic template structure, validation rules, test patterns |
 | **Event Handler** | Event processor, error handler, retry logic templates | business-requirements-collector, data-flow-analyzer | Event processing patterns, error handling strategies, monitoring config |
-| **CLI Tool** | Command structure, flag parsing, help text templates | go-cli-builder, fullstack-project-setup | CLI architecture patterns, help system design, plugin structure |
+| **CLI Tool** | Command structure, flag parsing, help text templates | go-cli-builder, rust-cli-builder, fullstack-project-setup | CLI architecture patterns, help system design, plugin structure |
 | **Data Pipeline** | ETL stage, validation, monitoring templates | data-flow-analyzer, metrics-definer | Pipeline patterns, data validation rules, monitoring dashboards |
 | **Web Component** | Component, props, events, slots templates | vue-quasar-scaffolder, architecture-pattern-selector | Component patterns, styling guidelines, testing strategies |
 | **Microservice** | Service definition, API contracts, client templates | architecture-pattern-selector, spec-parser | Service patterns, API design, client library templates |
@@ -162,7 +162,7 @@ Identify patterns that apply across languages and projects:
 Use existing language-specific skills for implementation:
 - **Go backend**: `go-backend-scaffolder` for clean architecture Go code
 - **Vue frontend**: `vue-quasar-scaffolder` for Vue 3 + Quasar components
-- **CLI tools**: `go-cli-builder` for production Go CLI applications
+- **CLI tools**: `go-cli-builder` for production Go CLI applications, `rust-cli-builder` for production Rust CLI applications
 - **TDD integration**: `tdd-red-green-refactor` for test-driven implementation
 - **Documentation**: `requirements-to-code-docs` for API and user documentation
 

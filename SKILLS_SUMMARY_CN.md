@@ -6,7 +6,7 @@
 
 ---
 
-根据 `overall.md` 中的规划和 OpenCode skills 规范，已成功创建所有 38 个技能（原有31个 + 新增7个），覆盖Aether.go方法论融合框架的完整七个阶段。
+根据 `overall.md` 中的规划和 OpenCode skills 规范，已成功创建所有 39 个技能（原有31个 + 新增7个 + Rust CLI构建器），覆盖Aether.go方法论融合框架的完整七个阶段。
 
 ## 新增 Skills 背景：方法论融合框架完善
 
@@ -207,7 +207,7 @@
     - 功能：生成包含构建、测试、部署、数据库操作的完整Makefile，支持跨平台编译
     - 位置：`skills/makefile-backend-generator/SKILL.md`
 
-### 工具与集成 Skills - 2个
+### 工具与集成 Skills - 3个
 
 37. **skill-packaging-tool**
     - 描述：将技能打包为可分发的可安装包
@@ -219,6 +219,12 @@
     - 功能：生成生产级CLI应用结构，包含配置管理、结构化日志、自动版本嵌入、多平台构建和完整测试策略
     - 特点：支持多路径配置文件搜索（./ → ./config → /etc/应用名称），自动获取Git版本和Go SDK版本，内置shell补全命令
     - 位置：`skills/go-cli-builder/SKILL.md`
+
+39. **rust-cli-builder**
+    - 描述：构建企业级Rust CLI应用，基于clap+serde+config和最佳实践
+    - 功能：生成生产级CLI应用结构，包含配置管理、结构化日志、自动版本嵌入、多平台构建和完整测试策略
+    - 特点：支持多路径配置文件搜索（./ → ./config → /etc/应用名称），自动获取Git版本和Rust版本，内置shell补全命令
+    - 位置：`skills/rust-cli-builder/SKILL.md`
 
 ## 技能特点
 
@@ -303,7 +309,7 @@
   └── prompt-template-manager
 ```
 
-*注：工作流图示显示每个阶段的关键代表技能，并非列出全部38个技能。完整技能清单请参阅上文的技能清单部分。*
+*注：工作流图示显示每个阶段的关键代表技能，并非列出全部39个技能。完整技能清单请参阅上文的技能清单部分。*
 
 ### 宪法贯穿执行
 

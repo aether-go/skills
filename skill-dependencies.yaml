@@ -126,6 +126,12 @@ dependencies:
       - makefile-backend-generator
     provides: "Go CLI application scaffolding"
     stage: "code_generation"
+    
+  rust-cli-builder:
+    depends_on:
+      - generic-code-generator
+    provides: "Rust CLI application scaffolding"
+    stage: "code_generation"
 
   # Integration Validation Stage
   sit-scenario-generator:

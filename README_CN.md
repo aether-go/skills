@@ -92,7 +92,9 @@ skills/
 ├── 工具与集成 Skills
 │   ├── skill-packaging-tool/      # 技能打包工具
 │   │   └── SKILL.md
-│   └── go-cli-builder/            # Go CLI 应用构建器
+│   ├── go-cli-builder/            # Go CLI 应用构建器
+│   │   └── SKILL.md
+│   └── rust-cli-builder/          # Rust CLI 应用构建器
 │       └── SKILL.md
 │
 └── 方法论融合协调层 Skills
@@ -105,7 +107,7 @@ skills/
 ### 快速开始
 
 #### 1. 查看技能清单
-查看 [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md) 了解所有 38 个技能的详细说明。
+查看 [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md) 了解所有 39 个技能的详细说明。
 
 #### 2. 选择合适的技能
 根据你的开发阶段选择合适的技能：
@@ -162,16 +164,17 @@ skills/
 - `go-vue-fullstack-workflow` - 协调 Go + Vue + Quasar 全栈开发工作流
 - `makefile-backend-generator` - 为 Go 后端项目创建生产级 Makefile
 
-### 工具与集成层 (2个)
+### 工具与集成层 (3个)
 - `skill-packaging-tool` - 打包技能为可分发包
 - `go-cli-builder` - 构建企业级 Go CLI 应用，基于 cobra+viper 最佳实践
+- `rust-cli-builder` - 构建企业级 Rust CLI 应用，基于 clap+serde+config 最佳实践
 
 ### 方法论融合协调层 (1个)
 - `methodology-fusion-orchestrator` - 协调端到端方法论融合工作流
 
 ---
 
-**总计**: 38 个技能，覆盖完整的软件开发生命周期
+**总计**: 39 个技能，覆盖完整的软件开发生命周期
 
 ## 使用方式
 
@@ -401,7 +404,7 @@ git commit -m "feat: add/update <skill-name> skill"
 ## 相关文档
 
 - **[SKILLS_SUMMARY.md](SKILLS_SUMMARY.md)** - 所有技能的详细清单和说明
-  - 包含 38 个技能的完整描述
+  - 包含 39 个技能的完整描述
   - 每个技能的功能、位置和特点
   - 技能集成与工作流说明
   - 七阶段方法论融合工作流图示

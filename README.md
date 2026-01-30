@@ -92,7 +92,9 @@ skills/
 ├── Tools & Integration Skills
 │   ├── skill-packaging-tool/      # Skill packaging tool
 │   │   └── SKILL.md
-│   └── go-cli-builder/            # Go CLI application builder
+│   ├── go-cli-builder/            # Go CLI application builder
+│   │   └── SKILL.md
+│   └── rust-cli-builder/          # Rust CLI application builder
 │       └── SKILL.md
 │
 └── Methodology Fusion Orchestration Layer Skills
@@ -105,7 +107,7 @@ skills/
 ### Quick Start
 
 #### 1. View Skills List
-See [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md) for detailed descriptions of all 38 skills.
+See [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md) for detailed descriptions of all 39 skills.
 
 #### 2. Choose the Right Skill
 Select the appropriate skill based on your development phase:
@@ -162,16 +164,17 @@ If migrating from an old version, see [MIGRATION.md](MIGRATION.md) for detailed 
 - `go-vue-fullstack-workflow` - Coordinate Go + Vue + Quasar fullstack development workflow
 - `makefile-backend-generator` - Create production-ready Makefiles for Go backend projects
 
-### Tools & Integration Layer (2 skills)
+### Tools & Integration Layer (3 skills)
 - `skill-packaging-tool` - Package skills into distributable packages
 - `go-cli-builder` - Build enterprise-grade Go CLI applications based on cobra+viper best practices
+- `rust-cli-builder` - Build enterprise-grade Rust CLI applications based on clap+serde+config best practices
 
 ### Methodology Fusion Orchestration Layer (1 skill)
 - `methodology-fusion-orchestrator` - Coordinate end-to-end methodology fusion workflow
 
 ---
 
-**Total**: 38 skills covering the complete software development lifecycle
+**Total**: 39 skills covering the complete software development lifecycle
 
 ## Usage
 

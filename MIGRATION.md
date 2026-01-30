@@ -69,7 +69,8 @@ skills/
 │
 └── Tools & Integration Skills
     ├── skill-packaging-tool/      # Skill packaging tool
-    └── go-cli-builder/            # Go CLI application builder
+    ├── go-cli-builder/            # Go CLI application builder
+    └── rust-cli-builder/          # Rust CLI application builder
 ```
 
 ## Usage

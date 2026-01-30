@@ -723,6 +723,7 @@ From baseline testing, these are common excuses for skipping production-ready pa
 This skill works with:
 
 - `go-cli-builder` - Generate CLI structure (uses this skill for Makefile generation)
+- `rust-cli-builder` - Generate Rust CLI structure (can use this skill for Makefile generation)
 - `go-backend-scaffolder` - Generate backend code structure
 - `fullstack-project-setup` - Initialize complete project
 - `requirements-to-code-docs` - Generate API documentation
