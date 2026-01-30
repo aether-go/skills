@@ -118,13 +118,27 @@ From baseline testing, these production-ready features are often missing:
 |--------|---------|----------------|
 | `build` | Build backend binary | Uses `CGO_ENABLED=0`, injects version into package |
 | `test` | Run all tests | Separate targets for unit/integration/e2e |
+| `test-performance` | Run performance tests | Tests in `tests/performance` directory |
+| `stress-test` | Run stress tests | Executes stress test programs |
 | `lint` | Code quality check | Runs golangci-lint |
 | `dev` | Start development server | Backend-only (`dev-backend`) |
+| `dev-docker` | Start Docker environment | Uses docker-compose for local development |
 | `deploy-dev` | Deploy to development | Calls deployment scripts |
 | `db-migrate` | Run migrations | Uses migration scripts |
 | `cross-build` | Cross-platform builds | Supports multiple OS/arch with UPX |
+| `build-docker` | Build Docker images | Builds images using docker-compose |
 | `clean` | Clean build artifacts | Comprehensive cleanup |
 | `help` | Show help | Auto-generated from `##` comments |
+
+### Test Target Categories
+
+| Category | Targets | Description |
+|----------|---------|-------------|
+| **Unit Tests** | `test-unit` | Fast, isolated component tests |
+| **Integration Tests** | `test-integration` | Tests across multiple components |
+| **E2E Tests** | `test-e2e` | End-to-end user flow tests |
+| **Performance Tests** | `test-performance` | Benchmark and performance tests |
+| **Stress Tests** | `stress-test` | Load and stress testing |
 
 ### Critical Variables
 
@@ -521,59 +535,17 @@ help:
 	{ lastLine = $$0 }' $(MAKEFILE_LIST)
 ```
 
-### Fullstack Template Notes
-
-The fullstack template combines CLI and backend features with additional frontend targets:
-
-```makefile
-# Key additions for fullstack projects:
-
-## Frontend build targets
-build-frontend:
-	@echo "Building frontend..."
-	cd frontend && npm run build
-
-## Combined build
-build: build-backend build-frontend
-
-## Development with hot reload
-dev: dev-backend dev-frontend
-
-dev-frontend:
-	@echo "Starting frontend development server..."
-	cd frontend && npm run dev
-
-## Asset compilation
-assets:
-	@echo "Compiling assets..."
-	cd frontend && npm run build:assets
-```
-
 ### Template Usage Instructions
 
-1. **Select template type** based on your project:
-   - CLI tools: Use CLI template
-   - Backend services: Use Backend template  
-   - Fullstack apps: Use Backend template + add frontend targets
+#### 1. Select Appropriate Template
 
-2. **Customize variables**:
-   - `APP_NAME`: Your application name
-   - `GO_MODULE`: Your Go module path
-   - `VERSION_PACKAGE`: Adjust based on your project structure
-
-3. **Add project-specific targets** as needed
-
-4. **Keep the modular structure** - add new targets in appropriate sections
-
-### Template Adaptation Guidelines
-
-#### 1. **Select Appropriate Template**
 Choose the template that matches your project type:
 - **CLI projects**: Use CLI template (version in `internal/version`)
 - **Backend services**: Use Backend template (version in `pkg/version`)  
-- **Fullstack apps**: Use Backend template + add frontend targets
+- **Fullstack apps**: Use Complete Fullstack Makefile template
 
-#### 2. **Customize Core Variables**
+#### 2. Customize Core Variables
+
 Replace these placeholders in your chosen template:
 
 ```makefile
@@ -587,7 +559,8 @@ VERSION_PACKAGE := $(GO_MODULE)/internal/version   # For CLI
 VERSION_PACKAGE := $(GO_MODULE)/pkg/version        # For Backend
 ```
 
-#### 3. **Adjust Platform Support**
+#### 3. Adjust Platform Support
+
 Modify `PLATFORMS` based on your target deployment environments:
 
 ```makefile
@@ -600,7 +573,8 @@ PLATFORMS := \
 	windows/amd64
 ```
 
-#### 4. **Add Project-Specific Targets**
+#### 4. Add Project-Specific Targets
+
 Extend the template with your custom needs:
 
 ```makefile
@@ -617,7 +591,8 @@ deploy-custom:
 	./scripts/deploy-custom.sh
 ```
 
-#### 5. **Script Organization**
+#### 5. Script Organization
+
 For complex commands, create scripts instead of inline shell:
 
 ```bash
@@ -629,6 +604,120 @@ For complex commands, create scripts instead of inline shell:
 # Then:
 deploy-prod:
 	./scripts/deploy/prod.sh
+```
+
+#### 6. Keep the Modular Structure
+
+Add new targets in appropriate sections:
+- Build targets in Section 2
+- Test targets in Section 3
+- Deployment targets in Section 4
+- Database targets in Section 5
+- Development targets in Section 6
+- Tool targets in Section 7
+- Cross-platform targets in Section 8
+
+### Fullstack Project Structure
+
+A typical fullstack project structure supported by the Makefile:
+
+```
+project-root/
+├── backend/                 # Go backend
+│   ├── main.go
+│   ├── pkg/
+│   │   └── version/         # Version package for injection
+│   ├── config/              # Configuration files
+│   └── api/
+│       └── swagger/         # Generated Swagger docs
+├── frontend/                # Frontend (Vue/React/etc.)
+│   ├── package.json
+│   ├── pnpm-lock.yaml
+│   └── src/
+├── docs-site/               # Documentation site
+│   ├── package.json
+│   └── src/
+├── docker/                  # Docker configuration
+│   └── docker-compose.yml
+├── scripts/                 # Automation scripts
+│   ├── deploy/
+│   │   ├── deploy-dev.sh
+│   │   ├── deploy-staging.sh
+│   │   └── deploy-prod.sh
+│   └── database/
+│       ├── migrate.sh
+│       ├── backup.sh
+│       └── restore.sh
+├── tests/                   # Test suites
+│   ├── integration/
+│   ├── e2e/
+│   └── performance/
+│       ├── stress/
+│       │   └── main.go
+│       ├── benchmark_test.go
+│       └── load_test.go
+├── bin/                     # Build output
+├── dist/                    # Distribution packages
+└── Makefile                 # The main Makefile
+```
+
+### Test Targets Best Practices
+
+#### Test Organization
+
+```makefile
+# ========== Test Targets ==========
+
+## Run all tests
+test:
+	@echo "Running backend tests..."
+	cd backend && go test ./... -v
+	@echo "Running frontend tests..."
+	cd frontend && pnpm test
+
+## Run unit tests
+test-unit:
+	@echo "Running unit tests..."
+	cd backend && go test ./... -v
+
+## Run integration tests
+test-integration:
+	@echo "Running integration tests..."
+	cd tests/integration && go test ./... -v
+
+## Run end-to-end tests
+test-e2e:
+	@echo "Running end-to-end tests..."
+	cd tests/e2e && npm test
+
+## Run performance tests
+test-performance:
+	@echo "Running performance tests..."
+	cd tests/performance && go test ./... -v
+
+## Run stress tests
+stress-test:
+	@echo "Running stress tests..."
+	cd tests/performance && go run stress/main.go
+```
+
+#### Test Coverage
+
+```makefile
+## Run tests with coverage
+test-coverage:
+	@echo "Running tests with coverage..."
+	cd backend && go test -coverprofile=coverage.out ./...
+	go tool cover -html=coverage.out -o coverage.html
+```
+
+#### Test Reports
+
+```makefile
+## Generate test report
+test-report:
+	@echo "Generating test report..."
+	cd backend && go test -json ./... > test-report.json
 ```
 
 ### Quick Start Templates
@@ -654,7 +743,7 @@ help:
 	@echo "Available targets: build, test, clean"
 ```
 
-#### Minimal Backend Makefile  
+#### Minimal Backend Makefile
 ```makefile
 APP_NAME := myapp
 GO_MODULE := github.com/user/myapp
@@ -676,6 +765,304 @@ clean:
 
 help:
 	@echo "Available targets: build, test, lint, clean"
+```
+
+#### Minimal Fullstack Makefile
+```makefile
+APP_NAME := myapp
+GO_MODULE := github.com/user/myapp
+VERSION := $(shell git describe --tags --always --dirty)
+
+.PHONY: build test clean help
+
+build-backend:
+	cd backend && CGO_ENABLED=0 go build -o ../bin/$(APP_NAME) .
+
+build-frontend:
+	cd frontend && pnpm build
+
+build: build-backend build-frontend
+
+test:
+	cd backend && go test ./... -v
+	cd frontend && pnpm test
+
+clean:
+	rm -rf bin
+	rm -rf frontend/dist
+
+help:
+	@echo "Available targets: build, test, clean"
+```
+
+#### Complete Fullstack Makefile
+```makefile
+# Fullstack Makefile (production-ready pattern)
+# ===========================================
+
+# Project variables
+APP_NAME := myapp
+GO_MODULE := github.com/user/myapp
+
+# Version information (git-based)
+VERSION := $(shell git describe --tags --always --dirty)
+BUILD_TIME := $(shell date -u +"%Y-%m-%dT%H:%M:%SZ")
+COMMIT_HASH := $(shell git rev-parse --short HEAD)
+
+# Cross-platform compilation targets
+PLATFORMS = linux/amd64 linux/arm64 darwin/amd64 windows/amd64
+TEMP = $(subst /, ,$@)
+OS = $(word 1, $(TEMP))
+ARCH = $(word 2, $(TEMP))
+
+# UPX compression tool
+UPX = $(shell which upx)
+
+# Version injection path (Backend-specific)
+VERSION_PACKAGE := $(GO_MODULE)/pkg/version
+
+# LDFLAGS for version injection
+LDFLAGS := -X $(VERSION_PACKAGE).Version=$(VERSION) \
+		   -X $(VERSION_PACKAGE).BuildTime=$(BUILD_TIME) \
+		   -X $(VERSION_PACKAGE).Commit=$(COMMIT_HASH)
+
+# ========== Build Targets ==========
+
+## Build backend
+build-backend:
+	@echo "Building backend..."
+	cd backend && \
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
+		-ldflags "$(LDFLAGS)" \
+		-o ../bin/$(APP_NAME) .
+
+## Build frontend
+build-frontend:
+	@echo "Building frontend..."
+	cd frontend && pnpm build
+
+## Build documentation site
+build-docs-site:
+	@echo "Building documentation site..."
+	cd docs-site && pnpm build
+
+## Build all components
+build: build-backend build-frontend build-docs-site
+
+## Build Docker images
+build-docker:
+	@echo "Building Docker images..."
+	docker-compose -f docker/docker-compose.yml build
+
+# ========== Test Targets ==========
+
+## Run all tests
+test:
+	@echo "Running backend tests..."
+	cd backend && go test ./... -v
+	@echo "Running frontend tests..."
+	cd frontend && pnpm test
+
+## Run unit tests
+test-unit:
+	@echo "Running unit tests..."
+	cd backend && go test ./... -v
+
+## Run integration tests
+test-integration:
+	@echo "Running integration tests..."
+	cd tests/integration && go test ./... -v
+
+## Run end-to-end tests
+test-e2e:
+	@echo "Running end-to-end tests..."
+	cd tests/e2e && npm test
+
+## Run performance tests
+test-performance:
+	@echo "Running performance tests..."
+	cd tests/performance && go test ./... -v
+
+## Run stress tests
+stress-test:
+	@echo "Running stress tests..."
+	cd tests/performance && go run stress/main.go
+
+# ========== Deployment Targets ==========
+
+## Deploy to development environment
+deploy-dev:
+	@echo "Deploying to development environment..."
+	./scripts/deploy/deploy-dev.sh
+
+## Deploy to staging environment
+deploy-staging:
+	@echo "Deploying to staging environment..."
+	./scripts/deploy/deploy-staging.sh
+
+## Deploy to production environment
+deploy-prod:
+	@echo "Deploying to production environment..."
+	./scripts/deploy/deploy-prod.sh
+
+# ========== Database Targets ==========
+
+## Run database migrations
+db-migrate:
+	@echo "Running database migrations..."
+	./scripts/database/migrate.sh
+
+## Create database backup
+db-backup:
+	@echo "Creating database backup..."
+	./scripts/database/backup.sh
+
+## Restore database from backup
+db-restore:
+	@echo "Restoring database from backup..."
+	./scripts/database/restore.sh
+
+# ========== Development Targets ==========
+
+## Start development environment (backend + frontend)
+dev:
+	@echo "Starting development environment..."
+	cd backend && go run . daemon &
+	cd frontend && pnpm dev
+
+## Start backend development server
+dev-backend:
+	@echo "Starting backend development server..."
+	cd backend && go run . daemon
+
+## Start frontend development server
+dev-frontend:
+	@echo "Starting frontend development server..."
+	cd frontend && pnpm dev
+
+## Start Docker development environment
+dev-docker:
+	@echo "Starting Docker development environment..."
+	docker-compose -f docker/docker-compose.yml up
+
+## Update dependencies
+update:
+	@echo "Updating dependencies..."
+	cd backend && go get -u && go mod tidy
+	cd frontend && pnpm up
+
+# ========== Tool Targets ==========
+
+## Run code check
+lint:
+	@echo "Running Go code check..."
+	cd backend && golangci-lint run
+	@echo "Running frontend code check..."
+	cd frontend && pnpm lint
+
+## Format code
+format:
+	@echo "Formatting code..."
+	cd backend && go fmt ./...
+	cd frontend && pnpm format
+
+## Clean build artifacts
+clean:
+	@echo "Cleaning build files..."
+	rm -rf bin
+	rm -rf backend/server
+	rm -rf backend/web/*
+	rm -rf frontend/dist
+	rm -rf frontend/node_modules
+	find . -name "*.log" -delete
+
+## Install development dependencies
+install-deps:
+	@echo "Installing backend dependencies..."
+	cd backend && go mod download
+	@echo "Installing frontend dependencies..."
+	cd frontend && pnpm install
+	@echo "Installing development tools..."
+	go install github.com/air-verse/air@latest
+	go install github.com/swaggo/swag/cmd/swag@latest
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+
+## Show version information
+version:
+	@echo "Version: $(VERSION)"
+	@echo "Build time: $(BUILD_TIME)"
+	@echo "Commit hash: $(COMMIT_HASH)"
+
+## Generate Swagger documentation
+swagger:
+	@echo "Generating Swagger documentation..."
+	cd backend && swag init -g main.go -o api/swagger
+
+## Count code lines
+cloc:
+	@echo "Go code line count (sorted by lines):"
+	@echo ""
+	@echo "Lines | File"
+	@echo "----- | ----"
+	@find backend -name "*.go" -type f \
+		-not -path "./vendor/*" \
+		-not -path "./docs/*" \
+		-not -path "./frontend/node_modules/*" \
+		| while read file; do \
+			lines=$$(wc -l < "$$file"); \
+			echo "$$lines $$file"; \
+		done \
+		| sort -nr \
+		| awk '{printf "%5d | %s\n", $$1, $$2}'
+
+# ========== Cross-Platform Build ==========
+
+## Cross-platform build target
+$(PLATFORMS):
+	@echo "Building for $(OS)/$(ARCH)..."
+	cd backend && \
+	CGO_ENABLED=0 GOOS=$(OS) GOARCH=$(ARCH) go build \
+		-ldflags "$(LDFLAGS)" \
+		-o ../dist/$(OS)-$(ARCH)/$(APP_NAME) .
+ifneq ($(UPX),)
+	@echo "Compressing binary with upx..."
+	$(UPX) -9 ../dist/$(OS)-$(ARCH)/$(APP_NAME)
+else
+	@echo "Warning: upx not found, skipping compression"
+endif
+
+## Cross-build for all platforms
+cross-build: $(PLATFORMS)
+
+## Create release packages
+release: cross-build
+	@echo "Copying config files to release directory..."
+	mkdir -p dist/linux-amd64/configs
+	mkdir -p dist/linux-arm64/configs
+	cp backend/config/*.yaml dist/linux-amd64/configs/
+	cp backend/config/*.yaml dist/linux-arm64/configs/
+	tar -czvf dist/$(APP_NAME)-$(VERSION)-linux-amd64.tar.gz -C dist/linux-amd64 $(APP_NAME) configs/
+	tar -czvf dist/$(APP_NAME)-$(VERSION)-linux-arm64.tar.gz -C dist/linux-arm64 $(APP_NAME) configs/
+
+# ========== Default Target ==========
+.PHONY: all
+all: build-backend build-frontend
+
+# ========== Help ==========
+.PHONY: help
+help:
+	@printf "\033[36mUsage: make [target]\033[0m\n"
+	@echo ""
+	@printf "\033[36mTargets:\033[0m\n"
+	@awk '/^[a-zA-Z\-_0-9]+:/ { \
+		helpMessage = match(lastLine, /^## (.*)/); \
+		if (helpMessage) { \
+			helpCommand = substr($$1, 0, index($$1, ":")-1); \
+			helpMessage = substr(lastLine, RSTART + 3, RLENGTH); \
+			printf "  \033[33m%-20s\033[0m %s\n", helpCommand, helpMessage; \
+		} \
+	} \
+	{ lastLine = $$0 }' $(MAKEFILE_LIST)
 ```
 
 ## Common Mistakes
@@ -717,6 +1104,279 @@ From baseline testing, these are common excuses for skipping production-ready pa
 - No database backup/restore capabilities
 - Thinking "I'll add it later" for core functionality
 - Using project-specific excuses to skip established patterns
+
+## Docker Integration
+
+### Docker Target Patterns
+
+Docker integration in Makefiles follows consistent patterns:
+
+```makefile
+# ========== Docker Targets ==========
+
+## Build Docker images
+build-docker:
+	@echo "Building Docker images..."
+	docker-compose -f docker/docker-compose.yml build
+
+## Start Docker development environment
+dev-docker:
+	@echo "Starting Docker development environment..."
+	docker-compose -f docker/docker-compose.yml up
+
+## Stop Docker development environment
+stop-docker:
+	@echo "Stopping Docker development environment..."
+	docker-compose -f docker/docker-compose.yml down
+
+## Remove Docker containers and volumes
+clean-docker:
+	@echo "Cleaning Docker resources..."
+	docker-compose -f docker/docker-compose.yml down -v
+	docker system prune -f
+
+## View Docker logs
+logs-docker:
+	@echo "Viewing Docker logs..."
+	docker-compose -f docker/docker-compose.yml logs -f
+```
+
+### Docker Compose Configuration
+
+Typical `docker/docker-compose.yml` structure:
+
+```yaml
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - DATABASE_URL=postgres://user:pass@db:5432/mydb
+    depends_on:
+      - db
+    volumes:
+      - ../backend:/app
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  db:
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=mydb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+```
+
+### Docker Deployment Targets
+
+```makefile
+## Deploy to development via Docker
+deploy-docker-dev:
+	@echo "Deploying to development environment..."
+	docker-compose -f docker/docker-compose.dev.yml up -d
+
+## Deploy to staging via Docker
+deploy-docker-staging:
+	@echo "Deploying to staging environment..."
+	docker-compose -f docker/docker-compose.staging.yml up -d
+
+## Deploy to production via Docker
+deploy-docker-prod:
+	@echo "Deploying to production environment..."
+	docker-compose -f docker/docker-compose.prod.yml up -d
+
+## Rollback Docker deployment
+rollback-docker:
+	@echo "Rolling back Docker deployment..."
+	docker-compose -f docker/docker-compose.prod.yml down
+	docker-compose -f docker/docker-compose.prod.yml up -d --force-recreate
+```
+
+## Stress Testing Patterns
+
+### Stress Test Implementation
+
+Stress testing helps identify performance bottlenecks and system limits:
+
+```makefile
+# ========== Stress Testing Targets ==========
+
+## Run stress tests
+stress-test:
+	@echo "Running stress tests..."
+	cd tests/performance && go run stress/main.go
+
+## Run load tests
+load-test:
+	@echo "Running load tests..."
+	cd tests/performance && go run load/main.go
+
+## Run benchmark tests
+benchmark:
+	@echo "Running benchmark tests..."
+	cd backend && go test -bench=. -benchmem ./...
+```
+
+### Stress Test Example
+
+`tests/performance/stress/main.go`:
+
+```go
+package main
+
+import (
+	"fmt"
+	"net/http"
+	"sync"
+	"time"
+)
+
+func main() {
+	url := "http://localhost:8080/api/endpoint"
+	concurrentRequests := 100
+	totalRequests := 10000
+
+	var wg sync.WaitGroup
+	var successCount int
+	var errorCount int
+	var mu sync.Mutex
+
+	startTime := time.Now()
+
+	for i := 0; i < concurrentRequests; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for j := 0; j < totalRequests/concurrentRequests; j++ {
+				resp, err := http.Get(url)
+				mu.Lock()
+				if err != nil {
+					errorCount++
+				} else {
+					if resp.StatusCode == 200 {
+						successCount++
+					} else {
+						errorCount++
+					}
+					resp.Body.Close()
+				}
+				mu.Unlock()
+			}
+		}()
+	}
+
+	wg.Wait()
+	duration := time.Since(startTime)
+
+	fmt.Printf("Stress Test Results:\n")
+	fmt.Printf("Total Requests: %d\n", totalRequests)
+	fmt.Printf("Successful: %d\n", successCount)
+	fmt.Printf("Errors: %d\n", errorCount)
+	fmt.Printf("Duration: %v\n", duration)
+	fmt.Printf("Requests/sec: %.2f\n", float64(totalRequests)/duration.Seconds())
+}
+```
+
+### Load Test Example
+
+`tests/performance/load/main.go`:
+
+```go
+package main
+
+import (
+	"fmt"
+	"io"
+	"net/http"
+	"time"
+)
+
+func main() {
+	url := "http://localhost:8080/api/endpoint"
+	duration := 30 * time.Second
+
+	client := &http.Client{Timeout: 5 * time.Second}
+	requestCount := 0
+	errorCount := 0
+	totalBytes := 0
+
+	startTime := time.Now()
+	endTime := startTime.Add(duration)
+
+	for time.Now().Before(endTime) {
+		resp, err := client.Get(url)
+		requestCount++
+		if err != nil {
+			errorCount++
+			continue
+		}
+
+		body, err := io.ReadAll(resp.Body)
+		resp.Body.Close()
+		if err != nil {
+			errorCount++
+			continue
+		}
+
+		totalBytes += len(body)
+	}
+
+	actualDuration := time.Since(startTime)
+	fmt.Printf("Load Test Results:\n")
+	fmt.Printf("Duration: %v\n", actualDuration)
+	fmt.Printf("Total Requests: %d\n", requestCount)
+	fmt.Printf("Errors: %d\n", errorCount)
+	fmt.Printf("Success Rate: %.2f%%\n", float64(requestCount-errorCount)/float64(requestCount)*100)
+	fmt.Printf("Requests/sec: %.2f\n", float64(requestCount)/actualDuration.Seconds())
+	fmt.Printf("Total Bytes: %d\n", totalBytes)
+	fmt.Printf("Bytes/sec: %.2f\n", float64(totalBytes)/actualDuration.Seconds())
+}
+```
+
+### Benchmark Test Example
+
+`tests/performance/benchmark_test.go`:
+
+```go
+package performance
+
+import (
+	"testing"
+)
+
+func BenchmarkFunction(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		// Function to benchmark
+	}
+}
+
+func BenchmarkParallelFunction(b *testing.B) {
+	b.RunParallel(func(pb *testing.PB) {
+		for pb.Next() {
+			// Function to benchmark in parallel
+		}
+	})
+}
+```
 
 ## Integration with Other Skills
 
@@ -813,11 +1473,16 @@ make test-all
 - Database operations (migrations, backups, restoration)
 - Complete deployment workflow (dev/staging/prod)
 - Swagger documentation generation
+- Docker integration for containerized deployments
+- Stress testing and performance benchmarking
 
 **Fullstack Projects:**
 - Combined backend + frontend build targets
 - Coordinated development and deployment
 - Consistent structure for mixed technology stacks
+- Docker Compose support for local development
+- Documentation site build targets
+- Comprehensive test coverage (unit/integration/e2e/performance)
 
 ### Unified Benefits
 - **Consistency**: Same patterns across project types
@@ -825,5 +1490,8 @@ make test-all
 - **Productivity**: Faster project setup
 - **Reliability**: Production-ready from start
 - **Team Alignment**: Clear conventions for everyone
+- **Docker Support**: Containerized development and deployment
+- **Performance Testing**: Built-in stress and load testing capabilities
+- **Test Coverage**: Comprehensive test targets for all test types
 
-**Outcome:** Professional-grade build system tailored to project type, reduced maintenance overhead, consistent team workflow, reliable deployment process across all project types.
+**Outcome:** Professional-grade build system tailored to project type, reduced maintenance overhead, consistent team workflow, reliable deployment process across all project types, integrated Docker support, and comprehensive performance testing capabilities.
