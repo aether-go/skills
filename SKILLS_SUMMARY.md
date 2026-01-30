@@ -6,7 +6,7 @@
 
 ---
 
-Based on planning in `overall.md` and OpenCode skills specifications, 39 skills have been successfully created (31 original + 7 new + 1 Rust CLI builder), covering complete eight stages of Aether.go methodology fusion framework.
+Based on planning in `overall.md` and OpenCode skills specifications, 40 skills have been successfully created (31 original + 7 new + 1 Rust CLI builder + 1 README & LICENSE generator), covering complete eight stages of Aether.go methodology fusion framework.
 
 ## Background of New Skills: Methodology Fusion Framework Enhancement
 
@@ -209,7 +209,7 @@ Based on an in-depth analysis of the Aether.go methodology fusion framework desc
     - Functions: Generate complete Makefile with build, test, deployment, database operations, support cross-platform compilation
     - Location: `skills/makefile-backend-generator/SKILL.md`
 
-### Tools & Integration Skills - 3
+### Tools & Integration Skills - 4
 
 37. **skill-packaging-tool**
     - Description: Package skills into distributable installable packages
@@ -227,6 +227,11 @@ Based on an in-depth analysis of the Aether.go methodology fusion framework desc
     - Functions: Generate production-grade CLI application structure, includes configuration management, structured logging, automatic version injection, multi-platform builds, and comprehensive testing strategy
     - Features: Support multi-path configuration file search (./ → ./config → /etc/app-name), automatic Git version and Rust version retrieval, built-in shell completion commands
     - Location: `skills/rust-cli-builder/SKILL.md`
+
+40. **readme-license-generator**
+    - Description: Generate bilingual (Chinese/English) README and LICENSE files with language switching links and common badges
+    - Functions: Create README with language switching, generate LICENSE for various open-source licenses, include common badges, support project initialization
+    - Location: `skills/readme-license-generator/SKILL.md`
 
 ## Skill Characteristics
 
@@ -311,7 +316,7 @@ Stage 8: Recursive Optimization
   └── prompt-template-manager
 ```
 
-*Note: The workflow diagram shows key representative skills for each stage, not all 39 skills. For the complete skills list, please refer to the Skills List section above.*
+*Note: The workflow diagram shows key representative skills for each stage, not all 40 skills. For the complete skills list, please refer to the Skills List section above.*
 
 ### Constitution Enforcement Throughout Execution
 
@@ -508,3 +513,14 @@ In conversation, the AI assistant will automatically recommend and load relevant
 - Feedback and improvement suggestions are welcome
 
 ---
+
+**Created**: 2026-01-16  
+**Last Updated**: 2026-01-30  
+**Created by**: AI Assistant based on Aether.go methodology  
+**Reference Documents**: `method-paper.md`, `https://opencode.ai/docs/skills/`
+
+**Update Log**:
+- 2026-01-30: Added readme-license-generator skill for generating bilingual (Chinese/English) README and LICENSE files
+- 2026-01-28: Updated gap analysis to resolved status, fixed skill count inconsistency
+- 2026-01-27: Added 7 key skills to fill methodology gaps, implementing complete eight-stage fusion workflow
+- 2026-01-21: Updated go-backend-scaffolder skill with production-grade Cobra command structure

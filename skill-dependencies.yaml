@@ -2,7 +2,7 @@
 # This file defines dependencies between skills for proper orchestration and sequencing
 
 version: "1.0"
-updated: "2026-01-28"
+updated: "2026-01-30"
 
 dependencies:
   # Methodology Fusion Orchestrator - Core coordinator
@@ -241,6 +241,7 @@ dependencies:
       - go-backend-scaffolder
       - vue-quasar-scaffolder
       - requirements-to-code-docs
+      - readme-license-generator
     provides: "complete fullstack project setup"
     stage: "project_initialization"
     
@@ -268,6 +269,11 @@ dependencies:
   skill-packaging-tool:
     depends_on: []
     provides: "skill packaging and distribution"
+    stage: "tools"
+    
+  readme-license-generator:
+    depends_on: []
+    provides: "bilingual README and LICENSE file generation"
     stage: "tools"
     
   spec-evolution-tracker:
@@ -375,3 +381,9 @@ cross_cutting:
       - deployment-orchestrator
       - makefile-backend-generator
     description: "Automation and code generation"
+    
+  documentation:
+    skills:
+      - requirements-to-code-docs
+      - readme-license-generator
+    description: "Documentation generation and management"

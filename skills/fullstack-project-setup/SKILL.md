@@ -97,7 +97,9 @@ myapp/
 ├── Makefile                      # Project make commands
 ├── docker-compose.yml            # Development environment
 ├── .env.example                  # Environment variables
-└── README.md                     # Project documentation
+├── README.md                     # Project documentation (bilingual)
+├── LICENSE                       # Project license
+└── .gitignore                    # Git ignore configuration
 ```
 
 ### Before (Manual Project Setup)
@@ -399,6 +401,15 @@ fullstack-project-setup create myapp \
 
 # Navigate to project
 cd myapp
+
+# Generate README and LICENSE files
+readme-license-generator \
+  --project-name="MyApp" \
+  --description-en="A fullstack application with Go backend and Vue frontend" \
+  --description-zh="一个使用Go后端和Vue前端的全栈应用" \
+  --license=MIT \
+  --author="Your Name" \
+  --repo-url="https://github.com/username/myapp"
 
 # Start development environment
 make dev
@@ -737,6 +748,7 @@ This skill coordinates with:
 - `go-backend-scaffolder` for backend code generation
 - `vue-quasar-scaffolder` for frontend code generation
 - `requirements-to-code-docs` for project documentation
+- `readme-license-generator` for README and LICENSE file generation
 - `go-vue-fullstack-workflow` for development workflow
 
 ### Example Complete Workflow
@@ -750,7 +762,18 @@ fullstack-project-setup create ecommerce-app \
   --queue=rabbitmq \
   --monitoring=prometheus+grafana
 
-# 2. Generate domain-specific code
+# 2. Generate README and LICENSE files
+readme-license-generator \
+  --project-name="E-Commerce App" \
+  --description-en="A fullstack e-commerce application with Go backend and Vue frontend" \
+  --description-zh="一个使用Go后端和Vue前端的全栈电商应用" \
+  --license=MIT \
+  --author="Your Name" \
+  --repo-url="https://github.com/username/ecommerce-app" \
+  --docs-url="https://docs.example.com" \
+  --build-badge="https://github.com/username/ecommerce-app/actions/workflows/ci.yml/badge.svg"
+
+# 3. Generate domain-specific code
 go-backend-scaffolder generate domain Product
 go-backend-scaffolder generate crud Product
 go-backend-scaffolder generate handler ProductHandler
@@ -758,15 +781,15 @@ go-backend-scaffolder generate handler ProductHandler
 vue-quasar-scaffolder generate crud Product
 vue-quasar-scaffolder generate page Products --layout=admin
 
-# 3. Generate documentation
+# 4. Generate documentation
 requirements-to-code-docs generate api ProductAPI
 requirements-to-code-docs generate docs architecture
 
-# 4. Set up development environment
+# 5. Set up development environment
 docker-compose up -d
 make dev
 
-# 5. Run tests and verify
+# 6. Run tests and verify
 make test
 make lint
 make build

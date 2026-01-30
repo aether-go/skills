@@ -94,7 +94,9 @@ skills/
 │   │   └── SKILL.md
 │   ├── go-cli-builder/            # Go CLI 应用构建器
 │   │   └── SKILL.md
-│   └── rust-cli-builder/          # Rust CLI 应用构建器
+│   ├── rust-cli-builder/          # Rust CLI 应用构建器
+│   │   └── SKILL.md
+│   └── readme-license-generator/  # README & LICENSE 生成器
 │       └── SKILL.md
 │
 └── 方法论融合协调层 Skills

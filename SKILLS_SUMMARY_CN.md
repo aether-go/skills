@@ -6,7 +6,7 @@
 
 ---
 
-根据 `overall.md` 中的规划和 OpenCode skills 规范，已成功创建所有 39 个技能（原有31个 + 新增7个 + Rust CLI构建器），覆盖Aether.go方法论融合框架的完整八个阶段。
+根据 `overall.md` 中的规划和 OpenCode skills 规范，已成功创建所有 40 个技能（原有31个 + 新增7个 + Rust CLI构建器 + README & LICENSE生成器），覆盖Aether.go方法论融合框架的完整八个阶段。
 
 ## 新增 Skills 背景：方法论融合框架完善
 
@@ -207,7 +207,7 @@
     - 功能：生成包含构建、测试、部署、数据库操作的完整Makefile，支持跨平台编译
     - 位置：`skills/makefile-backend-generator/SKILL.md`
 
-### 工具与集成 Skills - 3个
+### 工具与集成 Skills - 4个
 
 37. **skill-packaging-tool**
     - 描述：将技能打包为可分发的可安装包
@@ -225,6 +225,11 @@
     - 功能：生成生产级CLI应用结构，包含配置管理、结构化日志、自动版本嵌入、多平台构建和完整测试策略
     - 特点：支持多路径配置文件搜索（./ → ./config → /etc/应用名称），自动获取Git版本和Rust版本，内置shell补全命令
     - 位置：`skills/rust-cli-builder/SKILL.md`
+
+40. **readme-license-generator**
+    - 描述：生成中英文双语的README和LICENSE文件，包含语言切换链接和常用徽章
+    - 功能：创建带语言切换的README，生成各种开源许可证的LICENSE文件，包含常用徽章，支持项目初始化
+    - 位置：`skills/readme-license-generator/SKILL.md`
 
 ## 技能特点
 
@@ -309,7 +314,7 @@
   └── prompt-template-manager
 ```
 
-*注：工作流图示显示每个阶段的关键代表技能，并非列出全部39个技能。完整技能清单请参阅上文的技能清单部分。*
+*注：工作流图示显示每个阶段的关键代表技能，并非列出全部40个技能。完整技能清单请参阅上文的技能清单部分。*
 
 ### 宪法贯穿执行
 
@@ -508,10 +513,11 @@ OpenCode会自动从以下位置发现技能：
 ---
 
 创建日期：2026-01-16  
-最后更新：2026-01-28  
+最后更新：2026-01-30  
 创建者：AI Assistant based on Aether.go methodology  
 参考文档：`method-paper.md`, `https://opencode.ai/docs/skills/`
 更新记录：
+- 2026-01-30: 新增readme-license-generator技能，用于生成中英文双语的README和LICENSE文件
 - 2026-01-28: 更新缺口分析为已解决状态，修正技能数量不一致问题
 - 2026-01-27: 新增7个关键技能填补方法论缺口，实现完整的八阶段融合工作流
 - 2026-01-21: 更新go-backend-scaffolder技能，采用生产级风格的Cobra命令结构

@@ -94,7 +94,9 @@ skills/
 │   │   └── SKILL.md
 │   ├── go-cli-builder/            # Go CLI application builder
 │   │   └── SKILL.md
-│   └── rust-cli-builder/          # Rust CLI application builder
+│   ├── rust-cli-builder/          # Rust CLI application builder
+│   │   └── SKILL.md
+│   └── readme-license-generator/  # README & LICENSE generator
 │       └── SKILL.md
 │
 └── Methodology Fusion Orchestration Layer Skills
