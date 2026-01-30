@@ -448,9 +448,9 @@ description: Use when [specific triggering conditions]
 
 These skills are deeply integrated with the Aether.go core methodology, covering the complete software development lifecycle:
 
-### Seven-Stage Methodology Fusion Workflow
+### Eight-Stage Methodology Fusion Workflow
 
-See the complete workflow diagram in [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md):
+See complete workflow diagram in [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md):
 
 1. **Stage 1: Business Analysis**
    - `business-requirements-collector` - Collect and analyze business requirements

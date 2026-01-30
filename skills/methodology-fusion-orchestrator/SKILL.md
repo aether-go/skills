@@ -1,12 +1,12 @@
 ---
 name: methodology-fusion-orchestrator
-description: Use when orchestrating end-to-end software lifecycle with Aether.go methodology fusion framework across all seven stages
+description: Use when orchestrating end-to-end software lifecycle with Aether.go methodology fusion framework across all eight stages
 ---
 
 # Methodology Fusion Orchestrator
 
 ## Overview
-Orchestrate the complete Aether.go methodology fusion workflow across all seven stages: business analysis, specification definition, constitutional review, implementation planning, code generation, integration validation, deployment metrics, and recursive optimization. Ensures constitutional principles are enforced, metrics are aggregated, and feedback loops drive continuous improvement.
+Orchestrate the complete Aether.go methodology fusion workflow across all eight stages: business analysis, specification definition, constitutional review, implementation planning, code generation, integration validation, deployment operations, and recursive optimization. Ensures constitutional principles are enforced, metrics are aggregated, and feedback loops drive continuous improvement.
 
 ## When to Use
 
@@ -37,7 +37,7 @@ Don't use when:
 
 ## Core Pattern
 
-### Seven-Stage Methodology Fusion Workflow
+### Eight-Stage Methodology Fusion Workflow
 
 ```
 User Request → Orchestrator → Stage Analysis → Skill Scheduling → Constitution Check
@@ -406,7 +406,7 @@ orchestrator:
 
 ```python
 class MethodologyFusionOrchestrator:
-    """Main orchestrator coordinating all seven stages."""
+    """Main orchestrator coordinating all eight stages."""
     
     def __init__(self, project_context, constitution):
         self.project_context = project_context
@@ -420,7 +420,7 @@ class MethodologyFusionOrchestrator:
         self.workflow_optimizer = WorkflowOptimizer()
         
     def execute_workflow(self, user_request):
-        """Execute complete seven-stage workflow."""
+        """Execute complete eight-stage workflow."""
         
         workflow_result = {
             'id': generate_workflow_id(),

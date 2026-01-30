@@ -6,7 +6,7 @@
 
 ---
 
-根据 `overall.md` 中的规划和 OpenCode skills 规范，已成功创建所有 39 个技能（原有31个 + 新增7个 + Rust CLI构建器），覆盖Aether.go方法论融合框架的完整七个阶段。
+根据 `overall.md` 中的规划和 OpenCode skills 规范，已成功创建所有 39 个技能（原有31个 + 新增7个 + Rust CLI构建器），覆盖Aether.go方法论融合框架的完整八个阶段。
 
 ## 新增 Skills 背景：方法论融合框架完善
 
@@ -17,7 +17,7 @@
 ### 方法论融合协调层 Skills - 1个
 
 1. **methodology-fusion-orchestrator**
-   - 描述：协调端到端Aether.go方法论融合工作流，覆盖所有七个阶段
+   - 描述：协调端到端Aether.go方法论融合工作流，覆盖所有八个阶段
    - 功能：工作流编排、宪法贯穿、度量聚合、技能调度、优化触发
    - 位置：`skills/methodology-fusion-orchestrator/SKILL.md`
 
@@ -262,9 +262,9 @@
 
 ## 技能集成与工作流
 
-### 七阶段方法论融合工作流
+### 八阶段方法论融合工作流
 
-新增的`methodology-fusion-orchestrator`技能协调完整的七个阶段：
+新增的`methodology-fusion-orchestrator`技能协调完整的八个阶段：
 
 ```
 阶段1: 业务分析 (Business Analysis)
@@ -513,5 +513,5 @@ OpenCode会自动从以下位置发现技能：
 参考文档：`method-paper.md`, `https://opencode.ai/docs/skills/`
 更新记录：
 - 2026-01-28: 更新缺口分析为已解决状态，修正技能数量不一致问题
-- 2026-01-27: 新增7个关键技能填补方法论缺口，实现完整的七阶段融合工作流
+- 2026-01-27: 新增7个关键技能填补方法论缺口，实现完整的八阶段融合工作流
 - 2026-01-21: 更新go-backend-scaffolder技能，采用生产级风格的Cobra命令结构

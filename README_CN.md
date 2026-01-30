@@ -448,7 +448,7 @@ description: Use when [specific triggering conditions]
 
 这些技能与 Aether.go 核心方法论深度集成，覆盖完整的软件开发生命周期：
 
-### 七阶段方法论融合工作流
+### 八阶段方法论融合工作流
 
 详见 [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md) 中的完整工作流图示：
 
@@ -579,7 +579,7 @@ git commit -m "feat: add/update <skill-name> skill"
   - 包含 39 个技能的完整描述
   - 每个技能的功能、位置和特点
   - 技能集成与工作流说明
-  - 七阶段方法论融合工作流图示
+  - 八阶段方法论融合工作流图示
   - 宪法贯穿执行和智能技能调度机制
   
 - **[MIGRATION.md](MIGRATION.md)** - Skills 目录迁移说明

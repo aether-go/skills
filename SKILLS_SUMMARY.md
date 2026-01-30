@@ -6,7 +6,7 @@
 
 ---
 
-Based on planning in `overall.md` and OpenCode skills specifications, 39 skills have been successfully created (31 original + 7 new + 1 Rust CLI builder), covering complete seven stages of Aether.go methodology fusion framework.
+Based on planning in `overall.md` and OpenCode skills specifications, 39 skills have been successfully created (31 original + 7 new + 1 Rust CLI builder), covering complete eight stages of Aether.go methodology fusion framework.
 
 ## Background of New Skills: Methodology Fusion Framework Enhancement
 
@@ -17,7 +17,7 @@ Based on an in-depth analysis of the Aether.go methodology fusion framework desc
 ### Methodology Fusion Orchestration Layer Skills - 1
 
 1. **methodology-fusion-orchestrator**
-   - Description: Coordinate end-to-end Aether.go methodology fusion workflow, covering all seven stages
+   - Description: Coordinate end-to-end Aether.go methodology fusion workflow, covering all eight stages
    - Functions: Workflow orchestration, constitution enforcement, metrics aggregation, skill scheduling, optimization triggering
    - Location: `skills/methodology-fusion-orchestrator/SKILL.md`
 
@@ -264,9 +264,9 @@ Each skill contains:
 
 ## Skill Integration & Workflow
 
-### Seven-Stage Methodology Fusion Workflow
+### Eight-Stage Methodology Fusion Workflow
 
-The newly added `methodology-fusion-orchestrator` skill coordinates the complete seven stages:
+The newly added `methodology-fusion-orchestrator` skill coordinates the complete eight stages:
 
 ```
 Stage 1: Business Analysis
