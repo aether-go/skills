@@ -314,26 +314,26 @@ fn main() {
 [package]
 name = "myapp"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 authors = ["Your Name <you@example.com>"]
 description = "My CLI application"
 license = "MIT"
 repository = "https://github.com/user/myapp"
 
 [dependencies]
-clap = { version = "4.4", features = ["derive", "env"] }
-clap_complete = "4.4"
+clap = { version = "4.5", features = ["derive", "env"] }
+clap_complete = "4.5"
 serde = { version = "1.0", features = ["derive"] }
-config = "0.13"
+config = "0.15"
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
 anyhow = "1.0"
-thiserror = "1.0"
+thiserror = "2.0"
 chrono = { version = "0.4", features = ["serde"] }
 
 [dev-dependencies]
-assert_cmd = "2.0"
-predicates = "3.0"
+assert_cmd = "2.1"
+predicates = "3.1"
 tempfile = "3.8"
 
 [build-dependencies]
