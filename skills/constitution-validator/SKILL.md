@@ -171,7 +171,7 @@ jobs:
 ```markdown
 # Constitution Validation Report
 
-**Date:** 2024-01-16
+**Date:** 2026-01-16
 **Scope:** PR #1234 - Password Reset Feature
 
 ## Summary

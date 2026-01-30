@@ -39,7 +39,7 @@ spec_evolution:
 
   versions:
     - version: "1.0"
-      date: "2024-01-01"
+      date: "2026-01-01"
       status: "released"
       author: "Alice"
       changes: "Initial version"
@@ -48,7 +48,7 @@ spec_evolution:
         - "Order validation"
 
     - version: "1.1"
-      date: "2024-01-15"
+      date: "2026-01-15"
       status: "released"
       author: "Bob"
       changes: "Added order cancellation"
@@ -63,7 +63,7 @@ spec_evolution:
         breaking_changes: false
 
     - version: "2.0"
-      date: "2024-02-01"
+      date: "2026-02-01"
       status: "proposed"
       author: "Charlie"
       changes: "Added subscription support"
@@ -160,7 +160,7 @@ def calculate_change_impact(change, dependency_graph):
 ```markdown
 # Changelog: REQ-ORDER-001 - Order Processing
 
-## [2.0.0] - 2024-02-01 (Proposed)
+## [2.0.0] - 2026-02-01 (Proposed)
 ### Added
 - Subscription order support
 - Recurring order scheduling
@@ -182,7 +182,7 @@ Run migration: `npm run migrate:order-subscription`
 
 ---
 
-## [1.1.0] - 2024-01-15 (Released)
+## [1.1.0] - 2026-01-15 (Released)
 ### Added
 - Order cancellation
 - Order status tracking

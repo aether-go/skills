@@ -122,7 +122,7 @@ Migrate to microservices architecture with containerized services orchestrated b
 
 | ADR | Title | Date | Status |
 |-----|-------|------|--------|
-| [ADR-001](adr-001.md) | Adopt microservices | 2024-01-15 | Accepted |
-| [ADR-002](adr-002.md) | Use PostgreSQL | 2024-01-20 | Accepted |
-| [ADR-003](adr-003.md) | Adopt React | 2024-02-01 | Superseded by ADR-005 |
+| [ADR-001](adr-001.md) | Adopt microservices | 2026-01-15 | Accepted |
+| [ADR-002](adr-002.md) | Use PostgreSQL | 2026-01-20 | Accepted |
+| [ADR-003](adr-003.md) | Adopt React | 2026-02-01 | Superseded by ADR-005 |
 ```

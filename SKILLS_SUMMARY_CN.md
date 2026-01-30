@@ -507,7 +507,7 @@ OpenCode会自动从以下位置发现技能：
 
 ---
 
-创建日期：2024-01-16  
+创建日期：2026-01-16  
 最后更新：2026-01-28  
 创建者：AI Assistant based on Aether.go methodology  
 参考文档：`method-paper.md`, `https://opencode.ai/docs/skills/`

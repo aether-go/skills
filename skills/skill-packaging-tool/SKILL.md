@@ -349,7 +349,7 @@ class SkillRegistry:
 
 All notable changes to this skill will be documented in this file.
 
-## [1.2.0] - 2024-01-16
+## [1.2.0] - 2026-01-16
 
 ### Added
 - Support for Scenario Outlines
@@ -364,13 +364,13 @@ All notable changes to this skill will be documented in this file.
 - Bug with duplicate Given steps
 - Issue with special characters in feature names
 
-## [1.1.0] - 2024-01-10
+## [1.1.0] - 2026-01-10
 
 ### Added
 - Background section support
 - Tags for scenario organization
 
-## [1.0.0] - 2024-01-01
+## [1.0.0] - 2026-01-01
 
 ### Added
 - Initial release

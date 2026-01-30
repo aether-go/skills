@@ -314,7 +314,7 @@ fn main() {
 [package]
 name = "myapp"
 version = "0.1.0"
-edition = "2024"
+edition = "2026"
 authors = ["Your Name <you@example.com>"]
 description = "My CLI application"
 license = "MIT"

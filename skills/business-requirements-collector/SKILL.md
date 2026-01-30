@@ -147,17 +147,17 @@ prioritization:
 approvals:
   - requirement: "REQ-CLR-001"
     approved_by: ["Jane Smith", "Alice Brown"]
-    date: "2024-01-20"
+    date: "2026-01-20"
     comments: "Basic account management essential"
     
   - requirement: "REQ-CLR-002"
     approved_by: ["Bob Johnson", "Jane Smith"]
-    date: "2024-01-20"
+    date: "2026-01-20"
     comments: "Critical for support cost reduction"
     
   - requirement: "REQ-CLR-003"
     approved_by: ["Alice Brown"]
-    date: "2024-01-21"
+    date: "2026-01-21"
     comments: "Deferred to Phase 2, nice-to-have"
 ```
 

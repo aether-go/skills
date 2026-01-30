@@ -39,9 +39,9 @@ Don't use when:
 
 ```yaml
 session_context:
-  session_id: "sess-20240116-001"
+  session_id: "sess-20260116-001"
   project: "aether-go"
-  timestamp: "2024-01-16T10:00:00Z"
+  timestamp: "2026-01-16T10:00:00Z"
 
   project_summary: |
     Aether.go is a methodology-driven development framework
@@ -52,7 +52,7 @@ session_context:
 
   key_decisions:
     - decision: "Use OpenCode skill format"
-      date: "2024-01-16"
+      date: "2026-01-16"
       rationale: "Standard format ensures discoverability"
 
   relevant_files:

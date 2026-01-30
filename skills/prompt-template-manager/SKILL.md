@@ -81,13 +81,13 @@ prompt_template:
 
   versions:
     - version: "1.2.0"
-      date: "2024-01-15"
+      date: "2026-01-15"
       changes: "Added security checklist"
     - version: "1.1.0"
-      date: "2024-01-10"
+      date: "2026-01-10"
       changes: "Improved clarity"
     - version: "1.0.0"
-      date: "2024-01-01"
+      date: "2026-01-01"
       changes: "Initial version"
 ```
 

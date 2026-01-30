@@ -47,7 +47,7 @@ traceability_matrix:
       tests:
         - "src/tests/order-service.test.ts"
         - "src/tests/order-integration.test.ts"
-      last_updated: "2024-01-16"
+      last_updated: "2026-01-16"
 
     - id: "REQ-002"
       description: "Order validation"
@@ -56,7 +56,7 @@ traceability_matrix:
         - "src/validators/order-validator.ts"
       tests:
         - "src/tests/order-validator.test.ts"
-      last_updated: "2024-01-16"
+      last_updated: "2026-01-16"
 
     - id: "REQ-003"
       description: "Order cancellation"
