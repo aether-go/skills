@@ -180,8 +180,9 @@ skills/
 OpenCode 会从当前工作目录向上搜索，自动发现 `skills/` 目录下的所有技能。
 
 ```bash
-# 在项目根目录下
-cd /home/bison/workspace/aether-go/skills
+# 在用户目录下
+git clone https://github.com/aether-go/skills.git
+cp -Rv skills/* .opencode/skill/
 
 # OpenCode 会自动发现 skills/ 目录下的所有技能
 ```

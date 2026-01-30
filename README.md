@@ -180,8 +180,9 @@ If migrating from an old version, see [MIGRATION.md](MIGRATION.md) for detailed 
 OpenCode automatically searches from the current working directory upwards and discovers all skills in the `skills/` directory.
 
 ```bash
-# In the project root directory
-cd /home/bison/workspace/aether-go/skills
+# In the user directory
+git clone https://github.com/aether-go/skills.git
+cp -Rv skills/* .opencode/skill/
 
 # OpenCode will automatically discover all skills in the skills/ directory
 ```
