@@ -217,13 +217,185 @@ cd skills
 
 ### Manual Skill Invocation
 
-In conversation, the AI assistant will automatically recommend and load relevant skills based on tasks:
+In conversation, AI assistant will automatically recommend and load relevant skills based on tasks:
 
 ```
 User: "I need to write BDD test scenarios for user login functionality"
 
 AI Assistant: Using bdd-scenario-writer skill to convert requirements to Gherkin scenarios...
 ```
+
+### Methodology Fusion Orchestrator Usage Examples
+
+The `methodology-fusion-orchestrator` is the most powerful skill that coordinates all other skills across the complete eight-stage workflow. Here are practical examples:
+
+#### Example 1: E-commerce User Authentication System (Basic)
+
+```
+I need to develop an e-commerce user authentication system.
+
+Business Goals:
+- Primary: Increase user registration conversion rate by 30%
+- Secondary: Reduce authentication-related customer support inquiries by 50%
+
+Success Metrics:
+- Registration success rate > 95%
+- Average registration time < 60 seconds
+- Third-party login usage rate > 40%
+- Authentication API P99 latency < 200ms
+
+Tech Stack:
+- Backend: Go + Gin + PostgreSQL + Redis
+- Frontend: Vue 3 + Quasar + Pinia
+
+Please use methodology-fusion-orchestrator to execute the complete eight-stage workflow, ensuring constitutional compliance, enabling recursive optimization and assetization.
+```
+
+#### Example 2: Microservices Order Management System (Standard)
+
+```
+Project Type: Microservices Architecture
+Tech Stack: Go Backend + Vue Frontend
+
+BMAD Framework:
+Business:
+  - Primary Goal: Improve order processing efficiency by 50%
+  - Secondary Goal: Reduce order error rate to below 0.1%
+
+Metrics:
+  Business:
+    - Order processing time < 2 seconds
+    - Order accuracy rate > 99.9%
+  Technical:
+    - API P99 latency < 100ms
+    - System availability > 99.95%
+
+Architecture:
+  - Style: DDD + Event-Driven
+  - Constraints: Support 100,000 concurrent orders
+
+Data:
+  - Types: Order data, user data, payment data
+  - Flow: Order creation → Payment processing → Inventory update → Logistics notification
+
+Please use methodology-fusion-orchestrator to execute the complete workflow, enabling all optimization and assetization features.
+```
+
+#### Example 3: Enterprise-Grade Full-Stack Application (Advanced)
+
+```yaml
+# Aether.go Methodology Fusion Orchestration Request
+
+## Project Overview
+project:
+  name: "Enterprise Resource Planning System"
+  type: "fullstack-web"
+  version: "1.0.0"
+  business_criticality: "high"
+  compliance_requirements: ["SOC2", "GDPR"]
+
+## BMAD Business Value Framework
+business:
+  primary_goals:
+    - id: "BG-001"
+      description: "Streamline inventory management"
+      priority: "high"
+      success_criteria: "Reduce inventory processing time by 40%"
+    - id: "BG-002"
+      description: "Improve order fulfillment"
+      priority: "medium"
+      success_criteria: "Achieve 99.5% order accuracy"
+
+metrics:
+  business:
+    - name: "Inventory turnover rate"
+      target: "12 times/year"
+      measurement: "Calculated from inventory logs"
+      frequency: "monthly"
+      owner: "Operations Manager"
+  
+  technical:
+    - name: "API response time"
+      target: "P99 < 150ms"
+      measurement: "APM monitoring"
+      frequency: "continuous"
+      owner: "DevOps Team"
+
+architecture:
+  style: "Clean Architecture + DDD"
+  patterns: ["CQRS", "Event Sourcing"]
+  constraints:
+    - type: "performance"
+      requirement: "Support 10,000 concurrent users"
+    - type: "security"
+      requirement: "Comply with OWASP Top 10"
+
+data:
+  entities:
+    - name: "Customer data"
+      sensitivity: "confidential"
+      retention: "7 years"
+      compliance: "GDPR"
+  flows:
+    - from: "Order service"
+      to: "Inventory service"
+      transformation: "Deduce inventory"
+      validation: "Stock availability check"
+
+## Constitution & Compliance Configuration
+constitution:
+  file: "./constitution.yaml"
+  strict_mode: true
+  auto_evolve: true
+  evolution_threshold: 0.85
+
+## Optimization & Assetization Configuration
+optimization:
+  enabled: true
+  frequency: "after_each_stage"
+  scope: ["skills", "constitution", "workflow"]
+
+skill_effectiveness:
+  tracking:
+    - success_rate
+    - execution_time
+    - output_quality
+    - constitution_compliance
+  reporting:
+    frequency: "daily"
+    dashboard: true
+    alerts:
+      - condition: "success_rate < 0.7"
+        action: "notify_team"
+
+## Execution Requirements
+
+Please use methodology-fusion-orchestrator to execute the complete eight-stage workflow and provide:
+1. Detailed execution report for each stage
+2. Constitutional compliance check results
+3. Metrics aggregation summary
+4. Optimization recommendations and assetization results
+5. Visualization dashboard links
+
+## Expected Outcomes
+- Constitutional compliance score ≥ 95%
+- Requirement traceability = 100%
+- Test coverage ≥ 90%
+- Business value alignment ≥ 90%
+- Optimization efficiency gain ≥ 15%
+- Assetized successful patterns ≥ 2
+```
+
+### Prompt Optimization Tips
+
+1. **Define Business Value Clearly**: Always start with the BMAD framework, clarifying business goals, metrics, architecture, and data
+2. **Specify Tech Stack**: Clearly define backend, frontend, database, and other technology choices
+3. **Configure Constitution Options**: Adjust constitution strictness and evolution thresholds based on project requirements
+4. **Enable Optimization Features**: Explicitly request recursive optimization, assetization, and automation
+5. **Specify Output Format**: Request detailed execution reports, visualization dashboards, and optimization recommendations
+6. **Set Quality Gates**: Define minimum requirements for constitutional compliance, test coverage, and code quality
+7. **Configure Collaboration Flow**: Specify stages requiring approval and approvers
+8. **Enable Visualization**: Request real-time updated dashboards and multiple export formats
 
 ### Skill Statistics
 

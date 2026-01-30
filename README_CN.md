@@ -225,6 +225,178 @@ cd skills
 AI助手: 使用 bdd-scenario-writer 技能来转换需求为 Gherkin 场景...
 ```
 
+### 方法论融合协调器使用示例
+
+`methodology-fusion-orchestrator` 是最强大的技能，它协调所有其他技能执行完整的八阶段工作流。以下是实际使用示例：
+
+#### 示例1：电商用户认证系统（基础版）
+
+```
+我需要开发一个电商用户认证系统。
+
+业务目标：
+- 主要：提升用户注册转化率30%
+- 次要：降低认证相关客服咨询50%
+
+成功指标：
+- 注册成功率 > 95%
+- 平均注册时间 < 60秒
+- 第三方登录使用率 > 40%
+- 认证API P99延迟 < 200ms
+
+技术栈：
+- 后端：Go + Gin + PostgreSQL + Redis
+- 前端：Vue 3 + Quasar + Pinia
+
+请使用methodology-fusion-orchestrator执行完整的八阶段工作流，确保宪法合规，启用递归优化和资产化。
+```
+
+#### 示例2：微服务订单管理系统（标准版）
+
+```
+项目类型：微服务架构
+技术栈：Go后端 + Vue前端
+
+BMAD框架：
+Business：
+  - 主要目标：提升订单处理效率50%
+  - 次要目标：降低订单错误率到0.1%以下
+
+Metrics：
+  业务：
+    - 订单处理时间 < 2秒
+    - 订单准确率 > 99.9%
+  技术：
+    - API P99延迟 < 100ms
+    - 系统可用性 > 99.95%
+
+Architecture：
+  - 架构风格：DDD + 事件驱动
+  - 关键约束：支持10万并发订单
+
+Data：
+  - 数据类型：订单数据、用户数据、支付数据
+  - 数据流向：订单创建 → 支付处理 → 库存更新 → 物流通知
+
+请使用methodology-fusion-orchestrator执行完整工作流，启用所有优化和资产化功能。
+```
+
+#### 示例3：企业级全栈应用（高级版）
+
+```yaml
+# Aether.go 方法论融合编排请求
+
+## 项目概览
+project:
+  name: "企业资源规划系统"
+  type: "fullstack-web"
+  version: "1.0.0"
+  business_criticality: "high"
+  compliance_requirements: ["SOC2", "GDPR"]
+
+## BMAD 业务价值框架
+business:
+  primary_goals:
+    - id: "BG-001"
+      description: "优化库存管理"
+      priority: "high"
+      success_criteria: "库存处理时间减少40%"
+    - id: "BG-002"
+      description: "改进订单履行"
+      priority: "medium"
+      success_criteria: "订单准确率达到99.5%"
+
+metrics:
+  business:
+    - name: "库存周转率"
+      target: "12次/年"
+      measurement: "从库存日志计算"
+      frequency: "monthly"
+      owner: "运营经理"
+  
+  technical:
+    - name: "API响应时间"
+      target: "P99 < 150ms"
+      measurement: "APM监控"
+      frequency: "continuous"
+      owner: "DevOps团队"
+
+architecture:
+  style: "Clean Architecture + DDD"
+  patterns: ["CQRS", "Event Sourcing"]
+  constraints:
+    - type: "performance"
+      requirement: "支持1万并发用户"
+    - type: "security"
+      requirement: "符合OWASP Top 10"
+
+data:
+  entities:
+    - name: "客户数据"
+      sensitivity: "confidential"
+      retention: "7年"
+      compliance: "GDPR"
+  flows:
+    - from: "订单服务"
+      to: "库存服务"
+      transformation: "扣减库存"
+      validation: "库存可用性检查"
+
+## 宪法与合规配置
+constitution:
+  file: "./constitution.yaml"
+  strict_mode: true
+  auto_evolve: true
+  evolution_threshold: 0.85
+
+## 优化与资产化配置
+optimization:
+  enabled: true
+  frequency: "after_each_stage"
+  scope: ["skills", "constitution", "workflow"]
+
+skill_effectiveness:
+  tracking:
+    - success_rate
+    - execution_time
+    - output_quality
+    - constitution_compliance
+  reporting:
+    frequency: "daily"
+    dashboard: true
+    alerts:
+      - condition: "success_rate < 0.7"
+        action: "notify_team"
+
+## 执行要求
+
+请使用methodology-fusion-orchestrator执行完整的八阶段工作流，并提供：
+1. 每个阶段的详细执行报告
+2. 宪法合规检查结果
+3. 度量指标汇总
+4. 优化建议和资产化结果
+5. 可视化仪表板链接
+
+## 预期成果
+- 宪法合规得分 ≥ 95%
+- 需求可追溯性 = 100%
+- 测试覆盖率 ≥ 90%
+- 业务价值对齐度 ≥ 90%
+- 优化效率提升 ≥ 15%
+- 资产化成功模式数量 ≥ 2
+```
+
+### Prompt优化建议
+
+1. **明确业务价值**：始终从BMAD框架开始，明确业务目标、度量、架构和数据
+2. **指定技术栈**：明确后端、前端、数据库等技术选型
+3. **配置宪法选项**：根据项目需求调整宪法严格程度和进化阈值
+4. **启用优化功能**：明确要求启用递归优化、资产化和自动化
+5. **指定输出格式**：要求提供详细的执行报告、可视化仪表板和优化建议
+6. **设置质量门禁**：明确宪法合规、测试覆盖率、代码质量的最低要求
+7. **配置协作流程**：指定需要审批的阶段和审批人
+8. **启用可视化**：要求生成实时更新的仪表板和多种导出格式
+
 ### 技能统计
 
 根据 [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md) 的详细清单：
