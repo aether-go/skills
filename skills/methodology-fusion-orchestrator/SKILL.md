@@ -99,8 +99,11 @@ phases_executed:
       skill: architecture-pattern-selector
       input: Validated specifications
       output: Selected architecture pattern
-      skill: architecture-decision-recorder
+      skill: tech-stack-selector
       input: Selected pattern + specifications
+      output: Technology stack selection
+      skill: architecture-decision-recorder
+      input: Selected pattern + tech stack + specifications
       output: Architecture decisions + ADRs
       skill: data-flow-analyzer
       input: Architecture decisions
@@ -187,7 +190,7 @@ metrics_summary:
 | **1. Business Analysis** | business-requirements-collector, business-value-mapper | metrics-definer | Structured requirements + BMAD matrix |
 | **2. Specification** | spec-parser, bdd-scenario-writer, atdd-acceptance-test-generator | - | Structured specs + scenarios + acceptance tests |
 | **3. Constitutional Review** | constitution-validator | architecture-decision-recorder | Compliance report |
-| **4. Implementation Planning** | architecture-pattern-selector, architecture-decision-recorder | data-flow-analyzer | Architecture pattern + ADRs + data flows |
+| **4. Implementation Planning** | architecture-pattern-selector, tech-stack-selector, architecture-decision-recorder | data-flow-analyzer | Architecture pattern + tech stack + ADRs + data flows |
 | **5. Code Generation** | tdd-red-green-refactor, go-backend-scaffolder, vue-quasar-scaffolder | spec-to-code-tracer | Test-driven code |
 | **6. Integration Validation** | sit-scenario-generator, contract-test-generator, chaos-test-designer | test-pyramid-analyzer | Integration + contract + resilience tests |
 | **7. Deployment & Operations** | deployment-orchestrator, incident-management, change-management, release-manager | metrics-definer, problem-management, service-desk, rollback-manager | Deployment execution, ITIL operations, metrics dashboard |
@@ -463,7 +466,7 @@ class MethodologyFusionOrchestrator:
         # Stage 4: Implementation Planning
         stage4_result = self._execute_stage(
             stage_id=4,
-            skills=['architecture-pattern-selector', 'architecture-decision-recorder', 'data-flow-analyzer'],
+            skills=['architecture-pattern-selector', 'tech-stack-selector', 'architecture-decision-recorder', 'data-flow-analyzer'],
             input=stage3_result['validated_output'],
             constitution_checks=['Interface-First Development', 'Simplicity & YAGNI']
         )

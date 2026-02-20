@@ -60,6 +60,8 @@ skills/
 │   │   └── SKILL.md
 │   ├── architecture-pattern-selector/ # Architecture pattern selector
 │   │   └── SKILL.md
+│   ├── tech-stack-selector/       # Technology stack selector
+│   │   └── SKILL.md
 │   ├── generic-code-generator/    # Generic code generator
 │   │   └── SKILL.md
 │   └── contract-test-generator/    # Contract test generator
@@ -147,12 +149,13 @@ If migrating from an old version, see [MIGRATION.md](MIGRATION.md) for detailed 
 - `data-flow-analyzer` - Analyze data flow and value chain
 - `requirement-implementation-tracer` - Three-layer bidirectional traceability between requirements, use cases, and implementation
 
-### Tactical Layer (7 skills)
+### Tactical Layer (8 skills)
 - `spec-parser` - Parse natural language requirements into structured specifications
 - `constitution-validator` - Validate constitution principle compliance
 - `spec-to-code-tracer` - Establish bidirectional tracing between specifications and code
 - `spec-evolution-tracker` - Track specification change history
 - `architecture-pattern-selector` - Select architecture patterns based on requirements
+- `tech-stack-selector` - Interactive technology stack selection with comprehensive options
 - `generic-code-generator` - Generate code across languages based on specifications, templates, or TDD patterns
 - `contract-test-generator` - Generate consumer-driven contract tests to ensure microservice API compatibility
 
@@ -180,7 +183,7 @@ If migrating from an old version, see [MIGRATION.md](MIGRATION.md) for detailed 
 
 ---
 
-**Total**: 43 skills covering the complete software development lifecycle
+**Total**: 44 skills covering the complete software development lifecycle
 
 ## Usage
 
@@ -407,10 +410,10 @@ Please use methodology-fusion-orchestrator to execute the complete eight-stage w
 
 According to the detailed list in [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md):
 
-- **Total Skills**: 43
+- **Total Skills**: 44
 - **Execution Layer**: 6 (BDD, TDD, Test Analysis, SIT, Chaos, ATDD)
 - **Strategic Layer**: 9 (BMAD, Metrics, ADR, Data Flow, Requirements Collection, Requirement Classification, Use Case Design, NFR Analysis, Traceability)
-- **Tactical Layer**: 7 (Parsing, Constitution, Tracing, Evolution, Architecture Selection, Code Generation, Contract Testing)
+- **Tactical Layer**: 8 (Parsing, Constitution, Tracing, Evolution, Architecture Selection, Tech Stack Selection, Code Generation, Contract Testing)
 - **AI Collaboration Layer**: 4 (Context, Recommendation, Optimization, Templates)
 - **Go + Vue + Quasar Fullstack Development Layer**: 6 (Backend Scaffolder, Frontend Scaffolder, Project Initialization, Documentation Generation, Workflow Coordination, Makefile Generation)
 - **Tools & Integration Layer**: 2 (Skill Packaging, CLI Builder)
@@ -478,6 +481,7 @@ See complete workflow diagram in [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md):
    - `architecture-decision-recorder` - Record architecture decisions (ADR)
    - `data-flow-analyzer` - Analyze data flow and value chain
    - `architecture-pattern-selector` - Select appropriate architecture patterns
+   - `tech-stack-selector` - Interactive technology stack selection
 
 5. **Stage 5: Code Generation**
    - `tdd-red-green-refactor` - Implement features using TDD methodology

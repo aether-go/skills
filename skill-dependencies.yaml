@@ -20,6 +20,8 @@ dependencies:
       - atdd-acceptance-test-generator
       - constitution-validator
       - architecture-decision-recorder
+      - architecture-pattern-selector
+      - tech-stack-selector
       - data-flow-analyzer
       - tdd-red-green-refactor
       - go-backend-scaffolder
@@ -116,6 +118,12 @@ dependencies:
     depends_on:
       - architecture-decision-recorder
     provides: "architecture pattern selection"
+    stage: "implementation_planning"
+    
+  tech-stack-selector:
+    depends_on:
+      - architecture-pattern-selector
+    provides: "technology stack selection with interactive guidance"
     stage: "implementation_planning"
 
   # Code Generation Stage

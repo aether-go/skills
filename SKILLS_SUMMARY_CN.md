@@ -6,7 +6,7 @@
 
 ---
 
-根据 `overall.md` 中的规划和 OpenCode skills 规范，已成功创建所有 43 个技能（原有31个 + 新增7个需求管理技能 + Rust CLI构建器 + README & LICENSE生成器 + 3个新增追溯技能），覆盖Aether.go方法论融合框架的完整八个阶段。
+根据 `overall.md` 中的规划和 OpenCode skills 规范，已成功创建所有 45 个技能（原有31个 + 新增7个需求管理技能 + Rust CLI构建器 + README & LICENSE生成器 + 3个新增追溯技能 + 技术栈选择器 + 架构模式选择器），覆盖Aether.go方法论融合框架的完整八个阶段。
 
 ## 新增 Skills 背景：方法论融合框架完善
 
@@ -95,160 +95,165 @@
    - 功能：系统化评估模式、创建决策矩阵、生成ADR
    - 位置：`skills/architecture-pattern-selector/SKILL.md`
 
-16. **generic-code-generator**
+16. **tech-stack-selector**
+   - 描述：交互式技术栈选择，提供应用类型、语言、框架、数据库、缓存、消息队列和基础设施等全面选项
+   - 功能：应用类型选择、语言/框架推荐、数据库选型、基础设施决策、ADR集成
+   - 位置：`skills/tech-stack-selector/SKILL.md`
+
+17. **generic-code-generator**
    - 描述：根据规范、模板或测试驱动开发模式跨多种语言和框架生成生产代码
    - 功能：模板化代码生成、规范转换、TDD集成、多语言模式支持
    - 位置：`skills/generic-code-generator/SKILL.md`
 
-17. **contract-test-generator**
+18. **contract-test-generator**
    - 描述：生成消费者驱动的契约测试，确保微服务API兼容性，防止集成故障
    - 功能：契约生成、消费者驱动测试、Pact/OpenAPI集成、CI/CD验证门控
    - 位置：`skills/contract-test-generator/SKILL.md`
 
 ### 执行层 Skills（ATDD/BDD/TDD/SIT/Chaos）- 6个
 
-18. **atdd-acceptance-test-generator**
+19. **atdd-acceptance-test-generator**
    - 描述：从需求生成可执行的验收测试以驱动开发
    - 功能：生成可执行验收测试、利益相关者验证示例、测试覆盖分析
    - 位置：`skills/atdd-acceptance-test-generator/SKILL.md`
 
-19. **bdd-scenario-writer**
+20. **bdd-scenario-writer**
    - 描述：将用户故事和需求转换为Gherkin BDD场景文件
    - 功能：生成Given-When-Then结构的场景，支持多语言
    - 位置：`skills/bdd-scenario-writer/SKILL.md`
 
-20. **tdd-red-green-refactor**
+21. **tdd-red-green-refactor**
    - 描述：使用测试驱动开发方法实现任何功能或修复错误
    - 功能：指导RED-GREEN-REFACTOR循环，支持多语言
    - 位置：`skills/tdd-red-green-refactor/SKILL.md`
 
-21. **test-pyramid-analyzer**
+22. **test-pyramid-analyzer**
    - 描述：分析测试覆盖率、分布和测试策略缺口
    - 功能：可视化测试分布，生成覆盖率报告，提供优化建议
    - 位置：`skills/test-pyramid-analyzer/SKILL.md`
 
-22. **sit-scenario-generator**
+23. **sit-scenario-generator**
    - 描述：创建跨多个服务或API端点的系统集成测试（SIT）场景
    - 功能：生成自动化SIT测试脚本，支持Cypress/Postman/k6
    - 位置：`skills/sit-scenario-generator/SKILL.md`
 
-23. **chaos-test-designer**
+24. **chaos-test-designer**
    - 描述：设计混沌工程实验以测试系统弹性和容错能力
    - 功能：定义故障注入场景，支持LitmusChaos/Chaos Mesh
    - 位置：`skills/chaos-test-designer/SKILL.md`
 
 ### ITIL Service Management & Deployment Operations Skills - 7个
 
-24. **incident-management**
+25. **incident-management**
    - 描述：ITIL对齐的事件处理流程和响应工作流
    - 功能：事件分类、优先级排序、升级、解决跟踪
    - 位置：`skills/incident-management/SKILL.md`
 
-25. **problem-management**
+26. **problem-management**
    - 描述：根本原因分析和永久性修复管理
    - 功能：问题识别、根本原因分析、解决方案实施、预防措施
    - 位置：`skills/problem-management/SKILL.md`
 
-26. **change-management**
+27. **change-management**
    - 描述：受控变更流程与变更咨询委员会（CAB）审批
    - 功能：变更请求评估、风险评估、CAB审批、实施协调
    - 位置：`skills/change-management/SKILL.md`
 
-27. **service-desk**
+28. **service-desk**
    - 描述：用户请求和问题的单一联系点管理
    - 功能：服务目录、SLA协议、用户沟通、请求跟踪
    - 位置：`skills/service-desk/SKILL.md`
 
-28. **deployment-orchestrator**
+29. **deployment-orchestrator**
    - 描述：高级部署策略编排（金丝雀、蓝绿、滚动更新）
    - 功能：部署策略选择、环境管理、发布协调、监控集成
    - 位置：`skills/deployment-orchestrator/SKILL.md`
 
-29. **release-manager**
+30. **release-manager**
    - 描述：发布规划、版本管理和利益相关者协调
    - 功能：发布日历、版本控制、沟通计划、上线协调
    - 位置：`skills/release-manager/SKILL.md`
 
-30. **rollback-manager**
+31. **rollback-manager**
    - 描述：失败部署的自动化回滚程序
    - 功能：回滚触发器、状态恢复、数据一致性验证
    - 位置：`skills/rollback-manager/SKILL.md`
 
 ### AI 协作与优化 Skills - 4个
 
-31. **context-manager**
+32. **context-manager**
    - 描述：管理项目上下文、对话历史和信息检索
    - 功能：保存和恢复上下文，最小化token使用
    - 位置：`skills/context-manager/SKILL.md`
 
-32. **skill-recommender**
+33. **skill-recommender**
    - 描述：根据当前任务、项目上下文和开发阶段推荐相关AI技能
    - 功能：智能推荐，提高效率
    - 位置：`skills/skill-recommender/SKILL.md`
 
-33. **recursive-optimizer**
+34. **recursive-optimizer**
    - 描述：基于执行结果和用户反馈优化AI技能、提示词和工作流
    - 功能：A/B测试，持续改进循环
    - 位置：`skills/recursive-optimizer/SKILL.md`
 
-34. **prompt-template-manager**
+35. **prompt-template-manager**
    - 描述：管理、版本化和优化AI提示词模板
    - 功能：版本控制，性能跟踪，A/B测试
    - 位置：`skills/prompt-template-manager/SKILL.md`
 
 ### Go + Vue + Quasar 全栈开发 Skills - 6个（生产级模式）
 
-35. **go-backend-scaffolder**
+36. **go-backend-scaffolder**
    - 描述：基于生产级模式生成干净架构的Go后端代码
    - 功能：创建Fiber + GORM + Swagger后端，支持分层架构和Cobra命令结构
    - 特点：main.go在根目录作为Cobra入口，cmd/存放独立命令（version/daemon/server），包含默认version命令
    - 位置：`skills/go-backend-scaffolder/SKILL.md`
 
-36. **vue-quasar-scaffolder**
+37. **vue-quasar-scaffolder**
    - 描述：基于生产级前端模式生成Vue 3 + Quasar + TypeScript组件
    - 功能：创建Composition API组件、Pinia存储、测试配置
    - 位置：`skills/vue-quasar-scaffolder/SKILL.md`
 
-37. **fullstack-project-setup**
+38. **fullstack-project-setup**
    - 描述：基于生产级结构初始化完整的Go + Vue + Quasar全栈项目
    - 功能：创建项目结构、Docker配置、CI/CD管道、开发环境
    - 位置：`skills/fullstack-project-setup/SKILL.md`
 
-38. **requirements-to-code-docs**
+39. **requirements-to-code-docs**
    - 描述：基于生产级文档工作流从需求到用例到实现生成结构化文档
    - 功能：需求文档、用例文档、API文档、可追溯性矩阵
    - 位置：`skills/requirements-to-code-docs/SKILL.md`
 
-39. **go-vue-fullstack-workflow**
+40. **go-vue-fullstack-workflow**
    - 描述：协调使用生产级模式和文档的Go + Vue + Quasar全栈开发工作流
    - 功能：集成所有相关技能，提供端到端开发工作流指导
    - 位置：`skills/go-vue-fullstack-workflow/SKILL.md`
 
-40. **makefile-backend-generator**
+41. **makefile-backend-generator**
    - 描述：基于生产级模式为Go后端项目创建生产级Makefile
    - 功能：生成包含构建、测试、部署、数据库操作的完整Makefile，支持跨平台编译
    - 位置：`skills/makefile-backend-generator/SKILL.md`
 
 ### 工具与集成 Skills - 4个
 
-41. **skill-packaging-tool**
+42. **skill-packaging-tool**
    - 描述：将技能打包为可分发的可安装包
    - 功能：版本管理，依赖声明，安装脚本
    - 位置：`skills/skill-packaging-tool/SKILL.md`
 
-42. **go-cli-builder**
+43. **go-cli-builder**
    - 描述：构建企业级Go CLI应用，基于cobra+viper和最佳实践
    - 功能：生成生产级CLI应用结构，包含配置管理、结构化日志、自动版本嵌入、多平台构建和完整测试策略
    - 特点：支持多路径配置文件搜索（./ → ./config → /etc/应用名称），自动获取Git版本和Go SDK版本，内置shell补全命令
    - 位置：`skills/go-cli-builder/SKILL.md`
 
-43. **rust-cli-builder**
+44. **rust-cli-builder**
    - 描述：构建企业级Rust CLI应用，基于clap+serde+config和最佳实践
    - 功能：生成生产级CLI应用结构，包含配置管理、结构化日志、自动版本嵌入、多平台构建和完整测试策略
    - 特点：支持多路径配置文件搜索（./ → ./config → /etc/应用名称），自动获取Git版本和Rust版本，内置shell补全命令
    - 位置：`skills/rust-cli-builder/SKILL.md`
 
-44. **readme-license-generator**
+45. **readme-license-generator**
    - 描述：生成中英文双语的README和LICENSE文件，包含语言切换链接和常用徽章
    - 功能：创建带语言切换的README，生成各种开源许可证的LICENSE文件，包含常用徽章，支持项目初始化
    - 位置：`skills/readme-license-generator/SKILL.md`
@@ -312,6 +317,8 @@
 
 阶段4: 实现计划 (Implementation Planning)
   ├── architecture-decision-recorder
+  ├── architecture-pattern-selector
+  ├── tech-stack-selector
   └── data-flow-analyzer
 
 阶段5: 代码生成 (Code Generation)

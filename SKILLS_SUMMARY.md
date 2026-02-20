@@ -6,7 +6,7 @@
 
 ---
 
-Based on planning in `overall.md` and OpenCode skills specifications, 43 skills have been successfully created (31 original + 7 new requirement management skills + 1 Rust CLI builder + 1 README & LICENSE generator + 3 new traceability skills), covering complete eight stages of Aether.go methodology fusion framework.
+Based on planning in `overall.md` and OpenCode skills specifications, 45 skills have been successfully created (31 original + 7 new requirement management skills + 1 Rust CLI builder + 1 README & LICENSE generator + 3 new traceability skills + 1 tech stack selector + 1 architecture pattern selector), covering complete eight stages of Aether.go methodology fusion framework.
 
 ## Background of New Skills: Methodology Fusion Framework Enhancement
 
@@ -95,160 +95,165 @@ Based on an in-depth analysis of the Aether.go methodology fusion framework desc
    - Functions: Systematic pattern evaluation, create decision matrix, generate ADR
    - Location: `skills/architecture-pattern-selector/SKILL.md`
 
-16. **generic-code-generator**
+16. **tech-stack-selector**
+   - Description: Interactive technology stack selection with comprehensive options for application type, languages, frameworks, databases, caching, messaging, and infrastructure
+   - Functions: Application type selection, language/framework recommendations, database selection, infrastructure decisions, ADR integration
+   - Location: `skills/tech-stack-selector/SKILL.md`
+
+17. **generic-code-generator**
    - Description: Generate production code across multiple languages and frameworks based on specifications, templates, or test-driven development patterns
    - Functions: Template-based code generation, specification transformation, TDD integration, multi-language pattern support
    - Location: `skills/generic-code-generator/SKILL.md`
 
-17. **contract-test-generator**
+18. **contract-test-generator**
    - Description: Generate consumer-driven contract tests to ensure microservice API compatibility and prevent integration failures
    - Functions: Contract generation, consumer-driven testing, Pact/OpenAPI integration, CI/CD validation gates
    - Location: `skills/contract-test-generator/SKILL.md`
 
 ### Execution Layer Skills (ATDD/BDD/TDD/SIT/Chaos) - 6
 
-18. **atdd-acceptance-test-generator**
+19. **atdd-acceptance-test-generator**
    - Description: Generate executable acceptance tests from requirements to drive development
    - Functions: Generate executable acceptance tests, stakeholder validation examples, test coverage analysis
    - Location: `skills/atdd-acceptance-test-generator/SKILL.md`
 
-19. **bdd-scenario-writer**
+20. **bdd-scenario-writer**
    - Description: Convert user stories and requirements to Gherkin BDD scenario files
    - Functions: Generate Given-When-Then structured scenarios, support multiple languages
    - Location: `skills/bdd-scenario-writer/SKILL.md`
 
-20. **tdd-red-green-refactor**
+21. **tdd-red-green-refactor**
    - Description: Implement any feature or fix bugs using test-driven development methodology
    - Functions: Guide RED-GREEN-REFACTOR cycle, support multiple languages
    - Location: `skills/tdd-red-green-refactor/SKILL.md`
 
-21. **test-pyramid-analyzer**
+22. **test-pyramid-analyzer**
    - Description: Analyze test coverage, distribution, and test strategy gaps
    - Functions: Visualize test distribution, generate coverage reports, provide optimization recommendations
    - Location: `skills/test-pyramid-analyzer/SKILL.md`
 
-22. **sit-scenario-generator**
+23. **sit-scenario-generator**
    - Description: Create system integration test (SIT) scenarios across multiple services or API endpoints
    - Functions: Generate automated SIT test scripts, support Cypress/Postman/k6
    - Location: `skills/sit-scenario-generator/SKILL.md`
 
-23. **chaos-test-designer**
+24. **chaos-test-designer**
    - Description: Design chaos engineering experiments to test system resilience and fault tolerance
    - Functions: Define fault injection scenarios, support LitmusChaos/Chaos Mesh
    - Location: `skills/chaos-test-designer/SKILL.md`
 
 ### ITIL Service Management & Deployment Operations Skills - 7
 
-24. **incident-management**
+25. **incident-management**
    - Description: ITIL-aligned incident handling processes and response workflows
    - Functions: Incident classification, prioritization, escalation, resolution tracking
    - Location: `skills/incident-management/SKILL.md`
 
-25. **problem-management**
+26. **problem-management**
    - Description: Root cause analysis and permanent fix management
    - Functions: Problem identification, root cause analysis, solution implementation, preventive measures
    - Location: `skills/problem-management/SKILL.md`
 
-26. **change-management**
+27. **change-management**
    - Description: Controlled change processes and Change Advisory Board (CAB) approval
    - Functions: Change request evaluation, risk assessment, CAB approval, implementation coordination
    - Location: `skills/change-management/SKILL.md`
 
-27. **service-desk**
+28. **service-desk**
    - Description: Single point of contact management for user requests and issues
    - Functions: Service catalog, SLA agreements, user communication, request tracking
    - Location: `skills/service-desk/SKILL.md`
 
-28. **deployment-orchestrator**
+29. **deployment-orchestrator**
    - Description: Advanced deployment strategy orchestration (canary, blue-green, rolling updates)
    - Functions: Deployment strategy selection, environment management, release coordination, monitoring integration
    - Location: `skills/deployment-orchestrator/SKILL.md`
 
-29. **release-manager**
+30. **release-manager**
    - Description: Release planning, version management, and stakeholder coordination
    - Functions: Release calendar, version control, communication plan, go-live coordination
    - Location: `skills/release-manager/SKILL.md`
 
-30. **rollback-manager**
+31. **rollback-manager**
    - Description: Automated rollback procedures for failed deployments
    - Functions: Rollback triggers, state restoration, data consistency verification
    - Location: `skills/rollback-manager/SKILL.md`
 
 ### AI Collaboration & Optimization Skills - 4
 
-31. **context-manager**
+32. **context-manager**
    - Description: Manage project context, conversation history, and information retrieval
    - Functions: Save and restore context, minimize token usage
    - Location: `skills/context-manager/SKILL.md`
 
-32. **skill-recommender**
+33. **skill-recommender**
    - Description: Recommend relevant AI skills based on current task, project context, and development stage
    - Functions: Intelligent recommendation, improve efficiency
    - Location: `skills/skill-recommender/SKILL.md`
 
-33. **recursive-optimizer**
+34. **recursive-optimizer**
    - Description: Optimize AI skills, prompts, and workflows based on execution results and user feedback
    - Functions: A/B testing, continuous improvement loop
    - Location: `skills/recursive-optimizer/SKILL.md`
 
-34. **prompt-template-manager**
+35. **prompt-template-manager**
    - Description: Manage, version, and optimize AI prompt templates
    - Functions: Version control, performance tracking, A/B testing
    - Location: `skills/prompt-template-manager/SKILL.md`
 
 ### Go + Vue + Quasar Fullstack Development Skills - 6 (Production-Ready Patterns)
 
-35. **go-backend-scaffolder**
+36. **go-backend-scaffolder**
    - Description: Generate clean architecture Go backend code based on production-ready patterns
    - Functions: Create Fiber + GORM + Swagger backend, support layered architecture and Cobra command structure
    - Features: main.go in root directory as Cobra entry point, cmd/ contains independent commands (version/daemon/server), includes default version command
    - Location: `skills/go-backend-scaffolder/SKILL.md`
 
-36. **vue-quasar-scaffolder**
+37. **vue-quasar-scaffolder**
    - Description: Generate Vue 3 + Quasar + TypeScript components based on production-ready frontend patterns
    - Functions: Create Composition API components, Pinia stores, test configuration
    - Location: `skills/vue-quasar-scaffolder/SKILL.md`
 
-37. **fullstack-project-setup**
+38. **fullstack-project-setup**
    - Description: Initialize complete Go + Vue + Quasar fullstack project based on production-ready structure
    - Functions: Create project structure, Docker configuration, CI/CD pipelines, development environment
    - Location: `skills/fullstack-project-setup/SKILL.md`
 
-38. **requirements-to-code-docs**
+39. **requirements-to-code-docs**
     - Description: Generate structured documentation from requirements to use cases to implementation based on production-ready documentation workflow
     - Functions: Requirements documentation, use case documentation, API documentation, traceability matrix
     - Location: `skills/requirements-to-code-docs/SKILL.md`
 
-39. **go-vue-fullstack-workflow**
+40. **go-vue-fullstack-workflow**
    - Description: Coordinate Go + Vue + Quasar fullstack development workflow using production-ready patterns and documentation
    - Functions: Integrate all related skills, provide end-to-end development workflow guidance
    - Location: `skills/go-vue-fullstack-workflow/SKILL.md`
 
-40. **makefile-backend-generator**
+41. **makefile-backend-generator**
    - Description: Create production-ready Makefiles for Go backend projects based on production-ready patterns
    - Functions: Generate complete Makefile with build, test, deployment, database operations, support cross-platform compilation
    - Location: `skills/makefile-backend-generator/SKILL.md`
 
 ### Tools & Integration Skills - 4
 
-41. **skill-packaging-tool**
+42. **skill-packaging-tool**
    - Description: Package skills into distributable installable packages
    - Functions: Version management, dependency declaration, installation scripts
    - Location: `skills/skill-packaging-tool/SKILL.md`
 
-42. **go-cli-builder**
+43. **go-cli-builder**
    - Description: Build enterprise-grade Go CLI applications based on cobra+viper and best practices
    - Functions: Generate production-grade CLI application structure, includes configuration management, structured logging, automatic version injection, multi-platform builds, and comprehensive testing strategy
    - Features: Support multi-path configuration file search (./ → ./config → /etc/app-name), automatic Git version and Go SDK version retrieval, built-in shell completion commands
    - Location: `skills/go-cli-builder/SKILL.md`
 
-43. **rust-cli-builder**
+44. **rust-cli-builder**
    - Description: Build enterprise-grade Rust CLI applications based on clap+serde+config and best practices
    - Functions: Generate production-grade CLI application structure, includes configuration management, structured logging, automatic version injection, multi-platform builds, and comprehensive testing strategy
    - Features: Support multi-path configuration file search (./ → ./config → /etc/app-name), automatic Git version and Rust version retrieval, built-in shell completion commands
    - Location: `skills/rust-cli-builder/SKILL.md`
 
-44. **readme-license-generator**
+45. **readme-license-generator**
    - Description: Generate bilingual (Chinese/English) README and LICENSE files with language switching links and common badges
    - Functions: Create README with language switching, generate LICENSE for various open-source licenses, include common badges, support project initialization
    - Location: `skills/readme-license-generator/SKILL.md`
@@ -312,6 +317,8 @@ Stage 3: Constitutional Review
 
 Stage 4: Implementation Planning
   ├── architecture-decision-recorder
+  ├── architecture-pattern-selector
+  ├── tech-stack-selector
   └── data-flow-analyzer
 
 Stage 5: Code Generation

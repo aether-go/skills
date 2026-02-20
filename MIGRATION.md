@@ -51,7 +51,9 @@ skills/
 │   ├── spec-parser/               # Specification parser
 │   ├── constitution-validator/    # Constitution validator
 │   ├── spec-to-code-tracer/       # Specification to code tracer
-│   └── spec-evolution-tracker/    # Specification evolution tracker
+│   ├── spec-evolution-tracker/    # Specification evolution tracker
+│   ├── architecture-pattern-selector/ # Architecture pattern selector
+│   └── tech-stack-selector/       # Tech stack selector
 │
 ├── AI Collaboration Layer Skills
 │   ├── context-manager/           # Context manager
@@ -116,7 +118,7 @@ In conversation, the AI assistant will automatically recommend and load relevant
 
 ## Validation Results
 
-All 43 skills have passed format validation:
+All 45 skills have passed format validation:
 - ✅ All skills contain the required `name` field
 - ✅ All skills contain the required `description` field
 - ✅ All descriptions start with "Use when"

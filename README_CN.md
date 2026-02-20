@@ -60,6 +60,8 @@ skills/
 │   │   └── SKILL.md
 │   ├── architecture-pattern-selector/ # 架构模式选择器
 │   │   └── SKILL.md
+│   ├── tech-stack-selector/       # 技术栈选择器
+│   │   └── SKILL.md
 │   ├── generic-code-generator/    # 通用代码生成器
 │   │   └── SKILL.md
 │   └── contract-test-generator/    # 契约测试生成器
@@ -147,12 +149,13 @@ skills/
 - `data-flow-analyzer` - 分析数据流和价值链
 - `requirement-implementation-tracer` - 需求、用例、实现三层双向追溯
 
-### 战术层 (7个)
+### 战术层 (8个)
 - `spec-parser` - 解析自然语言需求为结构化规范
 - `constitution-validator` - 验证宪法原则合规性
 - `spec-to-code-tracer` - 建立规范与代码双向追溯
 - `spec-evolution-tracker` - 跟踪规范变更历史
 - `architecture-pattern-selector` - 基于需求选择架构模式
+- `tech-stack-selector` - 交互式技术栈选择，提供全面的选项
 - `generic-code-generator` - 根据规范、模板或TDD模式跨语言生成代码
 - `contract-test-generator` - 生成消费者驱动的契约测试，确保微服务API兼容性
 
@@ -180,7 +183,7 @@ skills/
 
 ---
 
-**总计**: 43 个技能，覆盖完整的软件开发生命周期
+**总计**: 44 个技能，覆盖完整的软件开发生命周期
 
 ## 使用方式
 
@@ -407,10 +410,10 @@ skill_effectiveness:
 
 根据 [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md) 的详细清单：
 
-- **总技能数**: 43
+- **总技能数**: 44
 - **执行层**: 6 (BDD, TDD, 测试分析, SIT, Chaos, ATDD)
 - **战略层**: 9 (BMAD, 指标, ADR, 数据流, 需求收集, 需求分类, 用例设计, NFR分析, 可追溯性)
-- **战术层**: 7 (解析, 宪法, 追溯, 演进, 架构选择, 代码生成, 契约测试)
+- **战术层**: 8 (解析, 宪法, 追溯, 演进, 架构选择, 技术栈选择, 代码生成, 契约测试)
 - **AI协作层**: 4 (上下文, 推荐, 优化, 模板)
 - **Go + Vue + Quasar 全栈开发层**: 6 (后端脚手架, 前端脚手架, 项目初始化, 文档生成, 工作流协调, Makefile生成)
 - **工具与集成层**: 2 (技能打包, CLI构建器)
@@ -478,6 +481,7 @@ description: Use when [specific triggering conditions]
    - `architecture-decision-recorder` - 记录架构决策 (ADR)
    - `data-flow-analyzer` - 分析数据流和价值链
    - `architecture-pattern-selector` - 选择合适的架构模式
+   - `tech-stack-selector` - 交互式技术栈选择
 
 5. **阶段5: 代码生成 (Code Generation)**
    - `tdd-red-green-refactor` - 使用 TDD 方法实现功能
