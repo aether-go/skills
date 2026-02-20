@@ -1,14 +1,18 @@
 # Skill Dependencies Metadata
 # This file defines dependencies between skills for proper orchestration and sequencing
 
-version: "1.0"
-updated: "2026-01-30"
+version: "1.1"
+updated: "2026-02-20"
 
 dependencies:
   # Methodology Fusion Orchestrator - Core coordinator
   methodology-fusion-orchestrator:
     depends_on:
       - business-requirements-collector
+      - requirement-classifier
+      - usecase-designer
+      - requirement-implementation-tracer
+      - nfr-analyzer
       - business-value-mapper
       - metrics-definer
       - spec-parser
@@ -28,21 +32,41 @@ dependencies:
     provides: "end-to-end methodology orchestration"
     stage: "coordination"
 
-  # Business Analysis Stage
+  # Business Analysis Stage - 7-Category Requirements
   business-requirements-collector:
     depends_on: []
-    provides: "structured business requirements"
+    provides: "structured business requirements with 7-category classification"
+    stage: "business_analysis"
+    
+  requirement-classifier:
+    depends_on:
+      - business-requirements-collector
+    provides: "automatic classification of requirements into 7 categories with cross-category relationships"
+    stage: "business_analysis"
+    
+  usecase-designer:
+    depends_on:
+      - requirement-classifier
+    provides: "use cases with bidirectional traceability to 7-category requirements"
+    stage: "business_analysis"
+    
+  nfr-analyzer:
+    depends_on:
+      - requirement-classifier
+    provides: "analyzed non-functional requirements with measurable metrics"
     stage: "business_analysis"
     
   business-value-mapper:
     depends_on:
       - business-requirements-collector
+      - requirement-classifier
     provides: "BMAD matrix with business-to-technical mapping"
     stage: "business_analysis"
     
   metrics-definer:
     depends_on:
       - business-value-mapper
+      - nfr-analyzer
     provides: "business and technical metrics definition"
     stage: "business_analysis"
 
@@ -50,12 +74,14 @@ dependencies:
   spec-parser:
     depends_on:
       - business-value-mapper
-    provides: "structured technical specifications"
+      - requirement-classifier
+    provides: "structured technical specifications with 7-category support"
     stage: "specification_definition"
     
   bdd-scenario-writer:
     depends_on:
       - spec-parser
+      - usecase-designer
     provides: "Gherkin BDD scenarios"
     stage: "specification_definition"
     
@@ -255,8 +281,10 @@ dependencies:
   requirements-to-code-docs:
     depends_on:
       - business-requirements-collector
+      - requirement-classifier
+      - usecase-designer
       - spec-parser
-    provides: "structured documentation workflow"
+    provides: "structured documentation workflow with 7-category support"
     stage: "documentation"
     
   makefile-backend-generator:
@@ -287,6 +315,14 @@ dependencies:
       - spec-parser
       - generic-code-generator
     provides: "specification to code traceability"
+    stage: "traceability"
+    
+  requirement-implementation-tracer:
+    depends_on:
+      - usecase-designer
+      - spec-parser
+      - generic-code-generator
+    provides: "three-layer bidirectional traceability between requirements, use cases, and implementation"
     stage: "traceability"
 
 # Stage Definitions
@@ -365,6 +401,7 @@ cross_cutting:
       - metrics-definer
       - recursive-optimizer
       - test-pyramid-analyzer
+      - nfr-analyzer
     description: "Metrics definition and analysis"
     
   quality:
@@ -387,3 +424,18 @@ cross_cutting:
       - requirements-to-code-docs
       - readme-license-generator
     description: "Documentation generation and management"
+    
+  traceability:
+    skills:
+      - requirement-classifier
+      - usecase-designer
+      - requirement-implementation-tracer
+      - spec-to-code-tracer
+    description: "Three-layer bidirectional traceability between requirements, use cases, and implementation"
+    
+  requirement_classification:
+    skills:
+      - business-requirements-collector
+      - requirement-classifier
+      - nfr-analyzer
+    description: "7-category requirement classification and analysis"

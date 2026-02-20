@@ -176,6 +176,47 @@ approvals:
 | **Security** | Security workshops, threat modeling | Security requirements, controls | Security officers, architects |
 | **Compliance** | Regulation analysis, audit reviews | Compliance checklists | Legal, compliance officers |
 
+### Seven-Category Requirement Classification Framework
+
+The collector supports the following 7-category requirement classification system:
+
+| Category | ID Prefix | Description | Collection Focus | Output Document |
+|----------|-----------|-------------|------------------|-----------------|
+| **01-Business Requirements** | REQ-BUS | Business goals, value propositions, and strategic objectives | Stakeholder interviews, business workshops | `01-business-requirements.md` |
+| **02-Architecture Requirements** | REQ-ARCH | Architecture constraints, design principles, and technical standards | Architecture reviews, technical interviews | `02-architecture-requirements.md` |
+| **03-Functional Requirements** | REQ-FUNC | System features, behaviors, and user interactions | User stories, use case workshops | `03-functional-requirements.md` |
+| **04-Non-Functional Requirements** | REQ-NFR | Performance, reliability, usability, maintainability | NFR workshops, performance analysis | `04-non-functional-requirements.md` |
+| **05-Compliance Requirements** | REQ-COMP | Regulatory, legal, and compliance requirements | Compliance reviews, legal consultation | `05-compliance-requirements.md` |
+| **06-Security Requirements** | REQ-SEC | Security, privacy, and data protection requirements | Threat modeling, security workshops | `06-security-requirements.md` |
+| **07-Scalability Requirements** | REQ-SCAL | Scalability, capacity, and growth requirements | Capacity planning, scalability analysis | `07-scalability-requirements.md` |
+
+#### Cross-Category Relationships
+
+Requirements often have relationships across categories. The collector tracks these relationships:
+
+```yaml
+requirement_relations:
+  drives:
+    description: "One requirement drives the creation of another"
+    example: "REQ-BUS-001 drives REQ-FUNC-001"
+    
+  constrains:
+    description: "One requirement imposes constraints on another"
+    example: "REQ-ARCH-001 constrains REQ-FUNC-005"
+    
+  depends_on:
+    description: "One requirement depends on another"
+    example: "REQ-FUNC-003 depends on REQ-NFR-002"
+    
+  conflicts_with:
+    description: "Requirements have conflicting objectives"
+    example: "REQ-SEC-001 conflicts with REQ-SCAL-002"
+    
+  validates:
+    description: "One requirement validates another"
+    example: "REQ-COMP-001 validates REQ-SEC-005"
+```
+
 ### Requirement Attributes Template
 
 ```yaml
@@ -184,6 +225,10 @@ requirement:
   version: "1.0"
   status: "draft | reviewed | approved | implemented"
   
+  # Requirement Category (7-Category System)
+  category: "01_business | 02_architecture | 03_functional | 
+             04_non_functional | 05_compliance | 06_security | 07_scalability"
+  
   # Core attributes
   description: "Clear, concise requirement statement"
   rationale: "Business or user need driving this requirement"
@@ -191,11 +236,18 @@ requirement:
   
   # Classification
   type: "functional | non-functional | business-rule | constraint"
-  category: "authentication | reporting | performance | security"
+  subcategory: "authentication | reporting | performance | security | scalability"
   priority: "critical | high | medium | low"
   stability: "stable | likely-to-change | volatile"
   
-  # Relationships
+  # Cross-Category Relationships
+  cross_category_relations:
+    - related_category: "03_functional"
+      relation_type: "drives | constrains | depends_on | conflicts_with | validates"
+      related_requirement: "REQ-FUNC-001"
+      rationale: "Business requirement drives functional implementation"
+  
+  # Traditional Relationships
   parent: "Parent requirement ID if hierarchical"
   dependencies: ["List of requirement IDs this depends on"]
   conflicts: ["List of conflicting requirement IDs"]
@@ -228,6 +280,198 @@ requirement:
     - type: "wireframe | diagram | document"
       file: "path/to/artifact"
       description: "What this artifact shows"
+```
+
+### Seven-Category Requirement Examples
+
+#### 01-业务需求 Example
+```yaml
+requirement:
+  id: "REQ-BUS-001"
+  category: "01_business"
+  description: "Increase customer retention rate by 20% through improved user experience"
+  rationale: "Current retention rate of 65% is below industry average of 75%"
+  source: "Product Manager"
+  priority: "critical"
+  business_value: "high"
+  
+  cross_category_relations:
+    - related_category: "03_functional"
+      relation_type: "drives"
+      related_requirement: "REQ-FUNC-001"
+      rationale: "Business goal drives user onboarding feature"
+    - related_category: "04_non_functional"
+      relation_type: "constrains"
+      related_requirement: "REQ-NFR-001"
+      rationale: "Retention goal constrains performance requirements"
+  
+  acceptance_criteria:
+    - id: "AC-BUS-001-1"
+      description: "Customer retention rate reaches 85% within 6 months"
+      test_method: "automated"
+      priority: "must"
+```
+
+#### 02-架构需求 Example
+```yaml
+requirement:
+  id: "REQ-ARCH-001"
+  category: "02_architecture"
+  description: "System must follow microservices architecture with clear service boundaries"
+  rationale: "Monolithic architecture limits scalability and deployment velocity"
+  source: "Technical Architect"
+  priority: "high"
+  
+  cross_category_relations:
+    - related_category: "03_functional"
+      relation_type: "constrains"
+      related_requirement: "REQ-FUNC-005"
+      rationale: "Microservices architecture constrains feature design"
+    - related_category: "07_scalability"
+      relation_type: "enables"
+      related_requirement: "REQ-SCAL-001"
+      rationale: "Microservices enables horizontal scaling"
+  
+  acceptance_criteria:
+    - id: "AC-ARCH-001-1"
+      description: "Each service has single responsibility and clear API boundary"
+      test_method: "manual"
+      priority: "must"
+```
+
+#### 03-功能性需求 Example
+```yaml
+requirement:
+  id: "REQ-FUNC-001"
+  category: "03_functional"
+  description: "Users can register using email or social login"
+  rationale: "Multiple registration options improve user acquisition"
+  source: "Product Owner"
+  priority: "high"
+  
+  cross_category_relations:
+    - related_category: "01_business"
+      relation_type: "driven_by"
+      related_requirement: "REQ-BUS-001"
+      rationale: "Functional requirement driven by business goal"
+    - related_category: "06_security"
+      relation_type: "depends_on"
+      related_requirement: "REQ-SEC-001"
+      rationale: "Registration depends on security requirements"
+  
+  acceptance_criteria:
+    - id: "AC-FUNC-001-1"
+      description: "Email registration sends verification email within 30 seconds"
+      test_method: "automated"
+      priority: "must"
+```
+
+#### 04-非功能性需求 Example
+```yaml
+requirement:
+  id: "REQ-NFR-001"
+  category: "04_non_functional"
+  description: "API response time must be less than 200ms at P95"
+  rationale: "Fast response times improve user experience and retention"
+  source: "Performance Engineer"
+  priority: "high"
+  
+  cross_category_relations:
+    - related_category: "01_business"
+      relation_type: "supports"
+      related_requirement: "REQ-BUS-001"
+      rationale: "Performance supports business retention goal"
+    - related_category: "07_scalability"
+      relation_type: "constrains"
+      related_requirement: "REQ-SCAL-002"
+      rationale: "Performance constraints affect scalability approach"
+  
+  acceptance_criteria:
+    - id: "AC-NFR-001-1"
+      description: "95% of API requests complete within 200ms"
+      test_method: "automated"
+      priority: "must"
+```
+
+#### 05-合规性需求 Example
+```yaml
+requirement:
+  id: "REQ-COMP-001"
+  category: "05_compliance"
+  description: "System must comply with GDPR data protection requirements"
+  rationale: "EU market requires GDPR compliance for data processing"
+  source: "Legal Counsel"
+  priority: "critical"
+  
+  cross_category_relations:
+    - related_category: "06_security"
+      relation_type: "validates"
+      related_requirement: "REQ-SEC-003"
+      rationale: "Compliance validates security data protection"
+    - related_category: "03_functional"
+      relation_type: "constrains"
+      related_requirement: "REQ-FUNC-010"
+      rationale: "GDPR constrains data collection features"
+  
+  acceptance_criteria:
+    - id: "AC-COMP-001-1"
+      description: "User consent obtained before data collection"
+      test_method: "manual"
+      priority: "must"
+```
+
+#### 06-安全性需求 Example
+```yaml
+requirement:
+  id: "REQ-SEC-001"
+  category: "06_security"
+  description: "All user passwords must be hashed using bcrypt with minimum 12 rounds"
+  rationale: "Bcrypt provides strong protection against password cracking"
+  source: "Security Officer"
+  priority: "critical"
+  
+  cross_category_relations:
+    - related_category: "05_compliance"
+      relation_type: "supports"
+      related_requirement: "REQ-COMP-001"
+      rationale: "Password hashing supports GDPR compliance"
+    - related_category: "04_non_functional"
+      relation_type: "constrains"
+      related_requirement: "REQ-NFR-005"
+      rationale: "Security constraints affect performance"
+  
+  acceptance_criteria:
+    - id: "AC-SEC-001-1"
+      description: "Password hashing uses bcrypt with 12+ rounds"
+      test_method: "automated"
+      priority: "must"
+```
+
+#### 07-扩展性需求 Example
+```yaml
+requirement:
+  id: "REQ-SCAL-001"
+  category: "07_scalability"
+  description: "System must support horizontal scaling to 1 million concurrent users"
+  rationale: "Projected growth requires 10x current capacity"
+  source: "DevOps Lead"
+  priority: "high"
+  
+  cross_category_relations:
+    - related_category: "02_architecture"
+      relation_type: "driven_by"
+      related_requirement: "REQ-ARCH-001"
+      rationale: "Scalability driven by microservices architecture"
+    - related_category: "04_non_functional"
+      relation_type: "depends_on"
+      related_requirement: "REQ-NFR-001"
+      rationale: "Scalability depends on performance baseline"
+  
+  acceptance_criteria:
+    - id: "AC-SCAL-001-1"
+      description: "System handles 1M concurrent users with <5% error rate"
+      test_method: "automated"
+      priority: "must"
 ```
 
 ### Elicitation Technique Selection Guide

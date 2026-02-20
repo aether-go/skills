@@ -136,12 +136,16 @@ If migrating from an old version, see [MIGRATION.md](MIGRATION.md) for detailed 
 - `chaos-test-designer` - Design chaos engineering experiments
 - `atdd-acceptance-test-generator` - Generate ATDD acceptance tests
 
-### Strategic Layer (5 skills)
-- `business-requirements-collector` - Collect and analyze business requirements
+### Strategic Layer (9 skills)
+- `business-requirements-collector` - Collect and analyze business requirements with 7-category classification
+- `requirement-classifier` - Automatically classify requirements into 7 categories with cross-category relationships
+- `usecase-designer` - Design use cases with bidirectional traceability to requirements
+- `nfr-analyzer` - Analyze non-functional requirements with measurable metrics
 - `business-value-mapper` - BMAD business value mapping
 - `metrics-definer` - Define business and technical metrics
 - `architecture-decision-recorder` - Record architecture decisions (ADR)
 - `data-flow-analyzer` - Analyze data flow and value chain
+- `requirement-implementation-tracer` - Three-layer bidirectional traceability between requirements, use cases, and implementation
 
 ### Tactical Layer (7 skills)
 - `spec-parser` - Parse natural language requirements into structured specifications
@@ -176,7 +180,7 @@ If migrating from an old version, see [MIGRATION.md](MIGRATION.md) for detailed 
 
 ---
 
-**Total**: 39 skills covering the complete software development lifecycle
+**Total**: 43 skills covering the complete software development lifecycle
 
 ## Usage
 
@@ -403,9 +407,9 @@ Please use methodology-fusion-orchestrator to execute the complete eight-stage w
 
 According to the detailed list in [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md):
 
-- **Total Skills**: 38
+- **Total Skills**: 43
 - **Execution Layer**: 6 (BDD, TDD, Test Analysis, SIT, Chaos, ATDD)
-- **Strategic Layer**: 5 (BMAD, Metrics, ADR, Data Flow, Requirements Collection)
+- **Strategic Layer**: 9 (BMAD, Metrics, ADR, Data Flow, Requirements Collection, Requirement Classification, Use Case Design, NFR Analysis, Traceability)
 - **Tactical Layer**: 7 (Parsing, Constitution, Tracing, Evolution, Architecture Selection, Code Generation, Contract Testing)
 - **AI Collaboration Layer**: 4 (Context, Recommendation, Optimization, Templates)
 - **Go + Vue + Quasar Fullstack Development Layer**: 6 (Backend Scaffolder, Frontend Scaffolder, Project Initialization, Documentation Generation, Workflow Coordination, Makefile Generation)
@@ -455,7 +459,10 @@ These skills are deeply integrated with the Aether.go core methodology, covering
 See complete workflow diagram in [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md):
 
 1. **Stage 1: Business Analysis**
-   - `business-requirements-collector` - Collect and analyze business requirements
+   - `business-requirements-collector` - Collect and analyze business requirements with 7-category classification
+   - `requirement-classifier` - Automatically classify requirements into 7 categories
+   - `usecase-designer` - Design use cases with bidirectional traceability
+   - `nfr-analyzer` - Analyze non-functional requirements with measurable metrics
    - `business-value-mapper` - Map business objectives to technical metrics
    - `metrics-definer` - Define measurable business and technical metrics
 
@@ -502,14 +509,18 @@ See complete workflow diagram in [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md):
 ### Core Methodologies
 
 - **BMAD** (Business-Driven Metrics) - Business-driven metrics
-  - `business-requirements-collector` - Collect and analyze business requirements
+  - `business-requirements-collector` - Collect and analyze business requirements with 7-category classification
+  - `requirement-classifier` - Automatically classify requirements into 7 categories
+  - `usecase-designer` - Design use cases with bidirectional traceability
+  - `nfr-analyzer` - Analyze non-functional requirements with measurable metrics
   - `business-value-mapper` - BMAD business value mapping
   - `metrics-definer` - Define business and technical metrics
 
 - **SDD** (Spec-Driven Development) - Specification-driven development
-  - `spec-parser` - Parse natural language requirements into structured specifications
+  - `spec-parser` - Parse natural language requirements into structured specifications with 7-category support
   - `spec-to-code-tracer` - Establish bidirectional tracing between specifications and code
   - `spec-evolution-tracker` - Track specification change history
+  - `requirement-implementation-tracer` - Three-layer bidirectional traceability
 
 - **Constitution** - Constitution constraint principles
   - `constitution-validator` - Validate constitution principle compliance
@@ -617,15 +628,5 @@ This project is licensed under MIT License - see [LICENSE](LICENSE) file for det
 ---
 
 Created: 2026-01-16
-Last Updated: 2026-01-29
+Last Updated: 2026-02-20
 Maintainer: Aether.go Team
-
-## Changelog
-
-### 2026-01-29
-- Removed all bitcms references to make skills more universally applicable
-- Enhanced README.md documentation, added links to SKILLS_SUMMARY and MIGRATION
-- Added quick start guide for skills
-- Improved skill classification and statistics
-- Added contribution process and code review checklist
-- Added English and Chinese versions of documentation

@@ -109,7 +109,7 @@ skills/
 ### 快速开始
 
 #### 1. 查看技能清单
-查看 [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md) 了解所有 39 个技能的详细说明。
+查看 [SKILLS_SUMMARY.md](SKILLS_SUMMARY_CN.md) 了解所有 39 个技能的详细说明。
 
 #### 2. 选择合适的技能
 根据你的开发阶段选择合适的技能：
@@ -124,7 +124,7 @@ skills/
 在对话中直接请求使用特定技能，AI 助手会自动加载并执行。
 
 #### 4. 查看迁移说明
-如果从旧版本迁移，请查看 [MIGRATION.md](MIGRATION.md) 了解详细迁移步骤。
+如果从旧版本迁移，请查看 [MIGRATION.md](MIGRATION_CN.md) 了解详细迁移步骤。
 
 ---
 
@@ -136,12 +136,16 @@ skills/
 - `chaos-test-designer` - 设计混沌工程实验
 - `atdd-acceptance-test-generator` - 生成 ATDD 验收测试
 
-### 战略层 (5个)
-- `business-requirements-collector` - 业务需求收集与分析
+### 战略层 (9个)
+- `business-requirements-collector` - 业务需求收集与分析，支持7类别分类
+- `requirement-classifier` - 自动将需求分类到7个类别，支持跨类别关系分析
+- `usecase-designer` - 设计用例，支持与需求的双向追溯
+- `nfr-analyzer` - 分析非功能性需求，提供可度量指标
 - `business-value-mapper` - BMAD 业务价值映射
 - `metrics-definer` - 定义业务和技术指标
 - `architecture-decision-recorder` - 记录架构决策 (ADR)
 - `data-flow-analyzer` - 分析数据流和价值链
+- `requirement-implementation-tracer` - 需求、用例、实现三层双向追溯
 
 ### 战术层 (7个)
 - `spec-parser` - 解析自然语言需求为结构化规范
@@ -176,7 +180,7 @@ skills/
 
 ---
 
-**总计**: 39 个技能，覆盖完整的软件开发生命周期
+**总计**: 43 个技能，覆盖完整的软件开发生命周期
 
 ## 使用方式
 
@@ -194,7 +198,7 @@ cp -Rv skills/* .opencode/skill/
 
 ### Skills 管理脚本
 
-项目提供了便捷的 `skills.sh` 脚本来管理技能（详见 [MIGRATION.md](MIGRATION.md)）：
+项目提供了便捷的 `skills.sh` 脚本来管理技能（详见 [MIGRATION.md](MIGRATION_CN.md)）：
 
 ```bash
 # 列出所有技能
@@ -403,9 +407,9 @@ skill_effectiveness:
 
 根据 [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md) 的详细清单：
 
-- **总技能数**: 38
+- **总技能数**: 43
 - **执行层**: 6 (BDD, TDD, 测试分析, SIT, Chaos, ATDD)
-- **战略层**: 5 (BMAD, 指标, ADR, 数据流, 需求收集)
+- **战略层**: 9 (BMAD, 指标, ADR, 数据流, 需求收集, 需求分类, 用例设计, NFR分析, 可追溯性)
 - **战术层**: 7 (解析, 宪法, 追溯, 演进, 架构选择, 代码生成, 契约测试)
 - **AI协作层**: 4 (上下文, 推荐, 优化, 模板)
 - **Go + Vue + Quasar 全栈开发层**: 6 (后端脚手架, 前端脚手架, 项目初始化, 文档生成, 工作流协调, Makefile生成)
@@ -455,7 +459,10 @@ description: Use when [specific triggering conditions]
 详见 [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md) 中的完整工作流图示：
 
 1. **阶段1: 业务分析 (Business Analysis)**
-   - `business-requirements-collector` - 收集和分析业务需求
+   - `business-requirements-collector` - 收集和分析业务需求，支持7类别分类
+   - `requirement-classifier` - 自动将需求分类到7个类别
+   - `usecase-designer` - 设计用例，支持双向追溯
+   - `nfr-analyzer` - 分析非功能性需求，提供可度量指标
    - `business-value-mapper` - 将业务目标映射到技术指标
    - `metrics-definer` - 定义可衡量的业务和技术指标
 
@@ -502,14 +509,18 @@ description: Use when [specific triggering conditions]
 ### 核心方法论
 
 - **BMAD** (Business-Driven Metrics) - 业务驱动指标
-  - `business-requirements-collector` - 业务需求收集与分析
+  - `business-requirements-collector` - 收集和分析业务需求，支持7类别分类
+  - `requirement-classifier` - 自动将需求分类到7个类别
+  - `usecase-designer` - 设计用例，支持双向追溯
+  - `nfr-analyzer` - 分析非功能性需求，提供可度量指标
   - `business-value-mapper` - BMAD 业务价值映射
   - `metrics-definer` - 定义业务和技术指标
 
 - **SDD** (Spec-Driven Development) - 规范驱动开发
-  - `spec-parser` - 解析自然语言需求为结构化规范
+  - `spec-parser` - 解析自然语言需求为结构化规范，支持7类别分类
   - `spec-to-code-tracer` - 建立规范与代码双向追溯
   - `spec-evolution-tracker` - 跟踪规范变更历史
+  - `requirement-implementation-tracer` - 三层双向追溯
 
 - **Constitution** - 宪法约束原则
   - `constitution-validator` - 验证宪法原则合规性

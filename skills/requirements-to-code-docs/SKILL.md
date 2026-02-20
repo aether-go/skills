@@ -1,12 +1,12 @@
 ---
 name: requirements-to-code-docs
-description: Use when generating structured documentation from requirements to use cases to implementation with traceability
+description: Use when generating structured documentation from requirements to use cases to implementation with 7-category traceability
 ---
 
 # Requirements to Code Docs
 
 ## Overview
-Generate comprehensive documentation following industry best practices: from business requirements to use cases to implementation. Creates structured documentation that traces requirements through design to code implementation with traceability matrices.
+Generate comprehensive documentation following industry best practices: from business requirements to use cases to implementation. Creates structured documentation that traces requirements through design to code implementation with traceability matrices. Supports the 7-category requirement classification system with cross-category relationship mapping.
 
 ## When to Use
 
@@ -29,6 +29,8 @@ Use when:
 - Maintaining documentation as code evolves
 - Need production-ready documentation structure
 - Creating developer onboarding materials
+- Documenting requirements from [requirement-classifier](file:///d:/repos/aether-go/skills/skills/requirement-classifier/SKILL.md)
+- Creating use case docs from [usecase-designer](file:///d:/repos/aether-go/skills/skills/usecase-designer/SKILL.md)
 
 Don't use when:
 - Simple code comments only
@@ -38,29 +40,31 @@ Don't use when:
 
 ## Core Pattern
 
-### Documentation Structure (Industry Standard)
+### Seven-Category Documentation Structure
 
 ```
 docs/
 ├── 01-schedule/                  # Project timeline and milestones
 │   ├── roadmap.md
 │   └── todolist.md
-├── 02-requirements/              # Business and technical requirements
-│   ├── 01-business.md
-│   ├── 02-architecture.md
-│   ├── 03-functional.md
-│   ├── 04-non_functional.md
-│   ├── 05-regulatory.md
-│   ├── 06-security.md
-│   └── 07-implementation.md
+├── 02-requirements/              # Seven-category requirements
+│   ├── 01-business-requirements.md       # REQ-BUS: Business Requirements
+│   ├── 02-architecture-requirements.md   # REQ-ARCH: Architecture Requirements
+│   ├── 03-functional-requirements.md     # REQ-FUNC: Functional Requirements
+│   ├── 04-non-functional-requirements.md # REQ-NFR: Non-Functional Requirements
+│   ├── 05-compliance-requirements.md     # REQ-COMP: Compliance Requirements
+│   ├── 06-security-requirements.md       # REQ-SEC: Security Requirements
+│   ├── 07-scalability-requirements.md    # REQ-SCAL: Scalability Requirements
+│   └── cross-category-relations.md       # Cross-Category Relationship Mapping
 ├── 03-usecases/                  # Use case specifications
 │   ├── actors/
 │   │   ├── roles.md
 │   │   ├── subsystems.md
 │   │   └── related.md
 │   └── usecases/
-│       ├── 001-module-management.md
-│       ├── 002-feature-management.md
+│       ├── UC-BUS-001-business-process.md
+│       ├── UC-FUNC-001-feature-implementation.md
+│       ├── UC-SEC-001-security-operation.md
 │       └── README.md
 ├── 04-realize/                   # Implementation documentation
 │   ├── 01-code-structure.md
@@ -70,8 +74,46 @@ docs/
 │   ├── 05-frontend-implementation-summary.md
 │   ├── api/                      # API documentation
 │   └── data-dictionary/          # Database schema documentation
-├── 05-prompts/                   # AI prompts for development
-└── 06-manual/                    # User manuals and guides
+├── 05-traceability/              # Three-layer traceability
+│   ├── requirement-usecase-matrix.md
+│   ├── usecase-implementation-matrix.md
+│   ├── requirement-implementation-matrix.md
+│   └── coverage-report.md
+├── 06-prompts/                   # AI prompts for development
+└── 07-manual/                    # User manuals and guides
+```
+
+### Seven-Category Requirement Flow
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         REQUIREMENT COLLECTION                               │
+│  [business-requirements-collector] → 7-Category Requirements                 │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         REQUIREMENT CLASSIFICATION                           │
+│  [requirement-classifier] → Classified Requirements with Relations           │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         USE CASE DESIGN                                      │
+│  [usecase-designer] → Use Cases with Traceability                            │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         IMPLEMENTATION                                       │
+│  Code with @requirement and @usecase annotations                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         TRACEABILITY                                         │
+│  [requirement-implementation-tracer] → Three-Layer Traceability Matrix       │
+└─────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Before (Unstructured Documentation)
@@ -81,273 +123,307 @@ project/
 └── some-notes.txt               # Random notes files
 ```
 
-### After (Structured Documentation Workflow)
+### After (Structured Documentation with 7-Category Support)
 ```
 project/
 ├── docs/                         # Comprehensive documentation
-│   ├── requirements/             # Traceable from business needs
-│   ├── usecases/                 # To user scenarios
-│   ├── implementation/           # To technical design
-│   └── api/                      # To API specifications
+│   ├── 02-requirements/          # 7-category requirements
+│   │   ├── 01-business-requirements.md
+│   │   ├── 02-architecture-requirements.md
+│   │   ├── 03-functional-requirements.md
+│   │   ├── 04-non-functional-requirements.md
+│   │   ├── 05-compliance-requirements.md
+│   │   ├── 06-security-requirements.md
+│   │   ├── 07-scalability-requirements.md
+│   │   └── cross-category-relations.md
+│   ├── 03-usecases/              # Use cases with traceability
+│   ├── 04-realize/               # Implementation docs
+│   └── 05-traceability/          # Traceability matrices
 ├── code/                         # Code with traceability comments
-│   ├── // REQ-001: Business requirement
-│   ├── // UC-001: Use case implementation
-│   └── // API-001: Endpoint specification
+│   ├── // @requirement REQ-FUNC-001
+│   ├── // @usecase UC-FUNC-001
+│   └── // @acceptance AC-FUNC-001-1
 └── traceability/                 # Requirements traceability matrix
 ```
 
 ## Quick Reference
 
-### Documentation Generation Commands
+### Seven-Category Documentation Commands
 
 | Command | Description | Output |
 |---------|-------------|--------|
-| `requirements-to-code-docs init` | Initialize documentation structure | Complete docs directory |
-| `requirements-to-code-docs requirement "User authentication"` | Create requirement document | `02-requirements/08-user-auth.md` |
-| `requirements-to-code-docs usecase "User login"` | Create use case document | `03-usecases/usecases/011-user-login.md` |
+| `requirements-to-code-docs init` | Initialize 7-category documentation structure | Complete docs directory |
+| `requirements-to-code-docs requirement --category business "User auth"` | Create business requirement | `02-requirements/01-business-requirements.md` |
+| `requirements-to-code-docs requirement --category architecture "Microservices"` | Create architecture requirement | `02-requirements/02-architecture-requirements.md` |
+| `requirements-to-code-docs requirement --category functional "User login"` | Create functional requirement | `02-requirements/03-functional-requirements.md` |
+| `requirements-to-code-docs requirement --category nfr "Performance"` | Create NFR requirement | `02-requirements/04-non-functional-requirements.md` |
+| `requirements-to-code-docs requirement --category compliance "GDPR"` | Create compliance requirement | `02-requirements/05-compliance-requirements.md` |
+| `requirements-to-code-docs requirement --category security "Auth"` | Create security requirement | `02-requirements/06-security-requirements.md` |
+| `requirements-to-code-docs requirement --category scalability "Scale"` | Create scalability requirement | `02-requirements/07-scalability-requirements.md` |
+| `requirements-to-code-docs usecase "User login"` | Create use case document | `03-usecases/usecases/UC-FUNC-001-user-login.md` |
 | `requirements-to-code-docs api UserAPI` | Generate API documentation | `04-realize/api/user-api.md` |
-| `requirements-to-code-docs traceability` | Generate traceability matrix | `traceability-matrix.md` |
+| `requirements-to-code-docs traceability` | Generate three-layer traceability matrix | `05-traceability/coverage-report.md` |
 | `requirements-to-code-docs sync` | Sync docs with code | Updated documentation |
 
-### Essential Templates
+### Seven-Category Requirement ID Prefixes
 
-#### 1. Business Requirement Template
+| Category | ID Prefix | Document | Description |
+|----------|-----------|----------|-------------|
+| **01-Business Requirements** | REQ-BUS | 01-business-requirements.md | Business goals, KPIs, stakeholders |
+| **02-Architecture Requirements** | REQ-ARCH | 02-architecture-requirements.md | Architecture decisions, patterns |
+| **03-Functional Requirements** | REQ-FUNC | 03-functional-requirements.md | Features, behaviors, user stories |
+| **04-Non-Functional Requirements** | REQ-NFR | 04-non-functional-requirements.md | Performance, reliability, usability |
+| **05-Compliance Requirements** | REQ-COMP | 05-compliance-requirements.md | Regulatory, legal requirements |
+| **06-Security Requirements** | REQ-SEC | 06-security-requirements.md | Security controls, threat models |
+| **07-Scalability Requirements** | REQ-SCAL | 07-scalability-requirements.md | Scalability, capacity planning |
+
+### Cross-Category Relation Types
+
+| Relation | Description | Example |
+|----------|-------------|---------|
+| **drives** | One requirement drives another | REQ-BUS drives REQ-FUNC |
+| **constrains** | One constrains another | REQ-ARCH constrains REQ-FUNC |
+| **depends_on** | Dependency relationship | REQ-FUNC depends_on REQ-SEC |
+| **conflicts_with** | Conflicting objectives | REQ-SEC conflicts_with REQ-SCAL |
+| **validates** | Validation relationship | REQ-COMP validates REQ-SEC |
+| **supports** | Support relationship | REQ-NFR supports REQ-BUS |
+| **enables** | Enablement relationship | REQ-ARCH enables REQ-SCAL |
 ```markdown
-# 业务需求文档：用户认证系统
+# Business Requirement Document: User Authentication System
 
-## 1. 项目背景与目标
+## 1. Project Background and Objectives
 
-### 1.1 项目背景
-随着应用用户量的增长，现有简单用户名密码认证已无法满足安全性和用户体验需求。需要建立完整的用户认证体系以支持多平台访问和第三方登录。
+### 1.1 Project Background
+With the growth of application users, the existing simple username/password authentication can no longer meet security and user experience requirements. A complete user authentication system needs to be established to support multi-platform access and third-party login.
 
-### 1.2 业务目标
-- **增强安全性**：支持多因素认证和密码策略
-- **提升用户体验**：提供第三方登录和记住我功能
-- **支持业务扩展**：为未来微服务和API访问提供基础
-- **合规要求**：满足GDPR和等保三级认证要求
+### 1.2 Business Objectives
+- **Enhanced Security**: Support multi-factor authentication and password policies
+- **Improved User Experience**: Provide third-party login and remember-me functionality
+- **Business Expansion Support**: Provide foundation for future microservices and API access
+- **Compliance Requirements**: Meet GDPR and Level 3 protection certification requirements
 
-### 1.3 目标用户群体
-- **终端用户**：使用应用的各种用户角色
-- **管理员**：管理用户账户和权限
-- **第三方应用**：通过OAuth访问用户资源
-- **审计人员**：审查认证日志和安全事件
+### 1.3 Target User Groups
+- **End Users**: Various user roles using the application
+- **Administrators**: Manage user accounts and permissions
+- **Third-party Applications**: Access user resources via OAuth
+- **Auditors**: Review authentication logs and security events
 
-## 2. 核心业务价值
+## 2. Core Business Value
 
-### 2.1 安全性提升
-- 减少账户被盗风险
-- 防止暴力破解攻击
-- 支持安全审计和合规
+### 2.1 Security Enhancement
+- Reduce account theft risk
+- Prevent brute force attacks
+- Support security audit and compliance
 
-### 2.2 用户体验改进
-- 简化注册登录流程
-- 支持多种登录方式
-- 提供个性化认证体验
+### 2.2 User Experience Improvement
+- Simplify registration and login process
+- Support multiple login methods
+- Provide personalized authentication experience
 
-### 2.3 技术架构现代化
-- 支持微服务架构
-- 提供标准化认证接口
-- 支持未来技术演进
+### 2.3 Technical Architecture Modernization
+- Support microservices architecture
+- Provide standardized authentication interfaces
+- Support future technology evolution
 
-## 3. 业务功能需求
+## 3. Business Functional Requirements
 
-### 3.1 用户注册 (REQ-AUTH-001)
-- 支持邮箱/手机号注册
-- 验证码验证机制
-- 用户协议确认
-- 注册成功欢迎邮件
+### 3.1 User Registration (REQ-AUTH-001)
+- Support email/phone registration
+- Verification code mechanism
+- User agreement confirmation
+- Welcome email on successful registration
 
-### 3.2 用户登录 (REQ-AUTH-002)
-- 用户名密码登录
-- 第三方登录（微信、Google、GitHub）
-- 记住我功能
-- 登录失败保护
+### 3.2 User Login (REQ-AUTH-002)
+- Username/password login
+- Third-party login (WeChat, Google, GitHub)
+- Remember me functionality
+- Login failure protection
 
-### 3.3 密码管理 (REQ-AUTH-003)
-- 密码强度验证
-- 密码修改功能
-- 密码重置流程
-- 密码过期策略
+### 3.3 Password Management (REQ-AUTH-003)
+- Password strength validation
+- Password change functionality
+- Password reset process
+- Password expiration policy
 
-### 3.4 多因素认证 (REQ-AUTH-004)
-- 短信验证码
-- 邮箱验证码
-- 认证器应用（Google Authenticator）
-- 生物识别（未来支持）
+### 3.4 Multi-Factor Authentication (REQ-AUTH-004)
+- SMS verification code
+- Email verification code
+- Authenticator app (Google Authenticator)
+- Biometric authentication (future support)
 
-## 4. 非功能性需求
+## 4. Non-Functional Requirements
 
-### 4.1 性能需求
-- 登录响应时间 < 2秒（P95）
-- 支持1000并发登录
-- 认证服务可用性 > 99.9%
+### 4.1 Performance Requirements
+- Login response time < 2 seconds (P95)
+- Support 1000 concurrent logins
+- Authentication service availability > 99.9%
 
-### 4.2 安全需求
-- 密码加密存储（bcrypt）
-- 防止SQL注入和XSS攻击
-- 会话安全管理
-- 安全审计日志
+### 4.2 Security Requirements
+- Password encrypted storage (bcrypt)
+- Prevent SQL injection and XSS attacks
+- Session security management
+- Security audit logs
 
-### 4.3 合规需求
-- GDPR数据保护
-- 等保三级要求
-- 隐私政策遵守
-- 数据跨境传输合规
+### 4.3 Compliance Requirements
+- GDPR data protection
+- Level 3 protection requirements
+- Privacy policy compliance
+- Cross-border data transfer compliance
 
-## 5. 成功指标
+## 5. Success Metrics
 
-| 指标 | 目标值 | 测量方法 |
-|------|--------|----------|
-| 用户注册转化率 | > 80% | 分析注册漏斗 |
-| 登录成功率 | > 99% | 监控登录接口 |
-| 认证延迟 | < 2秒 | APM监控 |
-| 安全事件 | 0次/月 | 安全审计日志 |
-| 用户满意度 | > 4.5/5 | 用户反馈调查 |
+| Metric | Target Value | Measurement Method |
+|--------|--------------|-------------------|
+| User registration conversion rate | > 80% | Analyze registration funnel |
+| Login success rate | > 99% | Monitor login API |
+| Authentication latency | < 2 seconds | APM monitoring |
+| Security incidents | 0/month | Security audit logs |
+| User satisfaction | > 4.5/5 | User feedback survey |
 
-## 6. 约束条件
+## 6. Constraints
 
-### 6.1 技术约束
-- 必须使用JWT令牌
-- 必须支持OAuth 2.0
-- 必须兼容现有用户数据库
-- 必须提供RESTful API
+### 6.1 Technical Constraints
+- Must use JWT tokens
+- Must support OAuth 2.0
+- Must be compatible with existing user database
+- Must provide RESTful API
 
-### 6.2 资源约束
-- 开发周期：4周
-- 团队规模：3名开发人员
-- 预算限制：$50,000
-- 硬件资源：现有服务器基础设施
+### 6.2 Resource Constraints
+- Development cycle: 4 weeks
+- Team size: 3 developers
+- Budget limit: $50,000
+- Hardware resources: Existing server infrastructure
 
-### 6.3 合规约束
-- 必须通过安全审计
-- 必须获得合规认证
-- 必须保护用户隐私数据
-- 必须支持数据导出功能
+### 6.3 Compliance Constraints
+- Must pass security audit
+- Must obtain compliance certification
+- Must protect user privacy data
+- Must support data export functionality
 ```
 
 #### 2. Use Case Template
 ```markdown
-# 用户登录用例文档
+# User Login Use Case Document
 
-## 用例概述
+## Use Case Overview
 
-### 用例名称
-用户登录 (UC-AUTH-002)
+### Use Case Name
+User Login (UC-AUTH-002)
 
-### 用例描述
-注册用户通过多种方式登录系统，获取访问令牌和会话信息。
+### Use Case Description
+Registered users log in to the system through various methods to obtain access tokens and session information.
 
-### 主要参与者
-- **主要参与者**: 注册用户
-- **次要参与者**: 系统管理员（查看日志）、第三方认证服务提供商
+### Primary Actors
+- **Primary Actor**: Registered User
+- **Secondary Actors**: System Administrator (view logs), Third-party Authentication Service Providers
 
-### 前置条件
-1. 用户已完成注册并激活账户
-2. 用户知道正确的登录凭据
-3. 系统正常运行且认证服务可用
+### Preconditions
+1. User has completed registration and activated account
+2. User knows correct login credentials
+3. System is running normally and authentication service is available
 
-### 后置条件
-1. 用户成功登录并获取访问令牌
-2. 系统记录登录日志和安全审计信息
-3. 用户被重定向到目标页面或首页
+### Postconditions
+1. User successfully logs in and obtains access token
+2. System records login logs and security audit information
+3. User is redirected to target page or homepage
 
-## 用例详细说明
+## Use Case Detailed Description
 
-### 基本流程
+### Basic Flow
 
 ```mermaid
 sequenceDiagram
-    participant User as 用户
-    participant UI as 前端界面
-    participant API as 认证API
-    participant DB as 用户数据库
-    participant Cache as 缓存服务
+    participant User as User
+    participant UI as Frontend UI
+    participant API as Auth API
+    participant DB as User Database
+    participant Cache as Cache Service
     
-    User->>UI: 访问登录页面
-    UI->>User: 显示登录表单
+    User->>UI: Access login page
+    UI->>User: Display login form
     
-    User->>UI: 输入凭据并提交
+    User->>UI: Enter credentials and submit
     UI->>API: POST /api/auth/login
-    API->>DB: 查询用户信息
-    DB-->>API: 返回用户数据
+    API->>DB: Query user information
+    DB-->>API: Return user data
     
-    alt 凭据有效
-        API->>Cache: 生成并存储会话
-        Cache-->>API: 返回访问令牌
-        API-->>UI: 返回登录成功响应
-        UI-->>User: 重定向到目标页面
-    else 凭据无效
-        API-->>UI: 返回错误信息
-        UI-->>User: 显示错误提示
+    alt Valid credentials
+        API->>Cache: Generate and store session
+        Cache-->>API: Return access token
+        API-->>UI: Return login success response
+        UI-->>User: Redirect to target page
+    else Invalid credentials
+        API-->>UI: Return error message
+        UI-->>User: Display error prompt
     end
 ```
 
-### 备选流程
+### Alternative Flows
 
-#### A1: 第三方登录
+#### A1: Third-party Login
 ```mermaid
 sequenceDiagram
-    participant User as 用户
-    participant UI as 前端界面
-    participant OAuth as OAuth服务商
-    participant API as 认证API
+    participant User as User
+    participant UI as Frontend UI
+    participant OAuth as OAuth Provider
+    participant API as Auth API
     
-    User->>UI: 点击"微信登录"
-    UI->>OAuth: 重定向到授权页面
-    OAuth->>User: 显示授权确认
-    User->>OAuth: 确认授权
-    OAuth-->>UI: 返回授权码
+    User->>UI: Click "WeChat Login"
+    UI->>OAuth: Redirect to authorization page
+    OAuth->>User: Display authorization confirmation
+    User->>OAuth: Confirm authorization
+    OAuth-->>UI: Return authorization code
     UI->>API: POST /api/auth/oauth/callback
-    API->>OAuth: 验证授权码获取用户信息
-    OAuth-->>API: 返回用户信息
-    API-->>UI: 返回登录成功响应
-    UI-->>User: 重定向到目标页面
+    API->>OAuth: Verify authorization code and get user info
+    OAuth-->>API: Return user info
+    API-->>UI: Return login success response
+    UI-->>User: Redirect to target page
 ```
 
-#### A2: 多因素认证
+#### A2: Multi-Factor Authentication
 ```mermaid
 sequenceDiagram
-    participant User as 用户
-    participant UI as 前端界面
-    participant API as 认证API
-    participant SMS as 短信服务
+    participant User as User
+    participant UI as Frontend UI
+    participant API as Auth API
+    participant SMS as SMS Service
     
-    User->>UI: 输入用户名密码
-    UI->>API: 第一阶段验证
-    API->>UI: 返回需要MFA
+    User->>UI: Enter username and password
+    UI->>API: First stage verification
+    API->>UI: Return MFA required
     
-    UI->>User: 显示MFA选项
-    User->>UI: 选择短信验证码
-    UI->>API: 请求发送验证码
-    API->>SMS: 发送短信验证码
-    SMS-->>User: 接收验证码
+    UI->>User: Display MFA options
+    User->>UI: Select SMS verification code
+    UI->>API: Request to send verification code
+    API->>SMS: Send SMS verification code
+    SMS-->>User: Receive verification code
     
-    User->>UI: 输入验证码
-    UI->>API: 验证MFA
-    API-->>UI: 返回登录成功
-    UI-->>User: 重定向到目标页面
+    User->>UI: Enter verification code
+    UI->>API: Verify MFA
+    API-->>UI: Return login success
+    UI-->>User: Redirect to target page
 ```
 
-### 异常流程
+### Exception Flows
 
-#### E1: 账户被锁定
-- **触发条件**: 用户连续5次登录失败
-- **系统响应**: 返回"账户已锁定，请15分钟后重试"
-- **恢复操作**: 自动解锁或联系管理员解锁
+#### E1: Account Locked
+- **Trigger Condition**: User fails to login 5 consecutive times
+- **System Response**: Return "Account locked, please try again in 15 minutes"
+- **Recovery Action**: Auto-unlock or contact administrator to unlock
 
-#### E2: 网络超时
-- **触发条件**: 认证服务响应超时（>10秒）
-- **系统响应**: 显示"服务暂时不可用，请稍后重试"
-- **恢复操作**: 自动重试或引导用户稍后重试
+#### E2: Network Timeout
+- **Trigger Condition**: Authentication service response timeout (>10 seconds)
+- **System Response**: Display "Service temporarily unavailable, please try again later"
+- **Recovery Action**: Auto-retry or guide user to retry later
 
-#### E3: 第三方服务不可用
-- **触发条件**: OAuth服务商接口不可用
-- **系统响应**: 显示"第三方登录暂时不可用"
-- **恢复操作**: 提供备用登录方式或稍后重试
+#### E3: Third-party Service Unavailable
+- **Trigger Condition**: OAuth provider interface unavailable
+- **System Response**: Display "Third-party login temporarily unavailable"
+- **Recovery Action**: Provide alternative login methods or retry later
 
-## 功能设计
+## Functional Design
 
-### 技术实现方案
+### Technical Implementation
 ```go
 // internal/services/auth_service.go
 type AuthService struct {
@@ -358,19 +434,19 @@ type AuthService struct {
 }
 
 func (s *AuthService) Login(ctx context.Context, req LoginRequest) (*LoginResponse, error) {
-    // 1. 验证用户凭据
+    // 1. Validate user credentials
     user, err := s.userRepo.FindByUsername(req.Username)
     if err != nil || !s.validatePassword(user, req.Password) {
         s.logFailedAttempt(ctx, req.Username)
         return nil, ErrInvalidCredentials
     }
     
-    // 2. 检查账户状态
+    // 2. Check account status
     if user.IsLocked() {
         return nil, ErrAccountLocked
     }
     
-    // 3. 检查是否需要MFA
+    // 3. Check if MFA is required
     if s.requiresMFA(user) {
         return &LoginResponse{
             RequiresMFA: true,
@@ -378,13 +454,13 @@ func (s *AuthService) Login(ctx context.Context, req LoginRequest) (*LoginRespon
         }, nil
     }
     
-    // 4. 生成访问令牌
+    // 4. Generate access token
     token, err := s.generateToken(user)
     if err != nil {
         return nil, err
     }
     
-    // 5. 记录登录成功
+    // 5. Log successful login
     s.logSuccessfulLogin(ctx, user)
     
     return &LoginResponse{
@@ -396,17 +472,17 @@ func (s *AuthService) Login(ctx context.Context, req LoginRequest) (*LoginRespon
 }
 ```
 
-### 核心功能描述
-1. **凭据验证**: 验证用户名密码或第三方令牌
-2. **账户状态检查**: 检查账户是否激活、锁定或过期
-3. **多因素认证**: 根据配置决定是否触发MFA
-4. **令牌生成**: 生成JWT访问令牌和刷新令牌
-5. **会话管理**: 创建和管理用户会话
-6. **安全审计**: 记录所有登录尝试和结果
+### Core Functionality Description
+1. **Credential Validation**: Validate username/password or third-party tokens
+2. **Account Status Check**: Check if account is active, locked, or expired
+3. **Multi-Factor Authentication**: Determine whether to trigger MFA based on configuration
+4. **Token Generation**: Generate JWT access token and refresh token
+5. **Session Management**: Create and manage user sessions
+6. **Security Audit**: Record all login attempts and results
 
-### 数据结构设计
+### Data Structure Design
 ```sql
--- 用户表
+-- Users table
 CREATE TABLE users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     username VARCHAR(255) UNIQUE NOT NULL,
@@ -422,7 +498,7 @@ CREATE TABLE users (
     updated_at TIMESTAMP DEFAULT NOW()
 );
 
--- 登录日志表
+-- Login logs table
 CREATE TABLE login_logs (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID REFERENCES users(id),
@@ -434,24 +510,24 @@ CREATE TABLE login_logs (
 );
 ```
 
-## 异常处理
+## Exception Handling
 
-### 常见异常场景
-1. **无效凭据**: 用户名密码不匹配
-2. **账户锁定**: 连续登录失败导致账户锁定
-3. **MFA失败**: 验证码错误或过期
-4. **网络超时**: 认证服务响应超时
-5. **第三方服务错误**: OAuth提供商返回错误
+### Common Exception Scenarios
+1. **Invalid Credentials**: Username/password mismatch
+2. **Account Locked**: Consecutive login failures cause account lock
+3. **MFA Failure**: Verification code error or expired
+4. **Network Timeout**: Authentication service response timeout
+5. **Third-party Service Error**: OAuth provider returns error
 
-### 检测机制
+### Detection Mechanism
 ```go
 // internal/pkg/errors/auth_errors.go
 var (
-    ErrInvalidCredentials = NewAuthError("invalid_credentials", "用户名或密码不正确")
-    ErrAccountLocked = NewAuthError("account_locked", "账户已被锁定，请15分钟后重试")
-    ErrMFARequired = NewAuthError("mfa_required", "需要多因素认证")
-    ErrMFAFailed = NewAuthError("mfa_failed", "验证码错误或已过期")
-    ErrOAuthFailed = NewAuthError("oauth_failed", "第三方登录失败")
+    ErrInvalidCredentials = NewAuthError("invalid_credentials", "Username or password is incorrect")
+    ErrAccountLocked = NewAuthError("account_locked", "Account has been locked, please try again in 15 minutes")
+    ErrMFARequired = NewAuthError("mfa_required", "Multi-factor authentication required")
+    ErrMFAFailed = NewAuthError("mfa_failed", "Verification code is incorrect or expired")
+    ErrOAuthFailed = NewAuthError("oauth_failed", "Third-party login failed")
 )
 
 type AuthError struct {
@@ -461,70 +537,70 @@ type AuthError struct {
 }
 ```
 
-### 处理方案
-1. **用户友好错误信息**: 不暴露系统内部细节
-2. **渐进式披露**: 逐步提供更多信息帮助用户解决问题
-3. **安全防护**: 防止信息泄露和攻击探测
-4. **监控告警**: 异常模式触发安全告警
+### Handling Solutions
+1. **User-friendly Error Messages**: Do not expose internal system details
+2. **Progressive Disclosure**: Gradually provide more information to help users solve problems
+3. **Security Protection**: Prevent information leakage and attack probing
+4. **Monitoring Alerts**: Abnormal patterns trigger security alerts
 
-## 性能考虑
+## Performance Considerations
 
-### 优化策略
-1. **缓存用户信息**: 频繁访问的用户信息缓存5分钟
-2. **异步日志记录**: 登录日志异步写入防止阻塞
-3. **连接池管理**: 数据库和Redis连接池优化
-4. **CDN加速**: 静态资源和第三方脚本CDN加速
+### Optimization Strategies
+1. **Cache User Information**: Frequently accessed user information cached for 5 minutes
+2. **Asynchronous Logging**: Login logs written asynchronously to prevent blocking
+3. **Connection Pool Management**: Database and Redis connection pool optimization
+4. **CDN Acceleration**: Static resources and third-party scripts CDN acceleration
 
-### 扩展性设计
-1. **水平扩展**: 无状态设计支持多实例部署
-2. **读写分离**: 登录日志写入独立数据库
-3. **地理分布**: 支持多地部署降低延迟
-4. **自动扩缩容**: 基于流量自动调整实例数量
+### Scalability Design
+1. **Horizontal Scaling**: Stateless design supports multi-instance deployment
+2. **Read-Write Separation**: Login logs written to separate database
+3. **Geographic Distribution**: Support multi-region deployment to reduce latency
+4. **Auto-scaling**: Automatically adjust instance count based on traffic
 
-## 安全考虑
+## Security Considerations
 
-### 安全防护措施
-1. **密码安全**: bcrypt哈希加盐存储
-2. **会话安全**: JWT签名验证，短期令牌
-3. **速率限制**: IP和用户级别的登录尝试限制
-4. **输入验证**: 防止SQL注入和XSS攻击
+### Security Protection Measures
+1. **Password Security**: bcrypt hashing with salt storage
+2. **Session Security**: JWT signature verification, short-term tokens
+3. **Rate Limiting**: IP and user-level login attempt limits
+4. **Input Validation**: Prevent SQL injection and XSS attacks
 
-### 权限控制机制
-1. **最小权限原则**: 只授予必要权限
-2. **访问控制列表**: 基于角色的访问控制
-3. **审计日志**: 记录所有敏感操作
-4. **安全扫描**: 定期进行安全漏洞扫描
+### Permission Control Mechanism
+1. **Principle of Least Privilege**: Grant only necessary permissions
+2. **Access Control List**: Role-based access control
+3. **Audit Logs**: Record all sensitive operations
+4. **Security Scanning**: Regular security vulnerability scanning
 
-## 扩展功能
+## Extended Features
 
-### 未来扩展可能性
-1. **生物识别**: 支持指纹和面部识别
-2. **无密码认证**: 基于邮件的魔法链接登录
-3. **单点登录**: 企业SSO集成
-4. **风险分析**: 基于行为的风险评分
+### Future Extension Possibilities
+1. **Biometric Authentication**: Support fingerprint and facial recognition
+2. **Passwordless Authentication**: Email-based magic link login
+3. **Single Sign-On**: Enterprise SSO integration
+4. **Risk Analysis**: Behavior-based risk scoring
 
-### 集成支持能力
-1. **WebAuthn**: 支持Web认证API
-2. **SAML 2.0**: 企业身份提供商集成
-3. **OpenID Connect**: 标准身份验证协议
-4. **自定义适配器**: 可插拔的认证提供商
+### Integration Support Capabilities
+1. **WebAuthn**: Support Web Authentication API
+2. **SAML 2.0**: Enterprise identity provider integration
+3. **OpenID Connect**: Standard authentication protocol
+4. **Custom Adapters**: Pluggable authentication providers
 ```
 
 #### 3. API Documentation Template
 ```markdown
-# 用户认证API文档
+# User Authentication API Documentation
 
-## 概述
-用户认证API提供用户注册、登录、登出和令牌管理功能。
+## Overview
+The User Authentication API provides user registration, login, logout, and token management functionality.
 
-## 基础信息
+## Basic Information
 - **Base URL**: `https://api.example.com/api/v1`
-- **认证方式**: Bearer Token (JWT)
-- **数据格式**: JSON
-- **版本**: v1.0.0
+- **Authentication Method**: Bearer Token (JWT)
+- **Data Format**: JSON
+- **Version**: v1.0.0
 
-## 错误处理
-所有错误响应使用统一格式：
+## Error Handling
+All error responses use a unified format:
 ```json
 {
   "success": false,
@@ -536,20 +612,20 @@ type AuthError struct {
 }
 ```
 
-## 端点列表
+## Endpoint List
 
-### 用户登录
+### User Login
 
 **POST** `/auth/login`
 
-登录用户并获取访问令牌。
+Log in user and get access token.
 
-**请求头**:
+**Request Headers**:
 ```
 Content-Type: application/json
 ```
 
-**请求体**:
+**Request Body**:
 ```json
 {
   "username": "user@example.com",
@@ -558,8 +634,8 @@ Content-Type: application/json
 }
 ```
 
-**响应**:
-- **200 OK**: 登录成功
+**Response**:
+- **200 OK**: Login successful
 ```json
 {
   "success": true,
@@ -579,20 +655,20 @@ Content-Type: application/json
 }
 ```
 
-- **400 Bad Request**: 请求参数错误
-- **401 Unauthorized**: 凭据无效
-- **423 Locked**: 账户被锁定
-- **429 Too Many Requests**: 请求过于频繁
+- **400 Bad Request**: Invalid request parameters
+- **401 Unauthorized**: Invalid credentials
+- **423 Locked**: Account locked
+- **429 Too Many Requests**: Too many requests
 
-**对应代码**:
+**Corresponding Code**:
 ```go
 // internal/interfaces/handlers/auth_handler.go:45
-// @Summary 用户登录
-// @Description 使用用户名密码登录获取访问令牌
+// @Summary User Login
+// @Description Login with username and password to get access token
 // @Tags auth
 // @Accept json
 // @Produce json
-// @Param request body LoginRequest true "登录请求"
+// @Param request body LoginRequest true "Login request"
 // @Success 200 {object} LoginResponse
 // @Failure 400 {object} response.Error
 // @Failure 401 {object} response.Error
@@ -602,19 +678,19 @@ func (h *AuthHandler) Login(c *fiber.Ctx) error {
 }
 ```
 
-### 刷新令牌
+### Refresh Token
 
 **POST** `/auth/refresh`
 
-使用刷新令牌获取新的访问令牌。
+Use refresh token to get new access token.
 
-**请求头**:
+**Request Headers**:
 ```
 Authorization: Bearer {refresh_token}
 ```
 
-**响应**:
-- **200 OK**: 令牌刷新成功
+**Response**:
+- **200 OK**: Token refresh successful
 ```json
 {
   "success": true,
@@ -627,21 +703,21 @@ Authorization: Bearer {refresh_token}
 }
 ```
 
-- **401 Unauthorized**: 刷新令牌无效或过期
+- **401 Unauthorized**: Refresh token invalid or expired
 
-### 用户登出
+### User Logout
 
 **POST** `/auth/logout`
 
-登出用户并废止当前会话。
+Log out user and invalidate current session.
 
-**请求头**:
+**Request Headers**:
 ```
 Authorization: Bearer {access_token}
 ```
 
-**响应**:
-- **200 OK**: 登出成功
+**Response**:
+- **200 OK**: Logout successful
 ```json
 {
   "success": true,
@@ -651,16 +727,16 @@ Authorization: Bearer {access_token}
 }
 ```
 
-## 数据模型
+## Data Models
 
 ### LoginRequest
 ```typescript
 interface LoginRequest {
-  /** 用户名或邮箱地址 */
+  /** Username or email address */
   username: string;
-  /** 用户密码 */
+  /** User password */
   password: string;
-  /** 记住我选项 */
+  /** Remember me option */
   remember_me?: boolean;
 }
 ```
@@ -668,15 +744,15 @@ interface LoginRequest {
 ### LoginResponse
 ```typescript
 interface LoginResponse {
-  /** 访问令牌 */
+  /** Access token */
   access_token: string;
-  /** 刷新令牌 */
+  /** Refresh token */
   refresh_token: string;
-  /** 令牌过期时间（秒） */
+  /** Token expiration time (seconds) */
   expires_in: number;
-  /** 令牌类型 */
+  /** Token type */
   token_type: string;
-  /** 用户信息 */
+  /** User information */
   user: UserDTO;
 }
 
@@ -689,7 +765,7 @@ interface UserDTO {
 }
 ```
 
-## 使用示例
+## Usage Examples
 
 ### JavaScript (Fetch)
 ```javascript
@@ -748,24 +824,24 @@ func Login(client *http.Client, username, password string) (*LoginResponse, erro
 }
 ```
 
-## 安全注意事项
+## Security Considerations
 
-1. **令牌安全**: 访问令牌应存储在安全的地方（HttpOnly cookie或安全存储）
-2. **传输安全**: 始终使用HTTPS传输认证数据
-3. **密码策略**: 实施强密码策略和定期更换要求
-4. **监控告警**: 监控异常登录尝试和潜在攻击
+1. **Token Security**: Access tokens should be stored securely (HttpOnly cookie or secure storage)
+2. **Transport Security**: Always use HTTPS for authentication data transmission
+3. **Password Policy**: Implement strong password policies and regular rotation requirements
+4. **Monitoring Alerts**: Monitor abnormal login attempts and potential attacks
 
-## 版本历史
+## Version History
 
-| 版本 | 日期 | 变更说明 |
-|------|------|----------|
-| v1.0.0 | 2026-01-15 | 初始版本 |
-| v1.1.0 | 2026-02-10 | 添加多因素认证支持 |
-| v1.2.0 | 2026-03-05 | 添加第三方登录支持 |
+| Version | Date | Change Description |
+|---------|------|-------------------|
+| v1.0.0 | 2026-01-15 | Initial version |
+| v1.1.0 | 2026-02-10 | Added multi-factor authentication support |
+| v1.2.0 | 2026-03-05 | Added third-party login support |
 
-## 对应需求
-- REQ-AUTH-002: 用户登录功能
-- REQ-AUTH-004: 多因素认证支持
+## Corresponding Requirements
+- REQ-AUTH-002: User login functionality
+- REQ-AUTH-004: Multi-factor authentication support
 ```
 
 ## Implementation
@@ -809,63 +885,63 @@ requirements-to-code-docs sync \
 ### Traceability Matrix Template
 
 ```markdown
-# 需求跟踪矩阵
+# Requirements Traceability Matrix
 
-## 概述
-本矩阵跟踪业务需求到用例到代码实现的完整链路。
+## Overview
+This matrix tracks the complete chain from business requirements to use cases to code implementation.
 
-## 矩阵结构
+## Matrix Structure
 
-| 需求ID | 需求描述 | 用例ID | 用例描述 | 代码文件 | 代码行数 | 测试用例 | 状态 |
-|--------|----------|--------|----------|----------|----------|----------|------|
-| REQ-AUTH-001 | 用户注册功能 | UC-AUTH-001 | 用户注册用例 | `backend/internal/interfaces/handlers/auth_handler.go` | 45-89 | `TestAuthHandler_Register` | ✅ 完成 |
-| REQ-AUTH-001 | 用户注册功能 | UC-AUTH-001 | 用户注册用例 | `backend/internal/services/auth_service.go` | 120-185 | `TestAuthService_Register` | ✅ 完成 |
-| REQ-AUTH-001 | 用户注册功能 | UC-AUTH-001 | 用户注册用例 | `frontend/src/pages/RegisterPage.vue` | 45-120 | `RegisterPage.spec.ts` | ✅ 完成 |
-| REQ-AUTH-002 | 用户登录功能 | UC-AUTH-002 | 用户登录用例 | `backend/internal/interfaces/handlers/auth_handler.go` | 90-150 | `TestAuthHandler_Login` | ✅ 完成 |
-| REQ-AUTH-002 | 用户登录功能 | UC-AUTH-002 | 用户登录用例 | `frontend/src/pages/LoginPage.vue` | 35-95 | `LoginPage.spec.ts` | ✅ 完成 |
-| REQ-AUTH-003 | 密码管理功能 | UC-AUTH-003 | 密码重置用例 | `backend/internal/interfaces/handlers/password_handler.go` | 25-80 | `TestPasswordHandler_Reset` | 🟡 开发中 |
-| REQ-AUTH-004 | 多因素认证 | UC-AUTH-004 | MFA设置用例 | `backend/internal/interfaces/handlers/mfa_handler.go` | - | - | 🟠 待开始 |
+| Requirement ID | Requirement Description | Use Case ID | Use Case Description | Code File | Code Lines | Test Cases | Status |
+|----------------|------------------------|-------------|---------------------|-----------|------------|------------|--------|
+| REQ-AUTH-001 | User registration | UC-AUTH-001 | User registration use case | `backend/internal/interfaces/handlers/auth_handler.go` | 45-89 | `TestAuthHandler_Register` | ✅ Complete |
+| REQ-AUTH-001 | User registration | UC-AUTH-001 | User registration use case | `backend/internal/services/auth_service.go` | 120-185 | `TestAuthService_Register` | ✅ Complete |
+| REQ-AUTH-001 | User registration | UC-AUTH-001 | User registration use case | `frontend/src/pages/RegisterPage.vue` | 45-120 | `RegisterPage.spec.ts` | ✅ Complete |
+| REQ-AUTH-002 | User login | UC-AUTH-002 | User login use case | `backend/internal/interfaces/handlers/auth_handler.go` | 90-150 | `TestAuthHandler_Login` | ✅ Complete |
+| REQ-AUTH-002 | User login | UC-AUTH-002 | User login use case | `frontend/src/pages/LoginPage.vue` | 35-95 | `LoginPage.spec.ts` | ✅ Complete |
+| REQ-AUTH-003 | Password management | UC-AUTH-003 | Password reset use case | `backend/internal/interfaces/handlers/password_handler.go` | 25-80 | `TestPasswordHandler_Reset` | 🟡 In Progress |
+| REQ-AUTH-004 | Multi-factor authentication | UC-AUTH-004 | MFA setup use case | `backend/internal/interfaces/handlers/mfa_handler.go` | - | - | 🟠 Not Started |
 
-## 覆盖率统计
+## Coverage Statistics
 
-| 类别 | 总数 | 已完成 | 进行中 | 未开始 | 覆盖率 |
-|------|------|--------|--------|--------|--------|
-| 业务需求 | 15 | 8 | 4 | 3 | 53% |
-| 用例 | 25 | 12 | 6 | 7 | 48% |
-| 代码文件 | 45 | 25 | 10 | 10 | 56% |
-| 测试用例 | 60 | 35 | 12 | 13 | 58% |
+| Category | Total | Completed | In Progress | Not Started | Coverage |
+|----------|-------|-----------|-------------|-------------|----------|
+| Business Requirements | 15 | 8 | 4 | 3 | 53% |
+| Use Cases | 25 | 12 | 6 | 7 | 48% |
+| Code Files | 45 | 25 | 10 | 10 | 56% |
+| Test Cases | 60 | 35 | 12 | 13 | 58% |
 
-## 质量指标
+## Quality Metrics
 
-### 文档质量
-- **需求完整性**: 85%
-- **用例详细度**: 78%
-- **API文档覆盖**: 92%
-- **代码注释率**: 65%
+### Documentation Quality
+- **Requirement Completeness**: 85%
+- **Use Case Detail Level**: 78%
+- **API Documentation Coverage**: 92%
+- **Code Comment Rate**: 65%
 
-### 实现质量
-- **需求实现率**: 80%
-- **测试覆盖率**: 75%
-- **代码规范符合度**: 90%
-- **安全要求满足度**: 85%
+### Implementation Quality
+- **Requirement Implementation Rate**: 80%
+- **Test Coverage**: 75%
+- **Code Standard Compliance**: 90%
+- **Security Requirement Satisfaction**: 85%
 
-## 风险跟踪
+## Risk Tracking
 
-| 风险项 | 影响 | 可能性 | 缓解措施 | 责任人 | 状态 |
-|--------|------|--------|----------|--------|------|
-| 需求变更频繁 | 高 | 中 | 建立变更控制流程 | 产品经理 | 🟡 监控中 |
-| 技术债务累积 | 中 | 高 | 定期重构和代码审查 | 技术主管 | 🟡 处理中 |
-| 文档与代码不同步 | 中 | 高 | 自动化文档同步 | 开发团队 | 🟢 已解决 |
-| 安全漏洞风险 | 高 | 低 | 定期安全扫描和渗透测试 | 安全团队 | 🟡 监控中 |
+| Risk Item | Impact | Likelihood | Mitigation Measures | Owner | Status |
+|-----------|--------|------------|---------------------|-------|--------|
+| Frequent requirement changes | High | Medium | Establish change control process | Product Manager | 🟡 Monitoring |
+| Technical debt accumulation | Medium | High | Regular refactoring and code review | Tech Lead | 🟡 In Progress |
+| Documentation out of sync with code | Medium | High | Automated documentation sync | Dev Team | 🟢 Resolved |
+| Security vulnerability risk | High | Low | Regular security scanning and penetration testing | Security Team | 🟡 Monitoring |
 
-## 更新记录
+## Update History
 
-| 日期 | 更新内容 | 更新人 |
-|------|----------|--------|
-| 2026-01-15 | 初始矩阵创建 | 张三 |
-| 2026-01-20 | 添加用户认证模块跟踪 | 李四 |
-| 2026-01-25 | 更新实现状态和覆盖率 | 王五 |
-| 2026-02-01 | 添加质量指标和风险跟踪 | 张三 |
+| Date | Update Content | Updated By |
+|------|----------------|------------|
+| 2026-01-15 | Initial matrix creation | Zhang San |
+| 2026-01-20 | Added user authentication module tracking | Li Si |
+| 2026-01-25 | Updated implementation status and coverage | Wang Wu |
+| 2026-02-01 | Added quality metrics and risk tracking | Zhang San |
 ```
 
 ## Common Mistakes

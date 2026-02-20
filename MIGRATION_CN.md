@@ -60,10 +60,10 @@ cd /path/to/project
 
 ## 验证结果
 
-所有 25 个技能已通过格式验证：
+所有 43 个技能已通过格式验证：
 - ✅ 所有技能包含必需的 `name` 字段
 - ✅ 所有技能包含必需的 `description` 字段
-- ✅ 所有 description 以 "Use when" 开头
+- ✅ 所有描述以 "Use when" 开头
 - ✅ 所有技能文件位于正确位置
 
 ## OpenCode 集成

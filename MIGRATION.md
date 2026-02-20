@@ -116,7 +116,7 @@ In conversation, the AI assistant will automatically recommend and load relevant
 
 ## Validation Results
 
-All 25 skills have passed format validation:
+All 43 skills have passed format validation:
 - ✅ All skills contain the required `name` field
 - ✅ All skills contain the required `description` field
 - ✅ All descriptions start with "Use when"
