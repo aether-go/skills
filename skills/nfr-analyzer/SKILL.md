@@ -1,12 +1,12 @@
 ---
 name: nfr-analyzer
-description: Use when analyzing non-functional requirements and mapping them to measurable technical metrics with validation strategies
+description: Use when analyzing non-functional requirements and mapping them to measurable technical metrics with ISO/IEC 25010:2023 validation strategies
 ---
 
 # NFR Analyzer
 
 ## Overview
-Analyze non-functional requirements (NFRs) from the 04_non_functional category, map them to measurable technical metrics, define validation strategies, and ensure NFRs are testable and achievable. Bridges the gap between quality attributes and concrete implementation targets.
+Analyze non-functional requirements (NFRs) across the quality dimension categories (05-Performance through 11-Portability), map them to measurable technical metrics based on ISO/IEC 25010:2023, define validation strategies, and ensure NFRs are testable and achievable. Bridges the gap between quality attributes and concrete implementation targets.
 
 ## When to Use
 
@@ -21,11 +21,12 @@ Quality attributes to define? ──────────────┘
 ```
 
 Use when:
-- After [requirement-classifier](file:///d:/repos/aether-go/skills/skills/requirement-classifier/SKILL.md) identifies NFRs
+- After [requirement-classifier](file:///d:/repos/aether-go/skills/skills/requirement-classifier/SKILL.md) identifies quality-related NFRs
 - Before [spec-parser](file:///d:/repos/aether-go/skills/skills/spec-parser/SKILL.md) processes requirements
 - Need to make NFRs measurable and testable
-- Defining performance, reliability, scalability targets
+- Defining performance, reliability, security, usability targets
 - Creating validation strategies for quality attributes
+- Mapping requirements to ISO/IEC 25010:2023 quality model
 
 Don't use when:
 - No NFR requirements exist
@@ -34,16 +35,18 @@ Don't use when:
 
 ## Core Pattern
 
-### NFR Analysis Workflow
+### NFR Analysis Workflow (ISO/IEC 25010:2023 Based)
 
 ```
-NFR Requirements → Category Classification → Metric Mapping → Validation Strategy
+NFR Requirements → ISO 25010 Classification → Metric Mapping → Validation Strategy
         ↓                  ↓                       ↓                  ↓
-   Raw NFRs          NFR Categories         Measurable          Test Plans
+   Raw NFRs        Quality Characteristics    Measurable          Test Plans
                                               Metrics
         ↓                  ↓                       ↓                  ↓
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                         NFR Quality Model                                    │
+│                    ISO/IEC 25010:2023 Quality Model                          │
+│  8 Quality Characteristics: Performance, Compatibility, Usability,           │
+│  Reliability, Security, Maintainability, Portability, Functional Suitability │
 └─────────────────────────────────────────────────────────────────────────────┘
         ↓
    NFR Specification Document
@@ -54,21 +57,24 @@ NFR Requirements → Category Classification → Metric Mapping → Validation S
 ### Before (Vague NFR)
 ```yaml
 nfr_requirement:
-  id: "REQ-NFR-001"
+  id: "REQ-PERF-001"
   statement: "The system should be fast"
-  category: "04_non_functional"
+  category: "05_performance"
 ```
 
-### After (Analyzed NFR)
+### After (Analyzed NFR with ISO 25010 Mapping)
 ```yaml
 analyzed_nfr:
-  id: "REQ-NFR-001"
+  id: "REQ-PERF-001"
   original_statement: "The system should be fast"
   
   classification:
-    category: "performance"
+    category: "05_performance"
     subcategory: "response_time"
-    quality_attribute: "efficiency"
+    iso_25010:
+      characteristic: "Performance Efficiency"
+      subcharacteristic: "Time Behavior"
+      description: "Response and processing times and throughput rates of a system when performing its functions"
     
   metrics:
     - name: "api_response_time_p95"
@@ -118,9 +124,9 @@ analyzed_nfr:
       relation: "constrained_by"
       impact: "Architecture choice affects performance"
       
-    - requirement: "REQ-SCAL-001"
-      relation: "impacts"
-      impact: "Performance targets affect scalability design"
+    - requirement: "REQ-REL-001"
+      relation: "supports"
+      impact: "Performance targets affect reliability design"
       
   risks:
     - id: "RISK-NFR-001"
@@ -132,108 +138,220 @@ analyzed_nfr:
 
 ## Quick Reference
 
-### NFR Categories
+### ISO/IEC 25010:2023 Quality Characteristics and NFR Categories
 
-| Category | Subcategories | Key Metrics | Validation Methods |
-|----------|--------------|-------------|-------------------|
-| **Performance** | Response time, Throughput, Latency | P95, P99, RPS, TPS | Load testing, APM |
-| **Reliability** | Availability, Fault tolerance | Uptime %, MTBF, MTTR | Chaos testing, Monitoring |
-| **Scalability** | Horizontal, Vertical | Concurrent users, Data volume | Stress testing, Capacity planning |
-| **Usability** | Learnability, Efficiency | Task completion time, Error rate | Usability testing, A/B testing |
-| **Security** | Confidentiality, Integrity | Vulnerability count, Auth time | Security testing, Penetration testing |
-| **Maintainability** | Modularity, Testability | Code complexity, Coverage | Static analysis, Code review |
-| **Portability** | Platform independence | Migration effort | Compatibility testing |
+| ISO Characteristic | Subcharacteristics | NFR Category | Key Metrics | Validation Methods |
+|-------------------|---------------------|--------------|-------------|-------------------|
+| **Performance Efficiency** | Time behavior, Resource utilization, Capacity | 05-Performance | P95, P99, RPS, TPS, CPU%, Memory% | Load testing, APM |
+| **Compatibility** | Coexistence, Interoperability | 06-Compatibility | Integration success rate, API compliance | Integration testing |
+| **Usability** | Appropriateness recognizability, Learnability, Operability, User error protection, Accessibility | 07-Usability | Task completion time, Error rate, SUS score | Usability testing, A/B testing |
+| **Reliability** | Maturity, Availability, Fault tolerance, Recoverability | 08-Reliability | Uptime %, MTBF, MTTR | Chaos testing, Monitoring |
+| **Security** | Confidentiality, Integrity, Non-repudiation, Authenticity | 09-Security | Vulnerability count, Auth time, Encryption coverage | Security testing, Penetration testing |
+| **Maintainability** | Modularity, Reusability, Analysability, Modifiability, Testability | 10-Maintainability | Code complexity, Coverage, Tech debt | Static analysis, Code review |
+| **Portability** | Adaptability, Installability, Replaceability | 11-Portability | Migration effort, Platform coverage | Compatibility testing |
 
-### Performance Metrics Template
+### Performance Metrics Template (ISO 25010: Performance Efficiency)
 
-| Metric | Formula | Unit | Typical Target | Measurement |
-|--------|---------|------|----------------|-------------|
-| **Response Time (P50)** | percentile(rt, 50) | ms | < 100ms | APM |
-| **Response Time (P95)** | percentile(rt, 95) | ms | < 200ms | APM |
-| **Response Time (P99)** | percentile(rt, 99) | ms | < 500ms | APM |
-| **Throughput** | requests / second | RPS | > 1000 | Load testing |
-| **Error Rate** | errors / total_requests | % | < 0.1% | Monitoring |
-| **Concurrent Users** | active_sessions | count | > 10000 | Load testing |
+| Metric | Formula | Unit | Typical Target | ISO Subcharacteristic | Measurement |
+|--------|---------|------|----------------|----------------------|-------------|
+| **Response Time (P50)** | percentile(rt, 50) | ms | < 100ms | Time behavior | APM |
+| **Response Time (P95)** | percentile(rt, 95) | ms | < 200ms | Time behavior | APM |
+| **Response Time (P99)** | percentile(rt, 99) | ms | < 500ms | Time behavior | APM |
+| **Throughput** | requests / second | RPS | > 1000 | Time behavior | Load testing |
+| **CPU Utilization** | cpu_time / total_time | % | < 70% | Resource utilization | Monitoring |
+| **Memory Utilization** | used_memory / total_memory | % | < 80% | Resource utilization | Monitoring |
+| **Concurrent Users** | active_sessions | count | > 10000 | Capacity | Load testing |
+| **Data Volume** | data_processed / time | GB/hour | > 100 | Capacity | Monitoring |
 
-### Reliability Metrics Template
+### Reliability Metrics Template (ISO 25010: Reliability)
 
-| Metric | Formula | Unit | Typical Target | Measurement |
-|--------|---------|------|----------------|-------------|
-| **Availability** | uptime / total_time | % | > 99.9% | Monitoring |
-| **MTBF** | operating_time / failures | hours | > 1000h | Incident tracking |
-| **MTTR** | total_downtime / incidents | minutes | < 15min | Incident tracking |
-| **Error Rate** | errors / total_operations | % | < 0.01% | Monitoring |
-| **Data Durability** | successful_reads / total_reads | % | > 99.999% | Storage metrics |
+| Metric | Formula | Unit | Typical Target | ISO Subcharacteristic | Measurement |
+|--------|---------|------|----------------|----------------------|-------------|
+| **Availability** | uptime / total_time | % | > 99.9% | Availability | Monitoring |
+| **MTBF** | operating_time / failures | hours | > 1000h | Maturity | Incident tracking |
+| **MTTR** | total_downtime / incidents | minutes | < 15min | Recoverability | Incident tracking |
+| **Error Rate** | errors / total_operations | % | < 0.01% | Maturity | Monitoring |
+| **Fault Tolerance Score** | successful_failovers / total_failures | % | > 99% | Fault tolerance | Chaos testing |
+| **Data Durability** | successful_reads / total_reads | % | > 99.999% | Maturity | Storage metrics |
+
+### Security Metrics Template (ISO 25010: Security)
+
+| Metric | Formula | Unit | Typical Target | ISO Subcharacteristic | Measurement |
+|--------|---------|------|----------------|----------------------|-------------|
+| **Vulnerability Count** | count(critical_vulns) | count | 0 | Confidentiality | Security scan |
+| **Authentication Time** | avg(auth_duration) | ms | < 500ms | Authenticity | APM |
+| **Encryption Coverage** | encrypted_data / total_data | % | 100% | Confidentiality | Audit |
+| **Access Control Effectiveness** | blocked_unauthorized / total_unauthorized | % | 100% | Integrity | Security logs |
+| **Audit Trail Completeness** | logged_events / total_events | % | 100% | Non-repudiation | Audit |
+
+### Usability Metrics Template (ISO 25010: Usability)
+
+| Metric | Formula | Unit | Typical Target | ISO Subcharacteristic | Measurement |
+|--------|---------|------|----------------|----------------------|-------------|
+| **Task Completion Rate** | completed_tasks / attempted_tasks | % | > 95% | Operability | Usability testing |
+| **Task Completion Time** | avg(task_duration) | seconds | < 30s | Operability | Usability testing |
+| **Error Rate** | user_errors / actions | % | < 5% | User error protection | Usability testing |
+| **Learnability Score** | tasks_completed_first_try / total_tasks | % | > 80% | Learnability | Usability testing |
+| **SUS Score** | System Usability Scale | score | > 68 | Appropriateness | Survey |
+| **Accessibility Score** | WCAG compliance | % | 100% | Accessibility | Accessibility audit |
 
 ### Validation Strategy Matrix
 
-| NFR Category | Primary Validation | Secondary Validation | Tools |
-|--------------|-------------------|---------------------|-------|
-| **Performance** | Load testing | APM monitoring | k6, JMeter, Datadog |
-| **Reliability** | Chaos testing | Incident simulation | Chaos Monkey, Gremlin |
-| **Scalability** | Stress testing | Capacity modeling | Locust, Gatling |
-| **Usability** | User testing | A/B testing | Hotjar, Optimizely |
-| **Security** | Penetration testing | Vulnerability scanning | OWASP ZAP, Burp |
-| **Maintainability** | Code analysis | Technical debt scan | SonarQube, CodeClimate |
+| NFR Category | ISO Characteristic | Primary Validation | Secondary Validation | Tools |
+|--------------|-------------------|-------------------|---------------------|-------|
+| **05-Performance** | Performance Efficiency | Load testing | APM monitoring | k6, JMeter, Datadog |
+| **06-Compatibility** | Compatibility | Integration testing | Compatibility testing | Postman, Newman |
+| **07-Usability** | Usability | User testing | A/B testing | Hotjar, Optimizely |
+| **08-Reliability** | Reliability | Chaos testing | Incident simulation | Chaos Monkey, Gremlin |
+| **09-Security** | Security | Penetration testing | Vulnerability scanning | OWASP ZAP, Burp |
+| **10-Maintainability** | Maintainability | Code analysis | Technical debt scan | SonarQube, CodeClimate |
+| **11-Portability** | Portability | Compatibility testing | Deployment testing | Docker, Kubernetes |
 
 ## Implementation
 
-### NFR Classification
+### ISO 25010 NFR Classification
 
 ```yaml
 nfr_classification:
-  categories:
-    performance:
-      description: "System speed and responsiveness"
-      subcategories:
-        - response_time
-        - throughput
-        - latency
-        - resource_utilization
+  iso_25010_mapping:
+    performance_efficiency:
+      iso_characteristic: "Performance Efficiency"
+      description: "Performance relative to resources used"
+      nfr_category: "05_performance"
+      subcharacteristics:
+        - name: "Time behavior"
+          description: "Response and processing times"
+          metrics: ["response_time", "throughput", "latency"]
+          
+        - name: "Resource utilization"
+          description: "Resources used during operation"
+          metrics: ["cpu_utilization", "memory_utilization", "network_io"]
+          
+        - name: "Capacity"
+          description: "Maximum limits of operation"
+          metrics: ["concurrent_users", "data_volume", "request_rate"]
         
-    reliability:
-      description: "System stability and fault tolerance"
-      subcategories:
-        - availability
-        - fault_tolerance
-        - recoverability
-        
-    scalability:
-      description: "System growth capacity"
-      subcategories:
-        - horizontal_scaling
-        - vertical_scaling
-        - data_scaling
+    compatibility:
+      iso_characteristic: "Compatibility"
+      description: "Ability to coexist and interoperate"
+      nfr_category: "06_compatibility"
+      subcharacteristics:
+        - name: "Coexistence"
+          description: "Operating alongside other products"
+          metrics: ["isolation_effectiveness", "resource_sharing"]
+          
+        - name: "Interoperability"
+          description: "Communicating with other products"
+          metrics: ["api_compliance", "data_format_compatibility"]
         
     usability:
-      description: "User experience quality"
-      subcategories:
-        - learnability
-        - efficiency
-        - satisfaction
-        - accessibility
+      iso_characteristic: "Usability"
+      description: "Effectiveness and satisfaction of use"
+      nfr_category: "07_usability"
+      subcharacteristics:
+        - name: "Appropriateness recognizability"
+          description: "Users recognize suitability"
+          metrics: ["feature_discovery_rate", "first_impression_score"]
+          
+        - name: "Learnability"
+          description: "Ease of learning"
+          metrics: ["time_to_proficiency", "training_hours"]
+          
+        - name: "Operability"
+          description: "Ease of operation"
+          metrics: ["task_completion_rate", "error_rate"]
+          
+        - name: "User error protection"
+          description: "Protection against user errors"
+          metrics: ["error_prevention_rate", "recovery_success_rate"]
+          
+        - name: "Accessibility"
+          description: "Usability for all users"
+          metrics: ["wcag_compliance", "assistive_tech_compatibility"]
+        
+    reliability:
+      iso_characteristic: "Reliability"
+      description: "Maintains functionality under stated conditions"
+      nfr_category: "08_reliability"
+      subcharacteristics:
+        - name: "Maturity"
+          description: "Fault prevention"
+          metrics: ["defect_rate", "stability_score"]
+          
+        - name: "Availability"
+          description: "Operational readiness"
+          metrics: ["uptime_percentage", "planned_downtime"]
+          
+        - name: "Fault tolerance"
+          description: "Error handling"
+          metrics: ["failover_success_rate", "graceful_degradation"]
+          
+        - name: "Recoverability"
+          description: "Recovery capability"
+          metrics: ["mttr", "rpo_achievement"]
         
     security:
-      description: "System protection level"
-      subcategories:
-        - confidentiality
-        - integrity
-        - availability
-        - authentication
+      iso_characteristic: "Security"
+      description: "Protection against unauthorized access"
+      nfr_category: "09_security"
+      subcharacteristics:
+        - name: "Confidentiality"
+          description: "Data protection"
+          metrics: ["encryption_coverage", "data_leak_incidents"]
+          
+        - name: "Integrity"
+          description: "Data accuracy"
+          metrics: ["data_validation_rate", "tamper_detection"]
+          
+        - name: "Non-repudiation"
+          description: "Action proof"
+          metrics: ["audit_trail_completeness", "log_integrity"]
+          
+        - name: "Authenticity"
+          description: "Identity verification"
+          metrics: ["authentication_success_rate", "identity_verification"]
         
     maintainability:
-      description: "System modification ease"
-      subcategories:
-        - modularity
-        - testability
-        - documentation
+      iso_characteristic: "Maintainability"
+      description: "Ease of modification"
+      nfr_category: "10_maintainability"
+      subcharacteristics:
+        - name: "Modularity"
+          description: "Component independence"
+          metrics: ["coupling_score", "cohesion_score"]
+          
+        - name: "Reusability"
+          description: "Asset reuse"
+          metrics: ["code_reuse_rate", "component_reuse"]
+          
+        - name: "Analysability"
+          description: "Diagnosis ease"
+          metrics: ["debugging_time", "log_quality"]
+          
+        - name: "Modifiability"
+          description: "Change ease"
+          metrics: ["change_lead_time", "change_failure_rate"]
+          
+        - name: "Testability"
+          description: "Test criteria ease"
+          metrics: ["test_coverage", "test_automation_rate"]
         
     portability:
+      iso_characteristic: "Portability"
       description: "System transferability"
-      subcategories:
-        - platform_independence
-        - data_portability
-        - interoperability
+      nfr_category: "11_portability"
+      subcharacteristics:
+        - name: "Adaptability"
+          description: "Adaptation to different environments"
+          metrics: ["platform_support_count", "configuration_flexibility"]
+          
+        - name: "Installability"
+          description: "Installation ease"
+          metrics: ["installation_time", "installation_success_rate"]
+          
+        - name: "Replaceability"
+          description: "Replacement ease"
+          metrics: ["migration_effort", "backward_compatibility"]
 ```
 
 ### Metric Definition Template
@@ -245,9 +363,10 @@ metric_definition:
   description: "What this metric measures"
   
   classification:
-    category: "performance | reliability | scalability | ..."
-    subcategory: "response_time | availability | ..."
-    quality_attribute: "ISO 25010 quality attribute"
+    nfr_category: "05_performance | 06_compatibility | 07_usability | 08_reliability | 09_security | 10_maintainability | 11_portability"
+    iso_25010:
+      characteristic: "ISO 25010 characteristic name"
+      subcharacteristic: "ISO 25010 subcharacteristic"
     
   measurement:
     formula: "Mathematical formula for calculation"
@@ -271,8 +390,8 @@ metric_definition:
     endpoint: "Data collection endpoint"
     
   validation:
-    test_type: "load_test | stress_test | chaos_test"
-    tool: "k6 | JMeter | Gremlin"
+    test_type: "load_test | stress_test | chaos_test | security_test"
+    tool: "k6 | JMeter | Gremlin | OWASP ZAP"
     scenario: "Test scenario reference"
 ```
 
@@ -283,9 +402,13 @@ validation_strategy:
   id: "VAL-{CATEGORY}-{NUMBER}"
   name: "Validation strategy name"
   
+  iso_25010_reference:
+    characteristic: "Performance Efficiency"
+    subcharacteristic: "Time Behavior"
+    
   nfr_references:
-    - "REQ-NFR-001"
-    - "REQ-NFR-002"
+    - "REQ-PERF-001"
+    - "REQ-PERF-002"
     
   approach:
     primary:
@@ -313,6 +436,7 @@ validation_strategy:
           operator: "<"
           value: 200
           unit: "ms"
+          iso_verification: "Time Behavior"
           
         - metric: "error_rate"
           operator: "<"
@@ -350,51 +474,33 @@ validation_strategy:
           severity: "critical"
 ```
 
-### NFR Quality Model
+### ISO 25010 Quality Trade-off Analysis
 
 ```yaml
-nfr_quality_model:
-  based_on: "ISO 25010"
-  
-  quality_attributes:
-    efficiency:
-      description: "Performance relative to resources used"
-      subattributes:
-        - time_behavior: "Response time, throughput"
-        - resource_utilization: "CPU, memory, network"
-        
-    reliability:
-      description: "Maintains functionality under stated conditions"
-      subattributes:
-        - maturity: "Fault prevention"
-        - availability: "Operational readiness"
-        - fault_tolerance: "Error handling"
-        - recoverability: "Recovery capability"
-        
-    usability:
-      description: "Effectiveness and satisfaction of use"
-      subattributes:
-        - appropriateness: "Task suitability"
-        - learnability: "Ease of learning"
-        - operability: "Ease of operation"
-        - accessibility: "Inclusivity"
-        
-    security:
-      description: "Protection against unauthorized access"
-      subattributes:
-        - confidentiality: "Data protection"
-        - integrity: "Data accuracy"
-        - non_repudiation: "Action proof"
-        - authenticity: "Identity verification"
-        
-    maintainability:
-      description: "Ease of modification"
-      subattributes:
-        - modularity: "Component independence"
-        - reusability: "Asset reuse"
-        - analysability: "Diagnosis ease"
-        - modifiability: "Change ease"
-        - testability: "Test criteria ease"
+quality_tradeoffs:
+  performance_vs_reliability:
+    iso_characteristics: ["Performance Efficiency", "Reliability"]
+    trade_off: "Higher performance may reduce reliability (e.g., caching vs consistency)"
+    affected_categories: ["05_performance", "08_reliability"]
+    resolution: "Define acceptable balance based on business requirements"
+    
+  security_vs_usability:
+    iso_characteristics: ["Security", "Usability"]
+    trade_off: "Stronger security may impact user experience"
+    affected_categories: ["09_security", "07_usability"]
+    resolution: "Implement user-friendly security measures (SSO, biometrics)"
+    
+  performance_vs_maintainability:
+    iso_characteristics: ["Performance Efficiency", "Maintainability"]
+    trade_off: "Optimized code may be harder to maintain"
+    affected_categories: ["05_performance", "10_maintainability"]
+    resolution: "Balance optimization with code clarity, document optimizations"
+    
+  portability_vs_performance:
+    iso_characteristics: ["Portability", "Performance Efficiency"]
+    trade_off: "Platform abstractions may impact performance"
+    affected_categories: ["11_portability", "05_performance"]
+    resolution: "Use efficient abstractions, profile on target platforms"
 ```
 
 ### NFR Specification Document
@@ -406,24 +512,30 @@ nfr_specification:
     version: "1.0"
     created: "2026-01-20"
     last_updated: "2026-01-20"
+    iso_standard: "ISO/IEC 25010:2023"
     
   summary:
-    total_nfrs: 15
-    by_category:
-      performance: 5
-      reliability: 3
-      scalability: 2
-      security: 3
-      usability: 2
+    total_nfrs: 25
+    by_iso_characteristic:
+      performance_efficiency: 5
+      compatibility: 2
+      usability: 3
+      reliability: 4
+      security: 5
+      maintainability: 3
+      portability: 3
       
   nfrs:
-    - id: "REQ-NFR-001"
-      category: "performance"
+    - id: "REQ-PERF-001"
+      category: "05_performance"
+      iso_25010:
+        characteristic: "Performance Efficiency"
+        subcharacteristic: "Time Behavior"
       statement: "API response time must be fast"
       
       analyzed:
         classification:
-          category: "performance"
+          category: "05_performance"
           subcategory: "response_time"
           
         metrics:
@@ -438,13 +550,16 @@ nfr_specification:
         risks:
           - "Baseline exceeds target by 125%"
           
-    - id: "REQ-NFR-002"
-      category: "reliability"
+    - id: "REQ-REL-001"
+      category: "08_reliability"
+      iso_25010:
+        characteristic: "Reliability"
+        subcharacteristic: "Availability"
       statement: "System must be highly available"
       
       analyzed:
         classification:
-          category: "reliability"
+          category: "08_reliability"
           subcategory: "availability"
           
         metrics:
@@ -456,25 +571,57 @@ nfr_specification:
           strategy: "chaos_testing"
           tool: "Gremlin"
           
+    - id: "REQ-SEC-001"
+      category: "09_security"
+      iso_25010:
+        characteristic: "Security"
+        subcharacteristic: "Confidentiality"
+      statement: "All data must be encrypted"
+      
+      analyzed:
+        classification:
+          category: "09_security"
+          subcategory: "confidentiality"
+          
+        metrics:
+          - name: "encryption_coverage"
+            target: "100%"
+            baseline: "85%"
+            
+        validation:
+          strategy: "security_audit"
+          tool: "OWASP ZAP"
+          
   validation_plan:
     test_suites:
       - name: "Performance Suite"
+        iso_characteristic: "Performance Efficiency"
         scenarios: ["TS-001", "TS-002", "TS-003"]
         schedule: "Daily"
         
       - name: "Reliability Suite"
+        iso_characteristic: "Reliability"
         scenarios: ["TS-004", "TS-005"]
+        schedule: "Weekly"
+        
+      - name: "Security Suite"
+        iso_characteristic: "Security"
+        scenarios: ["TS-006", "TS-007"]
         schedule: "Weekly"
         
   monitoring_plan:
     dashboards:
       - name: "NFR Dashboard"
-        metrics: ["response_time_p95", "availability", "error_rate"]
+        metrics: ["response_time_p95", "availability", "error_rate", "security_score"]
         
     alerts:
       - name: "Performance Alert"
         condition: "response_time_p95 > 500ms"
         severity: "warning"
+        
+      - name: "Availability Alert"
+        condition: "availability < 99.9%"
+        severity: "critical"
 ```
 
 ## Integration with Other Skills
@@ -484,9 +631,14 @@ nfr_specification:
 ```yaml
 input:
   nfr_requirements:
-    - id: "REQ-NFR-{NUMBER}"
-      statement: "NFR statement"
-      category: "04_non_functional"
+    05_performance: [...]
+    06_compatibility: [...]
+    07_usability: [...]
+    08_reliability: [...]
+    09_security: [...]
+    10_maintainability: [...]
+    11_portability: [...]
+  iso_25010_references: [...]
 ```
 
 ### Output to [spec-parser](file:///d:/repos/aether-go/skills/skills/spec-parser/SKILL.md)
@@ -494,72 +646,12 @@ input:
 ```yaml
 output:
   analyzed_nfrs:
-    - id: "REQ-NFR-{NUMBER}"
+    - id: "REQ-{CATEGORY}-{NUMBER}"
+      iso_25010:
+        characteristic: "..."
+        subcharacteristic: "..."
       metrics: [...]
       validation: [...]
       dependencies: [...]
+      quality_tradeoffs: [...]
 ```
-
-### Output to [scalability-planner](file:///d:/repos/aether-go/skills/skills/scalability-planner/SKILL.md)
-
-```yaml
-output:
-  performance_constraints:
-    - metric: "response_time_p95"
-      target: "200ms"
-      impact_on_scaling: "Limits horizontal scaling options"
-```
-
-## Best Practices
-
-### NFR Definition Guidelines
-
-1. **Measurable**: Every NFR must have measurable metrics
-2. **Achievable**: Targets must be realistic based on baseline
-3. **Testable**: Validation strategy must be defined
-4. **Prioritized**: NFRs should be prioritized by business impact
-5. **Traceable**: Link NFRs to business requirements
-
-### Metric Definition Guidelines
-
-1. **Clear Formula**: Define exact calculation method
-2. **Unit Consistency**: Use consistent units across metrics
-3. **Threshold Definition**: Define all threshold levels
-4. **Data Source**: Specify where data comes from
-5. **Collection Frequency**: Define how often to measure
-
-### Validation Guidelines
-
-1. **Multiple Methods**: Use multiple validation approaches
-2. **Real-world Scenarios**: Test with realistic conditions
-3. **Continuous Monitoring**: Monitor in production
-4. **Alerting**: Set up proactive alerting
-5. **Regular Review**: Review and adjust targets regularly
-
-## Common Mistakes
-
-| Mistake | Why It's Wrong | Fix |
-|---------|---------------|-----|
-| Vague NFRs | Not testable | Define specific metrics |
-| No baseline | Cannot measure improvement | Measure current state first |
-| Unrealistic targets | Cannot achieve | Set achievable targets |
-| No validation | Cannot verify | Define validation strategy |
-| Ignoring dependencies | Unexpected conflicts | Analyze cross-category dependencies |
-
-## Real-World Impact
-
-**Before (Vague NFRs):**
-- "System should be fast"
-- No measurable targets
-- No validation strategy
-- Cannot verify compliance
-- Stakeholder disputes
-
-**After (Analyzed NFRs):**
-- "P95 response time < 200ms"
-- Clear metrics and targets
-- Defined validation strategy
-- Automated verification
-- Objective assessment
-
-**Result:** Measurable quality targets, automated validation, clear stakeholder alignment.

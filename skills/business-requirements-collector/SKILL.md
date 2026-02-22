@@ -6,7 +6,7 @@ description: Use when collecting, analyzing, and prioritizing business requireme
 # Business Requirements Collector
 
 ## Overview
-Collect, analyze, and prioritize business requirements from stakeholders through structured interviews, workshops, and analysis techniques. Bridges the gap between business needs and technical specifications, ensuring complete and validated requirements before development begins.
+Collect, analyze, and prioritize business requirements from stakeholders through structured interviews, workshops, and analysis techniques. Bridges the gap between business needs and technical specifications, ensuring complete and validated requirements before development begins. Supports the 13-category classification system based on ISO/IEC 25010:2023.
 
 ## When to Use
 
@@ -168,27 +168,60 @@ approvals:
 | Requirement Type | Collection Methods | Output Format | Stakeholders |
 |-----------------|-------------------|---------------|--------------|
 | **Functional** | User interviews, use case workshops | Use case diagrams, user stories | End users, product owners |
-| **Non-Functional** | Technical interviews, benchmarking | Quality attribute scenarios | Architects, DevOps |
-| **Business Rules** | Document analysis, rule workshops | Decision tables, rule specifications | Business analysts, compliance |
-| **User Experience** | User testing, prototyping | Wireframes, user journeys | UX designers, end users |
-| **Data Requirements** | Data modeling sessions | Entity diagrams, data dictionaries | Database admins, analysts |
-| **Integration** | API analysis, system mapping | Interface specifications | Integration specialists |
+| **Performance** | Technical interviews, benchmarking | Performance scenarios | Architects, DevOps |
+| **Compatibility** | Integration analysis, API review | Interface specifications | Integration specialists |
+| **Usability** | User testing, prototyping | Wireframes, user journeys | UX designers, end users |
+| **Reliability** | Technical interviews, SLA analysis | Availability requirements | Architects, DevOps |
 | **Security** | Security workshops, threat modeling | Security requirements, controls | Security officers, architects |
+| **Maintainability** | Code review, technical debt analysis | Quality requirements | Architects, developers |
+| **Portability** | Deployment analysis, platform review | Deployment requirements | DevOps, architects |
+| **Data** | Data modeling sessions | Entity diagrams, data dictionaries | Database admins, analysts |
 | **Compliance** | Regulation analysis, audit reviews | Compliance checklists | Legal, compliance officers |
 
-### Seven-Category Requirement Classification Framework
+### Thirteen-Category Requirement Classification Framework (ISO/IEC 25010:2023 Based)
 
-The collector supports the following 7-category requirement classification system:
+The collector supports the following 13-category requirement classification system:
+
+#### Layer 1: Source Dimensions (3 Categories)
 
 | Category | ID Prefix | Description | Collection Focus | Output Document |
 |----------|-----------|-------------|------------------|-----------------|
 | **01-Business Requirements** | REQ-BUS | Business goals, value propositions, and strategic objectives | Stakeholder interviews, business workshops | `01-business-requirements.md` |
-| **02-Architecture Requirements** | REQ-ARCH | Architecture constraints, design principles, and technical standards | Architecture reviews, technical interviews | `02-architecture-requirements.md` |
-| **03-Functional Requirements** | REQ-FUNC | System features, behaviors, and user interactions | User stories, use case workshops | `03-functional-requirements.md` |
-| **04-Non-Functional Requirements** | REQ-NFR | Performance, reliability, usability, maintainability | NFR workshops, performance analysis | `04-non-functional-requirements.md` |
-| **05-Compliance Requirements** | REQ-COMP | Regulatory, legal, and compliance requirements | Compliance reviews, legal consultation | `05-compliance-requirements.md` |
-| **06-Security Requirements** | REQ-SEC | Security, privacy, and data protection requirements | Threat modeling, security workshops | `06-security-requirements.md` |
-| **07-Scalability Requirements** | REQ-SCAL | Scalability, capacity, and growth requirements | Capacity planning, scalability analysis | `07-scalability-requirements.md` |
+| **02-Compliance Requirements** | REQ-COMP | Regulatory, legal, and compliance requirements | Compliance reviews, legal consultation | `02-compliance-requirements.md` |
+| **03-Constraint Requirements** | REQ-CONS | Budget, timeline, resource, and technical constraints | Project planning, resource analysis | `03-constraint-requirements.md` |
+
+#### Layer 2: Product Quality Dimensions (8 Categories - ISO/IEC 25010:2023)
+
+| Category | ID Prefix | Description | ISO Reference | Output Document |
+|----------|-----------|-------------|---------------|-----------------|
+| **04-Functional Requirements** | REQ-FUNC | System features, behaviors, and user interactions | Functional Suitability | `04-functional-requirements.md` |
+| **05-Performance Requirements** | REQ-PERF | Response time, throughput, capacity, resource utilization | Performance Efficiency | `05-performance-requirements.md` |
+| **06-Compatibility Requirements** | REQ-COMPAT | Integration, interoperability, coexistence | Compatibility | `06-compatibility-requirements.md` |
+| **07-Usability Requirements** | REQ-USE | User experience, learnability, accessibility | Usability | `07-usability-requirements.md` |
+| **08-Reliability Requirements** | REQ-REL | Availability, fault tolerance, recoverability | Reliability | `08-reliability-requirements.md` |
+| **09-Security Requirements** | REQ-SEC | Confidentiality, integrity, authentication, authorization | Security | `09-security-requirements.md` |
+| **10-Maintainability Requirements** | REQ-MAIN | Modularity, testability, code quality | Maintainability | `10-maintainability-requirements.md` |
+| **11-Portability Requirements** | REQ-PORT | Cross-platform, containerization, migration | Portability | `11-portability-requirements.md` |
+
+#### Layer 3: Architecture & Data Dimensions (2 Categories)
+
+| Category | ID Prefix | Description | Collection Focus | Output Document |
+|----------|-----------|-------------|------------------|-----------------|
+| **12-Architecture Requirements** | REQ-ARCH | Architecture patterns, service boundaries, tech stack | Architecture reviews, technical interviews | `12-architecture-requirements.md` |
+| **13-Data Requirements** | REQ-DATA | Data models, data quality, data governance | Data modeling, governance workshops | `13-data-requirements.md` |
+
+### ISO/IEC 25010:2023 Subcharacteristics
+
+| Quality Characteristic | Subcharacteristics |
+|------------------------|-------------------|
+| **Functional Suitability** | Completeness, Correctness, Appropriateness |
+| **Performance Efficiency** | Time Behaviour, Resource Utilization, Capacity |
+| **Compatibility** | Co-existence, Interoperability |
+| **Usability** | Appropriateness Recognizability, Learnability, Operability, User Error Protection, User Interface Aesthetics, Accessibility |
+| **Reliability** | Maturity, Availability, Fault Tolerance, Recoverability |
+| **Security** | Confidentiality, Integrity, Non-repudiation, Accountability, Auditability |
+| **Maintainability** | Analysability, Modifiability, Testability, Reusability, Modularity |
+| **Portability** | Adaptability, Installability, Replaceability |
 
 #### Cross-Category Relationships
 
@@ -202,19 +235,31 @@ requirement_relations:
     
   constrains:
     description: "One requirement imposes constraints on another"
-    example: "REQ-ARCH-001 constrains REQ-FUNC-005"
+    example: "REQ-CONS-001 constrains REQ-ARCH-001"
+    
+  mandates:
+    description: "Compliance mandates other requirements"
+    example: "REQ-COMP-001 mandates REQ-SEC-001"
     
   depends_on:
     description: "One requirement depends on another"
-    example: "REQ-FUNC-003 depends on REQ-NFR-002"
+    example: "REQ-FUNC-003 depends on REQ-DATA-002"
     
   conflicts_with:
     description: "Requirements have conflicting objectives"
-    example: "REQ-SEC-001 conflicts with REQ-SCAL-002"
+    example: "REQ-SEC-001 conflicts with REQ-PERF-002"
+    
+  trades_off:
+    description: "Quality trade-off (ISO 25010)"
+    example: "REQ-SEC-001 trades_off REQ-PERF-001"
     
   validates:
     description: "One requirement validates another"
     example: "REQ-COMP-001 validates REQ-SEC-005"
+    
+  influences:
+    description: "One quality influences another"
+    example: "REQ-ARCH-001 influences REQ-PERF-001"
 ```
 
 ### Requirement Attributes Template
@@ -225,9 +270,14 @@ requirement:
   version: "1.0"
   status: "draft | reviewed | approved | implemented"
   
-  # Requirement Category (7-Category System)
-  category: "01_business | 02_architecture | 03_functional | 
-             04_non_functional | 05_compliance | 06_security | 07_scalability"
+  # Requirement Category (13-Category System)
+  category: "01_business | 02_compliance | 03_constraint | 04_functional | 
+             05_performance | 06_compatibility | 07_usability | 08_reliability | 
+             09_security | 10_maintainability | 11_portability | 12_architecture | 13_data"
+  
+  # ISO Reference (for quality categories)
+  iso_reference: "ISO/IEC 25010:2023 - {Quality Characteristic}"
+  subcategory: "Subcharacteristic name"
   
   # Core attributes
   description: "Clear, concise requirement statement"
@@ -235,15 +285,14 @@ requirement:
   source: "Stakeholder(s) who requested this"
   
   # Classification
-  type: "functional | non-functional | business-rule | constraint"
-  subcategory: "authentication | reporting | performance | security | scalability"
+  type: "functional | quality | business-rule | constraint | data"
   priority: "critical | high | medium | low"
   stability: "stable | likely-to-change | volatile"
   
   # Cross-Category Relationships
   cross_category_relations:
-    - related_category: "03_functional"
-      relation_type: "drives | constrains | depends_on | conflicts_with | validates"
+    - related_category: "04_functional"
+      relation_type: "drives | constrains | depends_on | conflicts_with | trades_off | validates | influences"
       related_requirement: "REQ-FUNC-001"
       rationale: "Business requirement drives functional implementation"
   
@@ -282,7 +331,7 @@ requirement:
       description: "What this artifact shows"
 ```
 
-### Seven-Category Requirement Examples
+### Thirteen-Category Requirement Examples
 
 #### 01-业务需求 Example
 ```yaml
@@ -296,13 +345,13 @@ requirement:
   business_value: "high"
   
   cross_category_relations:
-    - related_category: "03_functional"
+    - related_category: "04_functional"
       relation_type: "drives"
       related_requirement: "REQ-FUNC-001"
       rationale: "Business goal drives user onboarding feature"
-    - related_category: "04_non_functional"
+    - related_category: "05_performance"
       relation_type: "constrains"
-      related_requirement: "REQ-NFR-001"
+      related_requirement: "REQ-PERF-001"
       rationale: "Retention goal constrains performance requirements"
   
   acceptance_criteria:
@@ -312,103 +361,22 @@ requirement:
       priority: "must"
 ```
 
-#### 02-架构需求 Example
-```yaml
-requirement:
-  id: "REQ-ARCH-001"
-  category: "02_architecture"
-  description: "System must follow microservices architecture with clear service boundaries"
-  rationale: "Monolithic architecture limits scalability and deployment velocity"
-  source: "Technical Architect"
-  priority: "high"
-  
-  cross_category_relations:
-    - related_category: "03_functional"
-      relation_type: "constrains"
-      related_requirement: "REQ-FUNC-005"
-      rationale: "Microservices architecture constrains feature design"
-    - related_category: "07_scalability"
-      relation_type: "enables"
-      related_requirement: "REQ-SCAL-001"
-      rationale: "Microservices enables horizontal scaling"
-  
-  acceptance_criteria:
-    - id: "AC-ARCH-001-1"
-      description: "Each service has single responsibility and clear API boundary"
-      test_method: "manual"
-      priority: "must"
-```
-
-#### 03-功能性需求 Example
-```yaml
-requirement:
-  id: "REQ-FUNC-001"
-  category: "03_functional"
-  description: "Users can register using email or social login"
-  rationale: "Multiple registration options improve user acquisition"
-  source: "Product Owner"
-  priority: "high"
-  
-  cross_category_relations:
-    - related_category: "01_business"
-      relation_type: "driven_by"
-      related_requirement: "REQ-BUS-001"
-      rationale: "Functional requirement driven by business goal"
-    - related_category: "06_security"
-      relation_type: "depends_on"
-      related_requirement: "REQ-SEC-001"
-      rationale: "Registration depends on security requirements"
-  
-  acceptance_criteria:
-    - id: "AC-FUNC-001-1"
-      description: "Email registration sends verification email within 30 seconds"
-      test_method: "automated"
-      priority: "must"
-```
-
-#### 04-非功能性需求 Example
-```yaml
-requirement:
-  id: "REQ-NFR-001"
-  category: "04_non_functional"
-  description: "API response time must be less than 200ms at P95"
-  rationale: "Fast response times improve user experience and retention"
-  source: "Performance Engineer"
-  priority: "high"
-  
-  cross_category_relations:
-    - related_category: "01_business"
-      relation_type: "supports"
-      related_requirement: "REQ-BUS-001"
-      rationale: "Performance supports business retention goal"
-    - related_category: "07_scalability"
-      relation_type: "constrains"
-      related_requirement: "REQ-SCAL-002"
-      rationale: "Performance constraints affect scalability approach"
-  
-  acceptance_criteria:
-    - id: "AC-NFR-001-1"
-      description: "95% of API requests complete within 200ms"
-      test_method: "automated"
-      priority: "must"
-```
-
-#### 05-合规性需求 Example
+#### 02-合规需求 Example
 ```yaml
 requirement:
   id: "REQ-COMP-001"
-  category: "05_compliance"
+  category: "02_compliance"
   description: "System must comply with GDPR data protection requirements"
   rationale: "EU market requires GDPR compliance for data processing"
   source: "Legal Counsel"
   priority: "critical"
   
   cross_category_relations:
-    - related_category: "06_security"
-      relation_type: "validates"
+    - related_category: "09_security"
+      relation_type: "mandates"
       related_requirement: "REQ-SEC-003"
-      rationale: "Compliance validates security data protection"
-    - related_category: "03_functional"
+      rationale: "Compliance mandates security data protection"
+    - related_category: "04_functional"
       relation_type: "constrains"
       related_requirement: "REQ-FUNC-010"
       rationale: "GDPR constrains data collection features"
@@ -420,24 +388,190 @@ requirement:
       priority: "must"
 ```
 
-#### 06-安全性需求 Example
+#### 03-约束需求 Example
+```yaml
+requirement:
+  id: "REQ-CONS-001"
+  category: "03_constraint"
+  description: "Project must be delivered within $50,000 budget and 4-month timeline"
+  rationale: "Limited funding and market window"
+  source: "Project Sponsor"
+  priority: "critical"
+  
+  cross_category_relations:
+    - related_category: "12_architecture"
+      relation_type: "constrains"
+      related_requirement: "REQ-ARCH-001"
+      rationale: "Budget constrains architecture choices"
+    - related_category: "08_reliability"
+      relation_type: "constrains"
+      related_requirement: "REQ-REL-001"
+      rationale: "Timeline constrains reliability investments"
+  
+  acceptance_criteria:
+    - id: "AC-CONS-001-1"
+      description: "Total project cost does not exceed $50,000"
+      test_method: "manual"
+      priority: "must"
+```
+
+#### 04-功能需求 Example
+```yaml
+requirement:
+  id: "REQ-FUNC-001"
+  category: "04_functional"
+  iso_reference: "ISO/IEC 25010:2023 - Functional Suitability"
+  subcategory: "appropriateness"
+  description: "Users can register using email or social login"
+  rationale: "Multiple registration options improve user acquisition"
+  source: "Product Owner"
+  priority: "high"
+  
+  cross_category_relations:
+    - related_category: "01_business"
+      relation_type: "driven_by"
+      related_requirement: "REQ-BUS-001"
+      rationale: "Functional requirement driven by business goal"
+    - related_category: "09_security"
+      relation_type: "depends_on"
+      related_requirement: "REQ-SEC-001"
+      rationale: "Registration depends on security requirements"
+  
+  acceptance_criteria:
+    - id: "AC-FUNC-001-1"
+      description: "Email registration sends verification email within 30 seconds"
+      test_method: "automated"
+      priority: "must"
+```
+
+#### 05-性能需求 Example
+```yaml
+requirement:
+  id: "REQ-PERF-001"
+  category: "05_performance"
+  iso_reference: "ISO/IEC 25010:2023 - Performance Efficiency"
+  subcategory: "time_behaviour"
+  description: "API response time must be less than 200ms at P95"
+  rationale: "Fast response times improve user experience and retention"
+  source: "Performance Engineer"
+  priority: "high"
+  
+  cross_category_relations:
+    - related_category: "01_business"
+      relation_type: "supports"
+      related_requirement: "REQ-BUS-001"
+      rationale: "Performance supports business retention goal"
+    - related_category: "09_security"
+      relation_type: "trades_off"
+      related_requirement: "REQ-SEC-001"
+      rationale: "Performance may trade off with security encryption"
+  
+  acceptance_criteria:
+    - id: "AC-PERF-001-1"
+      description: "95% of API requests complete within 200ms"
+      test_method: "automated"
+      priority: "must"
+```
+
+#### 06-兼容性需求 Example
+```yaml
+requirement:
+  id: "REQ-COMPAT-001"
+  category: "06_compatibility"
+  iso_reference: "ISO/IEC 25010:2023 - Compatibility"
+  subcategory: "interoperability"
+  description: "System must integrate with SAP ERP via REST API"
+  rationale: "Enterprise customers require SAP integration"
+  source: "Enterprise Sales"
+  priority: "high"
+  
+  cross_category_relations:
+    - related_category: "04_functional"
+      relation_type: "enables"
+      related_requirement: "REQ-FUNC-015"
+      rationale: "Integration enables data sync functionality"
+  
+  acceptance_criteria:
+    - id: "AC-COMPAT-001-1"
+      description: "Data syncs with SAP every 5 minutes with <1% error rate"
+      test_method: "automated"
+      priority: "must"
+```
+
+#### 07-可用性需求 Example
+```yaml
+requirement:
+  id: "REQ-USE-001"
+  category: "07_usability"
+  iso_reference: "ISO/IEC 25010:2023 - Usability"
+  subcategory: "learnability"
+  description: "New users can complete core tasks within 5 minutes without training"
+  rationale: "Reduce onboarding friction and support costs"
+  source: "UX Designer"
+  priority: "high"
+  
+  cross_category_relations:
+    - related_category: "01_business"
+      relation_type: "supports"
+      related_requirement: "REQ-BUS-001"
+      rationale: "Usability supports retention goal"
+  
+  acceptance_criteria:
+    - id: "AC-USE-001-1"
+      description: "90% of new users complete core tasks in <5 min"
+      test_method: "manual"
+      priority: "must"
+```
+
+#### 08-可靠性需求 Example
+```yaml
+requirement:
+  id: "REQ-REL-001"
+  category: "08_reliability"
+  iso_reference: "ISO/IEC 25010:2023 - Reliability"
+  subcategory: "availability"
+  description: "System availability must be 99.9% with MTTR < 15 minutes"
+  rationale: "Enterprise SLA requirements"
+  source: "DevOps Lead"
+  priority: "critical"
+  
+  cross_category_relations:
+    - related_category: "12_architecture"
+      relation_type: "depends_on"
+      related_requirement: "REQ-ARCH-001"
+      rationale: "Reliability depends on architecture design"
+    - related_category: "05_performance"
+      relation_type: "trades_off"
+      related_requirement: "REQ-PERF-002"
+      rationale: "Redundancy may impact performance"
+  
+  acceptance_criteria:
+    - id: "AC-REL-001-1"
+      description: "Monthly uptime >= 99.9% with MTTR < 15 min"
+      test_method: "automated"
+      priority: "must"
+```
+
+#### 09-安全需求 Example
 ```yaml
 requirement:
   id: "REQ-SEC-001"
-  category: "06_security"
+  category: "09_security"
+  iso_reference: "ISO/IEC 25010:2023 - Security"
+  subcategory: "confidentiality"
   description: "All user passwords must be hashed using bcrypt with minimum 12 rounds"
   rationale: "Bcrypt provides strong protection against password cracking"
   source: "Security Officer"
   priority: "critical"
   
   cross_category_relations:
-    - related_category: "05_compliance"
+    - related_category: "02_compliance"
       relation_type: "supports"
       related_requirement: "REQ-COMP-001"
       rationale: "Password hashing supports GDPR compliance"
-    - related_category: "04_non_functional"
-      relation_type: "constrains"
-      related_requirement: "REQ-NFR-005"
+    - related_category: "05_performance"
+      relation_type: "trades_off"
+      related_requirement: "REQ-PERF-005"
       rationale: "Security constraints affect performance"
   
   acceptance_criteria:
@@ -447,29 +581,106 @@ requirement:
       priority: "must"
 ```
 
-#### 07-扩展性需求 Example
+#### 10-可维护性需求 Example
 ```yaml
 requirement:
-  id: "REQ-SCAL-001"
-  category: "07_scalability"
-  description: "System must support horizontal scaling to 1 million concurrent users"
-  rationale: "Projected growth requires 10x current capacity"
+  id: "REQ-MAIN-001"
+  category: "10_maintainability"
+  iso_reference: "ISO/IEC 25010:2023 - Maintainability"
+  subcategory: "testability"
+  description: "Code must have minimum 80% test coverage with all critical paths covered"
+  rationale: "Enable confident refactoring and reduce regression bugs"
+  source: "Tech Lead"
+  priority: "high"
+  
+  cross_category_relations:
+    - related_category: "08_reliability"
+      relation_type: "supports"
+      related_requirement: "REQ-REL-001"
+      rationale: "Testability supports reliability"
+  
+  acceptance_criteria:
+    - id: "AC-MAIN-001-1"
+      description: "Test coverage >= 80% with critical paths 100%"
+      test_method: "automated"
+      priority: "must"
+```
+
+#### 11-可移植性需求 Example
+```yaml
+requirement:
+  id: "REQ-PORT-001"
+  category: "11_portability"
+  iso_reference: "ISO/IEC 25010:2023 - Portability"
+  subcategory: "adaptability"
+  description: "Application must be containerized and deployable on AWS, Azure, and GCP"
+  rationale: "Multi-cloud strategy for enterprise customers"
   source: "DevOps Lead"
   priority: "high"
   
   cross_category_relations:
-    - related_category: "02_architecture"
-      relation_type: "driven_by"
-      related_requirement: "REQ-ARCH-001"
-      rationale: "Scalability driven by microservices architecture"
-    - related_category: "04_non_functional"
+    - related_category: "12_architecture"
       relation_type: "depends_on"
-      related_requirement: "REQ-NFR-001"
-      rationale: "Scalability depends on performance baseline"
+      related_requirement: "REQ-ARCH-001"
+      rationale: "Portability depends on architecture design"
   
   acceptance_criteria:
-    - id: "AC-SCAL-001-1"
-      description: "System handles 1M concurrent users with <5% error rate"
+    - id: "AC-PORT-001-1"
+      description: "Deployment succeeds on AWS, Azure, GCP within 30 minutes"
+      test_method: "automated"
+      priority: "must"
+```
+
+#### 12-架构需求 Example
+```yaml
+requirement:
+  id: "REQ-ARCH-001"
+  category: "12_architecture"
+  description: "System must follow microservices architecture with clear service boundaries"
+  rationale: "Monolithic architecture limits scalability and deployment velocity"
+  source: "Technical Architect"
+  priority: "high"
+  
+  cross_category_relations:
+    - related_category: "04_functional"
+      relation_type: "constrains"
+      related_requirement: "REQ-FUNC-005"
+      rationale: "Microservices architecture constrains feature design"
+    - related_category: "05_performance"
+      relation_type: "influences"
+      related_requirement: "REQ-PERF-001"
+      rationale: "Architecture influences performance characteristics"
+  
+  acceptance_criteria:
+    - id: "AC-ARCH-001-1"
+      description: "Each service has single responsibility and clear API boundary"
+      test_method: "manual"
+      priority: "must"
+```
+
+#### 13-数据需求 Example
+```yaml
+requirement:
+  id: "REQ-DATA-001"
+  category: "13_data"
+  description: "User data must be retained for 7 years with audit trail"
+  rationale: "Regulatory requirement for financial data"
+  source: "Compliance Officer"
+  priority: "critical"
+  
+  cross_category_relations:
+    - related_category: "02_compliance"
+      relation_type: "driven_by"
+      related_requirement: "REQ-COMP-001"
+      rationale: "Data retention driven by compliance"
+    - related_category: "04_functional"
+      relation_type: "constrains"
+      related_requirement: "REQ-FUNC-020"
+      rationale: "Data retention constrains delete functionality"
+  
+  acceptance_criteria:
+    - id: "AC-DATA-001-1"
+      description: "All user data retained 7 years with complete audit trail"
       test_method: "automated"
       priority: "must"
 ```
@@ -521,6 +732,7 @@ class StakeholderAnalyzer:
             ('UX Designer', 'medium', 'User experience design'),
             ('DevOps Engineer', 'medium', 'Deployment and operations'),
             ('Security Officer', 'medium', 'Security compliance'),
+            ('Data Architect', 'medium', 'Data requirements'),
             ('Legal Counsel', 'low', 'Legal and compliance')
         ]
         
@@ -537,98 +749,26 @@ class StakeholderAnalyzer:
         ]
     
     def create_stakeholder_map(self, stakeholders):
-        """Create visualization of stakeholder relationships and influence."""
+        """Create stakeholder influence/interest map."""
         
         return {
-            'power_interest_matrix': self._create_power_interest_matrix(stakeholders),
-            'engagement_plan': self._create_engagement_plan(stakeholders),
-            'communication_matrix': self._create_communication_matrix(stakeholders)
+            'high_influence_high_interest': [
+                s for s in stakeholders
+                if s['influence'] == 'high' and s['interest'] == 'high'
+            ],
+            'high_influence_low_interest': [
+                s for s in stakeholders
+                if s['influence'] == 'high' and s['interest'] == 'low'
+            ],
+            'low_influence_high_interest': [
+                s for s in stakeholders
+                if s['influence'] == 'low' and s['interest'] == 'high'
+            ],
+            'low_influence_low_interest': [
+                s for s in stakeholders
+                if s['influence'] == 'low' and s['interest'] == 'low'
+            ]
         }
-```
-
-### Requirement Elicitation Techniques
-
-```python
-class RequirementElicitor:
-    """Apply various elicitation techniques based on context."""
-    
-    TECHNIQUES = {
-        'interviews': {
-            'description': 'One-on-one conversations with stakeholders',
-            'best_for': ['Detailed requirements', 'Sensitive topics'],
-            'output': 'Transcripts, requirement statements',
-            'template': 'interview_template.md'
-        },
-        'workshops': {
-            'description': 'Group sessions for collaborative requirement gathering',
-            'best_for': ['Building consensus', 'Complex requirements'],
-            'output': 'Workshop notes, diagrams, decisions',
-            'template': 'workshop_facilitation_guide.md'
-        },
-        'observation': {
-            'description': 'Observing users in their work environment',
-            'best_for': ['Understanding workflows', 'Unstated needs'],
-            'output': 'Observation notes, workflow diagrams',
-            'template': 'observation_protocol.md'
-        },
-        'prototyping': {
-            'description': 'Creating mockups or working models',
-            'best_for': ['UI requirements', 'Clarifying vague requirements'],
-            'output': 'Prototypes, user feedback',
-            'template': 'prototyping_guide.md'
-        },
-        'document_analysis': {
-            'description': 'Reviewing existing documentation',
-            'best_for': ['Business rules', 'Legacy systems'],
-            'output': 'Extracted requirements, gap analysis',
-            'template': 'document_analysis_template.md'
-        }
-    }
-    
-    def select_techniques(self, requirement_type, stakeholder_group, project_context):
-        """Select appropriate elicitation techniques."""
-        
-        suitable_techniques = []
-        
-        for tech_name, tech_info in self.TECHNIQUES.items():
-            if self._is_suitable(tech_name, requirement_type, stakeholder_group, project_context):
-                suitable_techniques.append({
-                    'technique': tech_name,
-                    'rationale': tech_info['best_for'],
-                    'expected_effort': self._estimate_effort(tech_name, stakeholder_group),
-                    'preparation_required': self._get_preparation(tech_name)
-                })
-        
-        return sorted(suitable_techniques, key=lambda x: x['expected_effort'])
-    
-    def conduct_interview(self, stakeholder, interview_guide):
-        """Conduct structured interview with stakeholder."""
-        
-        interview = {
-            'stakeholder': stakeholder,
-            'date': datetime.now(),
-            'prepared_questions': interview_guide['questions'],
-            'actual_questions': [],
-            'responses': [],
-            'insights': [],
-            'follow_up_items': []
-        }
-        
-        # Conduct interview using conversational AI pattern
-        for question in interview_guide['questions']:
-            response = self._ask_question(stakeholder, question)
-            interview['actual_questions'].append(question)
-            interview['responses'].append(response)
-            
-            # Extract requirements from response
-            requirements = self._extract_requirements_from_response(response, question)
-            interview['insights'].extend(requirements)
-            
-            # Identify follow-up questions
-            follow_ups = self._generate_follow_up_questions(response, question)
-            interview['follow_up_items'].extend(follow_ups)
-        
-        return interview
 ```
 
 ### Requirement Analysis and Clarification
@@ -646,10 +786,67 @@ class RequirementAnalyzer:
             'completeness_score': self._assess_completeness(raw_requirement),
             'ambiguities': self._identify_ambiguities(raw_requirement),
             'missing_elements': self._identify_missing_elements(raw_requirement),
-            'clarification_questions': self._generate_clarification_questions(raw_requirement)
+            'clarification_questions': self._generate_clarification_questions(raw_requirement),
+            'suggested_category': self._suggest_category(raw_requirement),
+            'iso_reference': self._suggest_iso_reference(raw_requirement)
         }
         
         return analysis
+    
+    def _suggest_category(self, raw_requirement):
+        """Suggest requirement category based on content analysis."""
+        
+        statement = raw_requirement.get('statement', '').lower()
+        
+        # Layer 1: Source dimensions
+        if any(kw in statement for kw in ['revenue', 'market', 'customer', 'roi', 'kpi']):
+            return '01_business'
+        if any(kw in statement for kw in ['gdpr', 'iso', 'compliance', 'regulation', 'audit']):
+            return '02_compliance'
+        if any(kw in statement for kw in ['budget', 'timeline', 'deadline', 'resource']):
+            return '03_constraint'
+        
+        # Layer 2: Quality dimensions (ISO 25010)
+        if any(kw in statement for kw in ['user can', 'system shall', 'feature']):
+            return '04_functional'
+        if any(kw in statement for kw in ['response time', 'throughput', 'latency', 'performance']):
+            return '05_performance'
+        if any(kw in statement for kw in ['integrate', 'compatible', 'api', 'interoperability']):
+            return '06_compatibility'
+        if any(kw in statement for kw in ['usability', 'learn', 'accessible', 'ux']):
+            return '07_usability'
+        if any(kw in statement for kw in ['availability', 'reliability', 'mtbf', 'mttr']):
+            return '08_reliability'
+        if any(kw in statement for kw in ['security', 'encrypt', 'auth', 'password']):
+            return '09_security'
+        if any(kw in statement for kw in ['maintainable', 'modular', 'testable', 'coverage']):
+            return '10_maintainability'
+        if any(kw in statement for kw in ['portable', 'container', 'cloud', 'deploy']):
+            return '11_portability'
+        
+        # Layer 3: Architecture & Data
+        if any(kw in statement for kw in ['architecture', 'microservice', 'design pattern']):
+            return '12_architecture'
+        if any(kw in statement for kw in ['data model', 'data quality', 'retention', 'governance']):
+            return '13_data'
+        
+        return '04_functional'  # Default
+    
+    def _suggest_iso_reference(self, raw_requirement, category):
+        """Suggest ISO 25010 reference for quality categories."""
+        
+        iso_mapping = {
+            '04_functional': 'ISO/IEC 25010:2023 - Functional Suitability',
+            '05_performance': 'ISO/IEC 25010:2023 - Performance Efficiency',
+            '06_compatibility': 'ISO/IEC 25010:2023 - Compatibility',
+            '07_usability': 'ISO/IEC 25010:2023 - Usability',
+            '08_reliability': 'ISO/IEC 25010:2023 - Reliability',
+            '09_security': 'ISO/IEC 25010:2023 - Security',
+            '10_maintainability': 'ISO/IEC 25010:2023 - Maintainability',
+            '11_portability': 'ISO/IEC 25010:2023 - Portability'
+        }
+        
+        return iso_mapping.get(category)
     
     def clarify_requirement(self, raw_requirement, stakeholder_feedback):
         """Clarify ambiguous requirement using stakeholder feedback."""
@@ -659,6 +856,8 @@ class RequirementAnalyzer:
             'original_id': raw_requirement.get('id'),
             'original_statement': raw_requirement['statement'],
             'clarified_statement': raw_requirement['statement'],
+            'category': raw_requirement.get('suggested_category', '04_functional'),
+            'iso_reference': raw_requirement.get('iso_reference'),
             'assumptions': [],
             'constraints': [],
             'acceptance_criteria': [],
@@ -702,10 +901,30 @@ class RequirementAnalyzer:
             'conflict_detection': self._detect_conflicts(requirements),
             'gap_analysis': self._perform_gap_analysis(requirements),
             'traceability_check': self._check_traceability(requirements),
-            'prioritization_validation': self._validate_prioritization(requirements)
+            'prioritization_validation': self._validate_prioritization(requirements),
+            'iso_coverage_check': self._check_iso_coverage(requirements)
         }
         
         return validation
+    
+    def _check_iso_coverage(self, requirements):
+        """Check coverage of ISO 25010 quality characteristics."""
+        
+        iso_categories = ['04_functional', '05_performance', '06_compatibility',
+                         '07_usability', '08_reliability', '09_security',
+                         '10_maintainability', '11_portability']
+        
+        coverage = {}
+        for cat in iso_categories:
+            coverage[cat] = len([r for r in requirements if r.get('category') == cat])
+        
+        missing = [cat for cat, count in coverage.items() if count == 0]
+        
+        return {
+            'coverage': coverage,
+            'missing_categories': missing,
+            'recommendation': 'Consider adding requirements for missing quality categories'
+        }
 ```
 
 ### Prioritization Framework
@@ -726,11 +945,15 @@ class RequirementPrioritizer:
         # Apply Kano model for customer satisfaction
         kano_prioritization = self._apply_kano_model(requirements, business_context)
         
+        # Apply ISO 25010 quality priority
+        iso_prioritization = self._apply_iso_priority(requirements, business_context)
+        
         # Combine prioritizations
         combined = self._combine_prioritizations(
             moscow_prioritization,
             value_effort_prioritization,
-            kano_prioritization
+            kano_prioritization,
+            iso_prioritization
         )
         
         # Create release planning recommendation
@@ -740,70 +963,50 @@ class RequirementPrioritizer:
             'individual_prioritizations': {
                 'moscow': moscow_prioritization,
                 'value_effort': value_effort_prioritization,
-                'kano': kano_prioritization
+                'kano': kano_prioritization,
+                'iso_quality': iso_prioritization
             },
             'combined_prioritization': combined,
             'release_plan': release_plan,
             'rationale': self._generate_prioritization_rationale(combined, business_context)
         }
     
-    def _apply_moscow(self, requirements, context):
-        """Apply MoSCoW prioritization method."""
+    def _apply_iso_priority(self, requirements, context):
+        """Apply ISO 25010 quality priority based on project context."""
         
-        moscow_categories = {
-            'must_have': [],
-            'should_have': [],
-            'could_have': [],
-            'wont_have': []
+        # Define priority based on project type
+        project_type_priorities = {
+            'enterprise': {
+                '08_reliability': 'critical',
+                '09_security': 'critical',
+                '02_compliance': 'critical',
+                '05_performance': 'high',
+                '07_usability': 'medium'
+            },
+            'consumer': {
+                '07_usability': 'critical',
+                '05_performance': 'high',
+                '04_functional': 'high',
+                '09_security': 'high',
+                '08_reliability': 'high'
+            },
+            'internal': {
+                '10_maintainability': 'high',
+                '08_reliability': 'high',
+                '04_functional': 'high',
+                '07_usability': 'medium'
+            }
         }
         
+        project_type = context.get('project_type', 'enterprise')
+        priorities = project_type_priorities.get(project_type, {})
+        
+        iso_priority = {}
         for req in requirements:
-            category = self._determine_moscow_category(req, context)
-            moscow_categories[category].append({
-                'requirement': req['id'],
-                'description': req.get('description', ''),
-                'rationale': self._generate_moscow_rationale(req, category, context)
-            })
+            category = req.get('category', '04_functional')
+            iso_priority[req['id']] = priorities.get(category, 'medium')
         
-        return moscow_categories
-    
-    def _apply_value_effort_matrix(self, requirements, context):
-        """Apply business value vs effort matrix."""
-        
-        matrix = {
-            'high_value_low_effort': [],
-            'high_value_high_effort': [],
-            'low_value_low_effort': [],
-            'low_value_high_effort': []
-        }
-        
-        for req in requirements:
-            business_value = self._estimate_business_value(req, context)
-            effort = self._estimate_effort(req, context)
-            
-            if business_value >= 0.7:  # High value
-                if effort <= 0.5:  # Low effort
-                    quadrant = 'high_value_low_effort'
-                else:  # High effort
-                    quadrant = 'high_value_high_effort'
-            else:  # Low value
-                if effort <= 0.5:  # Low effort
-                    quadrant = 'low_value_low_effort'
-                else:  # High effort
-                    quadrant = 'low_value_high_effort'
-            
-            matrix[quadrant].append({
-                'requirement': req['id'],
-                'business_value': business_value,
-                'effort': effort,
-                'priority_score': business_value / effort if effort > 0 else business_value
-            })
-        
-        # Sort each quadrant by priority score
-        for quadrant in matrix:
-            matrix[quadrant].sort(key=lambda x: x['priority_score'], reverse=True)
-        
-        return matrix
+        return iso_priority
 ```
 
 ### Requirements Documentation
@@ -821,6 +1024,7 @@ class RequirementsDocumenter:
                 'version': '1.0',
                 'created_date': datetime.now().isoformat(),
                 'status': 'draft',
+                'iso_standard': 'ISO/IEC 25010:2023',
                 'stakeholders': analysis.get('stakeholders', [])
             },
             
@@ -834,11 +1038,28 @@ class RequirementsDocumenter:
             'stakeholder_analysis': analysis.get('stakeholder_analysis', {}),
             
             'requirements_catalog': {
-                'functional_requirements': self._categorize_requirements(requirements, 'functional'),
-                'non_functional_requirements': self._categorize_requirements(requirements, 'non-functional'),
-                'business_rules': self._categorize_requirements(requirements, 'business-rule'),
-                'constraints': self._categorize_requirements(requirements, 'constraint')
+                'layer_1_source': {
+                    '01_business': self._categorize_requirements(requirements, '01_business'),
+                    '02_compliance': self._categorize_requirements(requirements, '02_compliance'),
+                    '03_constraint': self._categorize_requirements(requirements, '03_constraint')
+                },
+                'layer_2_quality': {
+                    '04_functional': self._categorize_requirements(requirements, '04_functional'),
+                    '05_performance': self._categorize_requirements(requirements, '05_performance'),
+                    '06_compatibility': self._categorize_requirements(requirements, '06_compatibility'),
+                    '07_usability': self._categorize_requirements(requirements, '07_usability'),
+                    '08_reliability': self._categorize_requirements(requirements, '08_reliability'),
+                    '09_security': self._categorize_requirements(requirements, '09_security'),
+                    '10_maintainability': self._categorize_requirements(requirements, '10_maintainability'),
+                    '11_portability': self._categorize_requirements(requirements, '11_portability')
+                },
+                'layer_3_architecture_data': {
+                    '12_architecture': self._categorize_requirements(requirements, '12_architecture'),
+                    '13_data': self._categorize_requirements(requirements, '13_data')
+                }
             },
+            
+            'iso_25010_coverage': self._analyze_iso_coverage(requirements),
             
             'prioritization': prioritization,
             
@@ -864,6 +1085,31 @@ class RequirementsDocumenter:
         
         return spec
     
+    def _analyze_iso_coverage(self, requirements):
+        """Analyze ISO 25010 quality characteristics coverage."""
+        
+        iso_characteristics = {
+            'Functional Suitability': '04_functional',
+            'Performance Efficiency': '05_performance',
+            'Compatibility': '06_compatibility',
+            'Usability': '07_usability',
+            'Reliability': '08_reliability',
+            'Security': '09_security',
+            'Maintainability': '10_maintainability',
+            'Portability': '11_portability'
+        }
+        
+        coverage = {}
+        for characteristic, category in iso_characteristics.items():
+            count = len([r for r in requirements if r.get('category') == category])
+            coverage[characteristic] = {
+                'category': category,
+                'requirement_count': count,
+                'status': 'covered' if count > 0 else 'missing'
+            }
+        
+        return coverage
+    
     def generate_traceability_matrix(self, requirements, business_objectives):
         """Generate requirements traceability matrix."""
         
@@ -880,6 +1126,8 @@ class RequirementsDocumenter:
                 if self._is_requirement_related_to_objective(req, objective):
                     objective_row['related_requirements'].append({
                         'requirement_id': req['id'],
+                        'category': req.get('category', 'unknown'),
+                        'iso_reference': req.get('iso_reference'),
                         'relationship_strength': self._calculate_relationship_strength(req, objective),
                         'rationale': self._explain_relationship(req, objective)
                     })
@@ -894,13 +1142,14 @@ class RequirementsDocumenter:
 | Mistake | Why It's Wrong | Fix |
 |---------|---------------|-----|
 | **Jumping to solutions** | Captures implementation instead of need | Ask "what problem are we solving?" not "what should we build?" |
-| **Ignoring non-functional requirements** | System meets functional needs but fails on performance, security, etc. | Explicitly elicit quality attributes alongside functionality |
+| **Ignoring quality requirements** | System meets functional needs but fails on performance, security, etc. | Use ISO 25010 checklist to ensure all quality characteristics covered |
 | **Single stakeholder perspective** | Misses needs of other important stakeholders | Identify and engage all relevant stakeholder groups |
 | **Vague requirement statements** | Leads to different interpretations, rework | Apply SMART criteria (Specific, Measurable, Achievable, Relevant, Time-bound) |
 | **No prioritization** | Everything seems equally important, inefficient resource allocation | Use structured prioritization frameworks (MoSCoW, value vs effort) |
 | **Skipping validation** | Requirements may be incorrect or incomplete | Review with stakeholders, create prototypes, conduct workshops |
 | **Documentation as afterthought** | Knowledge lost, hard to trace decisions | Document throughout elicitation process |
 | **Assuming requirements are static** | Business needs change, requirements evolve | Plan for change, establish change control process |
+| **Missing ISO 25010 coverage** | Quality gaps discovered late in development | Validate ISO 25010 coverage during collection |
 
 ### Red Flags
 
@@ -912,6 +1161,7 @@ class RequirementsDocumenter:
 - Missing acceptance criteria
 - Stakeholders unavailable for clarification
 - Requirements documentation outdated or incomplete
+- ISO 25010 quality characteristics not covered
 
 ## Real-World Impact
 
@@ -919,6 +1169,7 @@ class RequirementsDocumenter:
 - Project starts with vague statement: "Build a customer portal"
 - Developers implement basic features
 - Testing reveals missing critical functionality
+- Quality requirements not considered
 - Stakeholders reject deliverable
 - Rework required: 40% of effort wasted
 - Timeline extended by 2 months
@@ -927,6 +1178,7 @@ class RequirementsDocumenter:
 **After (Structured Collection):**
 - Comprehensive stakeholder analysis identifies all parties
 - Structured interviews uncover real needs
+- ISO 25010 checklist ensures quality coverage
 - Requirements clarified and validated before coding
 - Prioritization ensures focus on high-value features
 - Traceability matrix links requirements to business goals
@@ -934,7 +1186,7 @@ class RequirementsDocumenter:
 - Testing confirms requirements met
 - Stakeholders accept deliverable with minor changes
 
-**Outcome:** 30% faster delivery, 50% less rework, higher stakeholder satisfaction, clearer project direction.
+**Outcome:** 30% faster delivery, 50% less rework, higher stakeholder satisfaction, clearer project direction, ISO standard compliance.
 
 ## Integration with Aether.go Methodology
 
@@ -972,6 +1224,7 @@ requirements_collector:
     - requirement_catalog.yaml
     - acceptance_criteria.md
     - traceability_matrix.csv
+    - iso_coverage_report.yaml
 
 spec_parser:
   inputs:
@@ -980,7 +1233,7 @@ spec_parser:
   process:
     1. Parse natural language requirements
     2. Structure into machine-readable format
-    3. Validate completeness
+    3. Validate ISO 25010 mapping
     4. Generate initial specifications
   output: "structured_specs.yaml"
 
@@ -1005,6 +1258,11 @@ constitution_principles:
     enforcement: "strict"
     validation_method: "traceability_matrix_completeness"
     
+  - principle: "ISO 25010 Coverage"
+    check: "All relevant ISO 25010 quality characteristics covered"
+    enforcement: "warning"
+    validation_method: "iso_coverage_check"
+    
   - principle: "Stakeholder Inclusivity"
     check: "All relevant stakeholders identified and engaged"
     enforcement: "warning"
@@ -1026,6 +1284,10 @@ constitution_validator:
     - principle: "Value-Driven Requirements"
       query: "SELECT COUNT(*) FROM requirements WHERE business_value_rationale IS NULL"
       threshold: "0"
+      
+    - principle: "ISO 25010 Coverage"
+      query: "SELECT COUNT(*) FROM iso_characteristics WHERE requirement_count = 0"
+      threshold: "depends_on_project_type"
       
     - principle: "Clarity and Testability"
       query: "SELECT COUNT(*) FROM requirements WHERE acceptance_criteria_count = 0"
@@ -1059,4 +1321,4 @@ graph LR
     style K fill:#c8e6c9
 ```
 
-This integration ensures that business requirements collected at the beginning flow through the entire development lifecycle, with traceability maintained at every stage and feedback loops enabling continuous improvement.
+This integration ensures that business requirements collected at the beginning flow through the entire development lifecycle, with traceability maintained at every stage and feedback loops enabling continuous improvement. ISO/IEC 25010:2023 provides the quality framework for comprehensive requirement coverage.

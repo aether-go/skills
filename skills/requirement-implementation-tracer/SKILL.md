@@ -1,12 +1,12 @@
 ---
 name: requirement-implementation-tracer
-description: Use when establishing three-layer bidirectional traceability between requirements, use cases, and implementation
+description: Use when establishing three-layer bidirectional traceability between requirements, use cases, and implementation with ISO/IEC 25010:2023 quality model mapping
 ---
 
 # Requirement Implementation Tracer
 
 ## Overview
-Establish and maintain three-layer bidirectional traceability between requirements, use cases, and code implementation. Ensures complete coverage from business requirements to deployed code, enables impact analysis, and provides gap detection across the entire development lifecycle.
+Establish and maintain three-layer bidirectional traceability between requirements, use cases, and code implementation. Ensures complete coverage from business requirements to deployed code, enables impact analysis, and provides gap detection across the entire development lifecycle. Supports the 13-category requirement classification system based on ISO/IEC 25010:2023 with quality model mapping.
 
 ## When to Use
 
@@ -27,6 +27,7 @@ Use when:
 - Performing impact analysis for changes
 - Conducting compliance audits
 - Generating traceability reports
+- Mapping requirements to ISO/IEC 25010:2023 quality model
 
 Don't use when:
 - Requirements not yet classified
@@ -35,26 +36,28 @@ Don't use when:
 
 ## Core Pattern
 
-### Three-Layer Traceability Model
+### Three-Layer Traceability Model (ISO/IEC 25010:2023 Based)
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                           REQUIREMENT LAYER                                  │
-│  REQ-BUS-001    REQ-ARCH-001    REQ-FUNC-001    REQ-NFR-001    REQ-SEC-001  │
+│  REQ-BUS-001  REQ-COMP-001  REQ-FUNC-001  REQ-PERF-001  REQ-SEC-001  ...    │
+│  ─────────────────────────────────────────────────────────────────────────  │
+│  ISO 25010 Mapping: Functional Suitability, Performance Efficiency, ...      │
 └─────────────────────────────────────────────────────────────────────────────┘
                                     │
                                     │ implements / implemented_by
                                     ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                              USE CASE LAYER                                  │
-│     UC-BUS-001        UC-FUNC-001        UC-FUNC-002        UC-SEC-001      │
+│     UC-BUS-001        UC-FUNC-001        UC-PERF-001        UC-SEC-001      │
 └─────────────────────────────────────────────────────────────────────────────┘
                                     │
                                     │ realizes / realized_by
                                     ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                          IMPLEMENTATION LAYER                                │
-│    AuthService      UserController      LoginAPI      SecurityMiddleware    │
+│    AuthService      UserController      CacheService      SecurityMiddleware│
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -70,15 +73,19 @@ implementation:
     - "src/controllers/user.ts"
     
 # No connection between requirements and code
+# No ISO 25010 quality model mapping
 ```
 
-### After (Three-Layer Traceability)
+### After (Three-Layer Traceability with ISO 25010)
 ```yaml
 traceability_matrix:
   requirement_layer:
     REQ-FUNC-001:
       name: "User Login"
-      category: "03_functional"
+      category: "04_functional"
+      iso_25010:
+        characteristic: "Functional Suitability"
+        subcharacteristic: "Functional Completeness"
       status: "implemented"
       
       usecase_links:
@@ -126,6 +133,37 @@ traceability_matrix:
 
 ## Quick Reference
 
+### Thirteen-Category Traceability (ISO/IEC 25010:2023 Based)
+
+| Category | ID Prefix | ISO 25010 Reference | Traceability Focus |
+|----------|-----------|---------------------|-------------------|
+| **01-Business Requirements** | REQ-BUS | - | Business goals to features |
+| **02-Compliance Requirements** | REQ-COMP | - | Compliance to controls |
+| **03-Constraint Requirements** | REQ-CONS | - | Constraints to architecture |
+| **04-Functional Requirements** | REQ-FUNC | Functional Suitability | Features to implementation |
+| **05-Performance Requirements** | REQ-PERF | Performance Efficiency | Performance to optimization |
+| **06-Compatibility Requirements** | REQ-COMPAT | Compatibility | Integration to interfaces |
+| **07-Usability Requirements** | REQ-USE | Usability | UX to UI implementation |
+| **08-Reliability Requirements** | REQ-REL | Reliability | Availability to failover |
+| **09-Security Requirements** | REQ-SEC | Security | Security to controls |
+| **10-Maintainability Requirements** | REQ-MAIN | Maintainability | Code quality to standards |
+| **11-Portability Requirements** | REQ-PORT | Portability | Platform to deployment |
+| **12-Architecture Requirements** | REQ-ARCH | - | Architecture to structure |
+| **13-Data Requirements** | REQ-DATA | - | Data model to schema |
+
+### ISO/IEC 25010:2023 Quality Characteristics Mapping
+
+| ISO Characteristic | Subcharacteristics | Requirement Category |
+|-------------------|---------------------|---------------------|
+| **Functional Suitability** | Functional completeness, correctness, appropriateness | 04-Functional |
+| **Performance Efficiency** | Time behavior, Resource utilization, Capacity | 05-Performance |
+| **Compatibility** | Coexistence, Interoperability | 06-Compatibility |
+| **Usability** | Appropriateness recognizability, Learnability, Operability, User error protection, Accessibility | 07-Usability |
+| **Reliability** | Maturity, Availability, Fault tolerance, Recoverability | 08-Reliability |
+| **Security** | Confidentiality, Integrity, Non-repudiation, Authenticity | 09-Security |
+| **Maintainability** | Modularity, Reusability, Analysability, Modifiability, Testability | 10-Maintainability |
+| **Portability** | Adaptability, Installability, Replaceability | 11-Portability |
+
 ### Traceability Relations
 
 | From Layer | To Layer | Relation Type | Description |
@@ -158,6 +196,7 @@ traceability_matrix:
 | **Missing Test** | Implementation has no test | Code-only detection | Write tests |
 | **Orphan Code** | Code without requirement | Code annotation check | Add requirement link |
 | **Incomplete Coverage** | Partial traceability | Coverage analysis | Complete traceability |
+| **Missing ISO Mapping** | No ISO 25010 reference | ISO mapping check | Add quality model reference |
 
 ## Implementation
 
@@ -167,6 +206,7 @@ traceability_matrix:
 traceability_matrix:
   version: "1.0"
   generated_at: "2026-01-20T10:00:00Z"
+  iso_standard: "ISO/IEC 25010:2023"
   
   summary:
     total_requirements: 50
@@ -177,19 +217,25 @@ traceability_matrix:
       requirement_to_usecase: 95%
       usecase_to_implementation: 90%
       requirement_to_implementation: 85%
+      iso_25010_mapping: 80%
       
     gaps:
       missing_usecases: 3
       missing_implementations: 5
       orphan_code: 8
+      missing_iso_mapping: 10
       
   layers:
     requirement_layer:
       requirements:
         - id: "REQ-{CATEGORY}-{NUMBER}"
           name: "Requirement name"
-          category: "01_business | 02_architecture | 03_functional | 
-                     04_non_functional | 05_compliance | 06_security | 07_scalability"
+          category: "01_business | 02_compliance | 03_constraint | 04_functional | 
+                     05_performance | 06_compatibility | 07_usability | 08_reliability | 
+                     09_security | 10_maintainability | 11_portability | 12_architecture | 13_data"
+          iso_25010:
+            characteristic: "ISO 25010 characteristic"
+            subcharacteristic: "ISO 25010 subcharacteristic"
           status: "covered | partial | orphan"
           
           links:
@@ -259,11 +305,17 @@ code_annotations:
     example: "// @acceptance AC-FUNC-001-1"
     description: "Links code to acceptance criteria"
     
+  iso_25010_annotation:
+    format: "// @iso25010 {characteristic}:{subcharacteristic}"
+    example: "// @iso25010 Security:Confidentiality"
+    description: "Links code to ISO 25010 quality characteristic"
+    
   combined_annotation:
     format: |
       // @requirement REQ-FUNC-001
       // @usecase UC-FUNC-001
       // @acceptance AC-FUNC-001-1
+      // @iso25010 Functional Suitability:Functional Completeness
     description: "Multiple annotations for complete traceability"
 ```
 
@@ -291,34 +343,75 @@ coverage_analysis:
         formula: "code_with_tests / total_code"
         target: "80%"
         
+      - name: "iso_25010_mapping"
+        formula: "requirements_with_iso_mapping / total_requirements"
+        target: "100%"
+        
   category_coverage:
     01_business:
       requirement_to_usecase: "100%"
       usecase_to_implementation: "90%"
+      iso_mapping: "N/A"
       
-    02_architecture:
-      requirement_to_usecase: "95%"
-      usecase_to_implementation: "85%"
-      
-    03_functional:
-      requirement_to_usecase: "100%"
-      usecase_to_implementation: "95%"
-      
-    04_non_functional:
-      requirement_to_usecase: "80%"
-      usecase_to_implementation: "70%"
-      
-    05_compliance:
+    02_compliance:
       requirement_to_usecase: "100%"
       usecase_to_implementation: "100%"
+      iso_mapping: "N/A"
       
-    06_security:
+    03_constraint:
+      requirement_to_usecase: "95%"
+      usecase_to_implementation: "85%"
+      iso_mapping: "N/A"
+      
+    04_functional:
       requirement_to_usecase: "100%"
       usecase_to_implementation: "95%"
+      iso_mapping: "100%"
       
-    07_scalability:
+    05_performance:
+      requirement_to_usecase: "90%"
+      usecase_to_implementation: "85%"
+      iso_mapping: "100%"
+      
+    06_compatibility:
+      requirement_to_usecase: "85%"
+      usecase_to_implementation: "80%"
+      iso_mapping: "100%"
+      
+    07_usability:
+      requirement_to_usecase: "80%"
+      usecase_to_implementation: "75%"
+      iso_mapping: "100%"
+      
+    08_reliability:
+      requirement_to_usecase: "95%"
+      usecase_to_implementation: "90%"
+      iso_mapping: "100%"
+      
+    09_security:
+      requirement_to_usecase: "100%"
+      usecase_to_implementation: "95%"
+      iso_mapping: "100%"
+      
+    10_maintainability:
+      requirement_to_usecase: "85%"
+      usecase_to_implementation: "80%"
+      iso_mapping: "100%"
+      
+    11_portability:
       requirement_to_usecase: "75%"
-      usecase_to_implementation: "60%"
+      usecase_to_implementation: "70%"
+      iso_mapping: "100%"
+      
+    12_architecture:
+      requirement_to_usecase: "95%"
+      usecase_to_implementation: "90%"
+      iso_mapping: "N/A"
+      
+    13_data:
+      requirement_to_usecase: "90%"
+      usecase_to_implementation: "85%"
+      iso_mapping: "N/A"
 ```
 
 ### Gap Detection
@@ -349,6 +442,11 @@ gap_detection:
     detection: "broken traceability chains"
     severity: "high"
     resolution: "complete traceability chain"
+    
+  missing_iso_mapping:
+    detection: "requirements without ISO 25010 reference"
+    severity: "medium"
+    resolution: "add ISO 25010 quality model mapping"
 ```
 
 ### Impact Analysis
@@ -362,12 +460,14 @@ impact_analysis:
       - identify_usecases: "Find all use cases implementing requirement"
       - identify_implementations: "Find all code implementing use cases"
       - identify_tests: "Find all tests validating code"
+      - identify_iso_impact: "Assess impact on ISO 25010 quality characteristics"
       - calculate_effort: "Estimate change effort"
       
     output:
       affected_usecases: ["UC-FUNC-001", "UC-FUNC-002"]
       affected_files: ["src/auth/login.ts", "src/controllers/user.ts"]
       affected_tests: ["tests/auth.test.ts"]
+      iso_characteristics_affected: ["Functional Suitability", "Security"]
       estimated_effort: "4 hours"
       risk_level: "medium"
       
@@ -378,11 +478,13 @@ impact_analysis:
       - identify_requirements: "Find requirements implemented by code"
       - identify_usecases: "Find use cases realized by code"
       - identify_dependencies: "Find dependent requirements"
+      - assess_iso_impact: "Assess impact on ISO 25010 quality model"
       - assess_impact: "Assess impact on requirements"
       
     output:
       affected_requirements: ["REQ-FUNC-001", "REQ-SEC-001"]
       affected_usecases: ["UC-FUNC-001"]
+      iso_characteristics_affected: ["Security", "Functional Suitability"]
       validation_required: true
       stakeholder_notification: ["Product Owner", "Security Officer"]
 ```
@@ -395,6 +497,7 @@ traceability_report:
     generated_at: "2026-01-20T10:00:00Z"
     project: "Project Name"
     version: "1.0"
+    iso_standard: "ISO/IEC 25010:2023"
     
   executive_summary:
     overall_coverage: "87%"
@@ -407,12 +510,46 @@ traceability_report:
       usecase_to_implementation: "90%"
       requirement_to_implementation: "85%"
       test_coverage: "78%"
+      iso_25010_mapping: "80%"
       
     gaps_summary:
       critical: 3
       high: 5
       medium: 8
       low: 4
+      
+  iso_25010_coverage:
+    Functional_Suitability:
+      requirements: 15
+      coverage: "85%"
+      
+    Performance_Efficiency:
+      requirements: 8
+      coverage: "75%"
+      
+    Compatibility:
+      requirements: 4
+      coverage: "80%"
+      
+    Usability:
+      requirements: 6
+      coverage: "70%"
+      
+    Reliability:
+      requirements: 5
+      coverage: "80%"
+      
+    Security:
+      requirements: 10
+      coverage: "90%"
+      
+    Maintainability:
+      requirements: 4
+      coverage: "85%"
+      
+    Portability:
+      requirements: 3
+      coverage: "75%"
       
   category_breakdown:
     01_business:
@@ -421,56 +558,92 @@ traceability_report:
       implementations: 15
       coverage: "92%"
       
-    02_architecture:
-      requirements: 5
-      usecases: 4
-      implementations: 10
-      coverage: "88%"
-      
-    03_functional:
-      requirements: 15
-      usecases: 12
-      implementations: 45
-      coverage: "95%"
-      
-    04_non_functional:
-      requirements: 8
-      usecases: 5
-      implementations: 20
-      coverage: "75%"
-      
-    05_compliance:
+    02_compliance:
       requirements: 4
       usecases: 4
       implementations: 10
       coverage: "100%"
       
-    06_security:
-      requirements: 5
+    03_constraint:
+      requirements: 3
+      usecases: 2
+      implementations: 5
+      coverage: "85%"
+      
+    04_functional:
+      requirements: 15
+      usecases: 12
+      implementations: 45
+      coverage: "95%"
+      
+    05_performance:
+      requirements: 8
+      usecases: 6
+      implementations: 20
+      coverage: "80%"
+      
+    06_compatibility:
+      requirements: 4
+      usecases: 3
+      implementations: 10
+      coverage: "75%"
+      
+    07_usability:
+      requirements: 6
       usecases: 4
       implementations: 12
+      coverage: "70%"
+      
+    08_reliability:
+      requirements: 5
+      usecases: 4
+      implementations: 15
+      coverage: "85%"
+      
+    09_security:
+      requirements: 10
+      usecases: 8
+      implementations: 25
       coverage: "90%"
       
-    07_scalability:
-      requirements: 5
+    10_maintainability:
+      requirements: 4
       usecases: 3
+      implementations: 10
+      coverage: "80%"
+      
+    11_portability:
+      requirements: 3
+      usecases: 2
       implementations: 8
-      coverage: "65%"
+      coverage: "70%"
+      
+    12_architecture:
+      requirements: 5
+      usecases: 4
+      implementations: 15
+      coverage: "88%"
+      
+    13_data:
+      requirements: 6
+      usecases: 5
+      implementations: 18
+      coverage: "85%"
       
   gap_details:
     - id: "GAP-001"
       type: "missing_usecase"
-      requirement: "REQ-SCAL-002"
+      requirement: "REQ-PERF-002"
       severity: "high"
-      description: "Requirement has no use case"
-      recommendation: "Design use case for scalability requirement"
+      description: "Performance requirement has no use case"
+      recommendation: "Design use case for performance requirement"
       
     - id: "GAP-002"
       type: "missing_implementation"
-      usecase: "UC-NFR-003"
+      usecase: "UC-REL-003"
       severity: "high"
-      description: "Use case has no implementation"
-      recommendation: "Implement performance monitoring use case"
+      description: "Reliability use case has no implementation"
+      recommendation: "Implement failover use case"
       
     - id: "GAP-003"
       type: "orphan_code"
@@ -479,9 +652,16 @@ traceability_report:
       description: "Code has no requirement annotation"
       recommendation: "Add requirement annotation or verify as infrastructure code"
       
+    - id: "GAP-004"
+      type: "missing_iso_mapping"
+      requirement: "REQ-PERF-005"
+      severity: "medium"
+      description: "Performance requirement missing ISO 25010 mapping"
+      recommendation: "Add ISO 25010 Performance Efficiency reference"
+      
   recommendations:
     - priority: "critical"
-      action: "Address 3 critical gaps in scalability requirements"
+      action: "Address 3 critical gaps in reliability requirements"
       effort: "2 days"
       
     - priority: "high"
@@ -491,6 +671,10 @@ traceability_report:
     - priority: "medium"
       action: "Add annotations to 8 orphan code files"
       effort: "1 day"
+      
+    - priority: "medium"
+      action: "Add ISO 25010 mapping to 10 requirements"
+      effort: "4 hours"
 ```
 
 ## Integration with Other Skills
@@ -499,81 +683,44 @@ traceability_report:
 
 ```yaml
 input:
-  use_cases:
+  usecases:
     - id: "UC-{CATEGORY}-{NUMBER}"
-      traceability:
-        derived_from_requirements: ["REQ-{CATEGORY}-{NUMBER}"]
+      name: "Use case name"
+      requirement_links:
+        - "REQ-{CATEGORY}-{NUMBER}"
+      iso_25010_reference:
+        characteristic: "..."
+        subcharacteristic: "..."
 ```
 
-### Input from [spec-to-code-tracer](file:///d:/repos/aether-go/skills/skills/spec-to-code-tracer/SKILL.md)
+### Input from [requirement-classifier](file:///d:/repos/aether-go/skills/skills/requirement-classifier/SKILL.md)
 
 ```yaml
 input:
-  code_annotations:
-    - file: "path/to/file"
-      requirements: ["REQ-{CATEGORY}-{NUMBER}"]
+  classified_requirements:
+    01_business: [...]
+    02_compliance: [...]
+    03_constraint: [...]
+    04_functional: [...]
+    05_performance: [...]
+    06_compatibility: [...]
+    07_usability: [...]
+    08_reliability: [...]
+    09_security: [...]
+    10_maintainability: [...]
+    11_portability: [...]
+    12_architecture: [...]
+    13_data: [...]
+  iso_25010_references: [...]
 ```
 
-### Output to [constitution-validator](file:///d:/repos/aether-go/skills/skills/constitution-validator/SKILL.md)
+### Output to [requirements-to-code-docs](file:///d:/repos/aether-go/skills/skills/requirements-to-code-docs/SKILL.md)
 
 ```yaml
 output:
-  traceability_compliance:
-    coverage_percentage: 87
+  traceability_matrix:
+    layers: [...]
+    coverage: [...]
     gaps: [...]
-    recommendations: [...]
+    iso_25010_coverage: [...]
 ```
-
-## Best Practices
-
-### Traceability Guidelines
-
-1. **Complete Chain**: Ensure every requirement has complete traceability chain
-2. **Bidirectional**: Maintain bidirectional links at every layer
-3. **Annotations**: Use consistent code annotations
-4. **Regular Updates**: Update traceability with every change
-5. **Gap Resolution**: Resolve gaps promptly
-
-### Coverage Guidelines
-
-1. **100% Target**: Aim for 100% requirement coverage
-2. **Category Focus**: Pay special attention to compliance and security categories
-3. **Test Coverage**: Ensure tests link to requirements
-4. **Orphan Detection**: Regularly detect and resolve orphan code
-5. **Impact Analysis**: Use traceability for impact analysis
-
-### Reporting Guidelines
-
-1. **Regular Reports**: Generate traceability reports regularly
-2. **Gap Prioritization**: Prioritize gap resolution by severity
-3. **Trend Analysis**: Track coverage trends over time
-4. **Stakeholder Communication**: Share reports with stakeholders
-5. **Continuous Improvement**: Use reports to improve processes
-
-## Common Mistakes
-
-| Mistake | Why It's Wrong | Fix |
-|---------|---------------|-----|
-| One-way traceability | Cannot trace backwards | Maintain bidirectional links |
-| Missing annotations | Orphan code detection fails | Add consistent annotations |
-| Ignoring gaps | Accumulates technical debt | Resolve gaps promptly |
-| No test linkage | Missing validation traceability | Link tests to requirements |
-| Irregular updates | Outdated traceability | Update with every change |
-
-## Real-World Impact
-
-**Before (No Traceability):**
-- Requirements implemented without verification
-- Unknown code purpose
-- Difficult impact analysis
-- Compliance audit failures
-- Change risk assessment impossible
-
-**After (Three-Layer Traceability):**
-- Complete requirement-to-code coverage
-- Clear code purpose and origin
-- Accurate impact analysis
-- Compliance audit ready
-- Informed change decisions
-
-**Result:** 95% requirement coverage, 80% faster impact analysis, zero compliance audit failures.
