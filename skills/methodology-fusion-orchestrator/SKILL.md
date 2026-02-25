@@ -261,6 +261,61 @@ constitution_enforcement:
       enforcement: strict
 ```
 
+### Aether Directory Structure Initialization
+
+Before executing the methodology fusion workflow, the orchestrator initializes the complete `.aether/` directory structure:
+
+```yaml
+# Directory structure created by orchestrator
+.aether/
+├── context/
+│   ├── session/                    # Temporary session contexts
+│   ├── project/                    # Persistent project context
+│   │   ├── context.yaml            # Main project context
+│   │   ├── metrics/                # Stage metrics storage
+│   │   ├── traceability/           # Traceability matrices
+│   │   └── gap-analysis.yaml       # Gap analysis results
+│   └── global/                     # Global shared context
+├── prompts/
+│   ├── system/                     # System prompt templates
+│   ├── tasks/                      # Task-specific prompts
+│   └── custom/                     # Custom user prompts
+├── docs/
+│   ├── requirements/               # 13-category requirements
+│   │   ├── 01-business-requirements.md
+│   │   ├── 02-compliance-requirements.md
+│   │   ├── 03-constraint-requirements.md
+│   │   ├── 04-functional-requirements.md
+│   │   ├── 05-performance-requirements.md
+│   │   ├── 06-compatibility-requirements.md
+│   │   ├── 07-usability-requirements.md
+│   │   ├── 08-reliability-requirements.md
+│   │   ├── 09-security-requirements.md
+│   │   ├── 10-maintainability-requirements.md
+│   │   ├── 11-portability-requirements.md
+│   │   ├── 12-architecture-requirements.md
+│   │   ├── 13-data-requirements.md
+│   │   └── relations.yaml          # Cross-category relationships
+│   ├── design/                     # Design documents
+│   ├── decisions/                  # Architecture Decision Records
+│   │   └── INDEX.md                # ADR index
+│   ├── api/                        # API documentation
+│   └── reports/                    # Generated reports
+├── memory/
+│   ├── facts.md                    # Project facts
+│   ├── decisions.md                # Key decisions log
+│   ├── learnings.md                # Lessons learned
+│   └── patterns.md                 # Identified patterns
+├── skills/
+│   ├── custom/                     # Custom skills
+│   └── overrides/                  # Skill overrides
+├── workflows/
+│   ├── default.yaml                # Default workflow
+│   └── custom/                     # Custom workflows
+├── constitution.yaml               # Constitutional principles
+└── config.yaml                     # Project configuration
+```
+
 ### Orchestrator Configuration
 
 ```yaml
@@ -269,6 +324,15 @@ orchestrator:
   version: "1.0"
   project_type: "fullstack-web"
   methodology_version: "aether-go-2.0"
+  
+  directories:
+    base: ".aether"
+    context: ".aether/context"
+    prompts: ".aether/prompts"
+    docs: ".aether/docs"
+    memory: ".aether/memory"
+    skills: ".aether/skills"
+    workflows: ".aether/workflows"
   
   stages:
     enabled: [1, 2, 3, 4, 5, 6, 7, 8]
@@ -405,22 +469,263 @@ orchestrator:
 
 ## Implementation
 
+### Directory Initialization
+
+```python
+import os
+from pathlib import Path
+
+class AetherDirectoryInitializer:
+    """Initializes the complete .aether directory structure."""
+    
+    AETHER_STRUCTURE = {
+        'context': {
+            'session': [],
+            'project': ['metrics', 'traceability'],
+            'global': []
+        },
+        'prompts': {
+            'system': [],
+            'tasks': [],
+            'custom': []
+        },
+        'docs': {
+            'requirements': [],
+            'design': [],
+            'decisions': [],
+            'api': [],
+            'reports': []
+        },
+        'memory': [],
+        'skills': {
+            'custom': [],
+            'overrides': []
+        },
+        'workflows': {
+            'custom': []
+        }
+    }
+    
+    DEFAULT_FILES = {
+        '.aether/memory/facts.md': '# Project Facts\n\n## Overview\n\n',
+        '.aether/memory/decisions.md': '# Decision Log\n\n## Key Decisions\n\n',
+        '.aether/memory/learnings.md': '# Lessons Learned\n\n## Insights\n\n',
+        '.aether/memory/patterns.md': '# Patterns\n\n## Identified Patterns\n\n',
+        '.aether/docs/decisions/INDEX.md': '# Architecture Decision Records\n\n| ADR | Title | Date | Status |\n|-----|-------|------|--------|\n',
+        '.aether/workflows/default.yaml': '# Default Workflow Configuration\n',
+        '.aether/constitution.yaml': '# Constitutional Principles\n',
+        '.aether/config.yaml': '# Project Configuration\n'
+    }
+    
+    def __init__(self, base_path='.'):
+        self.base_path = Path(base_path)
+        self.aether_path = self.base_path / '.aether'
+    
+    def initialize(self):
+        """Initialize complete .aether directory structure."""
+        
+        # Create directory structure
+        self._create_directories(self.AETHER_STRUCTURE, self.aether_path)
+        
+        # Create default files
+        self._create_default_files()
+        
+        # Create .gitignore
+        self._create_gitignore()
+        
+        return {
+            'status': 'initialized',
+            'path': str(self.aether_path),
+            'directories_created': self._count_directories(),
+            'files_created': len(self.DEFAULT_FILES)
+        }
+    
+    def _create_directories(self, structure, parent_path):
+        """Recursively create directory structure."""
+        for name, content in structure.items():
+            current_path = parent_path / name
+            current_path.mkdir(parents=True, exist_ok=True)
+            
+            if isinstance(content, dict):
+                self._create_directories(content, current_path)
+            elif isinstance(content, list):
+                for subdir in content:
+                    (current_path / subdir).mkdir(exist_ok=True)
+    
+    def _create_default_files(self):
+        """Create default files with initial content."""
+        for file_path, content in self.DEFAULT_FILES.items():
+            full_path = self.base_path / file_path
+            if not full_path.exists():
+                full_path.write_text(content, encoding='utf-8')
+    
+    def _create_gitignore(self):
+        """Create .aether/.gitignore file."""
+        gitignore_content = """# Aether context files (temporary)
+context/session/
+
+# Cache files
+*.cache
+.cache/
+
+# Logs
+*.log
+logs/
+
+# Local overrides (user-specific)
+local/
+
+# Backup files
+*.bak
+*.backup
+"""
+        gitignore_path = self.aether_path / '.gitignore'
+        if not gitignore_path.exists():
+            gitignore_path.write_text(gitignore_content, encoding='utf-8')
+    
+    def _count_directories(self):
+        """Count total directories created."""
+        return sum(1 for _ in self.aether_path.rglob('*') if _.is_dir())
+
+
+class WorkflowOutputManager:
+    """Manages output locations for workflow stages based on .aether structure."""
+    
+    OUTPUT_PATHS = {
+        # Stage 1: Business Analysis
+        'business_requirements': '.aether/docs/requirements/01-business-requirements.md',
+        'compliance_requirements': '.aether/docs/requirements/02-compliance-requirements.md',
+        'constraint_requirements': '.aether/docs/requirements/03-constraint-requirements.md',
+        'requirement_relations': '.aether/docs/requirements/relations.yaml',
+        
+        # Stage 2: Specification
+        'functional_requirements': '.aether/docs/requirements/04-functional-requirements.md',
+        'performance_requirements': '.aether/docs/requirements/05-performance-requirements.md',
+        'compatibility_requirements': '.aether/docs/requirements/06-compatibility-requirements.md',
+        'usability_requirements': '.aether/docs/requirements/07-usability-requirements.md',
+        'reliability_requirements': '.aether/docs/requirements/08-reliability-requirements.md',
+        'security_requirements': '.aether/docs/requirements/09-security-requirements.md',
+        'maintainability_requirements': '.aether/docs/requirements/10-maintainability-requirements.md',
+        'portability_requirements': '.aether/docs/requirements/11-portability-requirements.md',
+        'architecture_requirements': '.aether/docs/requirements/12-architecture-requirements.md',
+        'data_requirements': '.aether/docs/requirements/13-data-requirements.md',
+        
+        # Stage 3: Constitutional Review
+        'compliance_report': '.aether/docs/reports/constitutional-compliance-report.md',
+        
+        # Stage 4: Implementation Planning
+        'adr_files': '.aether/docs/decisions/',
+        'adr_index': '.aether/docs/decisions/INDEX.md',
+        'design_docs': '.aether/docs/design/',
+        
+        # Stage 5-8: Execution & Optimization
+        'workflow_metrics': '.aether/context/project/metrics/',
+        'traceability_matrix': '.aether/context/project/traceability/',
+        'gap_analysis': '.aether/context/project/gap-analysis.yaml',
+        'project_context': '.aether/context/project/context.yaml',
+        'workflow_definitions': '.aether/workflows/custom/',
+        'prompt_templates': '.aether/prompts/',
+        
+        # Memory
+        'facts': '.aether/memory/facts.md',
+        'decisions': '.aether/memory/decisions.md',
+        'learnings': '.aether/memory/learnings.md',
+        'patterns': '.aether/memory/patterns.md'
+    }
+    
+    def __init__(self, base_path='.'):
+        self.base_path = Path(base_path)
+    
+    def get_output_path(self, output_type, filename=None):
+        """Get the output path for a specific output type."""
+        path = self.OUTPUT_PATHS.get(output_type)
+        if not path:
+            raise ValueError(f"Unknown output type: {output_type}")
+        
+        full_path = self.base_path / path
+        
+        # If it's a directory and filename provided, append filename
+        if filename and (full_path.is_dir() or path.endswith('/')):
+            full_path = full_path / filename
+        
+        return full_path
+    
+    def ensure_directory_exists(self, output_type):
+        """Ensure the directory for an output type exists."""
+        path = self.get_output_path(output_type)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        return path
+```
+
 ### Orchestrator Engine
 
 ```python
 class MethodologyFusionOrchestrator:
     """Main orchestrator coordinating all eight stages."""
     
-    def __init__(self, project_context, constitution):
+    def __init__(self, project_context, constitution, base_path='.'):
         self.project_context = project_context
         self.constitution = constitution
-        self.metrics_collector = MetricsCollector()
-        self.skill_scheduler = SkillScheduler()
-        self.context_manager = ContextManager()
-        self.skill_assetizer = SkillAssetizer()
-        self.optimization_analyzer = OptimizationAnalyzer()
-        self.recursive_optimizer = RecursiveOptimizer()
-        self.workflow_optimizer = WorkflowOptimizer()
+        self.base_path = Path(base_path)
+        
+        # Initialize directory structure
+        self.dir_initializer = AetherDirectoryInitializer(base_path)
+        self.output_manager = WorkflowOutputManager(base_path)
+        
+        # Initialize components
+        self.metrics_collector = MetricsCollector(base_path)
+        self.skill_scheduler = SkillScheduler(base_path)
+        self.context_manager = ContextManager(base_path)
+        self.skill_assetizer = SkillAssetizer(base_path)
+        self.optimization_analyzer = OptimizationAnalyzer(base_path)
+        self.recursive_optimizer = RecursiveOptimizer(base_path)
+        self.workflow_optimizer = WorkflowOptimizer(base_path)
+        
+        # Track initialization state
+        self.initialized = False
+    
+    def initialize_project(self):
+        """Initialize .aether directory structure for the project."""
+        if not self.initialized:
+            result = self.dir_initializer.initialize()
+            self.initialized = True
+            
+            # Log initialization to memory
+            self._log_to_memory('facts', f"Project initialized with Aether structure at {result['path']}")
+            
+            return result
+        return {'status': 'already_initialized'}
+    
+    def _log_to_memory(self, memory_type, content):
+        """Log entry to memory files."""
+        memory_files = {
+            'facts': '.aether/memory/facts.md',
+            'decisions': '.aether/memory/decisions.md',
+            'learnings': '.aether/memory/learnings.md',
+            'patterns': '.aether/memory/patterns.md'
+        }
+        
+        memory_file = self.base_path / memory_files.get(memory_type, '.aether/memory/facts.md')
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        
+        with open(memory_file, 'a', encoding='utf-8') as f:
+            f.write(f"\n## {timestamp}\n\n{content}\n")
+    
+    def execute_workflow(self, user_request):
+        """Execute complete eight-stage workflow."""
+        
+        # Ensure directory structure is initialized
+        if not self.initialized:
+            self.initialize_project()
+        
+        workflow_result = {
+            'id': generate_workflow_id(),
+            'start_time': datetime.now(),
+            'stages': [],
+            'metrics': {},
+            'optimizations': [],
+            'output_paths': {}
+        }
         
     def execute_workflow(self, user_request):
         """Execute complete eight-stage workflow."""

@@ -81,6 +81,42 @@ spec_evolution:
         migration_plan: "Migrate existing orders to subscription model"
 ```
 
+## Output Location
+
+Spec evolution history and changelogs are stored in `.aether/docs/requirements/` alongside the requirements:
+
+```
+.aether/docs/requirements/
+├── 04-functional-requirements.md
+├── {spec-id}-evolution.yaml       # Spec version history
+└── {spec-id}-changelog.md         # Human-readable changelog
+```
+
+### Output Path Helper
+
+```python
+from pathlib import Path
+
+class SpecEvolutionOutputManager:
+    """Manages output paths for spec evolution artifacts."""
+    
+    BASE_PATH = '.aether/docs/requirements'
+    
+    @classmethod
+    def get_evolution_path(cls, spec_id, base_path='.'):
+        """Get path for spec evolution history file."""
+        req_dir = Path(base_path) / cls.BASE_PATH
+        req_dir.mkdir(parents=True, exist_ok=True)
+        return req_dir / f"{spec_id}-evolution.yaml"
+    
+    @classmethod
+    def get_changelog_path(cls, spec_id, base_path='.'):
+        """Get path for spec changelog file."""
+        req_dir = Path(base_path) / cls.BASE_PATH
+        req_dir.mkdir(parents=True, exist_ok=True)
+        return req_dir / f"{spec_id}-changelog.md"
+```
+
 ## Implementation
 
 ### Change Analysis

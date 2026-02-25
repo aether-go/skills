@@ -161,6 +161,72 @@ approvals:
     comments: "Deferred to Phase 2, nice-to-have"
 ```
 
+## Output Location
+
+All requirement documents are stored in `.aether/docs/requirements/` following the 13-category classification:
+
+```
+.aether/docs/requirements/
+├── 01-business-requirements.md       # Layer 1: Source Dimensions
+├── 02-compliance-requirements.md
+├── 03-constraint-requirements.md
+├── 04-functional-requirements.md     # Layer 2: ISO 25010 Quality
+├── 05-performance-requirements.md
+├── 06-compatibility-requirements.md
+├── 07-usability-requirements.md
+├── 08-reliability-requirements.md
+├── 09-security-requirements.md
+├── 10-maintainability-requirements.md
+├── 11-portability-requirements.md
+├── 12-architecture-requirements.md   # Layer 3: Architecture & Data
+├── 13-data-requirements.md
+└── relations.yaml                    # Cross-category relationships
+```
+
+### Output Path Helper
+
+```python
+from pathlib import Path
+
+class RequirementsOutputManager:
+    """Manages output paths for requirement documents."""
+    
+    REQUIREMENT_FILES = {
+        '01': '01-business-requirements.md',
+        '02': '02-compliance-requirements.md',
+        '03': '03-constraint-requirements.md',
+        '04': '04-functional-requirements.md',
+        '05': '05-performance-requirements.md',
+        '06': '06-compatibility-requirements.md',
+        '07': '07-usability-requirements.md',
+        '08': '08-reliability-requirements.md',
+        '09': '09-security-requirements.md',
+        '10': '10-maintainability-requirements.md',
+        '11': '11-portability-requirements.md',
+        '12': '12-architecture-requirements.md',
+        '13': '13-data-requirements.md'
+    }
+    
+    BASE_PATH = '.aether/docs/requirements'
+    
+    @classmethod
+    def get_requirements_path(cls, category_num=None, base_path='.'):
+        """Get path for requirements directory or specific file."""
+        req_dir = Path(base_path) / cls.BASE_PATH
+        req_dir.mkdir(parents=True, exist_ok=True)
+        
+        if category_num and category_num in cls.REQUIREMENT_FILES:
+            return req_dir / cls.REQUIREMENT_FILES[category_num]
+        return req_dir
+    
+    @classmethod
+    def get_relations_path(cls, base_path='.'):
+        """Get path for cross-category relations file."""
+        req_dir = Path(base_path) / cls.BASE_PATH
+        req_dir.mkdir(parents=True, exist_ok=True)
+        return req_dir / 'relations.yaml'
+```
+
 ## Quick Reference
 
 ### Requirement Types and Collection Methods

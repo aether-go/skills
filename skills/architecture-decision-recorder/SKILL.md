@@ -70,7 +70,28 @@ Migrate to microservices architecture with containerized services orchestrated b
 - ADR-010: Service mesh adoption
 ```
 
+## Output Location
+
+All ADR files are stored in the `.aether/docs/decisions/` directory:
+
+```
+.aether/docs/decisions/
+├── INDEX.md                    # ADR index and log
+├── ADR-001-microservices.md    # Individual ADR files
+├── ADR-002-postgresql.md
+└── ADR-003-react.md
+```
+
 ## Implementation
+
+### ADR File Naming Convention
+
+ADR files follow the naming pattern: `ADR-{number}-{short-title}.md`
+
+Examples:
+- `ADR-001-microservices.md`
+- `ADR-002-postgresql.md`
+- `ADR-003-react.md`
 
 ### ADR Template
 
@@ -117,12 +138,37 @@ Migrate to microservices architecture with containerized services orchestrated b
 
 ### ADR Index
 
+The ADR index is maintained at `.aether/docs/decisions/INDEX.md`:
+
 ```markdown
 # Architecture Decision Log
 
 | ADR | Title | Date | Status |
 |-----|-------|------|--------|
-| [ADR-001](adr-001.md) | Adopt microservices | 2026-01-15 | Accepted |
-| [ADR-002](adr-002.md) | Use PostgreSQL | 2026-01-20 | Accepted |
-| [ADR-003](adr-003.md) | Adopt React | 2026-02-01 | Superseded by ADR-005 |
+| [ADR-001](ADR-001-microservices.md) | Adopt microservices | 2026-01-15 | Accepted |
+| [ADR-002](ADR-002-postgresql.md) | Use PostgreSQL | 2026-01-20 | Accepted |
+| [ADR-003](ADR-003-react.md) | Adopt React | 2026-02-01 | Superseded by ADR-005 |
+```
+
+### Directory Creation
+
+```python
+from pathlib import Path
+
+def ensure_adr_directory(base_path='.'):
+    """Ensure .aether/docs/decisions/ directory exists."""
+    adr_path = Path(base_path) / '.aether' / 'docs' / 'decisions'
+    adr_path.mkdir(parents=True, exist_ok=True)
+    return adr_path
+
+def get_adr_path(adr_number, title, base_path='.'):
+    """Generate ADR file path based on number and title."""
+    adr_path = ensure_adr_directory(base_path)
+    safe_title = title.lower().replace(' ', '-').replace('_', '-')[:30]
+    return adr_path / f"ADR-{adr_number:03d}-{safe_title}.md"
+
+def get_adr_index_path(base_path='.'):
+    """Get path to ADR index file."""
+    adr_path = ensure_adr_directory(base_path)
+    return adr_path / 'INDEX.md'
 ```

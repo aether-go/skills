@@ -91,6 +91,89 @@ prompt_template:
       changes: "Initial version"
 ```
 
+## Output Location
+
+Prompt templates are stored in `.aether/prompts/` with categorized subdirectories:
+
+```
+.aether/prompts/
+├── system/                         # System-level prompts
+│   └── system-prompt.yaml
+├── tasks/                          # Task-specific prompts
+│   ├── code-review.yaml
+│   ├── task-breakdown.yaml
+│   └── documentation.yaml
+├── custom/                         # User custom prompts
+│   └── custom-prompt.yaml
+└── registry.yaml                   # Template registry index
+```
+
+Performance data is stored in `.aether/context/project/`:
+
+```
+.aether/context/project/
+└── prompt-performance.yaml         # Performance tracking data
+```
+
+### Output Path Helper
+
+```python
+from pathlib import Path
+
+class PromptTemplateOutputManager:
+    """Manages output paths for prompt template artifacts."""
+    
+    BASE_PATH = '.aether/prompts'
+    PERFORMANCE_PATH = '.aether/context/project'
+    
+    @classmethod
+    def get_system_prompts_path(cls, base_path='.'):
+        """Get path for system prompts directory."""
+        sys_dir = Path(base_path) / cls.BASE_PATH / 'system'
+        sys_dir.mkdir(parents=True, exist_ok=True)
+        return sys_dir
+    
+    @classmethod
+    def get_tasks_path(cls, base_path='.'):
+        """Get path for task prompts directory."""
+        tasks_dir = Path(base_path) / cls.BASE_PATH / 'tasks'
+        tasks_dir.mkdir(parents=True, exist_ok=True)
+        return tasks_dir
+    
+    @classmethod
+    def get_custom_path(cls, base_path='.'):
+        """Get path for custom prompts directory."""
+        custom_dir = Path(base_path) / cls.BASE_PATH / 'custom'
+        custom_dir.mkdir(parents=True, exist_ok=True)
+        return custom_dir
+    
+    @classmethod
+    def get_template_path(cls, template_name, category='tasks', base_path='.'):
+        """Get path for a specific template file."""
+        if category == 'system':
+            dir_path = cls.get_system_prompts_path(base_path)
+        elif category == 'custom':
+            dir_path = cls.get_custom_path(base_path)
+        else:
+            dir_path = cls.get_tasks_path(base_path)
+        
+        return dir_path / f"{template_name}.yaml"
+    
+    @classmethod
+    def get_registry_path(cls, base_path='.'):
+        """Get path for template registry."""
+        reg_path = Path(base_path) / cls.BASE_PATH
+        reg_path.mkdir(parents=True, exist_ok=True)
+        return reg_path / 'registry.yaml'
+    
+    @classmethod
+    def get_performance_path(cls, base_path='.'):
+        """Get path for performance tracking file."""
+        perf_dir = Path(base_path) / cls.PERFORMANCE_PATH
+        perf_dir.mkdir(parents=True, exist_ok=True)
+        return perf_dir / 'prompt-performance.yaml'
+```
+
 ## Implementation
 
 ### Template Rendering

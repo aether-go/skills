@@ -198,6 +198,71 @@ traceability_matrix:
 | **Incomplete Coverage** | Partial traceability | Coverage analysis | Complete traceability |
 | **Missing ISO Mapping** | No ISO 25010 reference | ISO mapping check | Add quality model reference |
 
+## Output Location
+
+Traceability matrices and reports are stored in `.aether/context/project/traceability/`:
+
+```
+.aether/context/project/
+├── traceability/
+│   ├── requirement-implementation.yaml    # Main traceability matrix
+│   ├── coverage-report.yaml               # Coverage analysis
+│   └── gap-analysis.yaml                  # Gap analysis results
+└── gap-analysis.yaml                      # Summary gap analysis
+```
+
+Reports are generated in `.aether/docs/reports/`:
+
+```
+.aether/docs/reports/
+└── traceability-report.md                 # Human-readable traceability report
+```
+
+### Output Path Helper
+
+```python
+from pathlib import Path
+
+class TraceabilityOutputManager:
+    """Manages output paths for traceability artifacts."""
+    
+    BASE_PATH = '.aether/context/project/traceability'
+    REPORTS_PATH = '.aether/docs/reports'
+    
+    @classmethod
+    def get_traceability_path(cls, base_path='.'):
+        """Get path for traceability matrix file."""
+        trace_dir = Path(base_path) / cls.BASE_PATH
+        trace_dir.mkdir(parents=True, exist_ok=True)
+        return trace_dir / 'requirement-implementation.yaml'
+    
+    @classmethod
+    def get_coverage_path(cls, base_path='.'):
+        """Get path for coverage report."""
+        trace_dir = Path(base_path) / cls.BASE_PATH
+        trace_dir.mkdir(parents=True, exist_ok=True)
+        return trace_dir / 'coverage-report.yaml'
+    
+    @classmethod
+    def get_gap_analysis_path(cls, base_path='.'):
+        """Get path for gap analysis file."""
+        trace_dir = Path(base_path) / cls.BASE_PATH
+        trace_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Also create summary in project context
+        project_dir = Path(base_path) / '.aether/context/project'
+        project_dir.mkdir(parents=True, exist_ok=True)
+        
+        return trace_dir / 'gap-analysis.yaml'
+    
+    @classmethod
+    def get_report_path(cls, base_path='.'):
+        """Get path for human-readable traceability report."""
+        reports_dir = Path(base_path) / cls.REPORTS_PATH
+        reports_dir.mkdir(parents=True, exist_ok=True)
+        return reports_dir / 'traceability-report.md'
+```
+
 ## Implementation
 
 ### Traceability Matrix Structure

@@ -66,6 +66,42 @@ traceability_matrix:
       last_updated: null
 ```
 
+## Output Location
+
+Spec-to-code traceability matrices are stored in `.aether/context/project/traceability/`:
+
+```
+.aether/context/project/traceability/
+├── spec-code-traceability.yaml      # Spec-to-code traceability matrix
+└── impact-analysis/                 # Impact analysis results
+    └── {change-id}.yaml
+```
+
+### Output Path Helper
+
+```python
+from pathlib import Path
+
+class SpecCodeTraceabilityOutputManager:
+    """Manages output paths for spec-to-code traceability artifacts."""
+    
+    BASE_PATH = '.aether/context/project/traceability'
+    
+    @classmethod
+    def get_traceability_path(cls, base_path='.'):
+        """Get path for spec-to-code traceability matrix."""
+        trace_dir = Path(base_path) / cls.BASE_PATH
+        trace_dir.mkdir(parents=True, exist_ok=True)
+        return trace_dir / 'spec-code-traceability.yaml'
+    
+    @classmethod
+    def get_impact_analysis_path(cls, change_id, base_path='.'):
+        """Get path for impact analysis file."""
+        impact_dir = Path(base_path) / cls.BASE_PATH / 'impact-analysis'
+        impact_dir.mkdir(parents=True, exist_ok=True)
+        return impact_dir / f"{change_id}.yaml"
+```
+
 ## Implementation
 
 ### Automatic Traceability
