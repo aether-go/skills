@@ -83,7 +83,7 @@ myapp/
 ### Key Features
 
 1. **Smart Configuration Management**
-   - Multi-path search: `./` → `./config` → `/etc/应用名称`
+   - Multi-path search: `./` → `./config` → `/etc/appname`
    - Config crate integration with YAML/JSON/TOML/Env vars
    - Hot reload support
    - Configuration validation and defaults
@@ -176,7 +176,7 @@ use myapp::internal::logger::init_logger;
 
 #[derive(Parser)]
 #[command(name = "myapp")]
-#[command(about = "MyApp - CLI应用描述", long_about = None)]
+#[command(about = "MyApp - CLI application description", long_about = None)]
 struct Cli {
     #[arg(short, long, value_name = "FILE")]
     config: Option<String>,

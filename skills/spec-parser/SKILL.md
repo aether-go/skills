@@ -290,7 +290,7 @@ scenarios:
 
 ### Thirteen-Category Spec Templates
 
-#### 01-业务需求 Spec Template
+#### 01-Business Requirements Spec Template
 ```yaml
 spec_id: "REQ-BUS-{NUMBER}"
 title: "Business Requirement Title"
@@ -325,7 +325,7 @@ cross_category_relations:
     rationale: "Business goal drives functional requirement"
 ```
 
-#### 02-合规性需求 Spec Template
+#### 02-Compliance Requirements Spec Template
 ```yaml
 spec_id: "REQ-COMP-{NUMBER}"
 title: "Compliance Requirement Title"
@@ -365,7 +365,7 @@ cross_category_relations:
     rationale: "Compliance constrains data handling"
 ```
 
-#### 03-约束性需求 Spec Template
+#### 03-Constraint Requirements Spec Template
 ```yaml
 spec_id: "REQ-CONS-{NUMBER}"
 title: "Constraint Requirement Title"
@@ -406,7 +406,7 @@ cross_category_relations:
     rationale: "Constraints limit architecture options"
 ```
 
-#### 04-功能性需求 Spec Template
+#### 04-Functional Requirements Spec Template
 ```yaml
 spec_id: "REQ-FUNC-{NUMBER}"
 title: "Functional Requirement Title"
@@ -455,7 +455,7 @@ cross_category_relations:
     iso_trade_off: "Security vs Functionality"
 ```
 
-#### 05-性能需求 Spec Template
+#### 05-Performance Requirements Spec Template
 ```yaml
 spec_id: "REQ-PERF-{NUMBER}"
 title: "Performance Requirement Title"
@@ -499,7 +499,7 @@ cross_category_relations:
     related_spec: "REQ-ARCH-XXX"
 ```
 
-#### 06-兼容性需求 Spec Template
+#### 06-Compatibility Requirements Spec Template
 ```yaml
 spec_id: "REQ-COMPAT-{NUMBER}"
 title: "Compatibility Requirement Title"
@@ -545,7 +545,7 @@ cross_category_relations:
     related_spec: "REQ-PORT-XXX"
 ```
 
-#### 07-易用性需求 Spec Template
+#### 07-Usability Requirements Spec Template
 ```yaml
 spec_id: "REQ-USE-{NUMBER}"
 title: "Usability Requirement Title"
@@ -596,7 +596,7 @@ cross_category_relations:
     related_spec: "REQ-FUNC-XXX"
 ```
 
-#### 08-可靠性需求 Spec Template
+#### 08-Reliability Requirements Spec Template
 ```yaml
 spec_id: "REQ-REL-{NUMBER}"
 title: "Reliability Requirement Title"
@@ -654,7 +654,7 @@ cross_category_relations:
     related_spec: "REQ-SEC-XXX"
 ```
 
-#### 09-安全性需求 Spec Template
+#### 09-Security Requirements Spec Template
 ```yaml
 spec_id: "REQ-SEC-{NUMBER}"
 title: "Security Requirement Title"
@@ -706,7 +706,7 @@ cross_category_relations:
     iso_trade_off: "Security vs Usability"
 ```
 
-#### 10-可维护性需求 Spec Template
+#### 10-Maintainability Requirements Spec Template
 ```yaml
 spec_id: "REQ-MAIN-{NUMBER}"
 title: "Maintainability Requirement Title"
@@ -758,7 +758,7 @@ cross_category_relations:
     related_spec: "REQ-ARCH-XXX"
 ```
 
-#### 11-可移植性需求 Spec Template
+#### 11-Portability Requirements Spec Template
 ```yaml
 spec_id: "REQ-PORT-{NUMBER}"
 title: "Portability Requirement Title"
@@ -810,7 +810,7 @@ cross_category_relations:
     related_spec: "REQ-ARCH-XXX"
 ```
 
-#### 12-架构需求 Spec Template
+#### 12-Architecture Requirements Spec Template
 ```yaml
 spec_id: "REQ-ARCH-{NUMBER}"
 title: "Architecture Requirement Title"
@@ -866,7 +866,7 @@ cross_category_relations:
     rationale: "Architecture influences data design"
 ```
 
-#### 13-数据需求 Spec Template
+#### 13-Data Requirements Spec Template
 ```yaml
 spec_id: "REQ-DATA-{NUMBER}"
 title: "Data Requirement Title"

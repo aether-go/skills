@@ -406,7 +406,7 @@ cd myapp
 readme-license-generator \
   --project-name="MyApp" \
   --description-en="A fullstack application with Go backend and Vue frontend" \
-  --description-zh="一个使用Go后端和Vue前端的全栈应用" \
+  --description-zh="A fullstack application with Go backend and Vue frontend (Chinese)" \
   --license=MIT \
   --author="Your Name" \
   --repo-url="https://github.com/username/myapp"
@@ -766,7 +766,7 @@ fullstack-project-setup create ecommerce-app \
 readme-license-generator \
   --project-name="E-Commerce App" \
   --description-en="A fullstack e-commerce application with Go backend and Vue frontend" \
-  --description-zh="一个使用Go后端和Vue前端的全栈电商应用" \
+  --description-zh="A fullstack e-commerce application with Go backend and Vue frontend (Chinese)" \
   --license=MIT \
   --author="Your Name" \
   --repo-url="https://github.com/username/ecommerce-app" \

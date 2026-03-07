@@ -399,7 +399,7 @@ requirement:
 
 ### Thirteen-Category Requirement Examples
 
-#### 01-业务需求 Example
+#### 01-Business Requirements Example
 ```yaml
 requirement:
   id: "REQ-BUS-001"
@@ -427,7 +427,7 @@ requirement:
       priority: "must"
 ```
 
-#### 02-合规需求 Example
+#### 02-Compliance Requirements Example
 ```yaml
 requirement:
   id: "REQ-COMP-001"
@@ -454,7 +454,7 @@ requirement:
       priority: "must"
 ```
 
-#### 03-约束需求 Example
+#### 03-Constraint Requirements Example
 ```yaml
 requirement:
   id: "REQ-CONS-001"
@@ -481,7 +481,7 @@ requirement:
       priority: "must"
 ```
 
-#### 04-功能需求 Example
+#### 04-Functional Requirements Example
 ```yaml
 requirement:
   id: "REQ-FUNC-001"
@@ -510,7 +510,7 @@ requirement:
       priority: "must"
 ```
 
-#### 05-性能需求 Example
+#### 05-Performance Requirements Example
 ```yaml
 requirement:
   id: "REQ-PERF-001"
@@ -539,7 +539,7 @@ requirement:
       priority: "must"
 ```
 
-#### 06-兼容性需求 Example
+#### 06-Compatibility Requirements Example
 ```yaml
 requirement:
   id: "REQ-COMPAT-001"
@@ -564,7 +564,7 @@ requirement:
       priority: "must"
 ```
 
-#### 07-可用性需求 Example
+#### 07-Usability Requirements Example
 ```yaml
 requirement:
   id: "REQ-USE-001"
@@ -589,7 +589,7 @@ requirement:
       priority: "must"
 ```
 
-#### 08-可靠性需求 Example
+#### 08-Reliability Requirements Example
 ```yaml
 requirement:
   id: "REQ-REL-001"
@@ -618,7 +618,7 @@ requirement:
       priority: "must"
 ```
 
-#### 09-安全需求 Example
+#### 09-Security Requirements Example
 ```yaml
 requirement:
   id: "REQ-SEC-001"
@@ -647,7 +647,7 @@ requirement:
       priority: "must"
 ```
 
-#### 10-可维护性需求 Example
+#### 10-Maintainability Requirements Example
 ```yaml
 requirement:
   id: "REQ-MAIN-001"
@@ -672,7 +672,7 @@ requirement:
       priority: "must"
 ```
 
-#### 11-可移植性需求 Example
+#### 11-Portability Requirements Example
 ```yaml
 requirement:
   id: "REQ-PORT-001"
@@ -697,7 +697,7 @@ requirement:
       priority: "must"
 ```
 
-#### 12-架构需求 Example
+#### 12-Architecture Requirements Example
 ```yaml
 requirement:
   id: "REQ-ARCH-001"
@@ -724,7 +724,7 @@ requirement:
       priority: "must"
 ```
 
-#### 13-数据需求 Example
+#### 13-Data Requirements Example
 ```yaml
 requirement:
   id: "REQ-DATA-001"

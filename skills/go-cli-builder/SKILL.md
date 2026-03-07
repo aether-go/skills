@@ -85,7 +85,7 @@ myapp/
 ### Key Features
 
 1. **Smart Configuration Management**
-   - Multi-path search: `./` → `./config` → `/etc/应用名称`
+   - Multi-path search: `./` → `./config` → `/etc/appname`
    - Viper integration with YAML/JSON/TOML/Env vars
    - Hot reload support
    - Configuration validation and defaults
@@ -184,27 +184,27 @@ var (
 
 var rootCmd = &cobra.Command{
 	Use:   "myapp",
-	Short: "MyApp - CLI应用描述",
-	Long: `MyApp是一个功能强大的命令行应用程序。
-使用子命令执行特定操作。`,
+	Short: "MyApp - CLI application description",
+	Long: `MyApp is a powerful command line application.
+Use subcommands to perform specific operations.`,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
-		// 初始化应用
+		// Initialize application
 		app.InitApp(configFile, logLevel)
 	},
 }
 
 func init() {
-	// 全局参数
-	rootCmd.PersistentFlags().StringVarP(&configFile, "config", "c", "", "配置文件路径")
-	rootCmd.PersistentFlags().StringVarP(&logLevel, "log-level", "l", "info", "日志级别 (debug|info|warn|error)")
+	// Global flags
+	rootCmd.PersistentFlags().StringVarP(&configFile, "config", "c", "", "Configuration file path")
+	rootCmd.PersistentFlags().StringVarP(&logLevel, "log-level", "l", "info", "Log level (debug|info|warn|error)")
 	
-	// 注册所有命令
+	// Register all commands
 	cmd.RegisterCommands(rootCmd)
 }
 
 func main() {
 	if err := rootCmd.Execute(); err != nil {
-		logger.Fatal("命令执行失败", "error", err)
+		logger.Fatal("Command execution failed", "error", err)
 	}
 }
 ```
@@ -227,21 +227,21 @@ import (
 func Init(appName, configPath string) error {
 	v := viper.New()
 	
-	// 设置默认值
+	// Set default values
 	setDefaults(v, appName)
 	
-	// 配置文件搜索路径
+	// Configuration file search paths
 	searchPaths := []string{
-		".",                    // 当前目录
-		"./config",            // config目录
+		".",                    // Current directory
+		"./config",            // Config directory
 		filepath.Join("/etc", appName), // /etc/appname
 	}
 	
-	// 如果指定了配置文件路径，直接加载
+	// If config file path is specified, load directly
 	if configPath != "" {
 		v.SetConfigFile(configPath)
 	} else {
-		// 按搜索路径查找
+		// Search in paths
 		v.SetConfigName("config")
 		v.SetConfigType("yaml")
 		for _, path := range searchPaths {
@@ -249,26 +249,26 @@ func Init(appName, configPath string) error {
 		}
 	}
 	
-	// 环境变量支持
+	// Environment variable support
 	v.AutomaticEnv()
 	v.SetEnvPrefix(appName)
 	
-	// 读取配置
+	// Read configuration
 	if err := v.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-			fmt.Fprintf(os.Stderr, "警告: 未找到配置文件，使用默认值\n")
+			fmt.Fprintf(os.Stderr, "Warning: Configuration file not found, using default values\n")
 		} else {
-			return fmt.Errorf("读取配置文件失败: %w", err)
+			return fmt.Errorf("Failed to read configuration file: %w", err)
 		}
 	}
 	
-	// 绑定到结构体
+	// Bind to struct
 	cfg := &Config{}
 	if err := v.Unmarshal(cfg); err != nil {
-		return fmt.Errorf("解析配置失败: %w", err)
+		return fmt.Errorf("Failed to parse configuration: %w", err)
 	}
 	
-	// 监听配置变化（热重载）
+	// Watch configuration changes (hot reload)
 	v.WatchConfig()
 	
 	return nil
@@ -286,7 +286,7 @@ import (
 	"runtime"
 )
 
-// 构建时注入的变量
+// Variables injected at build time
 var (
 	Version   = "dev"
 	BuildTime = "unknown"
@@ -318,7 +318,7 @@ func GetInfo() Info {
 	}
 }
 
-// Makefile 构建标志
+// Makefile build flags
 // LDFLAGS := -s -w \
 // 	-X $(GO_MODULE)/internal/version.Version=$(VERSION) \
 // 	-X $(GO_MODULE)/internal/version.BuildTime=$(BUILD_TIME) \
