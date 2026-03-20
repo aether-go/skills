@@ -83,11 +83,10 @@ spec_evolution:
 
 ## Output Location
 
-Spec evolution history and changelogs are stored in `.aether/docs/requirements/` alongside the requirements:
+Spec evolution history and changelogs are stored in `.aether/docs/02-specification/evolution/` alongside the specifications:
 
 ```
-.aether/docs/requirements/
-├── 04-functional-requirements.md
+.aether/docs/02-specification/evolution/
 ├── {spec-id}-evolution.yaml       # Spec version history
 └── {spec-id}-changelog.md         # Human-readable changelog
 ```
@@ -100,21 +99,21 @@ from pathlib import Path
 class SpecEvolutionOutputManager:
     """Manages output paths for spec evolution artifacts."""
     
-    BASE_PATH = '.aether/docs/requirements'
+    BASE_PATH = '.aether/docs/02-specification/evolution'
     
     @classmethod
     def get_evolution_path(cls, spec_id, base_path='.'):
         """Get path for spec evolution history file."""
-        req_dir = Path(base_path) / cls.BASE_PATH
-        req_dir.mkdir(parents=True, exist_ok=True)
-        return req_dir / f"{spec_id}-evolution.yaml"
+        spec_dir = Path(base_path) / cls.BASE_PATH
+        spec_dir.mkdir(parents=True, exist_ok=True)
+        return spec_dir / f"{spec_id}-evolution.yaml"
     
     @classmethod
     def get_changelog_path(cls, spec_id, base_path='.'):
         """Get path for spec changelog file."""
-        req_dir = Path(base_path) / cls.BASE_PATH
-        req_dir.mkdir(parents=True, exist_ok=True)
-        return req_dir / f"{spec_id}-changelog.md"
+        spec_dir = Path(base_path) / cls.BASE_PATH
+        spec_dir.mkdir(parents=True, exist_ok=True)
+        return spec_dir / f"{spec_id}-changelog.md"
 ```
 
 ## Implementation

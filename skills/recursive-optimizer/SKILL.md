@@ -35,7 +35,20 @@ Don't use when:
 
 ## Core Pattern
 
-### Optimization Cycle
+### Recursive Self-Optimization (P9: Recursive-Self-Optimization Principle)
+
+Implements the Aether.go constitutional principle P9: Recursive-Self-Optimization Principle (递归自我优化原则).
+
+**Formal Model:**
+```
+S_{t+1} = S_t + O(F(S_t))
+```
+Where:
+- S_t = System state at time t (skill state)
+- O = Optimization operation
+- F = Feedback function
+
+### Optimization Cycle with Convergence
 
 ```
 ┌───────────────┐
@@ -58,7 +71,74 @@ Don't use when:
 │ Test Impact  │  A/B test, validate improvements
 └───────┬───────┘
         ↓
-   (Loop back)
+┌───────────────┐
+│ Check        │  Verify convergence conditions
+│ Convergence  │  Bounded? Monotonic? Terminated?
+└───────┬───────┘
+        │
+        ├─ Converged? ──► Stop optimization
+        │
+        └─ Not converged ──► (Loop back)
+```
+
+### Convergence Conditions (P9 Implementation)
+
+Per Aether.go methodology, recursive optimization must satisfy three convergence conditions:
+
+#### 1. Boundedness (有界性)
+**Condition:** ∃M, ∀t, |S_t| < M
+
+**Interpretation:** Optimization magnitude must be limited to prevent runaway changes.
+
+**Implementation:**
+```yaml
+boundedness:
+  max_changes_per_iteration: 3
+  max_prompt_length_change: 20%
+  max_new_examples_per_iteration: 5
+  rollback_threshold: "quality_decrease > 10%"
+```
+
+#### 2. Monotonicity (单调性)
+**Condition:** Quality(S_{t+1}) ≥ Quality(S_t) - ε
+
+**Interpretation:** Quality should not significantly decrease between iterations.
+
+**Implementation:**
+```yaml
+monotonicity:
+  quality_metrics:
+    - success_rate
+    - user_satisfaction
+    - execution_time
+  
+  tolerance_epsilon: 0.05  # 5% tolerance
+  
+  validation:
+    - compare_before_after: true
+    - statistical_significance: 0.95
+    - min_sample_size: 30
+```
+
+#### 3. Termination (终止条件)
+**Condition:** |S_{t+1} - S_t| < δ OR Quality(S_t) > Threshold
+
+**Interpretation:** Stop when changes become negligible or quality reaches target.
+
+**Implementation:**
+```yaml
+termination:
+  delta_threshold: 0.02  # 2% change threshold
+  
+  quality_thresholds:
+    success_rate: 0.95
+    user_satisfaction: 4.5  # out of 5
+    
+  max_iterations: 10
+  
+  early_stop:
+    - no_improvement_for: 3
+    - quality_plateau: true
 ```
 
 ## Implementation
@@ -216,6 +296,227 @@ class PromptABTest:
             'b_success': success_b,
             'a_satisfaction': sat_a,
             'b_satisfaction': sat_b
+        }
+```
+
+### Convergence Checker (P9 Implementation)
+
+```python
+class ConvergenceChecker:
+    """Check convergence conditions for recursive optimization."""
+    
+    def __init__(self, config):
+        self.config = config
+        self.iteration_history = []
+        
+    def check_convergence(self, current_state, previous_state=None):
+        """
+        Check all three convergence conditions:
+        1. Boundedness
+        2. Monotonicity  
+        3. Termination
+        """
+        results = {
+            'boundedness': self._check_boundedness(current_state),
+            'monotonicity': self._check_monotonicity(current_state, previous_state),
+            'termination': self._check_termination(current_state, previous_state),
+            'converged': False
+        }
+        
+        # Converged if termination condition met AND boundedness satisfied
+        results['converged'] = (
+            results['termination']['should_terminate'] and 
+            results['boundedness']['satisfied']
+        )
+        
+        return results
+    
+    def _check_boundedness(self, state):
+        """Check boundedness condition: |S_t| < M"""
+        checks = {
+            'changes_count': state.get('changes_count', 0) <= self.config['max_changes_per_iteration'],
+            'prompt_length_change': state.get('prompt_length_change', 0) <= self.config['max_prompt_length_change'],
+            'new_examples': state.get('new_examples', 0) <= self.config['max_new_examples_per_iteration'],
+        }
+        
+        return {
+            'satisfied': all(checks.values()),
+            'checks': checks,
+            'recommendation': 'Reduce changes per iteration' if not all(checks.values()) else None
+        }
+    
+    def _check_monotonicity(self, current_state, previous_state):
+        """Check monotonicity: Quality(S_{t+1}) >= Quality(S_t) - epsilon"""
+        if previous_state is None:
+            return {'satisfied': True, 'quality_delta': None}
+        
+        epsilon = self.config['tolerance_epsilon']
+        
+        quality_metrics = ['success_rate', 'user_satisfaction']
+        quality_deltas = {}
+        
+        for metric in quality_metrics:
+            current = current_state.get(metric, 0)
+            previous = previous_state.get(metric, 0)
+            delta = current - previous
+            quality_deltas[metric] = delta
+        
+        # Check if any metric decreased significantly
+        monotonic = all(
+            delta >= -epsilon for delta in quality_deltas.values()
+        )
+        
+        return {
+            'satisfied': monotonic,
+            'quality_deltas': quality_deltas,
+            'epsilon': epsilon,
+            'recommendation': 'Consider rollback' if not monotonic else None
+        }
+    
+    def _check_termination(self, current_state, previous_state):
+        """Check termination conditions"""
+        reasons = []
+        
+        # Check 1: Change magnitude below threshold
+        if previous_state:
+            state_diff = self._calculate_state_diff(current_state, previous_state)
+            if state_diff < self.config['delta_threshold']:
+                reasons.append(f'State change ({state_diff:.3f}) below threshold')
+        
+        # Check 2: Quality above threshold
+        quality_thresholds = self.config.get('quality_thresholds', {})
+        for metric, threshold in quality_thresholds.items():
+            if current_state.get(metric, 0) >= threshold:
+                reasons.append(f'{metric} ({current_state.get(metric, 0):.3f}) above threshold ({threshold})')
+        
+        # Check 3: Max iterations reached
+        iteration = current_state.get('iteration', 0)
+        if iteration >= self.config.get('max_iterations', 10):
+            reasons.append(f'Max iterations ({self.config["max_iterations"]}) reached')
+        
+        # Check 4: No improvement for N iterations
+        if self._check_plateau():
+            reasons.append('Quality plateau detected')
+        
+        return {
+            'should_terminate': len(reasons) > 0,
+            'reasons': reasons,
+            'iteration': iteration
+        }
+    
+    def _calculate_state_diff(self, state_a, state_b):
+        """Calculate difference between two states"""
+        # Simplified: compare key metrics
+        metrics = ['success_rate', 'user_satisfaction', 'execution_time']
+        diffs = []
+        
+        for metric in metrics:
+            if metric in state_a and metric in state_b:
+                diffs.append(abs(state_a[metric] - state_b[metric]))
+        
+        return sum(diffs) / len(diffs) if diffs else 1.0
+    
+    def _check_plateau(self):
+        """Check if quality has plateaued"""
+        if len(self.iteration_history) < 3:
+            return False
+        
+        recent = self.iteration_history[-3:]
+        quality_changes = [
+            abs(recent[i]['quality'] - recent[i-1]['quality'])
+            for i in range(1, len(recent))
+        ]
+        
+        return all(change < self.config['delta_threshold'] for change in quality_changes)
+```
+
+### Recursive Optimization Runner
+
+```python
+class RecursiveOptimizer:
+    """Main optimizer implementing P9 recursive self-optimization."""
+    
+    def __init__(self, skill, config):
+        self.skill = skill
+        self.config = config
+        self.convergence_checker = ConvergenceChecker(config)
+        self.iteration = 0
+        self.history = []
+        
+    def optimize(self, max_iterations=10):
+        """Run recursive optimization with convergence checking."""
+        
+        print(f"Starting recursive optimization for skill: {self.skill.name}")
+        
+        while self.iteration < max_iterations:
+            self.iteration += 1
+            print(f"\n=== Iteration {self.iteration} ===")
+            
+            # 1. Collect current state
+            current_state = self._collect_state()
+            
+            # 2. Check convergence
+            previous_state = self.history[-1] if self.history else None
+            convergence = self.convergence_checker.check_convergence(
+                current_state, previous_state
+            )
+            
+            if convergence['converged']:
+                print(f"✅ Convergence achieved!")
+                print(f"Reasons: {convergence['termination']['reasons']}")
+                return {
+                    'success': True,
+                    'iterations': self.iteration,
+                    'final_state': current_state,
+                    'convergence': convergence
+                }
+            
+            # 3. Analyze gaps
+            gaps = self._analyze_gaps(current_state)
+            
+            # 4. Optimize
+            optimized_skill = self._optimize_skill(gaps)
+            
+            # 5. Validate boundedness
+            if not convergence['boundedness']['satisfied']:
+                print(f"⚠️ Boundedness check failed, reducing changes")
+                optimized_skill = self._reduce_changes(optimized_skill)
+            
+            # 6. Test impact
+            test_results = self._test_impact(optimized_skill)
+            
+            # 7. Check monotonicity
+            if not convergence['monotonicity']['satisfied']:
+                print(f"⚠️ Monotonicity check failed, considering rollback")
+                if self._should_rollback(test_results):
+                    print(f"Rolling back to previous version")
+                    continue
+            
+            # 8. Update skill and record
+            self.skill = optimized_skill
+            self.history.append(current_state)
+            
+            print(f"Iteration {self.iteration} complete")
+            print(f"Success rate: {current_state.get('success_rate', 0):.2%}")
+        
+        print(f"\n⚠️ Max iterations ({max_iterations}) reached without convergence")
+        return {
+            'success': False,
+            'iterations': self.iteration,
+            'final_state': current_state,
+            'reason': 'max_iterations_reached'
+        }
+    
+    def _collect_state(self):
+        """Collect current skill state metrics"""
+        return {
+            'iteration': self.iteration,
+            'success_rate': self.skill.metrics.success_rate,
+            'user_satisfaction': self.skill.metrics.average_satisfaction,
+            'execution_time': self.skill.metrics.average_execution_time,
+            'changes_count': self.skill.get_changes_count(),
+            'prompt_length': len(self.skill.prompt),
+            'new_examples': self.skill.get_new_examples_count()
         }
 ```
 

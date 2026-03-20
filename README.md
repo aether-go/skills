@@ -101,8 +101,12 @@ skills/
 │   └── readme-license-generator/  # README & LICENSE generator
 │       └── SKILL.md
 │
-└── Methodology Fusion Orchestration Layer Skills
-    └── methodology-fusion-orchestrator/ # Methodology fusion orchestrator
+├── Methodology Fusion Orchestration Layer Skills
+│   └── methodology-fusion-orchestrator/ # Methodology fusion orchestrator
+│       └── SKILL.md
+│
+└── Scenario Adaptation Layer Skills
+    └── scenario-mode-selector/    # Scenario mode selector
         └── SKILL.md
 ```
 
@@ -181,9 +185,12 @@ If migrating from an old version, see [MIGRATION.md](MIGRATION.md) for detailed 
 ### Methodology Fusion Orchestration Layer (1 skill)
 - `methodology-fusion-orchestrator` - Coordinate end-to-end methodology fusion workflow
 
+### Scenario Adaptation Layer (1 skill)
+- `scenario-mode-selector` - Select appropriate development mode based on project context and constraints
+
 ---
 
-**Total**: 44 skills covering the complete software development lifecycle
+**Total**: 45 skills covering the complete software development lifecycle
 
 ## Usage
 
@@ -410,14 +417,16 @@ Please use methodology-fusion-orchestrator to execute the complete eight-stage w
 
 According to the detailed list in [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md):
 
-- **Total Skills**: 44
+- **Total Skills**: 45
 - **Execution Layer**: 6 (BDD, TDD, Test Analysis, SIT, Chaos, ATDD)
 - **Strategic Layer**: 9 (BMAD, Metrics, ADR, Data Flow, Requirements Collection, Requirement Classification, Use Case Design, NFR Analysis, Traceability)
 - **Tactical Layer**: 8 (Parsing, Constitution, Tracing, Evolution, Architecture Selection, Tech Stack Selection, Code Generation, Contract Testing)
 - **AI Collaboration Layer**: 4 (Context, Recommendation, Optimization, Templates)
 - **Go + Vue + Quasar Fullstack Development Layer**: 6 (Backend Scaffolder, Frontend Scaffolder, Project Initialization, Documentation Generation, Workflow Coordination, Makefile Generation)
-- **Tools & Integration Layer**: 2 (Skill Packaging, CLI Builder)
+- **Tools & Integration Layer**: 4 (Skill Packaging, CLI Builder, README Generator)
+- **ITIL Service Management Layer**: 7 (Incident, Problem, Change, Service Desk, Deployment, Release, Rollback)
 - **Methodology Fusion Orchestration Layer**: 1 (Methodology Fusion Orchestrator)
+- **Scenario Adaptation Layer**: 1 (Scenario Mode Selector)
 
 ### Skill File Format
 

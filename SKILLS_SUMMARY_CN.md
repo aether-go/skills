@@ -6,7 +6,7 @@
 
 ---
 
-根据 `overall.md` 中的规划和 OpenCode skills 规范，已成功创建所有 45 个技能（原有31个 + 新增7个需求管理技能 + Rust CLI构建器 + README & LICENSE生成器 + 3个新增追溯技能 + 技术栈选择器 + 架构模式选择器），覆盖Aether.go方法论融合框架的完整八个阶段。
+根据 `overall.md` 中的规划和 OpenCode skills 规范，已成功创建所有 46 个技能（原有31个 + 新增7个需求管理技能 + Rust CLI构建器 + README & LICENSE生成器 + 3个新增追溯技能 + 技术栈选择器 + 架构模式选择器 + 场景模式选择器），覆盖Aether.go方法论融合框架的完整八个阶段。
 
 ## 新增 Skills 背景：方法论融合框架完善
 
@@ -20,6 +20,13 @@
    - 描述：协调端到端Aether.go方法论融合工作流，覆盖所有八个阶段
    - 功能：工作流编排、宪法贯穿、度量聚合、技能调度、优化触发
    - 位置：`skills/methodology-fusion-orchestrator/SKILL.md`
+
+### 场景适配层 Skills - 1个
+
+46. **scenario-mode-selector**
+   - 描述：根据项目上下文、不确定性水平和约束选择适当的开发场景模式
+   - 功能：8种场景模式（标准、逆向工程、语言迁移、重构、POC、紧急、联邦、持续改进）、豁免管理、原则适配
+   - 位置：`skills/scenario-mode-selector/SKILL.md`
 
 ### 战略层 Skills（BMAD 驱动）- 9个
 
@@ -344,9 +351,12 @@
   ├── recursive-optimizer
   ├── skill-recommender
   └── prompt-template-manager
+
+场景适配 (跨阶段)
+  └── scenario-mode-selector
 ```
 
-*注：工作流图示显示每个阶段的关键代表技能，并非列出全部43个技能。完整技能清单请参阅上文的技能清单部分。*
+*注：工作流图示显示每个阶段的关键代表技能，并非列出全部46个技能。完整技能清单请参阅上文的技能清单部分。*
 
 ### 宪法贯穿执行
 

@@ -68,10 +68,10 @@ traceability_matrix:
 
 ## Output Location
 
-Spec-to-code traceability matrices are stored in `.aether/context/project/traceability/`:
+Spec-to-code traceability matrices are stored in `.aether/state/traceability/`:
 
 ```
-.aether/context/project/traceability/
+.aether/state/traceability/
 ├── spec-code-traceability.yaml      # Spec-to-code traceability matrix
 └── impact-analysis/                 # Impact analysis results
     └── {change-id}.yaml
@@ -85,7 +85,7 @@ from pathlib import Path
 class SpecCodeTraceabilityOutputManager:
     """Manages output paths for spec-to-code traceability artifacts."""
     
-    BASE_PATH = '.aether/context/project/traceability'
+    BASE_PATH = '.aether/state/traceability'
     
     @classmethod
     def get_traceability_path(cls, base_path='.'):

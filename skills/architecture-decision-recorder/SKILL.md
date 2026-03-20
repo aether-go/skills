@@ -72,10 +72,10 @@ Migrate to microservices architecture with containerized services orchestrated b
 
 ## Output Location
 
-All ADR files are stored in the `.aether/docs/decisions/` directory:
+All ADR files are stored in the `.aether/docs/05-adr/` directory:
 
 ```
-.aether/docs/decisions/
+.aether/docs/05-adr/
 ├── INDEX.md                    # ADR index and log
 ├── ADR-001-microservices.md    # Individual ADR files
 ├── ADR-002-postgresql.md
@@ -156,8 +156,8 @@ The ADR index is maintained at `.aether/docs/decisions/INDEX.md`:
 from pathlib import Path
 
 def ensure_adr_directory(base_path='.'):
-    """Ensure .aether/docs/decisions/ directory exists."""
-    adr_path = Path(base_path) / '.aether' / 'docs' / 'decisions'
+    """Ensure .aether/docs/05-adr/ directory exists."""
+    adr_path = Path(base_path) / '.aether' / 'docs' / '05-adr'
     adr_path.mkdir(parents=True, exist_ok=True)
     return adr_path
 

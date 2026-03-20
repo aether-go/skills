@@ -200,10 +200,10 @@ traceability_matrix:
 
 ## Output Location
 
-Traceability matrices and reports are stored in `.aether/context/project/traceability/`:
+Traceability matrices and reports are stored in `.aether/state/traceability/`:
 
 ```
-.aether/context/project/
+.aether/state/
 ├── traceability/
 │   ├── requirement-implementation.yaml    # Main traceability matrix
 │   ├── coverage-report.yaml               # Coverage analysis
@@ -211,10 +211,10 @@ Traceability matrices and reports are stored in `.aether/context/project/traceab
 └── gap-analysis.yaml                      # Summary gap analysis
 ```
 
-Reports are generated in `.aether/docs/reports/`:
+Reports are generated in `.aether/docs/09-reports/`:
 
 ```
-.aether/docs/reports/
+.aether/docs/09-reports/
 └── traceability-report.md                 # Human-readable traceability report
 ```
 
@@ -226,8 +226,8 @@ from pathlib import Path
 class TraceabilityOutputManager:
     """Manages output paths for traceability artifacts."""
     
-    BASE_PATH = '.aether/context/project/traceability'
-    REPORTS_PATH = '.aether/docs/reports'
+    BASE_PATH = '.aether/state/traceability'
+    REPORTS_PATH = '.aether/docs/09-reports'
     
     @classmethod
     def get_traceability_path(cls, base_path='.'):
@@ -249,9 +249,9 @@ class TraceabilityOutputManager:
         trace_dir = Path(base_path) / cls.BASE_PATH
         trace_dir.mkdir(parents=True, exist_ok=True)
         
-        # Also create summary in project context
-        project_dir = Path(base_path) / '.aether/context/project'
-        project_dir.mkdir(parents=True, exist_ok=True)
+        # Also create summary in state directory
+        state_dir = Path(base_path) / '.aether/state'
+        state_dir.mkdir(parents=True, exist_ok=True)
         
         return trace_dir / 'gap-analysis.yaml'
     

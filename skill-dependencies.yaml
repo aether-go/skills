@@ -5,9 +5,16 @@ version: "1.1"
 updated: "2026-02-20"
 
 dependencies:
+  # Scenario Mode Selector - Cross-cutting scenario adaptation
+  scenario-mode-selector:
+    depends_on: []
+    provides: "scenario mode selection and principle exemption management"
+    stage: "scenario_adaptation"
+
   # Methodology Fusion Orchestrator - Core coordinator
   methodology-fusion-orchestrator:
     depends_on:
+      - scenario-mode-selector
       - business-requirements-collector
       - requirement-classifier
       - usecase-designer
@@ -335,6 +342,10 @@ dependencies:
 
 # Stage Definitions
 stages:
+  scenario_adaptation:
+    description: "Scenario mode selection and context adaptation"
+    order: 0
+
   business_analysis:
     description: "Business requirements collection and analysis"
     order: 1
@@ -397,11 +408,19 @@ stages:
 
 # Cross-cutting Concerns
 cross_cutting:
+  scenario_adaptation:
+    skills:
+      - scenario-mode-selector
+      - constitution-validator
+      - methodology-fusion-orchestrator
+    description: "Scenario mode selection and principle exemption management"
+
   constitution:
     skills:
       - constitution-validator
       - spec-parser
       - architecture-decision-recorder
+      - scenario-mode-selector
     description: "Constitutional principles enforcement"
     
   metrics:

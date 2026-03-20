@@ -36,12 +36,79 @@ Don't use when:
 
 ## Core Pattern
 
-### The TDD Cycle
+### The TDD Cycle (P6: Test-First Principle)
+
+Implements **P6: Test-First Principle** from Aether.go constitution.
 
 ```
 Write Failing Test (RED) → Write Minimal Code (GREEN) → Improve Design (REFACTOR)
         ↑                                                          │
         └──────────────────────←──────────────────────────────────┘
+```
+
+### Dual-Mode TDD Support
+
+Aether.go methodology supports two development modes that affect TDD application:
+
+#### Mode 1: Specification-Driven Mode (规范驱动模式)
+**When:** Clear requirements, mature domain knowledge, low uncertainty
+
+**TDD Application:**
+- **Strict RED-GREEN-REFACTOR cycle**
+- Complete acceptance criteria available before coding
+- Tests derived directly from GWT specifications
+- Full test pyramid coverage (L5: 70%, L4: 25%, L3: 4%, L2: 1%)
+
+```yaml
+specification_driven_tdd:
+  requirements_source: "Complete GWT specifications"
+  test_creation:
+    - derive_from_acceptance_criteria: true
+    - coverage_target: "100% of acceptance criteria"
+  workflow:
+    - write_acceptance_test_from_spec  # L3
+    - write_contract_test_from_spec    # L4
+    - write_unit_test_from_spec        # L5
+    - implement_to_pass_tests
+    - refactor_with_tests_passing
+```
+
+#### Mode 2: Emergent Exploration Mode (涌现探索模式)
+**When:** Unknown technology, exploratory development, high uncertainty
+
+**TDD Application:**
+- **Hypothesis-Validation framework**
+- Tests validate learning, not just requirements
+- Rapid prototyping with test protection
+- Focus on "what did we learn?" not just "does it work?"
+
+```yaml
+emergent_exploration_tdd:
+  requirements_source: "Hypotheses and learning goals"
+  test_creation:
+    - derive_from_hypothesis: true
+    - coverage_target: "Critical paths only"
+  workflow:
+    - form_hypothesis
+    - write_test_to_validate_hypothesis
+    - implement_experiment
+    - validate_or_invalidate
+    - document_learning
+    - pivot_or_persevere
+```
+
+### Mode Selection
+
+```
+Project Context Assessment
+    │
+    ├── Clear requirements + Low uncertainty?
+    │   └─ YES ──► Specification-Driven Mode
+    │              Strict TDD, full coverage
+    │
+    └── Unknown domain + High uncertainty?
+        └─ YES ──► Emergent Exploration Mode
+                   Hypothesis-driven, learning-focused
 ```
 
 ### Before (Without TDD)

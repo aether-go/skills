@@ -101,8 +101,12 @@ skills/
 │   └── readme-license-generator/  # README & LICENSE 生成器
 │       └── SKILL.md
 │
-└── 方法论融合协调层 Skills
-    └── methodology-fusion-orchestrator/ # 方法论融合协调器
+├── 方法论融合协调层 Skills
+│   └── methodology-fusion-orchestrator/ # 方法论融合协调器
+│       └── SKILL.md
+│
+└── 场景适配层 Skills
+    └── scenario-mode-selector/    # 场景模式选择器
         └── SKILL.md
 ```
 
@@ -181,9 +185,12 @@ skills/
 ### 方法论融合协调层 (1个)
 - `methodology-fusion-orchestrator` - 协调端到端方法论融合工作流
 
+### 场景适配层 (1个)
+- `scenario-mode-selector` - 根据项目上下文和约束选择适当的开发模式
+
 ---
 
-**总计**: 44 个技能，覆盖完整的软件开发生命周期
+**总计**: 45 个技能，覆盖完整的软件开发生命周期
 
 ## 使用方式
 
@@ -410,14 +417,16 @@ skill_effectiveness:
 
 根据 [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md) 的详细清单：
 
-- **总技能数**: 44
+- **总技能数**: 45
 - **执行层**: 6 (BDD, TDD, 测试分析, SIT, Chaos, ATDD)
 - **战略层**: 9 (BMAD, 指标, ADR, 数据流, 需求收集, 需求分类, 用例设计, NFR分析, 可追溯性)
 - **战术层**: 8 (解析, 宪法, 追溯, 演进, 架构选择, 技术栈选择, 代码生成, 契约测试)
 - **AI协作层**: 4 (上下文, 推荐, 优化, 模板)
 - **Go + Vue + Quasar 全栈开发层**: 6 (后端脚手架, 前端脚手架, 项目初始化, 文档生成, 工作流协调, Makefile生成)
-- **工具与集成层**: 2 (技能打包, CLI构建器)
+- **工具与集成层**: 4 (技能打包, CLI构建器, README生成器)
+- **ITIL服务管理层**: 7 (事件, 问题, 变更, 服务台, 部署, 发布, 回滚)
 - **方法论融合协调层**: 1 (方法论融合协调器)
+- **场景适配层**: 1 (场景模式选择器)
 
 ### 技能文件格式
 
@@ -545,6 +554,9 @@ description: Use when [specific triggering conditions]
   - `methodology-fusion-orchestrator` - 协调端到端方法论融合工作流
   - `context-manager` - 管理项目上下文
   - `recursive-optimizer` - 基于反馈优化技能
+
+- **Scenario Adaptation** - 场景适配
+  - `scenario-mode-selector` - 根据项目上下文选择适当的开发场景模式
 
 ## 开发与维护
 

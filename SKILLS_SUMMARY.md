@@ -6,7 +6,7 @@
 
 ---
 
-Based on planning in `overall.md` and OpenCode skills specifications, 45 skills have been successfully created (31 original + 7 new requirement management skills + 1 Rust CLI builder + 1 README & LICENSE generator + 3 new traceability skills + 1 tech stack selector + 1 architecture pattern selector), covering complete eight stages of Aether.go methodology fusion framework.
+Based on planning in `overall.md` and OpenCode skills specifications, 46 skills have been successfully created (31 original + 7 new requirement management skills + 1 Rust CLI builder + 1 README & LICENSE generator + 3 new traceability skills + 1 tech stack selector + 1 architecture pattern selector + 1 scenario mode selector), covering complete eight stages of Aether.go methodology fusion framework.
 
 ## Background of New Skills: Methodology Fusion Framework Enhancement
 
@@ -20,6 +20,13 @@ Based on an in-depth analysis of the Aether.go methodology fusion framework desc
    - Description: Coordinate end-to-end Aether.go methodology fusion workflow, covering all eight stages
    - Functions: Workflow orchestration, constitution enforcement, metrics aggregation, skill scheduling, optimization triggering
    - Location: `skills/methodology-fusion-orchestrator/SKILL.md`
+
+### Scenario Adaptation Layer Skills - 1
+
+46. **scenario-mode-selector**
+   - Description: Select appropriate development scenario mode based on project context, uncertainty levels, and constraints
+   - Functions: 8 scenario modes (Standard, Reverse Engineering, Language Migration, Refactoring, POC, Emergency, Federal, Continuous Improvement), exemption management, principle adaptation
+   - Location: `skills/scenario-mode-selector/SKILL.md`
 
 ### Strategic Layer Skills (BMAD Driven) - 9
 
@@ -344,9 +351,12 @@ Stage 8: Recursive Optimization
   ├── recursive-optimizer
   ├── skill-recommender
   └── prompt-template-manager
+
+Scenario Adaptation (Cross-Cutting)
+  └── scenario-mode-selector
 ```
 
-*Note: The workflow diagram shows key representative skills for each stage, not all 43 skills. For the complete skills list, please refer to the Skills List section above.*
+*Note: The workflow diagram shows key representative skills for each stage, not all 46 skills. For the complete skills list, please refer to the Skills List section above.*
 
 ### Constitution Enforcement Throughout Execution
 

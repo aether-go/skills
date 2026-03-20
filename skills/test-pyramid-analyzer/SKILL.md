@@ -36,42 +36,73 @@ Don't use when:
 
 ## Core Pattern
 
-### The Test Pyramid
+### The Five-Layer Test Pyramid (Aether.go Methodology)
+
+Based on the Aether.go five-layer derivation model, tests are distributed across layers L2-L5:
 
 ```
                     ▲
-                   / \                    E2E Tests
-                  /   \                  10% - Slow, fragile, expensive
-                 /-----\                 Selenium, Cypress, Playwright
+                   / \                    L2: System Tests (1%)
+                  /   \                  Non-functional: Performance, Security
+                 /-----\                 
                 /       \
-               / Integration Tests \    20% - Medium speed, medium maintenance
-              /   (API, Service)   \    Supertest, Pytest, Postman
-             /_____________________\
-            / Unit Tests            \   70% - Fast, reliable, cheap
-           / (Functions, Classes)   \   Jest, Go test, pytest
-          /_________________________\
+               /  L3: Acceptance Tests  \    (4%)
+              /   Gherkin/GWT Scenarios   \   End-to-end user perspective
+             /_____________________________\
+            /  L4: Contract Tests (10%)    \   Service boundary contracts
+           /   L4: Integration Tests (15%)  \  Component collaboration
+          /__________________________________\
+         /      L5: Unit Tests (70%)          \  Business logic, algorithms
+        /   (Functions, Classes, Methods)      \ Fast, reliable, cheap
+       /________________________________________\
+```
+
+### Five-Layer Test Distribution (Method-Paper Aligned)
+
+| Layer | Test Type | Target % | Purpose | Derivation Source |
+|-------|-----------|----------|---------|-------------------|
+| **L5** | Unit Tests | 70% | Business logic, algorithms | Component internal state |
+| **L4** | Contract Tests | 10% | Interface compatibility | External dependencies |
+| **L4** | Integration Tests | 15% | Component collaboration | System boundary interactions |
+| **L3** | Acceptance Tests | 4% | End-to-end scenarios | GWT format specifications |
+| **L2** | System Tests | 1% | Non-functional attributes | Architecture decisions |
+
+### Derivation from Acceptance Criteria
+
+Per Aether.go methodology, tests are derived from L3 acceptance criteria:
+
+```
+Acceptance Criteria (GWT Format) - L3
+    ├── System Boundary Interactions → L4 Integration Tests
+    ├── External Dependencies → L4 Contract Tests  
+    └── Internal State → L5 Unit Tests
 ```
 
 ### Before (Imbalanced Pyramid)
 ```
 Project has 100 tests:
-- E2E: 60 tests (60%) - Slow, flaky, expensive
-- Integration: 30 tests (30%) - Medium cost
-- Unit: 10 tests (10%) - Minimal coverage
+- System Tests: 5 tests (5%) - Too many
+- Acceptance Tests: 20 tests (20%) - Too many  
+- Contract Tests: 0 tests (0%) - Missing
+- Integration Tests: 10 tests (10%) - Too few
+- Unit Tests: 65 tests (65%) - Insufficient
 
 Issues:
 - Test suite runs in 45 minutes
 - Flaky tests cause CI failures
 - Refactoring is risky
 - Business logic not thoroughly tested
+- No contract validation between services
 ```
 
-### After (Balanced Pyramid)
+### After (Balanced Five-Layer Pyramid)
 ```
 Project has 200 tests:
-- E2E: 20 tests (10%) - Critical user journeys only
-- Integration: 40 tests (20%) - API contracts and service boundaries
-- Unit: 140 tests (70%) - All business logic covered
+- L2 System Tests: 2 tests (1%) - Performance, security only
+- L3 Acceptance Tests: 8 tests (4%) - Critical GWT scenarios
+- L4 Contract Tests: 20 tests (10%) - API compatibility
+- L4 Integration Tests: 30 tests (15%) - Service collaboration
+- L5 Unit Tests: 140 tests (70%) - All business logic
 
 Benefits:
 - Test suite runs in 5 minutes
@@ -79,20 +110,49 @@ Benefits:
 - Safe refactoring
 - Fast feedback loop
 - Clear test structure
+- Full coverage across all layers
 ```
 
 ## Quick Reference
 
-| Test Level | Speed | Cost | Coverage Focus | Example Tools |
-|------------|-------|------|----------------|---------------|
-| **Unit** | < 1s | Low | Business logic, algorithms | Jest, Go test, pytest |
-| **Integration** | 1-10s | Medium | API contracts, service boundaries | Supertest, Postman, Testify |
-| **E2E** | 10-60s | High | Critical user journeys | Cypress, Playwright, Selenium |
+### Five-Layer Test Characteristics
 
-### Healthy Pyramid Ratios
-- **Unit Tests**: 70-80% of total tests
-- **Integration Tests**: 15-20% of total tests
-- **E2E Tests**: 5-10% of total tests
+| Layer | Test Type | Speed | Cost | Coverage Focus | Example Tools |
+|-------|-----------|-------|------|----------------|---------------|
+| **L5** | Unit Tests | < 1s | Low | Business logic, algorithms | Jest, Go test, pytest |
+| **L4** | Contract Tests | 1-5s | Low | Interface compatibility | Pact, Spring Cloud Contract |
+| **L4** | Integration Tests | 5-15s | Medium | Component collaboration | Supertest, Testify, pytest |
+| **L3** | Acceptance Tests | 15-60s | High | End-to-end scenarios | Cucumber, Behave, SpecFlow |
+| **L2** | System Tests | 30s-5min | Very High | Non-functional attributes | k6, Artillery, OWASP ZAP |
+
+### Healthy Five-Layer Pyramid Ratios (Aether.go)
+
+Per Aether.go method-paper, the five-layer distribution is:
+
+| Layer | Test Type | Target % | Purpose | Derivation |
+|-------|-----------|----------|---------|------------|
+| **L5** | Unit Tests | **70%** | Internal state, business logic | Component contracts |
+| **L4** | Contract Tests | **10%** | External dependency interfaces | External dependencies |
+| **L4** | Integration Tests | **15%** | System boundary interactions | Acceptance criteria |
+| **L3** | Acceptance Tests | **4%** | End-to-end user scenarios | GWT specifications |
+| **L2** | System Tests | **1%** | Non-functional requirements | Architecture decisions |
+
+**Total L4 (Contract + Integration)**: 25%
+
+### Test Derivation Mapping
+
+```
+Acceptance Criteria (GWT) - L3
+├── Given [Precondition] → L5 Unit Test (state setup)
+├── When [Action] 
+│   ├── System Boundary → L4 Integration Test
+│   ├── External Call → L4 Contract Test
+│   └── Internal Logic → L5 Unit Test
+└── Then [Outcome]
+    ├── Observable State → L5 Unit Test
+    ├── External Effect → L4 Contract Test
+    └── System Response → L4 Integration Test
+```
 
 ### Warning Signs
 

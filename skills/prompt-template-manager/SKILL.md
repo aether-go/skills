@@ -99,19 +99,16 @@ Prompt templates are stored in `.aether/prompts/` with categorized subdirectorie
 .aether/prompts/
 ├── system/                         # System-level prompts
 │   └── system-prompt.yaml
-├── tasks/                          # Task-specific prompts
-│   ├── code-review.yaml
-│   ├── task-breakdown.yaml
-│   └── documentation.yaml
-├── custom/                         # User custom prompts
+├── user/                           # User custom prompts
 │   └── custom-prompt.yaml
-└── registry.yaml                   # Template registry index
+└── generated/                      # Generated prompts
+    └── task-specific/
 ```
 
-Performance data is stored in `.aether/context/project/`:
+Performance data is stored in `.aether/state/`:
 
 ```
-.aether/context/project/
+.aether/state/
 └── prompt-performance.yaml         # Performance tracking data
 ```
 
@@ -124,7 +121,7 @@ class PromptTemplateOutputManager:
     """Manages output paths for prompt template artifacts."""
     
     BASE_PATH = '.aether/prompts'
-    PERFORMANCE_PATH = '.aether/context/project'
+    PERFORMANCE_PATH = '.aether/state'
     
     @classmethod
     def get_system_prompts_path(cls, base_path='.'):
@@ -134,37 +131,30 @@ class PromptTemplateOutputManager:
         return sys_dir
     
     @classmethod
-    def get_tasks_path(cls, base_path='.'):
-        """Get path for task prompts directory."""
-        tasks_dir = Path(base_path) / cls.BASE_PATH / 'tasks'
-        tasks_dir.mkdir(parents=True, exist_ok=True)
-        return tasks_dir
+    def get_user_path(cls, base_path='.'):
+        """Get path for user prompts directory."""
+        user_dir = Path(base_path) / cls.BASE_PATH / 'user'
+        user_dir.mkdir(parents=True, exist_ok=True)
+        return user_dir
     
     @classmethod
-    def get_custom_path(cls, base_path='.'):
-        """Get path for custom prompts directory."""
-        custom_dir = Path(base_path) / cls.BASE_PATH / 'custom'
-        custom_dir.mkdir(parents=True, exist_ok=True)
-        return custom_dir
+    def get_generated_path(cls, base_path='.'):
+        """Get path for generated prompts directory."""
+        gen_dir = Path(base_path) / cls.BASE_PATH / 'generated'
+        gen_dir.mkdir(parents=True, exist_ok=True)
+        return gen_dir
     
     @classmethod
-    def get_template_path(cls, template_name, category='tasks', base_path='.'):
+    def get_template_path(cls, template_name, category='user', base_path='.'):
         """Get path for a specific template file."""
         if category == 'system':
             dir_path = cls.get_system_prompts_path(base_path)
-        elif category == 'custom':
-            dir_path = cls.get_custom_path(base_path)
+        elif category == 'generated':
+            dir_path = cls.get_generated_path(base_path)
         else:
-            dir_path = cls.get_tasks_path(base_path)
+            dir_path = cls.get_user_path(base_path)
         
         return dir_path / f"{template_name}.yaml"
-    
-    @classmethod
-    def get_registry_path(cls, base_path='.'):
-        """Get path for template registry."""
-        reg_path = Path(base_path) / cls.BASE_PATH
-        reg_path.mkdir(parents=True, exist_ok=True)
-        return reg_path / 'registry.yaml'
     
     @classmethod
     def get_performance_path(cls, base_path='.'):

@@ -196,70 +196,141 @@ metrics_summary:
 | **7. Deployment & Operations** | deployment-orchestrator, incident-management, change-management, release-manager | metrics-definer, problem-management, service-desk, rollback-manager | Deployment execution, ITIL operations, metrics dashboard |
 | **8. Recursive Optimization** | recursive-optimizer | prompt-template-manager, skill-recommender | Optimized skills |
 
-### Constitutional Principles Enforcement
+### Constitutional Principles Enforcement (11 Principles)
+
+Per Aether.go constitution, all 11 principles are enforced across stages:
 
 ```yaml
 constitution_enforcement:
+  # P0: Context-Adaptation Principle (Meta Principle)
+  context_adaptation:
+    - principle: "P0-context-adaptation-principle"
+      chinese: "情境适配原则"
+      description: "Dynamically adjust enforcement based on scenario mode"
+      exemption_mechanisms:
+        - poc_phase: [P2, P4, P6]
+        - emergency_fix: [P2, P6]
+        - legacy_system: [P4]
+      enforcement: adaptive
+  
   stage_1_business_analysis:
-    - principle: "Value-Driven Development"
+    - principle: "P1-purpose-driven-principle"
+      chinese: "目的主导原则"
       check: "Every business goal has measurable metrics"
       enforcement: strict
+      validation: "BMAD matrix contains metrics for each goal"
     
   stage_2_specification:
-    - principle: "Test-First Development"
-      check: "All specs include testable acceptance criteria"
+    - principle: "P7-context-first-principle"
+      chinese: "上下文第一性原则"
+      check: "Complete context prepared before specification"
+      enforcement: strict
+      validation: "Requirements context + Technical context + Quality context documented"
+    
+  stage_3_constitutional_review:
+    - principle: "P0-context-adaptation-principle"
+      chinese: "情境适配原则"
+      check: "Scenario mode appropriate for project context"
+      enforcement: strict
+    - principle: "P1-purpose-driven-principle"
+      chinese: "目的主导原则"
+      check: "Technical decisions traceable to business goals"
       enforcement: strict
     
-  stage_3_review:
-    - principle: "Architectural Consistency"
-      check: "All decisions recorded and justified"
+  stage_4_implementation_planning:
+    - principle: "P2-planning-driven-principle"
+      chinese: "规划驱动原则"
+      check: "Detailed implementation plan before coding"
       enforcement: strict
-    
-  stage_4_planning:
-    - principle: "Interface-First Development"
+      exemption: "poc_phase"
+    - principle: "P3-modularity-orthogonality-principle"
+      chinese: "模块化与正交性原则"
+      check: "High cohesion, low coupling architecture"
+      enforcement: warning
+    - principle: "P4-interface-first-principle"
+      chinese: "接口先行原则"
       check: "All interfaces defined before implementation"
       enforcement: strict
-    - principle: "Simplicity & YAGNI"
-      check: "No over-engineering, only needed features"
+      exemption: "poc_phase"
+    - principle: "P5-occams-razor-principle"
+      chinese: "奥卡姆剃刀原则"
+      check: "Dependencies ≤ 5, minimal complexity"
       enforcement: warning
     
-  stage_5_development:
-    - principle: "Code Quality & Standards"
-      check: "All code follows TDD and style guides"
+  stage_5_code_generation:
+    - principle: "P6-test-first-principle"
+      chinese: "测试先行原则"
+      check: "Tests written before implementation"
       enforcement: strict
+      exemption: "emergency_fix"
+    - principle: "P7-context-first-principle"
+      chinese: "上下文第一性原则"
+      check: "Context quality metrics > 90%"
+      enforcement: warning
     
-  stage_6_validation:
-    - principle: "Resilience & Reliability"
-      check: "Integration and chaos tests defined"
+  stage_6_integration_validation:
+    - principle: "P6-test-first-principle"
+      chinese: "测试先行原则"
+      check: "Integration and contract tests defined"
       enforcement: strict
+    - principle: "P9-recursive-self-optimization-principle"
+      chinese: "递归自我优化原则"
+      check: "Feedback loops established"
+      enforcement: info
     
   stage_7_deployment:
-    - principle: "Observability & Monitoring"
-      check: "Metrics and monitoring configured"
+    - principle: "P8-human-ai-boundary-principle"
+      chinese: "人机责任边界原则"
+      check: "Critical deployment decisions have human confirmation"
       enforcement: strict
-    - principle: "Deployment Safety"
-      check: "Rollback procedures tested and available"
-      enforcement: strict
-    - principle: "Incident Response"
-      check: "Incident management procedures defined"
-      enforcement: strict
-    - principle: "Change Control"
-      check: "Change management processes followed"
-      enforcement: strict
-    - principle: "Service Continuity"
-      check: "Problem and service desk management established"
-      enforcement: strict
+      confidence_thresholds:
+        auto_execute: 0.90
+        suggest_confirm: 0.70
+        escalate_human: 0.00
     
-  stage_8_optimization:
-    - principle: "Continuous Improvement"
-      check: "Feedback loops established and active"
+  stage_8_recursive_optimization:
+    - principle: "P9-recursive-self-optimization-principle"
+      chinese: "递归自我优化原则"
+      check: "Convergence conditions satisfied"
       enforcement: strict
+      convergence:
+        boundedness: true
+        monotonicity: true
+        termination: true
+    - principle: "P10-skill-assetization-principle"
+      chinese: "技能库资产化原则"
+      check: "Effective patterns assetized as reusable skills"
+      enforcement: info
+      quality_thresholds:
+        success_rate: 0.85
+        reusability: 3
   
   cross_stage:
-    - principle: "Human-AI Responsibility Boundary"
+    - principle: "P1-purpose-driven-principle"
+      chinese: "目的主导原则"
+      check: "All technical decisions traceable to business value"
+      enforcement: strict
+    - principle: "P8-human-ai-boundary-principle"
+      chinese: "人机责任边界原则"
       check: "All AI-generated artifacts reviewed by human"
       enforcement: strict
 ```
+
+### Principle-to-Stage Mapping
+
+| Principle | Stages | Enforcement | Exemptions |
+|-----------|--------|-------------|------------|
+| **P0** Context-Adaptation | All | Adaptive | Scenario-dependent |
+| **P1** Purpose-Driven | All | Strict | None |
+| **P2** Planning-Driven | 4, 5 | Strict | POC Phase |
+| **P3** Modularity-Orthogonality | 4, 5 | Warning | None |
+| **P4** Interface-First | 4, 5 | Strict | POC Phase |
+| **P5** Occam's Razor | 4, 5 | Warning | None |
+| **P6** Test-First | 5, 6 | Strict | Emergency Fix |
+| **P7** Context-First | 2, 5 | Warning | None |
+| **P8** Human-AI Boundary | 7, All | Strict | None |
+| **P9** Recursive Optimization | 6, 8 | Strict | None |
+| **P10** Skill Assetization | 8 | Info | None |
 
 ### Aether Directory Structure Initialization
 
