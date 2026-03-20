@@ -158,8 +158,6 @@ git commit -m "Add/update skills"
 
 - **[README.md](README.md)** - Skills 使用说明
 - **[SKILLS_SUMMARY.md](SKILLS_SUMMARY.md)** - 技能详细清单
-- **[overall.md](overall.md)** - Aether.go 方法论规划
-- **[AGENTS.md](AGENTS.md)** - AI 助手使用指南
 
 ### 外部资源
 

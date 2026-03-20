@@ -6,7 +6,7 @@
 
 ---
 
-Based on planning in `overall.md` and OpenCode skills specifications, 46 skills have been successfully created (31 original + 7 new requirement management skills + 1 Rust CLI builder + 1 README & LICENSE generator + 3 new traceability skills + 1 tech stack selector + 1 architecture pattern selector + 1 scenario mode selector), covering complete eight stages of Aether.go methodology fusion framework.
+Based on Aether.go methodology fusion framework and OpenCode skills specifications, 46 skills have been successfully created (31 original + 7 new requirement management skills + 1 Rust CLI builder + 1 README & LICENSE generator + 3 new traceability skills + 1 tech stack selector + 1 architecture pattern selector + 1 scenario mode selector), covering complete eight stages of Aether.go methodology fusion framework.
 
 ## Background of New Skills: Methodology Fusion Framework Enhancement
 

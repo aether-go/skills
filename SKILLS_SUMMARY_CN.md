@@ -6,7 +6,7 @@
 
 ---
 
-根据 `overall.md` 中的规划和 OpenCode skills 规范，已成功创建所有 46 个技能（原有31个 + 新增7个需求管理技能 + Rust CLI构建器 + README & LICENSE生成器 + 3个新增追溯技能 + 技术栈选择器 + 架构模式选择器 + 场景模式选择器），覆盖Aether.go方法论融合框架的完整八个阶段。
+根据 Aether.go 方法论融合框架和 OpenCode skills 规范，已成功创建所有 46 个技能（原有31个 + 新增7个需求管理技能 + Rust CLI构建器 + README & LICENSE生成器 + 3个新增追溯技能 + 技术栈选择器 + 架构模式选择器 + 场景模式选择器），覆盖Aether.go方法论融合框架的完整八个阶段。
 
 ## 新增 Skills 背景：方法论融合框架完善
 

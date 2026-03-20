@@ -119,7 +119,7 @@ session_context:
 
   relevant_files:
     - ".opencode/skill/bdd-scenario-writer/SKILL.md"
-    - "overall.md"
+    - "README.md"
 
   context_size: 1250 tokens
   max_size: 2000 tokens

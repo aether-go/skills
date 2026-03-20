@@ -19,7 +19,6 @@ skills/
 ├── MIGRATION.md                   # Migration guide (English)
 ├── MIGRATION_CN.md                # Migration guide (Chinese)
 ├── skills.sh                       # Skills management script
-├── AGENTS.md                       # AI assistant usage guide
 ├── LICENSE                         # MIT License
 ├── .gitignore                      # Git ignore configuration
 │

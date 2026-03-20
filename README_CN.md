@@ -19,7 +19,6 @@ skills/
 ├── [MIGRATION.md](MIGRATION.md)                    # 迁移说明（英文）
 ├── [MIGRATION_CN.md](MIGRATION_CN.md)                    # 迁移说明（中文）
 ├── skills.sh                       # 技能管理脚本
-├── AGENTS.md                       # AI 助手使用说明
 ├── LICENSE                         # MIT 许可证
 ├── .gitignore                      # Git 忽略配置
 │
@@ -619,15 +618,6 @@ git commit -m "feat: add/update <skill-name> skill"
   - OpenCode 集成配置
   - 问题排查指南
   
-- **[overall.md](overall.md)** - Aether.go 方法论融合框架规划
-  - 方法论融合框架的完整规划
-  - 七个阶段的详细说明
-  - 技能与各阶段的对应关系
-  
-- **[AGENTS.md](AGENTS.md)** - AI 助手使用说明
-  - AI 助手的配置和使用方法
-  - 如何与技能系统集成
-
 ## 贡献
 
 欢迎贡献新技能和改进！

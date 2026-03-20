@@ -216,8 +216,6 @@ git commit -m "Add/update skills"
 
 - **[README.md](README.md)** - Skills usage guide
 - **[SKILLS_SUMMARY.md](SKILLS_SUMMARY.md)** - Detailed skills list
-- **[overall.md](overall.md)** - Aether.go methodology planning
-- **[AGENTS.md](AGENTS.md)** - AI assistant usage guide
 
 ### External Resources
 
