@@ -118,11 +118,22 @@ In conversation, the AI assistant will automatically recommend and load relevant
 
 ## Validation Results
 
-All 45 skills have passed format validation:
+All 50 skills have passed format validation:
 - ✅ All skills contain the required `name` field
 - ✅ All skills contain the required `description` field
 - ✅ All descriptions start with "Use when"
 - ✅ All skill files are in the correct location
+
+### New Skills Added (2026-04-10)
+
+Based on the [Agent-Skill Analysis Report](D:\repos\bison\ai-docs\layer3\aether-go\agent-skill-analysis-report.md), 4 new Skeptic Skills have been added:
+
+- **correctness-checker** - Verify factual accuracy and logical consistency
+- **completeness-checker** - Verify content completeness and coverage
+- **consistency-checker** - Verify cross-layer/cross-domain consistency
+- **boundedness-checker** - Verify boundedness constraints for optimization
+
+These skills implement the skeptic mechanism as reusable verification capabilities, called by Agents for validation.
 
 ## OpenCode Integration
 
@@ -246,8 +257,26 @@ git commit -m "Add/update skills"
 ## Migration Date
 
 - Execution Date: 2026-01-16
+- Last Updated: 2026-04-10
 - Executor: AI Assistant
 - Status: ✅ Completed
+
+### Architecture Update (2026-04-10)
+
+Based on the [Agent-Skill Analysis Report](D:\repos\bison\ai-docs\layer3\aether-go\agent-skill-analysis-report.md):
+
+**Core Agent Layer (7 Agents)**
+- WorkflowOrchestrator - Coordinates multi-skill workflow execution
+- RecursiveOptimizer - Executes recursive optimization closed-loop
+- ConstitutionGuardian - Monitors constitution compliance
+- UniversalSkeptic - Cross-domain consistency checking (coordinates Skeptic Skills)
+- HumanAIBoundaryGuard - Human-AI decision routing
+- ContextManager - Cross-session context management
+- SkillLibraryCurator - Skill asset management
+
+**Skeptic Skill Layer (4 Skills)**
+- correctness-checker, completeness-checker, consistency-checker, boundedness-checker
+- Implement skeptic mechanism as composable Skills (instead of 7 Skeptic Agents)
 
 ## Rollback Plan
 

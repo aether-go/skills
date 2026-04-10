@@ -60,11 +60,22 @@ cd /path/to/project
 
 ## 验证结果
 
-所有 45 个技能已通过格式验证：
+所有 50 个技能已通过格式验证：
 - ✅ 所有技能包含必需的 `name` 字段
 - ✅ 所有技能包含必需的 `description` 字段
 - ✅ 所有描述以 "Use when" 开头
 - ✅ 所有技能文件位于正确位置
+
+### 新增技能 (2026-04-10)
+
+基于 [Agent-Skill 分析报告](D:\repos\bison\ai-docs\layer3\aether-go\agent-skill-analysis-report.md)，新增4个质疑层技能：
+
+- **correctness-checker** - 验证事实正确性和逻辑一致性
+- **completeness-checker** - 验证内容完整性和覆盖度
+- **consistency-checker** - 验证跨层/跨域一致性
+- **boundedness-checker** - 验证优化的有界性约束
+
+这些技能将质疑机制实现为可复用的验证能力，由Agent按需调用进行验证。
 
 ## OpenCode 集成
 

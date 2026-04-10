@@ -104,8 +104,18 @@ skills/
 │   └── methodology-fusion-orchestrator/ # Methodology fusion orchestrator
 │       └── SKILL.md
 │
-└── Scenario Adaptation Layer Skills
-    └── scenario-mode-selector/    # Scenario mode selector
+├── Scenario Adaptation Layer Skills
+│   └── scenario-mode-selector/    # Scenario mode selector
+│       └── SKILL.md
+│
+└── Skeptic Skill Layer (Verification & Validation)
+    ├── correctness-checker/       # Correctness verification
+    │   └── SKILL.md
+    ├── completeness-checker/      # Completeness verification
+    │   └── SKILL.md
+    ├── consistency-checker/       # Cross-layer consistency verification
+    │   └── SKILL.md
+    └── boundedness-checker/       # Boundedness verification
         └── SKILL.md
 ```
 
@@ -187,9 +197,15 @@ If migrating from an old version, see [MIGRATION.md](MIGRATION.md) for detailed 
 ### Scenario Adaptation Layer (1 skill)
 - `scenario-mode-selector` - Select appropriate development mode based on project context and constraints
 
+### Skeptic Skill Layer - Verification & Validation (4 skills)
+- `correctness-checker` - Verify factual accuracy, logical consistency, and validity of content
+- `completeness-checker` - Verify content includes all required elements and scenarios
+- `consistency-checker` - Verify cross-layer and cross-domain consistency
+- `boundedness-checker` - Verify optimization changes stay within defined boundaries
+
 ---
 
-**Total**: 45 skills covering the complete software development lifecycle
+**Total**: 50 skills covering the complete software development lifecycle
 
 ## Usage
 
@@ -426,6 +442,7 @@ According to the detailed list in [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md):
 - **ITIL Service Management Layer**: 7 (Incident, Problem, Change, Service Desk, Deployment, Release, Rollback)
 - **Methodology Fusion Orchestration Layer**: 1 (Methodology Fusion Orchestrator)
 - **Scenario Adaptation Layer**: 1 (Scenario Mode Selector)
+- **Skeptic Skill Layer**: 4 (Correctness, Completeness, Consistency, Boundedness Checkers)
 
 ### Skill File Format
 
@@ -640,5 +657,12 @@ This project is licensed under MIT License - see [LICENSE](LICENSE) file for det
 ---
 
 Created: 2026-01-16
-Last Updated: 2026-02-20
+Last Updated: 2026-04-10
 Maintainer: Aether.go Team
+
+### Architecture Update (2026-04-10)
+Based on the [Agent-Skill Analysis Report](D:\repos\bison\ai-docs\layer3\aether-go\agent-skill-analysis-report.md), the following architectural improvements have been implemented:
+
+- **Added Skeptic Skill Layer**: 4 verification skills (correctness-checker, completeness-checker, consistency-checker, boundedness-checker) to support the skeptic mechanism
+- **Agent-Skill Boundary Clarification**: Core Agents (7) coordinate Skeptic Skills for validation, avoiding redundant implementations
+- **Total Skills**: Updated from 46 to 50 skills

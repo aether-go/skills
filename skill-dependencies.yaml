@@ -1,8 +1,14 @@
 # Skill Dependencies Metadata
 # This file defines dependencies between skills for proper orchestration and sequencing
 
-version: "1.1"
-updated: "2026-02-20"
+version: "1.2"
+updated: "2026-04-10"
+
+# Architecture Update (2026-04-10)
+# Based on Agent-Skill Analysis Report, added Skeptic Skill Layer
+# Core Agents (7): WorkflowOrchestrator, RecursiveOptimizer, ConstitutionGuardian,
+#                   UniversalSkeptic, HumanAIBoundaryGuard, ContextManager, SkillLibraryCurator
+# Skeptic Skills (4): correctness-checker, completeness-checker, consistency-checker, boundedness-checker
 
 dependencies:
   # Scenario Mode Selector - Cross-cutting scenario adaptation
@@ -251,6 +257,34 @@ dependencies:
     provides: "automated rollback procedures for failed deployments"
     stage: "deployment_operations"
 
+  # Skeptic Skill Layer (Verification & Validation)
+  correctness-checker:
+    depends_on: []
+    provides: "factual accuracy and logical consistency verification"
+    stage: "verification"
+    called_by: ["UniversalSkeptic", "BusinessSkeptic", "TechnicalSkeptic"]
+    
+  completeness-checker:
+    depends_on: []
+    provides: "content completeness and coverage verification"
+    stage: "verification"
+    called_by: ["UniversalSkeptic", "BusinessSkeptic"]
+    
+  consistency-checker:
+    depends_on:
+      - spec-parser
+      - spec-to-code-tracer
+    provides: "cross-layer and cross-domain consistency verification"
+    stage: "verification"
+    called_by: ["UniversalSkeptic", "TechnicalSkeptic"]
+    
+  boundedness-checker:
+    depends_on:
+      - recursive-optimizer
+    provides: "boundedness constraints verification for optimization"
+    stage: "verification"
+    called_by: ["TechnicalSkeptic", "RecursiveOptimizer"]
+
   # AI Collaboration & Optimization Stage
   context-manager:
     depends_on: []
@@ -267,6 +301,7 @@ dependencies:
     depends_on:
       - metrics-definer
       - skill-recommender
+      - boundedness-checker
     provides: "recursive optimization of skills and processes"
     stage: "ai_collaboration"
     
@@ -406,6 +441,10 @@ stages:
     description: "Specification evolution management"
     order: 14
 
+  verification:
+    description: "Skeptic mechanism verification and validation"
+    order: 15
+
 # Cross-cutting Concerns
 cross_cutting:
   scenario_adaptation:
@@ -459,6 +498,14 @@ cross_cutting:
       - requirement-implementation-tracer
       - spec-to-code-tracer
     description: "Three-layer bidirectional traceability between requirements, use cases, and implementation"
+
+  verification:
+    skills:
+      - correctness-checker
+      - completeness-checker
+      - consistency-checker
+      - boundedness-checker
+    description: "Skeptic mechanism verification and validation capabilities"
     
   requirement_classification:
     skills:

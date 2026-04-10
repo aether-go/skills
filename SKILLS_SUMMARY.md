@@ -6,7 +6,33 @@
 
 ---
 
-Based on Aether.go methodology fusion framework and OpenCode skills specifications, 46 skills have been successfully created (31 original + 7 new requirement management skills + 1 Rust CLI builder + 1 README & LICENSE generator + 3 new traceability skills + 1 tech stack selector + 1 architecture pattern selector + 1 scenario mode selector), covering complete eight stages of Aether.go methodology fusion framework.
+Based on Aether.go methodology fusion framework and OpenCode skills specifications, 50 skills have been successfully created (31 original + 7 new requirement management skills + 1 Rust CLI builder + 1 README & LICENSE generator + 3 new traceability skills + 1 tech stack selector + 1 architecture pattern selector + 1 scenario mode selector + 4 skeptic verification skills), covering complete eight stages of Aether.go methodology fusion framework.
+
+## Architecture Update (2026-04-10)
+
+Based on the [Agent-Skill Analysis Report](D:\repos\bison\ai-docs\layer3\aether-go\agent-skill-analysis-report.md), the following architectural improvements have been implemented:
+
+### Core Agent Layer (7 Agents)
+- **WorkflowOrchestrator** - Coordinates multi-skill workflow execution
+- **RecursiveOptimizer** - Executes recursive optimization closed-loop
+- **ConstitutionGuardian** - Monitors constitution compliance
+- **UniversalSkeptic** - Cross-domain consistency checking
+- **HumanAIBoundaryGuard** - Human-AI decision routing
+- **ContextManager** - Cross-session context management
+- **SkillLibraryCurator** - Skill asset management
+
+### Skeptic Skill Layer (4 Skills)
+The skeptic mechanism has been下沉 as Skills (instead of 6 specialized + 1 universal skeptic Agents):
+- **correctness-checker** - Verifies factual accuracy and logical consistency
+- **completeness-checker** - Verifies content completeness and coverage
+- **consistency-checker** - Verifies cross-layer/cross-domain consistency
+- **boundedness-checker** - Verifies boundedness constraints for optimization
+
+### Benefits
+- **Reduced Complexity**: Agent count reduced from 19 to 7 (63% reduction)
+- **Increased Reusability**: Skeptic capabilities as composable Skills
+- **Clear Boundaries**: Agents coordinate, Skills execute
+- **Better Maintainability**: Modular architecture with single responsibility
 
 ## Background of New Skills: Methodology Fusion Framework Enhancement
 
@@ -555,12 +581,41 @@ In conversation, the AI assistant will automatically recommend and load relevant
 ---
 
 **Created**: 2026-01-16  
-**Last Updated**: 2026-01-30  
+**Last Updated**: 2026-04-10  
 **Created by**: AI Assistant based on Aether.go methodology  
-**Reference Documents**: `method-paper.md`, `https://opencode.ai/docs/skills/`
+**Reference Documents**: `method-paper.md`, `https://opencode.ai/docs/skills/`, `agent-skill-analysis-report.md`
 
 **Update Log**:
+- 2026-04-10: Added Skeptic Skill Layer with 4 verification skills (correctness-checker, completeness-checker, consistency-checker, boundedness-checker) based on Agent-Skill Analysis Report; redefined Agent-Skill boundaries with 7 Core Agents
 - 2026-01-30: Added readme-license-generator skill for generating bilingual (Chinese/English) README and LICENSE files
 - 2026-01-28: Updated gap analysis to resolved status, fixed skill count inconsistency
 - 2026-01-27: Added 7 key skills to fill methodology gaps, implementing complete eight-stage fusion workflow
 - 2026-01-21: Updated go-backend-scaffolder skill with production-grade Cobra command structure
+### Skeptic Skill Layer (Verification & Validation) - 4
+
+These skills implement the skeptic mechanism as reusable verification capabilities, called by Agents for validation:
+
+47. **correctness-checker**
+   - Description: Verify factual accuracy, logical consistency, and validity of content against reference standards
+   - Functions: Factual accuracy verification, logical consistency check, reference validity validation, conclusion support assessment
+   - Used By: BusinessSkeptic Agent, TechnicalSkeptic Agent, UniversalSkeptic Agent
+   - Location: `skills/correctness-checker/SKILL.md`
+
+48. **completeness-checker**
+   - Description: Verify that content includes all required elements, covers all scenarios, and meets completeness criteria
+   - Functions: Scenario coverage analysis, boundary condition check, stakeholder coverage validation, exception handling verification
+   - Used By: BusinessSkeptic Agent, UniversalSkeptic Agent
+   - Location: `skills/completeness-checker/SKILL.md`
+
+49. **consistency-checker**
+   - Description: Verify cross-layer and cross-domain consistency in multi-tier architectures across the five-layer derivation model
+   - Functions: Business-technical alignment check, spec-implementation match verification, interface-contract consistency, cross-layer traceability
+   - Used By: TechnicalSkeptic Agent, UniversalSkeptic Agent
+   - Location: `skills/consistency-checker/SKILL.md`
+
+50. **boundedness-checker**
+   - Description: Verify that optimization changes, iterative improvements, and refactoring operations stay within defined boundaries
+   - Functions: Change magnitude verification, iteration count check, quality bounds validation, convergence condition evaluation
+   - Used By: TechnicalSkeptic Agent, RecursiveOptimizer Agent
+   - Location: `skills/boundedness-checker/SKILL.md`
+

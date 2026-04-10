@@ -6,7 +6,33 @@
 
 ---
 
-根据 Aether.go 方法论融合框架和 OpenCode skills 规范，已成功创建所有 46 个技能（原有31个 + 新增7个需求管理技能 + Rust CLI构建器 + README & LICENSE生成器 + 3个新增追溯技能 + 技术栈选择器 + 架构模式选择器 + 场景模式选择器），覆盖Aether.go方法论融合框架的完整八个阶段。
+根据 Aether.go 方法论融合框架和 OpenCode skills 规范，已成功创建所有 50 个技能（原有31个 + 新增7个需求管理技能 + Rust CLI构建器 + README & LICENSE生成器 + 3个新增追溯技能 + 技术栈选择器 + 架构模式选择器 + 场景模式选择器 + 4个质疑验证技能），覆盖Aether.go方法论融合框架的完整八个阶段。
+
+## 架构更新 (2026-04-10)
+
+基于 [Agent-Skill 分析报告](D:\repos\bison\ai-docs\layer3\aether-go\agent-skill-analysis-report.md)，已实施以下架构改进：
+
+### 核心 Agent 层（7个）
+- **WorkflowOrchestrator** - 协调多技能工作流执行
+- **RecursiveOptimizer** - 执行递归优化闭环
+- **ConstitutionGuardian** - 监控宪法合规性
+- **UniversalSkeptic** - 跨域一致性检查
+- **HumanAIBoundaryGuard** - 人机决策路由
+- **ContextManager** - 跨会话上下文管理
+- **SkillLibraryCurator** - 技能资产管理
+
+### 质疑 Skill 层（4个）
+质疑机制已下沉为 Skills（替代原有的6个专业质疑Agent + 1个通用质疑Agent）：
+- **correctness-checker** - 验证事实正确性和逻辑一致性
+- **completeness-checker** - 验证内容完整性和覆盖度
+- **consistency-checker** - 验证跨层/跨域一致性
+- **boundedness-checker** - 验证优化的有界性约束
+
+### 改进收益
+- **降低复杂度**: Agent数量从19个减少到7个（减少63%）
+- **提高复用性**: 质疑能力作为可组合的 Skills
+- **边界清晰**: Agent负责协调，Skill负责执行
+- **更好维护性**: 单一职责的模块化架构
 
 ## 新增 Skills 背景：方法论融合框架完善
 
@@ -555,10 +581,11 @@ OpenCode会自动从以下位置发现技能：
 ---
 
 创建日期：2026-01-16  
-最后更新：2026-01-30  
+最后更新：2026-04-10  
 创建者：AI Assistant based on Aether.go methodology  
-参考文档：`method-paper.md`, `https://opencode.ai/docs/skills/`
+参考文档：`method-paper.md`, `https://opencode.ai/docs/skills/`, `agent-skill-analysis-report.md`
 更新记录：
+- 2026-04-10: 基于Agent-Skill分析报告新增质疑层4个验证技能（correctness-checker、completeness-checker、consistency-checker、boundedness-checker）；重新定义Agent-Skill边界，明确7个核心Agent
 - 2026-01-30: 新增readme-license-generator技能，用于生成中英文双语的README和LICENSE文件
 - 2026-01-28: 更新缺口分析为已解决状态，修正技能数量不一致问题
 - 2026-01-27: 新增7个关键技能填补方法论缺口，实现完整的八阶段融合工作流

@@ -104,8 +104,18 @@ skills/
 │   └── methodology-fusion-orchestrator/ # 方法论融合协调器
 │       └── SKILL.md
 │
-└── 场景适配层 Skills
-    └── scenario-mode-selector/    # 场景模式选择器
+├── 场景适配层 Skills
+│   └── scenario-mode-selector/    # 场景模式选择器
+│       └── SKILL.md
+│
+└── 质疑层 Skills（验证与校验）
+    ├── correctness-checker/       # 正确性验证
+    │   └── SKILL.md
+    ├── completeness-checker/      # 完整性验证
+    │   └── SKILL.md
+    ├── consistency-checker/       # 跨层一致性验证
+    │   └── SKILL.md
+    └── boundedness-checker/       # 有界性验证
         └── SKILL.md
 ```
 
@@ -187,9 +197,15 @@ skills/
 ### 场景适配层 (1个)
 - `scenario-mode-selector` - 根据项目上下文和约束选择适当的开发模式
 
+### 质疑层 - 验证与校验 (4个)
+- `correctness-checker` - 验证内容的事实正确性、逻辑一致性和有效性
+- `completeness-checker` - 验证内容包含所有必需元素和场景
+- `consistency-checker` - 验证跨层和跨域的一致性
+- `boundedness-checker` - 验证优化变更保持在定义边界内
+
 ---
 
-**总计**: 45 个技能，覆盖完整的软件开发生命周期
+**总计**: 50 个技能，覆盖完整的软件开发生命周期
 
 ## 使用方式
 
@@ -426,6 +442,7 @@ skill_effectiveness:
 - **ITIL服务管理层**: 7 (事件, 问题, 变更, 服务台, 部署, 发布, 回滚)
 - **方法论融合协调层**: 1 (方法论融合协调器)
 - **场景适配层**: 1 (场景模式选择器)
+- **质疑层**: 4 (正确性、完整性、一致性、有界性验证器)
 
 ### 技能文件格式
 
@@ -656,3 +673,16 @@ git commit -m "feat: add/update <skill-name> skill"
 ## 许可证
 
 本项目采用 MIT License - 详见 [LICENSE](LICENSE) 文件
+
+---
+
+创建日期：2026-01-16  
+最后更新：2026-04-10  
+维护者：Aether.go Team
+
+### 架构更新 (2026-04-10)
+基于 [Agent-Skill 分析报告](D:\repos\bison\ai-docs\layer3\aether-go\agent-skill-analysis-report.md)，已实施以下架构改进：
+
+- **新增质疑层 Skills**: 4个验证技能（correctness-checker、completeness-checker、consistency-checker、boundedness-checker）支持质疑机制
+- **Agent-Skill 边界明确化**: 核心 Agent（7个）协调 Skeptic Skills 进行验证，避免重复实现
+- **技能总数**: 从46个更新为50个技能
