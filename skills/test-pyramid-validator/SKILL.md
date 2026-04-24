@@ -1,12 +1,14 @@
 ---
 name: test-pyramid-validator
-description: Use when validating test suite proportions against the test pyramid model, ensuring proper distribution across unit, integration, contract, acceptance, and system test layers
+description: Use when validating test suite proportions against the test pyramid model and analyzing test coverage, distribution, and gaps in testing strategy (merged with test-pyramid-analyzer)
 ---
 
 # Test Pyramid Validator
 
 ## Overview
-Validate that test suites conform to the proper test pyramid distribution. Ensures L5 (unit tests) dominate the pyramid (~70%), followed by L4 (integration + contract tests ~25%), L3 (acceptance tests ~4%), and L2 (system tests ~1%). Validates against Aether.go test pyramid model and reports deviations.
+Validate that test suites conform to the proper test pyramid distribution and analyze test structure to identify imbalances, generate coverage reports, and recommend test type improvements. Combines validation (proportion compliance) with analysis (coverage and gap detection). Ensures L5 (unit tests) dominate the pyramid (~70%), followed by L4 (integration + contract tests ~25%), L3 (acceptance tests ~4%), and L2 (system tests ~1%). Validates against Aether.go test pyramid model and reports deviations.
+
+**Note**: This skill has merged with test-pyramid-analyzer capabilities.
 
 ## When to Use
 
@@ -25,7 +27,10 @@ Use when:
 - Before deployment to validate test distribution
 - During code review to check test quality
 - After test suite modifications
-- Regression prevention
+- Evaluating existing test suite health
+- Identifying missing test types or coverage gaps
+- Performance issues in test execution (too many slow tests)
+- Planning test strategy for new projects
 
 ## Core Pattern
 
@@ -280,6 +285,139 @@ test-pyramid-deriver outputs plan
 - **Output to**: test generators (validation feedback)
 - **Validates with**: consistency-checker (pyramid model consistency)
 - **Part of**: D4 Contract Derivation Domain
+
+## Coverage Analysis (Merged from test-pyramid-analyzer)
+
+### Analysis Workflow
+
+#### 1. Discover Test Files
+```bash
+# Find all test files
+find . -name "*.test.ts" -o -name "*_test.go" -o -name "test_*.py" -o -name "*.spec.js"
+
+# Count by type
+find . -name "*.e2e.test.ts" | wc -l     # E2E tests
+find . -name "*.integration.test.ts" | wc -l  # Integration tests
+find . -name "*.unit.test.ts" -o -name "*.test.ts" | wc -l  # Unit tests
+```
+
+#### 2. Measure Test Execution Time
+```bash
+# Run tests with timing
+npm test -- --reporter=json --reporter-options=output=test-results.json
+
+# Parse for slow tests
+jq '.testResults[] | select(.duration > 10000) | {name: .name, duration: .duration}' test-results.json
+```
+
+#### 3. Analyze Coverage
+```go
+// Generate coverage report
+go test ./... -coverprofile=coverage.out
+
+// View coverage in browser
+go tool cover -html=coverage.out
+
+// Check coverage by package
+go test ./... -cover | grep -v "no test files"
+```
+
+### Coverage Analysis by Language
+
+#### JavaScript/TypeScript
+```bash
+# Istanbul/Nyc coverage
+npm test -- --coverage --coverageReporters=json --coverageReporters=html
+
+# Target: > 80% overall coverage
+npx nyc check-coverage --lines 80 --functions 80 --branches 80
+```
+
+#### Go
+```bash
+# Generate coverage report
+go test -coverprofile=coverage.out ./...
+
+# Check coverage threshold
+go test -coverprofile=coverage.out ./... && \
+  go tool cover -func=coverage.out | \
+  grep total | \
+  awk '{if ($3+0 < 80) exit 1}'
+```
+
+#### Python
+```bash
+# Pytest with coverage
+pytest --cov=src --cov-report=html --cov-report=term-missing
+
+# Target: > 80% coverage
+pytest --cov=src --cov-fail-under=80
+```
+
+### Recommendations Engine
+
+```python
+def generate_recommendations(results, coverage_data):
+    """Generate test strategy recommendations based on analysis."""
+    recommendations = []
+
+    # Check pyramid ratios
+    if results['unit_pct'] < 60:
+        recommendations.append({
+            'priority': 'HIGH',
+            'category': 'Increase Unit Tests',
+            'action': 'Add unit tests for business logic and algorithms',
+            'target': f'Increase unit tests from {results["unit_pct"]}% to 70%'
+        })
+
+    if results['e2e_pct'] > 15:
+        recommendations.append({
+            'priority': 'HIGH',
+            'category': 'Reduce E2E Tests',
+            'action': 'Replace non-critical E2E tests with integration or unit tests',
+            'target': f'Reduce E2E tests from {results["e2e_pct"]}% to 10%'
+        })
+
+    if coverage_data['overall_coverage'] < 80:
+        recommendations.append({
+            'priority': 'MEDIUM',
+            'category': 'Improve Coverage',
+            'action': f'Add tests for uncovered code paths',
+            'target': f'Achieve 80% coverage (currently {coverage_data["overall_coverage"]}%)'
+        })
+
+    return recommendations
+```
+
+### Pyramid Anti-Patterns
+
+**Ice Cream Cone (Inverted Pyramid)**
+```
+     ▲
+    / \
+   /   \           Many E2E tests
+  /     \          Slow, expensive, fragile
+ /       \         Hard to maintain
+/_________\
+/   Integration  \
+/_________________\
+/      Unit         \
+/_____________________\
+```
+
+**Hourglass (Missing Integration)**
+```
+     ▲
+    / \            No integration tests
+   /   \           Gaps at service boundaries
+  /     \          Bugs slip through
+ /       \
+/_________\
+/               \
+/                 \
+/     Unit & E2E    \
+/_____________________\
+```
 
 ## Quality Gates
 
