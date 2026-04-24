@@ -1,12 +1,14 @@
 ---
 name: spec-version-manager
-description: Use when managing specification versions, tracking changes, maintaining version history, and enabling traceability and comparability between specification versions
+description: Use when managing specification versions, tracking changes, maintaining version history, analyzing impact, and enabling traceability and comparability between specification versions (merged with spec-evolution-tracker)
 ---
 
 # Spec Version Manager
 
 ## Overview
-Manage specification versions throughout the development lifecycle. Track changes, maintain version history, enable rollback to previous versions, and provide traceability and comparability between specification versions. Essential for L3→L2 transition tracking and audit compliance.
+Manage specification versions throughout the development lifecycle. Track changes, maintain version history, analyze impact of changes, enable rollback to previous versions, and provide traceability and comparability between specification versions. Combines version lifecycle management with evolution tracking. Essential for L3→L2 transition tracking and audit compliance.
+
+**Note**: This skill has merged with spec-evolution-tracker capabilities.
 
 ## When to Use
 
@@ -249,6 +251,136 @@ comparison_view:
       - id: "FR-003"
         before: "Priority: should"
         after: "Priority: must"
+```
+
+## Evolution Tracking (Merged from spec-evolution-tracker)
+
+### Spec Evolution History
+
+Track specification changes over time with full version history:
+
+```yaml
+spec_evolution:
+  spec_id: "REQ-ORDER-001"
+  title: "Order Processing"
+
+  versions:
+    - version: "1.0"
+      date: "2026-01-01"
+      status: "released"
+      author: "Alice"
+      changes: "Initial version"
+      requirements:
+        - "User can create order"
+        - "Order validation"
+
+    - version: "1.1"
+      date: "2026-01-15"
+      status: "released"
+      author: "Bob"
+      changes: "Added order cancellation"
+      requirements:
+        - "User can create order"
+        - "Order validation"
+        - "Order cancellation"
+      impact:
+        affected_services:
+          - "Order Service"
+          - "Payment Service"
+        breaking_changes: false
+
+    - version: "2.0"
+      date: "2026-02-01"
+      status: "proposed"
+      author: "Charlie"
+      changes: "Added subscription support"
+      requirements:
+        - "User can create order"
+        - "Order validation"
+        - "Order cancellation"
+        - "Recurring orders"
+      impact:
+        affected_services:
+          - "Order Service"
+          - "Payment Service"
+          - "Subscription Service"
+        breaking_changes: true
+        migration_plan: "Migrate existing orders to subscription model"
+```
+
+### Change Analysis
+
+```python
+def analyze_spec_change(old_spec, new_spec):
+    """Analyze differences between spec versions."""
+
+    changes = {
+        'added': [],
+        'removed': [],
+        'modified': [],
+        'breaking': False
+    }
+
+    old_requirements = {r['id'] for r in old_spec['requirements']}
+    new_requirements = {r['id'] for r in new_spec['requirements']}
+
+    changes['added'] = new_requirements - old_requirements
+    changes['removed'] = old_requirements - new_requirements
+
+    for req_id in old_requirements & new_requirements:
+        old_req = next(r for r in old_spec['requirements'] if r['id'] == req_id)
+        new_req = next(r for r in new_spec['requirements'] if r['id'] == req_id)
+        if old_req != new_req:
+            changes['modified'].append({
+                'id': req_id,
+                'old': old_req,
+                'new': new_req
+            })
+
+    changes['breaking'] = len(changes['removed']) > 0 or any(
+        m['old'].get('priority') == 'must' and m['new'].get('priority') != 'must'
+        for m in changes['modified']
+    )
+
+    return changes
+```
+
+### Changelog Generation
+
+```markdown
+# Changelog: REQ-ORDER-001 - Order Processing
+
+## [2.0.0] - 2026-02-01 (Proposed)
+### Added
+- Subscription order support
+- Recurring order scheduling
+
+### Changed
+- Order data model now supports subscription fields
+
+### Breaking
+- Order API requires `type` field (default: "one-time")
+- Order validation now checks subscription-specific fields
+
+### Migration
+Run migration: `npm run migrate:order-subscription`
+
+### Impact
+- **Affected Services:** Order Service, Payment Service, Subscription Service
+- **Estimated Effort:** 2-3 sprints
+- **Risk Level:** High
+
+---
+
+## [1.1.0] - 2026-01-15 (Released)
+### Added
+- Order cancellation
+- Order status tracking
+
+### Impact
+- **Affected Services:** Order Service, Payment Service
+- **Estimated Effort:** 1 sprint
+- **Risk Level:** Medium
 ```
 
 ## Integration Points
