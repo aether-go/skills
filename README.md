@@ -1,241 +1,298 @@
-# Aether.go AI Agent Architecture V2.1
+# Aether.go Skills
+
+A set of intelligent AI skills for the Aether.go project, based on spec-driven, value-oriented, and test-first development methodology, implementing the five-layer derivation model and constitutional principles.
+
+---
+
+**Language**: [English](README.md) | [中文](README_CN.md)
+
+---
 
 ## Overview
 
-Aether.go is an AI-native software engineering methodology that structures AI-assisted development through constitutional principles, multi-agent collaboration, and a five-layer derivation model. Version 2.1 introduces significant enhancements including meta-argumentation loops, dynamic principle weighting, semantic confirmation protocols, and comprehensive meta-capability skills.
-
-## Core Concepts
-
-### Constitutional Principles (P0-P10)
-
-| Principle | Description | Key Aspect |
-|-----------|-------------|------------|
-| **P0: Context-Adaptation** | Dynamically adjust principles based on project context | Scenario mode selection |
-| **P1: Purpose-Driven** | Business objectives drive technical decisions | Value decomposition |
-| **P2: Planning-First** | Architecture decisions precede implementation | L2 before L5 |
-| **P3: Modularity & Orthogonality** | High cohesion, low coupling | Interface contracts |
-| **P4: Interface-First** | Contracts before implementation | Contract-driven generation |
-| **P5: Occam's Razor** | Minimal dependencies (core <=5) | Dependency limits |
-| **P6: Test-First** | Red-Green-Refactor cycle | TDD cycle runner |
-| **P7: Context-First** | Input quality determines output quality | Context quality protocol |
-| **P8: Human-AI Boundary** | Clear responsibility demarcation | Decision routing |
-| **P9: Recursive Self-Optimization** | Continuous improvement loop | Optimization convergence |
-| **P10: Skill Library Assetization** | Skills as reusable assets | Skill lifecycle management |
+Based on [method-paper.md](../ai-docs/layer3/aether-go/method-paper.md) and [ai-agent-architecture-proposal.md V2.1](../ai-docs/layer3/aether-go/ai-agent-architecture-proposal.md), this repository contains **87 skills** organized into **D1-D8 derivation domains** covering the complete five-layer derivation model.
 
 ### Five-Layer Derivation Model
 
 ```
-L1: Business Goals (Business Layer)
-    ↓ value-decomposer
-L2: Functional Requirements (System Behavior Layer)
-    ↓ usecase-designer, spec-parser
-L3: GWT Acceptance Criteria (Acceptance Standard Layer)
-    ↓ test-pyramid-deriver
-L4: Test Stratification + Interface Contracts (Component Contract Layer)
-    ↓ tdd-cycle-runner, contract-driven-code-generator
-L5: Implementation Code (Unit Implementation Layer)
+L1: Business Value Layer
+    └── D1: Value Derivation (5 skills)
+
+L2: System Behavior Layer
+    └── D2: Architecture Derivation (5 skills)
+
+L3: Acceptance Standard Layer
+    └── D3: Specification Derivation (5 skills)
+
+L4: Component Contract Layer
+    └── D4: Contract Derivation (6 skills)
+
+L5: Unit Implementation Layer
+    └── D5: Implementation Derivation (6 skills)
 ```
 
-### Meta-Argumentation Loop (V2.1 NEW)
+### Core Skills: D1-D8 Domains (49 Skills)
 
-```
-Derivation Chain Self-Verification
-    ├── META-001: derivation-chain-validator
-    ├── META-002: skill-gap-analyzer + adjustment-proposer + adjustment-validator
-    ├── META-003: principle-consistency-checker
-    ├── META-004: architecture-self-auditor
-    └── META-005: meta-skeptic (boundary rationality challenge)
-```
+| Domain | Name | Skills | Description |
+|--------|------|--------|-------------|
+| **D1** | Value Derivation | 5 | L1→L2: Business goals to functional requirements |
+| **D2** | Architecture Derivation | 5 | L2→L3: Functional requirements to architecture decisions |
+| **D3** | Specification Derivation | 5 | L3→L4: System specs to GWT acceptance criteria |
+| **D4** | Contract Derivation | 6 | L4→L5: Acceptance criteria to test stratification |
+| **D5** | Implementation Derivation | 6 | L4→L5: Contracts to unit tests and code |
+| **D6** | Scenario Adaptation | 8 | 8 scenario modes for context-sensitive workflow |
+| **D7** | Evolution Optimization | 5 | P9-P10: Recursive optimization and skill assetization |
+| **D8** | Meta-Capability | 9 | Self-verification, self-adjustment, semantic clarification |
 
-## Agent Architecture
+**Supporting Skills**: 38 tools (skeptic verification, methodology orchestration, IT service management, fullstack development)
 
-### 8 Core Agents
-
-| Agent | Role | Key Responsibility |
-|-------|------|-------------------|
-| **WorkflowOrchestrator** | Workflow orchestration | 8-stage workflow with meta-argumentation checkpoints |
-| **ChangeAndTaskAgent** | Change and task orchestration | Full lifecycle of requirement changes, /opsx-ff and /opsx-apply |
-| **RecursiveOptimizer** | Recursive optimization | Multi-objective optimization with convergence control |
-| **ConstitutionGuardian** | Constitutional guardian | P0-P10 enforcement with dynamic principle weighting |
-| **UniversalSkeptic** | Universal skeptic | Cross-domain consistency with META-005 orchestration |
-| **HumanAIBoundaryGuard** | Human-AI boundary guard | Decision routing with ARGUE-005 semantic confirmation |
-| **ContextManager** | Context management | P7 implementation with derivation matrix |
-| **SkillLibraryCurator** | Skill library curation | P10 implementation with D8 linkage |
-
-### Agent Interaction Protocols
-
-#### ARGUE Protocols
-- **ARGUE-001**: UniversalSkeptic quality gate for stage transitions
-- **ARGUE-002**: ConstitutionGuardian constitutional validation
-- **ARGUE-003**: RecursiveOptimizer optimization proposal
-- **ARGUE-004**: ContextManager context quality assessment
-- **ARGUE-005**: HumanAIBoundaryGuard semantic confirmation (V2.1 NEW)
-
-#### META Protocols
-- **META-001**: Derivation chain validation
-- **META-002**: Skill gap analysis and adjustment
-- **META-003**: Principle consistency check with dynamic weighting
-- **META-004**: Architecture self-audit
-- **META-005**: Meta-skeptic boundary rationality challenge (V2.1 NEW)
-
-## Skill Organization
-
-### 8 Derivation Domains
-
-| Domain | Skills | Purpose |
-|--------|--------|---------|
-| **D1: Value Derivation** | 8 skills | L1→L2: Business goals to functional requirements |
-| **D2: Architecture Derivation** | 7 skills | L2→L3: Requirements to architecture decisions |
-| **D3: Acceptance Standard** | 6 skills | L3: Acceptance criteria and quality standards |
-| **D4: Contract Derivation** | 8 skills | L3→L4: Test stratification and interface contracts |
-| **D5: Implementation Derivation** | 7 skills | L4→L5: Code implementation from contracts |
-| **D6: Scenario Adaptation** | 8 skills | 8 scenario modes adaptation |
-| **D7: Asset Generation** | 8 skills | Reusable asset generation |
-| **D8: Meta-Capability** | 10 skills | Architecture validation and optimization |
-
-### Critical New Skills (V2.1)
-
-1. **value-decomposer** (D1) - L1→L2 derivation bridge
-2. **test-pyramid-deriver** (D4) - L3→L4 with boundary identification
-3. **tdd-cycle-runner** (D5) - Atomic TDD cycle
-4. **contract-driven-code-generator** (D5) - Contract-first code generation
-5. **code-refactor-engine** (D5) - Refactoring with test coverage
-6. **scenario-detector** (D6) - Scenario mode detection
-7. **semantic-intent-clarifier** (D8) - ARGUE-005 execution
-8. **derivation-chain-validator** (D8) - META-001 validation
-9. **principle-consistency-checker** (D8) - META-003 conflict detection
-10. **meta-skeptic** (D8) - META-005 boundary challenge
-11. **architecture-self-auditor** (D8) - META-004 audit
-12. **skill-gap-analyzer** (D8) - Gap analysis
-13. **adjustment-proposer** (D8) - Adjustment proposals
-14. **adjustment-validator** (D8) - Proposal validation
-
-## Key Features (V2.1)
-
-### Dynamic Principle Weighting
-- Real-time weight calculation based on context
-- Conflict resolution through minimum damage path
-- Constitutional amendment generation with time-boxing
-
-### Semantic Confirmation Protocol (ARGUE-005)
-- Structured reverse clarification at semantic nodes
-- Prevents "perfect derivation, wrong software"
-- Suspends workflow until user confirmation
-
-### Derivation Chain Self-Verification
-- Automatic gap detection between L1-L5
-- Cross-layer traceability validation
-- Block progression when gaps exist
-
-### Test Pyramid Derivation with Redundancy Validation
-- Boundary identification (user-system, system-external, system-internal)
-- META-005 boundary rationality challenge
-- Explicitized boundary rationale requirement
+---
 
 ## Directory Structure
 
 ```
-aether-go/
-├── agents/                    # 8 core agents
-│   ├── workflow-orchestrator.md
-│   ├── change-and-task-agent.md
-│   ├── recursive-optimizer.md
-│   ├── constitution-guardian.md
-│   ├── universal-skeptic.md
-│   ├── human-ai-boundary-guard.md
-│   ├── context-manager.md
-│   └── skill-library-curator.md
-├── skills/                    # 49 domain skills (8 domains)
-│   ├── d1-value-derivation/
-│   ├── d2-architecture-derivation/
-│   ├── d3-acceptance-standard/
-│   ├── d4-contract-derivation/
-│   ├── d5-implementation-derivation/
-│   ├── d6-scenario-adaptation/
-│   ├── d7-asset-generation/
-│   └── d8-meta-capability/
-├── docs/                      # Documentation
-│   ├── ai-agent-architecture-proposal.md
-│   ├── SKILLS_SUMMARY.md
-│   └── README.md
-└── .aether/                   # Runtime state
-    ├── context/
-    ├── memory/
-    ├── state/
-    ├── derivation/
-    └── principles/
+skills/
+├── README.md                       # This file (English)
+├── README_CN.md                    # This file (Chinese)
+├── SKILLS_SUMMARY.md               # Detailed skills list (English)
+├── SKILLS_SUMMARY_CN.md          # Detailed skills list (Chinese)
+├── MIGRATION.md                   # Migration guide (English)
+├── MIGRATION_CN.md                # Migration guide (Chinese)
+├── skill-dependencies.yaml         # Skill dependencies
+├── skills.sh                       # Skills management script
+├── LICENSE                         # MIT License
+│
+├── D1-Value-Derivation/           # L1→L2 (5 skills)
+│   ├── business-requirements-collector/
+│   ├── value-decomposer/
+│   ├── metrics-definer/
+│   ├── value-architecture-tracer/
+│   └── requirement-implementation-tracer/
+│
+├── D2-Architecture-Derivation/    # L2→L3 (5 skills)
+│   ├── architecture-decision-recorder/
+│   ├── architecture-pattern-selector/
+│   ├── tech-stack-selector/
+│   ├── data-flow-analyzer/
+│   └── interface-contract-designer/
+│
+├── D3-Specification-Derivation/  # L3→L4 (5 skills)
+│   ├── usecase-designer/
+│   ├── nfr-analyzer/
+│   ├── spec-to-scenario/
+│   ├── scenario-completeness-checker/
+│   └── spec-evolution-tracker/
+│
+├── D4-Contract-Derivation/        # L3→L4 (6 skills) ★ Most Critical
+│   ├── test-pyramid-deriver/
+│   ├── e2e-test-generator/
+│   ├── integration-test-generator/
+│   ├── contract-test-generator/
+│   ├── system-test-generator/
+│   └── test-pyramid-analyzer/
+│
+├── D5-Implementation-Derivation/ # L4→L5 (6 skills)
+│   ├── unit-test-generator/
+│   ├── tdd-cycle-runner/
+│   ├── contract-driven-code-generator/
+│   ├── backend-code-generator/
+│   ├── frontend-code-generator/
+│   └── code-refactor-engine/
+│
+├── D6-Scenario-Adaptation/        # 8 Scenario Modes (8 skills)
+│   ├── scenario-detector/
+│   ├── standard-mode-workflow/
+│   ├── reverse-engineering-suite/
+│   ├── dual-track-validator/
+│   ├── strangler-pattern-suite/
+│   ├── poc-exemption-manager/
+│   ├── wartime-hotfix-workflow/
+│   └── federal-constitution-manager/
+│
+├── D7-Evolution-Optimization/     # P9-P10 (5 skills)
+│   ├── convergence-checker/
+│   ├── improvement-budget-allocator/
+│   ├── tech-debt-quantifier/
+│   ├── skill-lifecycle-manager/
+│   └── skill-optimizer/
+│
+├── D8-Meta-Capability/           # Self-verification (9 skills)
+│   ├── derivation-chain-validator/
+│   ├── principle-consistency-checker/
+│   ├── scenario-mode-recommender/
+│   ├── meta-skeptic/
+│   ├── architecture-self-auditor/
+│   ├── skill-gap-analyzer/
+│   ├── adjustment-proposer/
+│   ├── adjustment-validator/
+│   └── semantic-intent-clarifier/
+│
+├── Skeptic-Verification/          # Verification (4 skills)
+│   ├── correctness-checker/
+│   ├── completeness-checker/
+│   ├── consistency-checker/
+│   └── boundedness-checker/
+│
+├── Methodology-Orchestration/     # Orchestration (2 skills)
+│   ├── methodology-fusion-orchestrator/
+│   └── requirement-classifier/
+│
+├── IT-Service-Management/        # ITIL & Deployment (7 skills)
+│   ├── deployment-orchestrator/
+│   ├── incident-management/
+│   ├── problem-management/
+│   ├── change-management/
+│   ├── service-desk/
+│   ├── release-manager/
+│   └── rollback-manager/
+│
+└── Fullstack-Tools/             # Development Tools (9 skills)
+    ├── go-backend-scaffolder/
+    ├── vue-quasar-scaffolder/
+    ├── fullstack-project-setup/
+    ├── requirements-to-code-docs/
+    ├── go-vue-fullstack-workflow/
+    ├── makefile-backend-generator/
+    ├── go-cli-builder/
+    ├── rust-cli-builder/
+    └── readme-license-generator/
 ```
 
-## Getting Started
+---
 
-### Prerequisites
-- Understanding of Aether methodology principles
-- Familiarity with five-layer derivation model
-- Knowledge of ARGUE and META protocols
+## Quick Start
 
-### Quick Start
-1. Review constitutional principles (P0-P10)
-2. Understand five-layer derivation model (L1-L5)
-3. Identify appropriate scenario mode (D6)
-4. Execute workflow through WorkflowOrchestrator
-5. Monitor derivation chain with D8 meta-capability skills
+### 1. View Skills List
+See [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md) for detailed descriptions of all 87 skills.
 
-### Scenario Modes
-- **standard**: Full methodology application
-- **reverse_engineering**: Legacy system analysis
-- **language_migration**: Technology stack migration
-- **refactoring**: System restructuring
-- **poc**: Proof of concept validation
-- **emergency**: Emergency production fix
-- **federal**: Multi-team distributed development
-- **continuous_improvement**: Ongoing optimization
+### 2. Choose the Right Skill
 
-## Quality Gates
+| Development Phase | Skills |
+|-----------------|--------|
+| **L1 Business Analysis** | `business-requirements-collector`, `value-decomposer`, `metrics-definer` |
+| **L2 Architecture** | `architecture-pattern-selector`, `tech-stack-selector`, `interface-contract-designer` |
+| **L3 Specification** | `spec-to-scenario`, `usecase-designer`, `nfr-analyzer` |
+| **L4 Test Planning** | `test-pyramid-deriver`, `e2e-test-generator`, `integration-test-generator` |
+| **L5 Implementation** | `tdd-cycle-runner`, `unit-test-generator`, `code-refactor-engine` |
+| **Scenario Adaptation** | `scenario-detector`, `standard-mode-workflow`, `reverse-engineering-suite` |
+| **Optimization** | `recursive-optimizer`, `convergence-checker`, `skill-optimizer` |
+| **Meta-Capability** | `derivation-chain-validator`, `semantic-intent-clarifier`, `meta-skeptic` |
 
-### Per-Stage Quality Criteria
-- **L1→L2**: Business goals quantified, FRs traceable
-- **L2→L3**: Architecture decisions documented, interfaces defined
-- **L3→L4**: GWT scenarios complete, test stratification defined
-- **L4→L5**: Contracts implemented, tests passing
+### 3. Use Skills
+Request to use a specific skill directly in conversation:
+```
+User: "I need to decompose business goals into functional requirements"
+AI: Using value-decomposer skill...
+```
 
-### Meta-Argumentation Checkpoints
-- **Checkpoint 1**: L1 decomposition complete (ARGUE-005)
-- **Checkpoint 2**: L2 architecture established
-- **Checkpoint 3**: L3 acceptance criteria defined
-- **Checkpoint 4**: L4 test stratification validated (META-005)
-- **Checkpoint 5**: L5 implementation complete
+---
+
+## Skill Statistics
+
+| Category | Skills | Description |
+|---------|--------|-------------|
+| **D1-D5 Derivation** | 27 | Five-layer derivation model skills |
+| **D6 Scenario** | 8 | 8 scenario mode adaptation |
+| **D7 Evolution** | 5 | Recursive optimization & assetization |
+| **D8 Meta** | 9 | Self-verification & adjustment |
+| **Supporting** | 38 | Tools & verification |
+| **Total** | **87** | Complete skill library |
+
+---
+
+## Protocol Support
+
+### ARGUE Protocols (Agent Interaction)
+- **ARGUE-001**: UniversalSkeptic → WorkflowOrchestrator
+- **ARGUE-002**: ConstitutionGuardian → ChangeAndTaskAgent
+- **ARGUE-003**: RecursiveOptimizer → WorkflowOrchestrator
+- **ARGUE-004**: ContextManager → 任意Agent
+- **ARGUE-005**: HumanAIBoundaryGuard → 用户
+
+### META Protocols (Meta-Argumentation)
+- **META-001**: architecture-self-auditor 架构自审
+- **META-002**: derivation-chain-validator 推导链验证
+- **META-003**: principle-consistency-checker 原则一致性
+- **META-004**: adjustment-proposer 调整方案提出
+- **META-005**: meta-skeptic 边界合理性质疑
+
+---
+
+## Key Features
+
+### Five-Layer Derivation Chain
+```
+Business Goals → Functional Requirements → Architecture Decisions → Acceptance Criteria → Test Stratification → Unit Tests → Code
+```
+
+### Constitutional Principles (P0-P10)
+- P0: Context-Adaptation (情境适配)
+- P1: Purpose-Driven (目的主导)
+- P2: Planning-Driven (规划驱动)
+- P3: Modularity-Orthogonality (模块化与正交性)
+- P4: Interface-First (接口先行)
+- P5: Occam's Razor (奥卡姆剃刀)
+- P6: Test-First (测试先行)
+- P7: Context-First (上下文第一性)
+- P8: Human-AI Boundary (人机责任边界)
+- P9: Recursive Self-Optimization (递归自我优化)
+- P10: Skill Assetization (技能资产化)
+
+### 8 Scenario Modes
+1. **Standard**: Greenfield projects, full methodology
+2. **Reverse Engineering**: Legacy system understanding
+3. **Language Migration**: Technology stack migration
+4. **Refactoring**: Incremental architecture upgrade
+5. **POC**: Proof of concept, rapid validation
+6. **Emergency**: Production hotfix
+7. **Federal**: Multi-team distributed development
+8. **Continuous Improvement**: Long-term evolution
+
+---
+
+## Usage
+
+### Auto-discovery via OpenCode
+
+OpenCode automatically discovers skills in the `skills/` directory.
+
+### Skills Management Script
+
+```bash
+# List all skills
+./skills.sh list
+
+# Show skill details
+./skills.sh show test-pyramid-deriver
+
+# Search skills
+./skills.sh search "test"
+
+# View statistics
+./skills.sh stats
+
+# Validate skill format
+./skills.sh validate
+```
+
+---
 
 ## Contributing
 
-### Skill Development
-1. Identify gap or improvement opportunity
-2. Design skill following SKILL.md template
-3. Validate with correctness-checker and completeness-checker
-4. Submit for architecture-self-auditor review
-5. Integrate into appropriate domain
+1. Create a new skill directory in the appropriate D-domain
+2. Add a `SKILL.md` file following OpenCode specification
+3. Update `SKILLS_SUMMARY.md` and `skill-dependencies.yaml`
+4. Run `./skills.sh validate` to verify format
 
-### Agent Enhancement
-1. Review agent interaction protocols
-2. Identify enhancement opportunity
-3. Update agent documentation
-4. Validate with principle-consistency-checker
-5. Test with workflow-orchestrator
+---
 
-## Version History
+## Reference Documents
 
-| Version | Date | Key Changes |
-|---------|------|-------------|
-| 1.0 | 2025-01 | Initial architecture with 7 agents, 42 skills |
-| 2.0 | 2025-03 | Added D8 meta-capability domain, ChangeAndTaskAgent |
-| 2.1 | 2025-04 | Meta-argumentation loops, dynamic weighting, ARGUE-005, META-005 |
+- [method-paper.md](../ai-docs/layer3/aether-go/method-paper.md) - Aether方法论融合框架
+- [ai-agent-architecture-proposal.md](../ai-docs/layer3/aether-go/ai-agent-architecture-proposal.md) - AI Agent智能体架构方案 V2.1
 
-## License
+---
 
-MIT License - See LICENSE file for details
-
-## References
-
-- Aether Methodology Specification
-- Five-Layer Derivation Model
-- Constitutional Principles Document
-- ARGUE and META Protocol Specifications
+**Created**: 2026-01-16
+**Last Updated**: 2026-04-24
+**Maintainer**: Aether.go Team

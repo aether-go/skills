@@ -1,515 +1,965 @@
 # Skill Dependencies Metadata
 # This file defines dependencies between skills for proper orchestration and sequencing
+# Updated for V2.1 with D1-D8 derivation domain structure
 
-version: "1.2"
-updated: "2026-04-10"
+version: "2.1"
+updated: "2026-04-24"
 
-# Architecture Update (2026-04-10)
-# Based on Agent-Skill Analysis Report, added Skeptic Skill Layer
-# Core Agents (7): WorkflowOrchestrator, RecursiveOptimizer, ConstitutionGuardian,
-#                   UniversalSkeptic, HumanAIBoundaryGuard, ContextManager, SkillLibraryCurator
-# Skeptic Skills (4): correctness-checker, completeness-checker, consistency-checker, boundedness-checker
+# Architecture Update (2026-04-24)
+# Based on ai-agent-architecture-proposal.md V2.1
+# D1-D8 Derivation Domains: 49 core methodology skills
+# Supporting Skills: 38 tools and verification skills
+
+# =============================================================================
+# D1: VALUE DERIVATION DOMAIN (L1→L2)
+# Business goals to functional requirements
+# =============================================================================
 
 dependencies:
-  # Scenario Mode Selector - Cross-cutting scenario adaptation
-  scenario-mode-selector:
-    depends_on: []
-    provides: "scenario mode selection and principle exemption management"
-    stage: "scenario_adaptation"
-
-  # Methodology Fusion Orchestrator - Core coordinator
-  methodology-fusion-orchestrator:
-    depends_on:
-      - scenario-mode-selector
-      - business-requirements-collector
-      - requirement-classifier
-      - usecase-designer
-      - requirement-implementation-tracer
-      - nfr-analyzer
-      - business-value-mapper
-      - metrics-definer
-      - spec-parser
-      - bdd-scenario-writer
-      - atdd-acceptance-test-generator
-      - constitution-validator
-      - architecture-decision-recorder
-      - architecture-pattern-selector
-      - tech-stack-selector
-      - data-flow-analyzer
-      - tdd-red-green-refactor
-      - go-backend-scaffolder
-      - vue-quasar-scaffolder
-      - sit-scenario-generator
-      - chaos-test-designer
-      - recursive-optimizer
-      - skill-recommender
-      - prompt-template-manager
-    provides: "end-to-end methodology orchestration"
-    stage: "coordination"
-
-  # Business Analysis Stage - 7-Category Requirements
+  # D1-1: Business Requirements Collector
   business-requirements-collector:
+    domain: D1
     depends_on: []
-    provides: "structured business requirements with 7-category classification"
-    stage: "business_analysis"
-    
-  requirement-classifier:
-    depends_on:
-      - business-requirements-collector
-    provides: "automatic classification of requirements into 7 categories with cross-category relationships"
-    stage: "business_analysis"
-    
-  usecase-designer:
-    depends_on:
-      - requirement-classifier
-    provides: "use cases with bidirectional traceability to 7-category requirements"
-    stage: "business_analysis"
-    
-  nfr-analyzer:
-    depends_on:
-      - requirement-classifier
-    provides: "analyzed non-functional requirements with measurable metrics"
-    stage: "business_analysis"
-    
-  business-value-mapper:
-    depends_on:
-      - business-requirements-collector
-      - requirement-classifier
-    provides: "BMAD matrix with business-to-technical mapping"
-    stage: "business_analysis"
-    
-  metrics-definer:
-    depends_on:
-      - business-value-mapper
-      - nfr-analyzer
-    provides: "business and technical metrics definition"
-    stage: "business_analysis"
+    provides: "structured business requirements"
+    stage: business_analysis
 
-  # Specification Stage
+  # D1-2: Value Decomposer ⭐
+  value-decomposer:
+    domain: D1
+    depends_on:
+      - business-requirements-collector
+    provides: "measurable functional requirements from business goals"
+    stage: business_analysis
+
+  # D1-3: Metrics Definer
+  metrics-definer:
+    domain: D1
+    depends_on:
+      - business-requirements-collector
+    provides: "business and technical metrics definition"
+    stage: business_analysis
+
+  # D1-4: Value Architecture Tracer ⭐
+  value-architecture-tracer:
+    domain: D1
+    depends_on:
+      - value-decomposer
+      - architecture-decision-recorder
+    provides: "bidirectional mapping between FR and ADR"
+    stage: business_analysis
+    validation: "complete bipartite graph"
+
+  # D1-5: Requirement Implementation Tracer
+  requirement-implementation-tracer:
+    domain: D1
+    depends_on:
+      - usecase-designer
+      - spec-parser
+    provides: "three-layer bidirectional traceability"
+    stage: traceability
+
+# =============================================================================
+# D2: ARCHITECTURE DERIVATION DOMAIN (L2→L3)
+# Functional requirements to architecture decisions
+# =============================================================================
+
+  # D2-1: Architecture Decision Recorder
+  architecture-decision-recorder:
+    domain: D2
+    depends_on:
+      - value-decomposer
+    provides: "architecture decision records (ADRs)"
+    stage: implementation_planning
+
+  # D2-2: Architecture Pattern Selector
+  architecture-pattern-selector:
+    domain: D2
+    depends_on:
+      - architecture-decision-recorder
+    provides: "architecture pattern selection"
+    stage: implementation_planning
+
+  # D2-3: Tech Stack Selector
+  tech-stack-selector:
+    domain: D2
+    depends_on:
+      - architecture-pattern-selector
+    provides: "technology stack selection"
+    stage: implementation_planning
+
+  # D2-4: Data Flow Analyzer
+  data-flow-analyzer:
+    domain: D2
+    depends_on:
+      - architecture-decision-recorder
+    provides: "data flow diagrams and analysis"
+    stage: implementation_planning
+
+  # D2-5: Interface Contract Designer ⭐
+  interface-contract-designer:
+    domain: D2
+    depends_on:
+      - data-flow-analyzer
+    provides: "interface contracts with I/O/pre/post conditions"
+    stage: implementation_planning
+    validation: "P4 Interface-First compliance"
+
+# =============================================================================
+# D3: SPECIFICATION DERIVATION DOMAIN (L3→L4)
+# System specs to GWT acceptance criteria
+# =============================================================================
+
+  # D3-1: Use Case Designer
+  usecase-designer:
+    domain: D3
+    depends_on:
+      - requirement-classifier
+    provides: "use cases with bidirectional traceability"
+    stage: specification_definition
+
+  # D3-2: NFR Analyzer
+  nfr-analyzer:
+    domain: D3
+    depends_on:
+      - requirement-classifier
+    provides: "non-functional requirements with metrics"
+    stage: specification_definition
+
+  # D3-3: Spec to Scenario ⭐
+  spec-to-scenario:
+    domain: D3
+    depends_on:
+      - spec-parser
+    provides: "GWT acceptance scenarios from specs"
+    stage: specification_definition
+
+  # D3-4: Scenario Completeness Checker ⭐
+  scenario-completeness-checker:
+    domain: D3
+    depends_on:
+      - spec-to-scenario
+    provides: "scenario coverage validation"
+    stage: specification_definition
+    validation: "positive/negative/boundary coverage"
+
+  # D3-5: Spec Evolution Tracker
+  spec-evolution-tracker:
+    domain: D3
+    depends_on:
+      - spec-parser
+    provides: "specification change tracking"
+    stage: specification_management
+
+# =============================================================================
+# D4: CONTRACT DERIVATION DOMAIN (L3→L4) ★ MOST CRITICAL
+# Acceptance criteria to test stratification
+# =============================================================================
+
+  # D4-1: Test Pyramid Deriver ⭐⭐
+  test-pyramid-deriver:
+    domain: D4
+    depends_on:
+      - spec-to-scenario
+    provides: "test stratification plan with boundary identification"
+    stage: implementation_planning
+    validation: "META-005 boundary rationale"
+    critical: true
+
+  # D4-2: E2E Test Generator ⭐
+  e2e-test-generator:
+    domain: D4
+    depends_on:
+      - test-pyramid-deriver
+    provides: "end-to-end user journey tests"
+    stage: integration_validation
+    target_percentage: 4
+
+  # D4-3: Integration Test Generator ⭐
+  integration-test-generator:
+    domain: D4
+    depends_on:
+      - test-pyramid-deriver
+      - interface-contract-designer
+    provides: "component collaboration tests"
+    stage: integration_validation
+    target_percentage: 15
+
+  # D4-4: Contract Test Generator
+  contract-test-generator:
+    domain: D4
+    depends_on:
+      - test-pyramid-deriver
+      - interface-contract-designer
+    provides: "API contract tests (consumer-driven)"
+    stage: integration_validation
+    target_percentage: 10
+
+  # D4-5: System Test Generator ⭐
+  system-test-generator:
+    domain: D4
+    depends_on:
+      - test-pyramid-deriver
+      - nfr-analyzer
+    provides: "non-functional system tests (perf/security)"
+    stage: integration_validation
+    target_percentage: 1
+
+  # D4-6: Test Pyramid Analyzer
+  test-pyramid-analyzer:
+    domain: D4
+    depends_on:
+      - e2e-test-generator
+      - integration-test-generator
+      - contract-test-generator
+      - system-test-generator
+    provides: "test coverage and distribution analysis"
+    stage: integration_validation
+
+# =============================================================================
+# D5: IMPLEMENTATION DERIVATION DOMAIN (L4→L5)
+# Contracts to unit tests and code
+# =============================================================================
+
+  # D5-1: Unit Test Generator ⭐
+  unit-test-generator:
+    domain: D5
+    depends_on:
+      - interface-contract-designer
+    provides: "unit tests with boundary value analysis"
+    stage: code_generation
+    target_percentage: 70
+
+  # D5-2: TDD Cycle Runner ⭐
+  tdd-cycle-runner:
+    domain: D5
+    depends_on:
+      - unit-test-generator
+    provides: "complete TDD red-green-refactor cycle"
+    stage: code_generation
+    validation: "P6 Test-First compliance"
+
+  # D5-3: Contract Driven Code Generator ⭐
+  contract-driven-code-generator:
+    domain: D5
+    depends_on:
+      - interface-contract-designer
+    provides: "skeleton code from contracts"
+    stage: code_generation
+
+  # D5-4: Backend Code Generator ⭐
+  backend-code-generator:
+    domain: D5
+    depends_on:
+      - contract-driven-code-generator
+      - unit-test-generator
+    provides: "backend implementation from contracts"
+    stage: code_generation
+
+  # D5-5: Frontend Code Generator ⭐
+  frontend-code-generator:
+    domain: D5
+    depends_on:
+      - contract-driven-code-generator
+      - e2e-test-generator
+    provides: "frontend implementation from specs"
+    stage: code_generation
+
+  # D5-6: Code Refactor Engine ⭐
+  code-refactor-engine:
+    domain: D5
+    depends_on:
+      - tdd-cycle-runner
+    provides: "automated refactoring with behavior preservation"
+    stage: code_generation
+
+# =============================================================================
+# D6: SCENARIO ADAPTATION DOMAIN
+# 8 scenario modes for context-sensitive workflow
+# =============================================================================
+
+  # D6-1: Scenario Detector ⭐
+  scenario-detector:
+    domain: D6
+    depends_on:
+      - business-requirements-collector
+    provides: "scenario mode detection with derivation parameters"
+    stage: scenario_adaptation
+    outputs: "mode + confidence + derivation_parameters"
+
+  # D6-2: Standard Mode Workflow ⭐
+  standard-mode-workflow:
+    domain: D6
+    depends_on:
+      - scenario-detector
+    provides: "standard workflow for greenfield projects"
+    scenario: standard
+    stage: scenario_adaptation
+
+  # D6-3: Reverse Engineering Suite ⭐
+  reverse-engineering-suite:
+    domain: D6
+    depends_on:
+      - scenario-detector
+    provides: "legacy system extraction and documentation"
+    scenario: reverse_engineering
+    stage: scenario_adaptation
+    exemptions: ["P2", "P4"]
+
+  # D6-4: Dual Track Validator ⭐
+  dual-track-validator:
+    domain: D6
+    depends_on:
+      - scenario-detector
+    provides: "parallel verification for language migration"
+    scenario: language_migration
+    stage: scenario_adaptation
+
+  # D6-5: Strangler Pattern Suite ⭐
+  strangler-pattern-suite:
+    domain: D6
+    depends_on:
+      - scenario-detector
+    provides: "incremental component replacement"
+    scenario: refactoring
+    stage: scenario_adaptation
+
+  # D6-6: POC Exemption Manager ⭐
+  poc-exemption-manager:
+    domain: D6
+    depends_on:
+      - scenario-detector
+    provides: "constitution principle exemptions for POC"
+    scenario: poc
+    stage: scenario_adaptation
+    exemptions: ["P2", "P4", "P6"]
+
+  # D6-7: Wartime Hotfix Workflow ⭐
+  wartime-hotfix-workflow:
+    domain: D6
+    depends_on:
+      - scenario-detector
+      - incident-management
+    provides: "emergency production fix with two-phase process"
+    scenario: emergency
+    stage: scenario_adaptation
+    exemptions: ["P6"]
+
+  # D6-8: Federal Constitution Manager ⭐
+  federal-constitution-manager:
+    domain: D6
+    depends_on:
+      - scenario-detector
+    provides: "multi-team development with CDC contracts"
+    scenario: federal
+    stage: scenario_adaptation
+
+# =============================================================================
+# D7: EVOLUTION OPTIMIZATION DOMAIN (P9-P10)
+# Recursive optimization and skill assetization
+# =============================================================================
+
+  # D7-1: Convergence Checker ⭐
+  convergence-checker:
+    domain: D7
+    depends_on:
+      - recursive-optimizer
+    provides: "convergence condition validation"
+    stage: evolution_optimization
+    validation: "boundedness + monotonicity + termination"
+
+  # D7-2: Improvement Budget Allocator ⭐
+  improvement-budget-allocator:
+    domain: D7
+    depends_on:
+      - recursive-optimizer
+    provides: "70/20/10 budget allocation"
+    stage: evolution_optimization
+
+  # D7-3: Tech Debt Quantifier ⭐
+  tech-debt-quantifier:
+    domain: D7
+    depends_on:
+      - context-manager
+    provides: "technical debt catalog with impact analysis"
+    stage: evolution_optimization
+
+  # D7-4: Skill Lifecycle Manager ⭐
+  skill-lifecycle-manager:
+    domain: D7
+    depends_on:
+      - skill-optimizer
+    provides: "skill asset lifecycle management"
+    stage: evolution_optimization
+    validation: "success_rate > 85%"
+
+  # D7-5: Skill Optimizer ⭐
+  skill-optimizer:
+    domain: D7
+    depends_on:
+      - skill-lifecycle-manager
+      - convergence-checker
+    provides: "skill parameter optimization from execution history"
+    stage: evolution_optimization
+
+# =============================================================================
+# D8: META-CAPABILITY DOMAIN
+# Self-verification, self-adjustment, semantic clarification
+# =============================================================================
+
+  # D8-1: Derivation Chain Validator ⭐
+  derivation-chain-validator:
+    domain: D8
+    depends_on: []
+    provides: "five-layer derivation chain completeness"
+    stage: meta_verification
+    protocol: META-002
+
+  # D8-2: Principle Consistency Checker ⭐
+  principle-consistency-checker:
+    domain: D8
+    depends_on:
+      - constitution-validator
+    provides: "principle consistency with dynamic weighting"
+    stage: meta_verification
+    protocol: META-003
+
+  # D8-3: Scenario Mode Recommender ⭐
+  scenario-mode-recommender:
+    domain: D8
+    depends_on:
+      - scenario-detector
+    provides: "scenario mode recommendation with confidence"
+    stage: meta_verification
+
+  # D8-4: Meta Skeptic ⭐
+  meta-skeptic:
+    domain: D8
+    depends_on:
+      - derivation-chain-validator
+      - test-pyramid-deriver
+    provides: "challenge agent/skill configurations"
+    stage: meta_verification
+    protocol: META-005
+
+  # D8-5: Architecture Self Auditor ⭐
+  architecture-self-auditor:
+    domain: D8
+    depends_on: []
+    provides: "architecture self-audit (coverage/redundancy/bottleneck)"
+    stage: meta_verification
+    protocol: META-001
+
+  # D8-6: Skill Gap Analyzer ⭐
+  skill-gap-analyzer:
+    domain: D8
+    depends_on:
+      - derivation-chain-validator
+    provides: "skill coverage gap analysis"
+    stage: meta_verification
+
+  # D8-7: Adjustment Proposer ⭐
+  adjustment-proposer:
+    domain: D8
+    depends_on:
+      - architecture-self-auditor
+      - derivation-chain-validator
+    provides: "architecture adjustment proposals"
+    stage: meta_verification
+    protocol: META-004
+
+  # D8-8: Adjustment Validator ⭐
+  adjustment-validator:
+    domain: D8
+    depends_on:
+      - adjustment-proposer
+    provides: "adjustment validation (correctness/safety)"
+    stage: meta_verification
+    protocol: META-004
+
+  # D8-9: Semantic Intent Clarifier ⭐
+  semantic-intent-clarifier:
+    domain: D8
+    depends_on:
+      - value-decomposer
+    provides: "structured reverse clarification questions"
+    stage: meta_verification
+    protocol: ARGUE-005
+
+# =============================================================================
+# SKEPTIC VERIFICATION SKILLS (4)
+# =============================================================================
+
+  correctness-checker:
+    domain: skeptic
+    depends_on: []
+    provides: "factual accuracy and logical consistency verification"
+    stage: verification
+
+  completeness-checker:
+    domain: skeptic
+    depends_on: []
+    provides: "content completeness and coverage verification"
+    stage: verification
+
+  consistency-checker:
+    domain: skeptic
+    depends_on:
+      - spec-parser
+      - spec-to-code-tracer
+    provides: "cross-layer and cross-domain consistency"
+    stage: verification
+
+  boundedness-checker:
+    domain: skeptic
+    depends_on:
+      - recursive-optimizer
+    provides: "optimization boundedness verification"
+    stage: verification
+
+# =============================================================================
+# METHODOLOGY ORCHESTRATION (2)
+# =============================================================================
+
+  methodology-fusion-orchestrator:
+    domain: orchestration
+    depends_on:
+      - scenario-detector
+      - business-requirements-collector
+      - value-decomposer
+      - spec-to-scenario
+      - test-pyramid-deriver
+      - tdd-cycle-runner
+      - constitution-validator
+      - recursive-optimizer
+    provides: "end-to-end methodology orchestration"
+    stage: coordination
+
+  requirement-classifier:
+    domain: orchestration
+    depends_on:
+      - business-requirements-collector
+    provides: "7-category requirement classification"
+    stage: business_analysis
+
+# =============================================================================
+# SPECIFICATION & TESTING (4)
+# =============================================================================
+
   spec-parser:
+    domain: specification
     depends_on:
       - business-value-mapper
       - requirement-classifier
-    provides: "structured technical specifications with 7-category support"
-    stage: "specification_definition"
-    
+    provides: "structured technical specifications"
+    stage: specification_definition
+
   bdd-scenario-writer:
+    domain: specification
     depends_on:
       - spec-parser
       - usecase-designer
     provides: "Gherkin BDD scenarios"
-    stage: "specification_definition"
-    
+    stage: specification_definition
+
   atdd-acceptance-test-generator:
+    domain: specification
     depends_on:
       - bdd-scenario-writer
     provides: "executable acceptance tests"
-    stage: "specification_definition"
+    stage: specification_definition
 
-  # Constitutional Review Stage
-  constitution-validator:
-    depends_on:
-      - spec-parser
-      - bdd-scenario-writer
-    provides: "constitutional compliance report"
-    stage: "constitutional_review"
-
-  # Implementation Planning Stage
-  architecture-decision-recorder:
-    depends_on:
-      - constitution-validator
-    provides: "architecture decision records (ADRs)"
-    stage: "implementation_planning"
-    
-  data-flow-analyzer:
-    depends_on:
-      - architecture-decision-recorder
-    provides: "data flow diagrams and analysis"
-    stage: "implementation_planning"
-    
-  architecture-pattern-selector:
-    depends_on:
-      - architecture-decision-recorder
-    provides: "architecture pattern selection"
-    stage: "implementation_planning"
-    
-  tech-stack-selector:
-    depends_on:
-      - architecture-pattern-selector
-    provides: "technology stack selection with interactive guidance"
-    stage: "implementation_planning"
-
-  # Code Generation Stage
-  generic-code-generator:
-    depends_on:
-      - spec-parser
-      - architecture-pattern-selector
-    provides: "language-agnostic code generation"
-    stage: "code_generation"
-    
-  tdd-red-green-refactor:
-    depends_on:
-      - atdd-acceptance-test-generator
-    provides: "test-driven implementation"
-    stage: "code_generation"
-    
-  go-backend-scaffolder:
-    depends_on:
-      - generic-code-generator
-      - architecture-pattern-selector
-    provides: "Go backend scaffolding"
-    stage: "code_generation"
-    
-  vue-quasar-scaffolder:
-    depends_on:
-      - generic-code-generator
-      - architecture-pattern-selector
-    provides: "Vue + Quasar frontend scaffolding"
-    stage: "code_generation"
-    
-  go-cli-builder:
-    depends_on:
-      - generic-code-generator
-      - makefile-backend-generator
-    provides: "Go CLI application scaffolding"
-    stage: "code_generation"
-    
-  rust-cli-builder:
-    depends_on:
-      - generic-code-generator
-    provides: "Rust CLI application scaffolding"
-    stage: "code_generation"
-
-  # Integration Validation Stage
   sit-scenario-generator:
+    domain: specification
     depends_on:
       - go-backend-scaffolder
       - vue-quasar-scaffolder
     provides: "system integration test scenarios"
-    stage: "integration_validation"
-    
-  chaos-test-designer:
-    depends_on:
-      - sit-scenario-generator
-    provides: "chaos engineering test plans"
-    stage: "integration_validation"
-    
-  contract-test-generator:
+    stage: integration_validation
+
+# =============================================================================
+# CONSTITUTION & TRACEABILITY (2)
+# =============================================================================
+
+  constitution-validator:
+    domain: constitution
     depends_on:
       - spec-parser
-    provides: "contract tests for microservices"
-    stage: "integration_validation"
-    
-  test-pyramid-analyzer:
-    depends_on:
-      - tdd-red-green-refactor
-      - sit-scenario-generator
-    provides: "test coverage and distribution analysis"
-    stage: "integration_validation"
+      - bdd-scenario-writer
+    provides: "constitutional compliance report"
+    stage: constitutional_review
 
-  # Deployment & Operations Stage (New)
-  deployment-orchestrator:
-    depends_on:
-      - go-backend-scaffolder
-      - vue-quasar-scaffolder
-      - metrics-definer
-    provides: "deployment orchestration across environments"
-    stage: "deployment_operations"
-    
-  incident-management:
-    depends_on:
-      - deployment-orchestrator
-      - metrics-definer
-    provides: "ITIL incident management"
-    stage: "deployment_operations"
-    
-  problem-management:
-    depends_on:
-      - incident-management
-    provides: "ITIL problem management"
-    stage: "deployment_operations"
-    
-  change-management:
-    depends_on:
-      - deployment-orchestrator
-      - incident-management
-    provides: "ITIL change management"
-    stage: "deployment_operations"
-    
-  service-desk:
-    depends_on:
-      - incident-management
-      - change-management
-    provides: "ITIL service desk operations"
-    stage: "deployment_operations"
-
-  release-manager:
-    depends_on:
-      - deployment-orchestrator
-      - metrics-definer
-    provides: "release planning and stakeholder coordination"
-    stage: "deployment_operations"
-
-  rollback-manager:
-    depends_on:
-      - deployment-orchestrator
-      - incident-management
-    provides: "automated rollback procedures for failed deployments"
-    stage: "deployment_operations"
-
-  # Skeptic Skill Layer (Verification & Validation)
-  correctness-checker:
-    depends_on: []
-    provides: "factual accuracy and logical consistency verification"
-    stage: "verification"
-    called_by: ["UniversalSkeptic", "BusinessSkeptic", "TechnicalSkeptic"]
-    
-  completeness-checker:
-    depends_on: []
-    provides: "content completeness and coverage verification"
-    stage: "verification"
-    called_by: ["UniversalSkeptic", "BusinessSkeptic"]
-    
-  consistency-checker:
+  spec-to-code-tracer:
+    domain: traceability
     depends_on:
       - spec-parser
-      - spec-to-code-tracer
-    provides: "cross-layer and cross-domain consistency verification"
-    stage: "verification"
-    called_by: ["UniversalSkeptic", "TechnicalSkeptic"]
-    
-  boundedness-checker:
-    depends_on:
-      - recursive-optimizer
-    provides: "boundedness constraints verification for optimization"
-    stage: "verification"
-    called_by: ["TechnicalSkeptic", "RecursiveOptimizer"]
+      - generic-code-generator
+    provides: "spec to code traceability"
+    stage: traceability
 
-  # AI Collaboration & Optimization Stage
+# =============================================================================
+# AI COLLABORATION & OPTIMIZATION (4)
+# =============================================================================
+
   context-manager:
+    domain: ai_collaboration
     depends_on: []
     provides: "context management across sessions"
-    stage: "ai_collaboration"
-    
+    stage: ai_collaboration
+
   skill-recommender:
+    domain: ai_collaboration
     depends_on:
       - context-manager
     provides: "skill recommendation based on context"
-    stage: "ai_collaboration"
-    
+    stage: ai_collaboration
+
   recursive-optimizer:
+    domain: ai_collaboration
     depends_on:
       - metrics-definer
       - skill-recommender
       - boundedness-checker
+      - convergence-checker
     provides: "recursive optimization of skills and processes"
-    stage: "ai_collaboration"
-    
+    stage: ai_collaboration
+    linkage: "ChangeAndTaskAgent"
+
   prompt-template-manager:
+    domain: ai_collaboration
     depends_on:
       - recursive-optimizer
-    provides: "prompt template management and versioning"
-    stage: "ai_collaboration"
+    provides: "prompt template management"
+    stage: ai_collaboration
 
-  # Fullstack Development Workflow
+# =============================================================================
+# IT SERVICE MANAGEMENT & DEPLOYMENT (7)
+# =============================================================================
+
+  deployment-orchestrator:
+    domain: deployment
+    depends_on:
+      - go-backend-scaffolder
+      - vue-quasar-scaffolder
+      - metrics-definer
+    provides: "deployment orchestration"
+    stage: deployment_operations
+
+  incident-management:
+    domain: deployment
+    depends_on:
+      - deployment-orchestrator
+      - metrics-definer
+    provides: "ITIL incident management"
+    stage: deployment_operations
+
+  problem-management:
+    domain: deployment
+    depends_on:
+      - incident-management
+    provides: "ITIL problem management"
+    stage: deployment_operations
+
+  change-management:
+    domain: deployment
+    depends_on:
+      - deployment-orchestrator
+      - incident-management
+    provides: "ITIL change management"
+    stage: deployment_operations
+
+  service-desk:
+    domain: deployment
+    depends_on:
+      - incident-management
+      - change-management
+    provides: "ITIL service desk"
+    stage: deployment_operations
+
+  release-manager:
+    domain: deployment
+    depends_on:
+      - deployment-orchestrator
+    provides: "release planning and coordination"
+    stage: deployment_operations
+
+  rollback-manager:
+    domain: deployment
+    depends_on:
+      - deployment-orchestrator
+      - incident-management
+    provides: "automated rollback"
+    stage: deployment_operations
+
+# =============================================================================
+# FULLSTACK DEVELOPMENT TOOLS (9)
+# =============================================================================
+
+  go-backend-scaffolder:
+    domain: fullstack
+    depends_on:
+      - generic-code-generator
+      - architecture-pattern-selector
+    provides: "Go backend scaffolding"
+    stage: code_generation
+
+  vue-quasar-scaffolder:
+    domain: fullstack
+    depends_on:
+      - generic-code-generator
+      - architecture-pattern-selector
+    provides: "Vue + Quasar frontend scaffolding"
+    stage: code_generation
+
   fullstack-project-setup:
+    domain: fullstack
     depends_on:
       - go-backend-scaffolder
       - vue-quasar-scaffolder
       - requirements-to-code-docs
-      - readme-license-generator
     provides: "complete fullstack project setup"
-    stage: "project_initialization"
-    
+    stage: project_initialization
+
+  requirements-to-code-docs:
+    domain: fullstack
+    depends_on:
+      - business-requirements-collector
+      - requirement-classifier
+      - usecase-designer
+      - spec-parser
+    provides: "structured documentation workflow"
+    stage: documentation
+
   go-vue-fullstack-workflow:
+    domain: fullstack
     depends_on:
       - fullstack-project-setup
       - methodology-fusion-orchestrator
-    provides: "integrated Go + Vue development workflow"
-    stage: "project_workflow"
-    
-  requirements-to-code-docs:
+    provides: "integrated Go + Vue workflow"
+    stage: project_workflow
+
+  makefile-backend-generator:
+    domain: fullstack
+    depends_on:
+      - go-backend-scaffolder
+    provides: "Makefile generation"
+    stage: build_automation
+
+  go-cli-builder:
+    domain: fullstack
+    depends_on:
+      - generic-code-generator
+      - makefile-backend-generator
+    provides: "Go CLI scaffolding"
+    stage: code_generation
+
+  rust-cli-builder:
+    domain: fullstack
+    depends_on:
+      - generic-code-generator
+    provides: "Rust CLI scaffolding"
+    stage: code_generation
+
+  readme-license-generator:
+    domain: fullstack
+    depends_on: []
+    provides: "bilingual README and LICENSE"
+    stage: tools
+
+# =============================================================================
+# ADDITIONAL SKILLS (3)
+# =============================================================================
+
+  business-value-mapper:
+    domain: strategic
     depends_on:
       - business-requirements-collector
       - requirement-classifier
-      - usecase-designer
-      - spec-parser
-    provides: "structured documentation workflow with 7-category support"
-    stage: "documentation"
-    
-  makefile-backend-generator:
-    depends_on:
-      - go-backend-scaffolder
-    provides: "Makefile generation for Go projects (CLI, backend, fullstack)"
-    stage: "build_automation"
+    provides: "BMAD matrix"
+    stage: business_analysis
 
-  # Tools & Integration
+  chaos-test-designer:
+    domain: testing
+    depends_on:
+      - sit-scenario-generator
+    provides: "chaos engineering experiments"
+    stage: integration_validation
+
+  generic-code-generator:
+    domain: tactical
+    depends_on:
+      - spec-parser
+      - architecture-pattern-selector
+    provides: "language-agnostic code generation"
+    stage: code_generation
+
   skill-packaging-tool:
+    domain: tools
     depends_on: []
     provides: "skill packaging and distribution"
-    stage: "tools"
-    
-  readme-license-generator:
+    stage: tools
+
+  tdd-red-green-refactor:
+    domain: testing
+    depends_on:
+      - atdd-acceptance-test-generator
+    provides: "TDD methodology"
+    stage: code_generation
+
+  scenario-mode-selector:
+    domain: scenario
     depends_on: []
-    provides: "bilingual README and LICENSE file generation"
-    stage: "tools"
-    
-  spec-evolution-tracker:
-    depends_on:
-      - spec-parser
-    provides: "specification change tracking"
-    stage: "specification_management"
-    
-  spec-to-code-tracer:
-    depends_on:
-      - spec-parser
-      - generic-code-generator
-    provides: "specification to code traceability"
-    stage: "traceability"
-    
-  requirement-implementation-tracer:
-    depends_on:
-      - usecase-designer
-      - spec-parser
-      - generic-code-generator
-    provides: "three-layer bidirectional traceability between requirements, use cases, and implementation"
-    stage: "traceability"
+    provides: "scenario mode selection (legacy, use scenario-detector)"
+    stage: scenario_adaptation
+    deprecated: "use scenario-detector instead"
 
-# Stage Definitions
+# =============================================================================
+# STAGE DEFINITIONS
+# =============================================================================
+
 stages:
-  scenario_adaptation:
-    description: "Scenario mode selection and context adaptation"
-    order: 0
-
   business_analysis:
     description: "Business requirements collection and analysis"
     order: 1
-    
+    domains: [D1]
+
   specification_definition:
     description: "Technical specification creation"
     order: 2
-    
+    domains: [D3]
+
   constitutional_review:
     description: "Constitutional compliance validation"
     order: 3
-    
+    domains: [D8]
+
   implementation_planning:
     description: "Architecture and implementation planning"
     order: 4
-    
+    domains: [D2, D4]
+
   code_generation:
     description: "Code implementation and generation"
     order: 5
-    
+    domains: [D5]
+
   integration_validation:
     description: "Testing and quality validation"
     order: 6
-    
+    domains: [D4]
+
   deployment_operations:
     description: "Deployment and ITIL operations management"
     order: 7
-    
-  ai_collaboration:
-    description: "AI collaboration and optimization"
-    order: 8
-    
-  project_initialization:
-    description: "Project setup and initialization"
+
+  scenario_adaptation:
+    description: "Scenario mode selection and adaptation"
     order: 0
-    
-  project_workflow:
-    description: "Integrated development workflows"
-    order: 9
-    
-  documentation:
-    description: "Documentation generation and management"
-    order: 10
-    
-  build_automation:
-    description: "Build and automation tools"
-    order: 11
-    
-  tools:
-    description: "Supporting tools and utilities"
-    order: 12
-    
+    domains: [D6]
+
+  evolution_optimization:
+    description: "Recursive optimization and skill assetization"
+    order: 8
+    domains: [D7]
+
+  meta_verification:
+    description: "Meta-argumentation and self-verification"
+    order: 0
+    domains: [D8]
+
+  coordination:
+    description: "Workflow orchestration"
+    order: 0
+
+  verification:
+    description: "Skeptic verification and validation"
+    order: 0
+
   traceability:
-    description: "Traceability and impact analysis"
-    order: 13
-    
+    description: "Traceability management"
+    order: 0
+
   specification_management:
     description: "Specification evolution management"
-    order: 14
+    order: 0
 
-  verification:
-    description: "Skeptic mechanism verification and validation"
-    order: 15
+  ai_collaboration:
+    description: "AI collaboration and optimization"
+    order: 0
 
-# Cross-cutting Concerns
-cross_cutting:
-  scenario_adaptation:
-    skills:
-      - scenario-mode-selector
-      - constitution-validator
-      - methodology-fusion-orchestrator
-    description: "Scenario mode selection and principle exemption management"
+  project_initialization:
+    description: "Project setup"
+    order: 0
 
-  constitution:
-    skills:
-      - constitution-validator
-      - spec-parser
-      - architecture-decision-recorder
-      - scenario-mode-selector
-    description: "Constitutional principles enforcement"
-    
-  metrics:
-    skills:
-      - metrics-definer
-      - recursive-optimizer
-      - test-pyramid-analyzer
-      - nfr-analyzer
-    description: "Metrics definition and analysis"
-    
-  quality:
-    skills:
-      - tdd-red-green-refactor
-      - test-pyramid-analyzer
-      - sit-scenario-generator
-      - chaos-test-designer
-    description: "Quality assurance and testing"
-    
-  automation:
-    skills:
-      - generic-code-generator
-      - deployment-orchestrator
-      - makefile-backend-generator
-    description: "Automation and code generation"
-    
+  project_workflow:
+    description: "Integrated development workflows"
+    order: 0
+
   documentation:
-    skills:
-      - requirements-to-code-docs
-      - readme-license-generator
-    description: "Documentation generation and management"
-    
-  traceability:
-    skills:
-      - requirement-classifier
-      - usecase-designer
-      - requirement-implementation-tracer
-      - spec-to-code-tracer
-    description: "Three-layer bidirectional traceability between requirements, use cases, and implementation"
+    description: "Documentation generation"
+    order: 0
 
-  verification:
-    skills:
-      - correctness-checker
-      - completeness-checker
-      - consistency-checker
-      - boundedness-checker
-    description: "Skeptic mechanism verification and validation capabilities"
-    
-  requirement_classification:
+  build_automation:
+    description: "Build and automation tools"
+    order: 0
+
+  tools:
+    description: "Supporting tools and utilities"
+    order: 0
+
+# =============================================================================
+# CROSS-CUTTING CONCERNS
+# =============================================================================
+
+cross_cutting:
+  five_layer_derivation:
+    description: "Complete derivation from business value to code"
+    domains: [D1, D2, D3, D4, D5]
     skills:
       - business-requirements-collector
-      - requirement-classifier
-      - nfr-analyzer
-    description: "7-category requirement classification and analysis"
+      - value-decomposer
+      - architecture-decision-recorder
+      - interface-contract-designer
+      - spec-to-scenario
+      - test-pyramid-deriver
+      - tdd-cycle-runner
+      - unit-test-generator
+
+  constitution_enforcement:
+    description: "Constitutional principle validation"
+    skills:
+      - constitution-validator
+      - principle-consistency-checker
+      - scenario-detector
+
+  protocol_support:
+    description: "ARGUE and META protocol implementations"
+    skills:
+      - semantic-intent-clarifier
+      - derivation-chain-validator
+      - meta-skeptic
+      - adjustment-proposer
+
+  quality_assurance:
+    description: "Testing and quality validation"
+    skills:
+      - test-pyramid-deriver
+      - e2e-test-generator
+      - integration-test-generator
+      - contract-test-generator
+      - system-test-generator
+      - test-pyramid-analyzer
+
+  recursive_optimization:
+    description: "P9 recursive self-optimization"
+    skills:
+      - recursive-optimizer
+      - convergence-checker
+      - skill-optimizer
+      - improvement-budget-allocator
+
+  skill_assetization:
+    description: "P10 skill library assetization"
+    skills:
+      - skill-lifecycle-manager
+      - skill-gap-analyzer
+      - skill-optimizer

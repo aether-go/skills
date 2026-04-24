@@ -148,6 +148,37 @@ result:
   - Team confidence in approach
 ```
 
+## V2.1 Enhancement: Derivation Parameter Output
+
+In V2.1, scenario-detector outputs **derivation parameters** (not just mode labels) for ConstitutionGuardian's dynamic principle weighting:
+
+```yaml
+scenario_detection:
+  detected_mode: "reverse_engineering"
+  confidence: 0.92
+  
+  derivation_parameters:
+    l1_l2_depth: "comprehensive"  # comprehensive, moderate, abbreviated
+    p2_completeness_threshold: 0.7  # 0.0-1.0
+    p6_test_coverage_threshold: 0.5  # 0.0-1.0
+    p4_enforcement_level: "reduced"  # full, reduced, exempted
+    
+  principle_adjustments:
+    P2: {mode: "reduced", threshold: 0.7}
+    P4: {mode: "n_a_legacy"}
+    P5: {mode: "document_existing"}
+    P6: {mode: "reduced", threshold: 0.5}
+```
+
+### Key Derivation Parameters
+
+| Parameter | Description | Impact |
+|-----------|-------------|--------|
+| `l1_l2_depth` | Business goal decomposition depth | Affects requirements-collector depth |
+| `p2_completeness_threshold` | Planning completeness required | Affects spec completeness gate |
+| `p6_test_coverage_threshold` | Minimum test coverage | Affects implementation validation |
+| `p4_enforcement_level` | Interface-first principle strength | Affects design review gates |
+
 ## Quick Reference
 
 ### Scenario Mode Selection Flowchart

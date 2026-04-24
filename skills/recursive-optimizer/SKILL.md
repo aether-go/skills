@@ -430,6 +430,36 @@ class ConvergenceChecker:
         return all(change < self.config['delta_threshold'] for change in quality_changes)
 ```
 
+## V2.1 Enhancement: ChangeAndTaskAgent Linkage
+
+In V2.1, RecursiveOptimizer integrates with ChangeAndTaskAgent for task-based optimization execution:
+
+```yaml
+recursive_optimizer_with_cta:
+  linkage:
+    - RecursiveOptimizer generates optimization task清单
+    - ChangeAndTaskAgent schedules and executes tasks
+    - /opsx-ff: Fast feedback phase (quick validation)
+    - /opsx-apply: Formal application phase (persistent changes)
+    
+  convergence_control:
+    - convergence-checker判定 directly controls task调度
+    - When converged: RecursiveOptimizer stops, notifies ChangeAndTaskAgent
+    - ChangeAndTaskAgent persists final state to .aether/state/
+```
+
+### ARGUE-003 Protocol Integration
+
+```
+RecursiveOptimizer detects convergence
+    │
+    ├── ARGUE-003 → WorkflowOrchestrator
+    │     └── optimization suggestions + convergence status
+    │
+    └── If converged:
+          └── ChangeAndTaskAgent finalizes optimization tasks
+```
+
 ### Recursive Optimization Runner
 
 ```python

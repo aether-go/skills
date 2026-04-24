@@ -6,587 +6,349 @@
 
 ---
 
-根据 Aether.go 方法论融合框架和 OpenCode skills 规范，已成功创建所有 50 个技能（原有31个 + 新增7个需求管理技能 + Rust CLI构建器 + README & LICENSE生成器 + 3个新增追溯技能 + 技术栈选择器 + 架构模式选择器 + 场景模式选择器 + 4个质疑验证技能），覆盖Aether.go方法论融合框架的完整八个阶段。
+基于 Aether.go 方法论融合框架 V2.1 和 OpenCode skills 规范，已创建 **87个skills**，覆盖五层推导模型的完整八个推导域(D1-D8)。
 
-## 架构更新 (2026-04-10)
+## 架构更新 (2026-04-24)
 
-基于 [Agent-Skill 分析报告](D:\repos\bison\ai-docs\layer3\aether-go\agent-skill-analysis-report.md)，已实施以下架构改进：
+基于 [method-paper.md](../ai-docs/layer3/aether-go/method-paper.md) 和 [ai-agent-architecture-proposal.md V2.1](../ai-docs/layer3/aether-go/ai-agent-architecture-proposal.md)，已实施以下架构改进：
 
-### 核心 Agent 层（7个）
-- **WorkflowOrchestrator** - 协调多技能工作流执行
-- **RecursiveOptimizer** - 执行递归优化闭环
-- **ConstitutionGuardian** - 监控宪法合规性
-- **UniversalSkeptic** - 跨域一致性检查
-- **HumanAIBoundaryGuard** - 人机决策路由
-- **ContextManager** - 跨会话上下文管理
-- **SkillLibraryCurator** - 技能资产管理
+### 核心Skills: D1-D8推导域 (49个Skills)
 
-### 质疑 Skill 层（4个）
-质疑机制已下沉为 Skills（替代原有的6个专业质疑Agent + 1个通用质疑Agent）：
-- **correctness-checker** - 验证事实正确性和逻辑一致性
-- **completeness-checker** - 验证内容完整性和覆盖度
-- **consistency-checker** - 验证跨层/跨域一致性
-- **boundedness-checker** - 验证优化的有界性约束
+| 域 | 名称 | Skills数量 | 说明 |
+|---|------|-----------|------|
+| **D1** | 价值推导域 | 5 | L1→L2: 业务目标到功能需求 |
+| **D2** | 架构推导域 | 5 | L2→L3: 功能需求到架构决策 |
+| **D3** | 规范推导域 | 5 | L3→L4: 系统规范到GWT验收标准 |
+| **D4** | 契约推导域 | 6 | L4→L5: 验收标准到测试分层 |
+| **D5** | 实现推导域 | 6 | L4→L5: 契约到单元测试和代码 |
+| **D6** | 场景适配域 | 8 | 8种场景模式，支持情境感知工作流 |
+| **D7** | 演进优化域 | 5 | P9-P10: 递归优化和技能资产化 |
+| **D8** | 元能力域 | 9 | 自验证、自调整、语义确认 |
 
-### 改进收益
-- **降低复杂度**: Agent数量从19个减少到7个（减少63%）
-- **提高复用性**: 质疑能力作为可组合的 Skills
-- **边界清晰**: Agent负责协调，Skill负责执行
-- **更好维护性**: 单一职责的模块化架构
-
-## 新增 Skills 背景：方法论融合框架完善
-
-基于对 `method-paper.md` 中描述的Aether.go方法论融合框架的深入分析，新增了7个关键技能以填补方法论执行缺口，实现端到端的智能软件生命周期管理。
-
-## 技能清单
-
-### 方法论融合协调层 Skills - 1个
-
-1. **methodology-fusion-orchestrator**
-   - 描述：协调端到端Aether.go方法论融合工作流，覆盖所有八个阶段
-   - 功能：工作流编排、宪法贯穿、度量聚合、技能调度、优化触发
-   - 位置：`skills/methodology-fusion-orchestrator/SKILL.md`
-
-### 场景适配层 Skills - 1个
-
-46. **scenario-mode-selector**
-   - 描述：根据项目上下文、不确定性水平和约束选择适当的开发场景模式
-   - 功能：8种场景模式（标准、逆向工程、语言迁移、重构、POC、紧急、联邦、持续改进）、豁免管理、原则适配
-   - 位置：`skills/scenario-mode-selector/SKILL.md`
-
-### 战略层 Skills（BMAD 驱动）- 9个
-
-2. **business-requirements-collector**
-   - 描述：收集、分析和优先处理来自利益相关者的业务需求，支持7类别分类
-   - 功能：利益相关者分析、需求启发、优先级排序、验证、7类别分类
-   - 位置：`skills/business-requirements-collector/SKILL.md`
-
-3. **requirement-classifier**
-   - 描述：自动将需求分类到7个类别（业务、架构、功能、非功能、合规、安全、扩展性），支持跨类别关系分析
-   - 功能：自动分类、跨类别关系映射、冲突检测、优先级评分
-   - 位置：`skills/requirement-classifier/SKILL.md`
-
-4. **usecase-designer**
-   - 描述：设计用例，支持与7类别需求的双向追溯
-   - 功能：用例创建、需求到用例映射、复杂度评估、场景覆盖分析
-   - 位置：`skills/usecase-designer/SKILL.md`
-
-5. **nfr-analyzer**
-   - 描述：分析非功能性需求，提供可度量指标和验证标准
-   - 功能：NFR量化、指标定义、阈值设置、验证规划
-   - 位置：`skills/nfr-analyzer/SKILL.md`
-
-6. **business-value-mapper**
-   - 描述：使用BMAD框架将业务目标转化为可衡量的技术指标
-   - 功能：生成BMAD矩阵，连接业务目标与技术指标
-   - 位置：`skills/business-value-mapper/SKILL.md`
-
-7. **metrics-definer**
-   - 描述：为特定系统类型定义业务和技术指标及监控配置
-   - 功能：定义指标清单，内置电商/SaaS/IoT等场景模板
-   - 位置：`skills/metrics-definer/SKILL.md`
-
-8. **architecture-decision-recorder**
-   - 描述：记录架构决策及其业务依据和备选方案分析
-   - 功能：创建ADR文档，记录决策理由和权衡
-   - 位置：`skills/architecture-decision-recorder/SKILL.md`
-
-9. **data-flow-analyzer**
-   - 描述：分析数据流和价值链以识别瓶颈和优化机会
-   - 功能：可视化数据流动，追踪价值链
-   - 位置：`skills/data-flow-analyzer/SKILL.md`
-
-10. **requirement-implementation-tracer**
-    - 描述：建立需求、用例、实现之间的三层双向可追溯性
-    - 功能：创建追溯矩阵，支持影响分析，覆盖率报告
-    - 位置：`skills/requirement-implementation-tracer/SKILL.md`
-
-### 战术层 Skills（SDD + 宪法约束）- 7个
-
-11. **spec-parser**
-   - 描述：将自然语言需求解析为结构化技术规范，支持7类别分类
-   - 功能：转换用户故事为YAML/JSON规范，支持7类别分类
-   - 位置：`skills/spec-parser/SKILL.md`
-
-12. **constitution-validator**
-   - 描述：验证代码和规范是否符合架构原则和宪法约束
-   - 功能：自动检查合规性，生成合规报告
-   - 位置：`skills/constitution-validator/SKILL.md`
-
-13. **spec-to-code-tracer**
-   - 描述：建立规范与代码实现之间的双向可追溯性
-   - 功能：创建追溯矩阵，支持影响分析
-   - 位置：`skills/spec-to-code-tracer/SKILL.md`
-
-14. **spec-evolution-tracker**
-   - 描述：跟踪规范变更历史和影响分析
-   - 功能：版本管理，变更影响评估
-   - 位置：`skills/spec-evolution-tracker/SKILL.md`
-
-15. **architecture-pattern-selector**
-   - 描述：基于需求、约束和团队能力选择架构模式
-   - 功能：系统化评估模式、创建决策矩阵、生成ADR
-   - 位置：`skills/architecture-pattern-selector/SKILL.md`
-
-16. **tech-stack-selector**
-   - 描述：交互式技术栈选择，提供应用类型、语言、框架、数据库、缓存、消息队列和基础设施等全面选项
-   - 功能：应用类型选择、语言/框架推荐、数据库选型、基础设施决策、ADR集成
-   - 位置：`skills/tech-stack-selector/SKILL.md`
-
-17. **generic-code-generator**
-   - 描述：根据规范、模板或测试驱动开发模式跨多种语言和框架生成生产代码
-   - 功能：模板化代码生成、规范转换、TDD集成、多语言模式支持
-   - 位置：`skills/generic-code-generator/SKILL.md`
-
-18. **contract-test-generator**
-   - 描述：生成消费者驱动的契约测试，确保微服务API兼容性，防止集成故障
-   - 功能：契约生成、消费者驱动测试、Pact/OpenAPI集成、CI/CD验证门控
-   - 位置：`skills/contract-test-generator/SKILL.md`
-
-### 执行层 Skills（ATDD/BDD/TDD/SIT/Chaos）- 6个
-
-19. **atdd-acceptance-test-generator**
-   - 描述：从需求生成可执行的验收测试以驱动开发
-   - 功能：生成可执行验收测试、利益相关者验证示例、测试覆盖分析
-   - 位置：`skills/atdd-acceptance-test-generator/SKILL.md`
-
-20. **bdd-scenario-writer**
-   - 描述：将用户故事和需求转换为Gherkin BDD场景文件
-   - 功能：生成Given-When-Then结构的场景，支持多语言
-   - 位置：`skills/bdd-scenario-writer/SKILL.md`
-
-21. **tdd-red-green-refactor**
-   - 描述：使用测试驱动开发方法实现任何功能或修复错误
-   - 功能：指导RED-GREEN-REFACTOR循环，支持多语言
-   - 位置：`skills/tdd-red-green-refactor/SKILL.md`
-
-22. **test-pyramid-analyzer**
-   - 描述：分析测试覆盖率、分布和测试策略缺口
-   - 功能：可视化测试分布，生成覆盖率报告，提供优化建议
-   - 位置：`skills/test-pyramid-analyzer/SKILL.md`
-
-23. **sit-scenario-generator**
-   - 描述：创建跨多个服务或API端点的系统集成测试（SIT）场景
-   - 功能：生成自动化SIT测试脚本，支持Cypress/Postman/k6
-   - 位置：`skills/sit-scenario-generator/SKILL.md`
-
-24. **chaos-test-designer**
-   - 描述：设计混沌工程实验以测试系统弹性和容错能力
-   - 功能：定义故障注入场景，支持LitmusChaos/Chaos Mesh
-   - 位置：`skills/chaos-test-designer/SKILL.md`
-
-### ITIL Service Management & Deployment Operations Skills - 7个
-
-25. **incident-management**
-   - 描述：ITIL对齐的事件处理流程和响应工作流
-   - 功能：事件分类、优先级排序、升级、解决跟踪
-   - 位置：`skills/incident-management/SKILL.md`
-
-26. **problem-management**
-   - 描述：根本原因分析和永久性修复管理
-   - 功能：问题识别、根本原因分析、解决方案实施、预防措施
-   - 位置：`skills/problem-management/SKILL.md`
-
-27. **change-management**
-   - 描述：受控变更流程与变更咨询委员会（CAB）审批
-   - 功能：变更请求评估、风险评估、CAB审批、实施协调
-   - 位置：`skills/change-management/SKILL.md`
-
-28. **service-desk**
-   - 描述：用户请求和问题的单一联系点管理
-   - 功能：服务目录、SLA协议、用户沟通、请求跟踪
-   - 位置：`skills/service-desk/SKILL.md`
-
-29. **deployment-orchestrator**
-   - 描述：高级部署策略编排（金丝雀、蓝绿、滚动更新）
-   - 功能：部署策略选择、环境管理、发布协调、监控集成
-   - 位置：`skills/deployment-orchestrator/SKILL.md`
-
-30. **release-manager**
-   - 描述：发布规划、版本管理和利益相关者协调
-   - 功能：发布日历、版本控制、沟通计划、上线协调
-   - 位置：`skills/release-manager/SKILL.md`
-
-31. **rollback-manager**
-   - 描述：失败部署的自动化回滚程序
-   - 功能：回滚触发器、状态恢复、数据一致性验证
-   - 位置：`skills/rollback-manager/SKILL.md`
-
-### AI 协作与优化 Skills - 4个
-
-32. **context-manager**
-   - 描述：管理项目上下文、对话历史和信息检索
-   - 功能：保存和恢复上下文，最小化token使用
-   - 位置：`skills/context-manager/SKILL.md`
-
-33. **skill-recommender**
-   - 描述：根据当前任务、项目上下文和开发阶段推荐相关AI技能
-   - 功能：智能推荐，提高效率
-   - 位置：`skills/skill-recommender/SKILL.md`
-
-34. **recursive-optimizer**
-   - 描述：基于执行结果和用户反馈优化AI技能、提示词和工作流
-   - 功能：A/B测试，持续改进循环
-   - 位置：`skills/recursive-optimizer/SKILL.md`
-
-35. **prompt-template-manager**
-   - 描述：管理、版本化和优化AI提示词模板
-   - 功能：版本控制，性能跟踪，A/B测试
-   - 位置：`skills/prompt-template-manager/SKILL.md`
-
-### Go + Vue + Quasar 全栈开发 Skills - 6个（生产级模式）
-
-36. **go-backend-scaffolder**
-   - 描述：基于生产级模式生成干净架构的Go后端代码
-   - 功能：创建Fiber + GORM + Swagger后端，支持分层架构和Cobra命令结构
-   - 特点：main.go在根目录作为Cobra入口，cmd/存放独立命令（version/daemon/server），包含默认version命令
-   - 位置：`skills/go-backend-scaffolder/SKILL.md`
-
-37. **vue-quasar-scaffolder**
-   - 描述：基于生产级前端模式生成Vue 3 + Quasar + TypeScript组件
-   - 功能：创建Composition API组件、Pinia存储、测试配置
-   - 位置：`skills/vue-quasar-scaffolder/SKILL.md`
-
-38. **fullstack-project-setup**
-   - 描述：基于生产级结构初始化完整的Go + Vue + Quasar全栈项目
-   - 功能：创建项目结构、Docker配置、CI/CD管道、开发环境
-   - 位置：`skills/fullstack-project-setup/SKILL.md`
-
-39. **requirements-to-code-docs**
-   - 描述：基于生产级文档工作流从需求到用例到实现生成结构化文档
-   - 功能：需求文档、用例文档、API文档、可追溯性矩阵
-   - 位置：`skills/requirements-to-code-docs/SKILL.md`
-
-40. **go-vue-fullstack-workflow**
-   - 描述：协调使用生产级模式和文档的Go + Vue + Quasar全栈开发工作流
-   - 功能：集成所有相关技能，提供端到端开发工作流指导
-   - 位置：`skills/go-vue-fullstack-workflow/SKILL.md`
-
-41. **makefile-backend-generator**
-   - 描述：基于生产级模式为Go后端项目创建生产级Makefile
-   - 功能：生成包含构建、测试、部署、数据库操作的完整Makefile，支持跨平台编译
-   - 位置：`skills/makefile-backend-generator/SKILL.md`
-
-### 工具与集成 Skills - 4个
-
-42. **skill-packaging-tool**
-   - 描述：将技能打包为可分发的可安装包
-   - 功能：版本管理，依赖声明，安装脚本
-   - 位置：`skills/skill-packaging-tool/SKILL.md`
-
-43. **go-cli-builder**
-   - 描述：构建企业级Go CLI应用，基于cobra+viper和最佳实践
-   - 功能：生成生产级CLI应用结构，包含配置管理、结构化日志、自动版本嵌入、多平台构建和完整测试策略
-   - 特点：支持多路径配置文件搜索（./ → ./config → /etc/应用名称），自动获取Git版本和Go SDK版本，内置shell补全命令
-   - 位置：`skills/go-cli-builder/SKILL.md`
-
-44. **rust-cli-builder**
-   - 描述：构建企业级Rust CLI应用，基于clap+serde+config和最佳实践
-   - 功能：生成生产级CLI应用结构，包含配置管理、结构化日志、自动版本嵌入、多平台构建和完整测试策略
-   - 特点：支持多路径配置文件搜索（./ → ./config → /etc/应用名称），自动获取Git版本和Rust版本，内置shell补全命令
-   - 位置：`skills/rust-cli-builder/SKILL.md`
-
-45. **readme-license-generator**
-   - 描述：生成中英文双语的README和LICENSE文件，包含语言切换链接和常用徽章
-   - 功能：创建带语言切换的README，生成各种开源许可证的LICENSE文件，包含常用徽章，支持项目初始化
-   - 位置：`skills/readme-license-generator/SKILL.md`
-
-## 技能特点
-
-### 遵循的规范
-
-1. **OpenCode Skills 规范**
-   - YAML frontmatter（仅name和description）
-   - Description以"Use when..."开头
-   - 名称使用小写字母、数字和连字符
-   - 文件路径：`skills/<name>/SKILL.md`
-
-2. **Writing-Skills TDD 原则**
-   - RED-GREEN-REFACTOR循环
-   - 先写失败测试，再写代码
-   - 每个技能包含测试用例
-
-3. **Aether.go 方法论集成**
-   - BMAD（业务驱动指标）框架
-   - SDD（规范驱动开发）
-   - 宪法约束原则
-   - 规范与代码的可追溯性
-   - 方法论融合协调
-
-### 技能结构
-
-每个技能包含：
-- Overview（概述）
-- When to Use（何时使用）
-- Core Pattern（核心模式）
-- Quick Reference（快速参考）
-- Implementation（实现细节）
-- Common Mistakes（常见错误）
-- Real-World Impact（实际影响）
-- Integration with Aether.go Methodology（与Aether.go方法论的集成）
-
-## 技能集成与工作流
-
-### 八阶段方法论融合工作流
-
-新增的`methodology-fusion-orchestrator`技能协调完整的八个阶段：
+### 五层推导模型
 
 ```
-阶段1: 业务分析 (Business Analysis)
-  ├── business-requirements-collector
-  ├── requirement-classifier
-  ├── usecase-designer
-  ├── nfr-analyzer
-  ├── business-value-mapper
-  └── metrics-definer
-
-阶段2: 规范定义 (Specification Definition)
-  ├── spec-parser
-  ├── bdd-scenario-writer
-  └── atdd-acceptance-test-generator
-
-阶段3: 宪法审查 (Constitutional Review)
-  └── constitution-validator
-
-阶段4: 实现计划 (Implementation Planning)
-  ├── architecture-decision-recorder
-  ├── architecture-pattern-selector
-  ├── tech-stack-selector
-  └── data-flow-analyzer
-
-阶段5: 代码生成 (Code Generation)
-  ├── tdd-red-green-refactor
-  ├── go-backend-scaffolder
-  └── vue-quasar-scaffolder
-
-阶段6: 集成验证 (Integration Validation)
-  ├── sit-scenario-generator
-  └── chaos-test-designer
-
-阶段7: 部署与运维 (Deployment & Operations)
-  ├── deployment-orchestrator
-  ├── incident-management
-  ├── change-management
-  ├── release-manager
-  ├── metrics-definer
-  ├── problem-management
-  ├── service-desk
-  └── rollback-manager
-
-阶段8: 递归优化 (Recursive Optimization)
-  ├── recursive-optimizer
-  ├── skill-recommender
-  └── prompt-template-manager
-
-场景适配 (跨阶段)
-  └── scenario-mode-selector
+L1: 业务价值层
+    └── business-requirements-collector → value-decomposer → metrics-definer
+L2: 系统行为层
+    └── architecture-pattern-selector → tech-stack-selector → data-flow-analyzer → interface-contract-designer
+L3: 验收标准层
+    └── spec-parser → spec-to-scenario → scenario-completeness-checker → usecase-designer → nfr-analyzer
+L4: 组件契约层
+    └── test-pyramid-deriver → e2e-test-generator → integration-test-generator → contract-test-generator → system-test-generator → test-pyramid-analyzer
+L5: 单元实现层
+    └── unit-test-generator → tdd-cycle-runner → contract-driven-code-generator → backend-code-generator → frontend-code-generator → code-refactor-engine
 ```
 
-*注：工作流图示显示每个阶段的关键代表技能，并非列出全部46个技能。完整技能清单请参阅上文的技能清单部分。*
+### 协议支持 (ARGUE-001至ARGUE-005, META-001至META-005)
 
-### 宪法贯穿执行
+- **ARGUE-001**: UniversalSkeptic → WorkflowOrchestrator (质疑结果)
+- **ARGUE-002**: ConstitutionGuardian → ChangeAndTaskAgent (原则违规)
+- **ARGUE-003**: RecursiveOptimizer → WorkflowOrchestrator (优化建议)
+- **ARGUE-004**: ContextManager → 任意Agent (上下文质量)
+- **ARGUE-005**: HumanAIBoundaryGuard → 用户 (语义确认)
 
-`methodology-fusion-orchestrator`确保宪法原则在所有阶段得到执行：
+### 动态原则加权
 
-```yaml
-constitution_enforcement:
-  stage_1_business_analysis:
-    - principle: "Value-Driven Development"
-      check: "Every business goal has measurable metrics"
-      enforcement: strict
-    
-  stage_2_specification:
-    - principle: "Test-First Development"
-      check: "All specs include testable acceptance criteria"
-      enforcement: strict
-    
-  stage_3_review:
-    - principle: "Architectural Consistency"
-      check: "All decisions recorded and justified"
-      enforcement: strict
-    
-  stage_4_planning:
-    - principle: "Simplicity & YAGNI"
-      check: "No over-engineering, only needed features"
-      enforcement: warning
-    
-  stage_5_development:
-    - principle: "Code Quality & Standards"
-      check: "All code follows TDD and style guides"
-      enforcement: strict
-    
-  stage_6_validation:
-    - principle: "Resilience & Reliability"
-      check: "Integration and chaos tests defined"
-      enforcement: strict
-    
-  stage_7_deployment:
-    - principle: "Observability & Monitoring"
-      check: "Metrics and monitoring configured"
-      enforcement: strict
-    - principle: "Deployment Safety"
-      check: "Rollback procedures tested and available"
-      enforcement: strict
-    - principle: "Incident Response"
-      check: "Incident management procedures defined"
-      enforcement: strict
-    - principle: "Change Control"
-      check: "Change management processes followed"
-      enforcement: strict
-    - principle: "Service Continuity"
-      check: "Problem and service desk management established"
-      enforcement: strict
-    
-  stage_8_optimization:
-    - principle: "Continuous Improvement"
-      check: "Feedback loops established and active"
-      enforcement: strict
-```
-
-### 智能技能调度
-
-`methodology-fusion-orchestrator`实现智能技能调度：
-
-```python
-class SkillScheduler:
-    """Intelligent scheduler for selecting and executing skills."""
-    
-    def execute(self, skill_name, input, context):
-        """Execute a skill with intelligent scheduling."""
-        
-        # Get skill metadata and performance history
-        skill_metadata = self.skill_registry.get(skill_name)
-        performance_history = self.metrics_db.get_skill_performance(skill_name)
-        
-        # Check if skill needs optimization
-        if performance_history.get('success_rate', 0) < 0.7:
-            # Use fallback or optimized version
-            alternative = self._find_alternative_skill(skill_name, context)
-            if alternative:
-                skill_name = alternative
-        
-        # Prepare execution context with constitution checks
-        execution_context = {
-            'skill': skill_name,
-            'input': input,
-            'project_context': context,
-            'constitution': self.constitution.get_relevant_principles(skill_name),
-            'previous_stage_output': context.get('previous_output'),
-            'metrics_goals': context.get('metrics_targets', {})
-        }
-        
-        # Execute skill with metrics collection
-        skill_executor = SkillExecutor(skill_metadata)
-        result = skill_executor.execute(execution_context)
-        
-        # Collect metrics for optimization
-        execution_metrics = {
-            'skill': skill_name,
-            'duration': result['duration'],
-            'success': result['success'],
-            'output_quality': self._assess_output_quality(result['output'], context),
-            'constitution_compliance': result.get('constitution_compliance', 1.0)
-        }
-        
-        return result
-```
-
-### 度量聚合与反馈循环
-
-```python
-class MetricsAggregator:
-    """Aggregate metrics across all stages for feedback loops."""
-    
-    def aggregate_workflow_metrics(self, workflow_execution):
-        """Aggregate metrics from complete workflow execution."""
-        
-        aggregated = {
-            'temporal_metrics': {
-                'total_duration': self._calculate_total_duration(workflow_execution),
-                'stage_durations': self._extract_stage_durations(workflow_execution),
-                'bottleneck_stage': self._identify_bottleneck(workflow_execution)
-            },
-            
-            'quality_metrics': {
-                'constitutional_compliance': self._calculate_compliance_score(workflow_execution),
-                'requirement_traceability': self._calculate_traceability_score(workflow_execution),
-                'test_coverage': self._calculate_test_coverage(workflow_execution),
-                'defect_density': self._calculate_defect_density(workflow_execution)
-            },
-            
-            'business_metrics': {
-                'business_value_alignment': self._calculate_value_alignment(workflow_execution),
-                'roi_estimate': self._estimate_roi(workflow_execution),
-                'stakeholder_satisfaction': self._assess_satisfaction(workflow_execution)
-            },
-            
-            'skill_performance_metrics': {
-                'skill_success_rates': self._calculate_skill_success_rates(workflow_execution),
-                'skill_efficiency': self._calculate_skill_efficiency(workflow_execution),
-                'skill_improvement_opportunities': self._identify_improvement_opportunities(workflow_execution)
-            }
-        }
-        
-        # Trigger optimization based on metrics
-        if self._should_trigger_optimization(aggregated):
-            optimization_recommendations = self.optimization_engine.analyze(aggregated)
-            return {
-                'aggregated_metrics': aggregated,
-                'optimization_recommendations': optimization_recommendations,
-                'optimization_triggered': True
-            }
-        
-        return {
-            'aggregated_metrics': aggregated,
-            'optimization_triggered': False
-        }
-```
-
-## 使用说明
-
-### 技能发现
-
-OpenCode会自动从以下位置发现技能：
-- 项目配置：`skills/<name>/SKILL.md`
-- 全局配置：`~/.config/opencode/skill/<name>/SKILL.md`
-
-### 技能加载
-
-在对话中，AI助手会根据任务自动推荐和加载相关技能。你也可以显式请求使用特定技能。
-
-### 技能分类
-
-- **高优先级**：方法论融合协调技能（methodology-fusion-orchestrator）、执行层技能（ATDD/BDD/TDD/SIT/Chaos）
-- **中优先级**：战略层和战术层技能、全栈开发技能
-- **低优先级**：工具和集成技能、项目初始化技能
-
-## 下一步
-
-1. **测试验证**：使用subagent驱动开发测试每个技能的有效性
-2. **性能优化**：根据使用反馈优化提示词和内容
-3. **文档完善**：补充更多示例和使用场景
-4. **分发打包**：使用skill-packaging-tool创建可安装包
-5. **市场发布**：发布到技能市场供其他项目使用
-
-## 注意事项
-
-- 所有技能遵循TDD原则创建，需要进一步测试验证
-- 技能可能需要根据实际使用场景进行优化
-- 建议在使用技能前阅读完整的SKILL.md内容
-- **方法论融合协调**：通过methodology-fusion-orchestrator实现端到端工作流协调
-- **宪法贯穿执行**：新增技能确保宪法原则在所有阶段得到执行
-- **反馈循环建立**：实现度量收集和递归优化的完整闭环
-- 欢迎反馈和改进建议
+ConstitutionGuardian 支持实时动态加权以解决原则冲突：
+- 紧急模式: P6 (测试先行) 降低至 0.4
+- POC模式: P2, P4 豁免
+- 交付压力: P9 (递归优化) 降低
 
 ---
 
-创建日期：2026-01-16  
-最后更新：2026-04-10  
-创建者：AI Assistant based on Aether.go methodology  
-参考文档：`method-paper.md`, `https://opencode.ai/docs/skills/`, `agent-skill-analysis-report.md`
-更新记录：
-- 2026-04-10: 基于Agent-Skill分析报告新增质疑层4个验证技能（correctness-checker、completeness-checker、consistency-checker、boundedness-checker）；重新定义Agent-Skill边界，明确7个核心Agent
-- 2026-01-30: 新增readme-license-generator技能，用于生成中英文双语的README和LICENSE文件
-- 2026-01-28: 更新缺口分析为已解决状态，修正技能数量不一致问题
-- 2026-01-27: 新增7个关键技能填补方法论缺口，实现完整的八阶段融合工作流
-- 2026-01-21: 更新go-backend-scaffolder技能，采用生产级风格的Cobra命令结构
+## 按域分类的Skills清单
+
+### D1: 价值推导域 (5个Skills) — L1→L2
+
+1. **business-requirements-collector**
+   - 描述：收集、分析和优先排序来自干系人的业务需求
+   - 位置：`skills/business-requirements-collector/SKILL.md`
+
+2. **value-decomposer** ⭐
+   - 描述：将业务目标分解为可衡量的功能需求
+   - 位置：`skills/value-decomposer/SKILL.md`
+
+3. **metrics-definer**
+   - 描述：定义业务和技术指标及监控配置
+   - 位置：`skills/metrics-definer/SKILL.md`
+
+4. **value-architecture-tracer** ⭐
+   - 描述：验证功能需求与架构决策之间的双向映射
+   - 位置：`skills/value-architecture-tracer/SKILL.md`
+
+5. **requirement-implementation-tracer**
+   - 描述：建立需求、用例和实现之间的三层双向可追溯性
+   - 位置：`skills/requirement-implementation-tracer/SKILL.md`
+
+### D2: 架构推导域 (5个Skills) — L2→L3
+
+6. **architecture-decision-recorder**
+   - 描述：记录具有业务理由和备选方案分析的架构决策
+   - 位置：`skills/architecture-decision-recorder/SKILL.md`
+
+7. **architecture-pattern-selector**
+   - 描述：基于需求、约束和团队能力选择架构模式
+   - 位置：`skills/architecture-pattern-selector/SKILL.md`
+
+8. **tech-stack-selector**
+   - 描述：应用类型、语言，框架，数据库的交互式技术栈选择
+   - 位置：`skills/tech-stack-selector/SKILL.md`
+
+9. **data-flow-analyzer**
+   - 描述：分析数据流和价值链以识别瓶颈
+   - 位置：`skills/data-flow-analyzer/SKILL.md`
+
+10. **interface-contract-designer** ⭐
+    - 描述：设计具有完整输入/输出/前置/后置条件的接口契约
+    - 位置：`skills/interface-contract-designer/SKILL.md`
+
+### D3: 规范推导域 (5个Skills) — L3→L4
+
+11. **usecase-designer**
+    - 描述：设计与需求双向可追溯的用例
+    - 位置：`skills/usecase-designer/SKILL.md`
+
+12. **nfr-analyzer**
+    - 描述：分析具有可衡量指标和验证标准的非功能需求
+    - 位置：`skills/nfr-analyzer/SKILL.md`
+
+13. **spec-to-scenario** ⭐
+    - 描述：将结构化规范转换为GWT (Given-When-Then) 验收场景
+    - 位置：`skills/spec-to-scenario/SKILL.md`
+
+14. **scenario-completeness-checker** ⭐
+    - 描述：验证GWT场景覆盖完整性，包括正向/负向路径和边界
+    - 位置：`skills/scenario-completeness-checker/SKILL.md`
+
+15. **spec-evolution-tracker**
+    - 描述：跟踪规范变更历史和影响分析
+    - 位置：`skills/spec-evolution-tracker/SKILL.md`
+
+### D4: 契约推导域 (6个Skills) — L3→L4 (最关键域)
+
+16. **test-pyramid-deriver** ⭐
+    - 描述：从GWT验收标准推导测试分层计划，支持META-005验证
+    - 位置：`skills/test-pyramid-deriver/SKILL.md`
+
+17. **integration-test-generator** ⭐
+    - 描述：为跨内部边界的组件协作生成集成测试
+    - 位置：`skills/integration-test-generator/SKILL.md`
+
+18. **contract-test-generator**
+    - 描述：生成消费者驱动的契约测试以确保微服务API兼容性
+    - 位置：`skills/contract-test-generator/SKILL.md`
+
+19. **e2e-test-generator** ⭐
+    - 描述：为跨系统边界的完整用户旅程生成端到端测试
+    - 位置：`skills/e2e-test-generator/SKILL.md`
+
+20. **system-test-generator** ⭐
+    - 描述：为性能、安全性、可靠性、可扩展性生成非功能系统测试
+    - 位置：`skills/system-test-generator/SKILL.md`
+
+21. **test-pyramid-analyzer**
+    - 描述：分析测试覆盖、分布和测试策略缺口
+    - 位置：`skills/test-pyramid-analyzer/SKILL.md`
+
+### D5: 实现推导域 (6个Skills) — L4→L5
+
+22. **unit-test-generator** ⭐
+    - 描述：从接口契约生成具有边界值分析的单元测试
+    - 位置：`skills/unit-test-generator/SKILL.md`
+
+23. **tdd-cycle-runner** ⭐
+    - 描述：作为原子技能执行完整的TDD红-绿-重构循环
+    - 位置：`skills/tdd-cycle-runner/SKILL.md`
+
+24. **contract-driven-code-generator** ⭐
+    - 描述：从接口契约生成骨架代码
+    - 位置：`skills/contract-driven-code-generator/SKILL.md`
+
+25. **backend-code-generator** ⭐
+    - 描述：从契约和业务逻辑生成后端实现
+    - 位置：`skills/backend-code-generator/SKILL.md`
+
+26. **frontend-code-generator** ⭐
+    - 描述：从契约和UI规范生成前端实现
+    - 位置：`skills/frontend-code-generator/SKILL.md`
+
+27. **code-refactor-engine** ⭐
+    - 描述：在保持行为的同时进行自动化重构
+    - 位置：`skills/code-refactor-engine/SKILL.md`
+
+### D6: 场景适配域 (8个Skills) — 8种场景模式
+
+28. **scenario-detector** ⭐
+    - 描述：检测具有推导参数的适当开发场景模式
+    - 位置：`skills/scenario-detector/SKILL.md`
+
+29. **standard-mode-workflow** ⭐
+    - 描述：具有完整五层推导的绿地项目标准工作流
+    - 位置：`skills/standard-mode-workflow/SKILL.md`
+
+30. **reverse-engineering-suite** ⭐
+    - 描述：使用静态/动态分析从遗留系统提取规范
+    - 位置：`skills/reverse-engineering-suite/SKILL.md`
+
+31. **dual-track-validator** ⭐
+    - 描述：具有行为等价的并行验证技术栈迁移
+    - 位置：`skills/dual-track-validator/SKILL.md`
+
+32. **strangler-pattern-suite** ⭐
+    - 描述：使用防腐层的增量组件替换
+    - 位置：`skills/strangler-pattern-suite/SKILL.md`
+
+33. **poc-exemption-manager** ⭐
+    - 描述：管理概念验证项目的宪法原则豁免
+    - 位置：`skills/poc-exemption-manager/SKILL.md`
+
+34. **wartime-hotfix-workflow** ⭐
+    - 描述：两阶段流程的紧急生产修复（即时+事后规范化）
+    - 位置：`skills/wartime-hotfix-workflow/SKILL.md`
+
+35. **federal-constitution-manager** ⭐
+    - 描述：具有全局+局部宪法和CDC契约的多团队开发
+    - 位置：`skills/federal-constitution-manager/SKILL.md`
+
+### D7: 演进优化域 (5个Skills) — P9-P10
+
+36. **convergence-checker** ⭐
+    - 描述：检查递归优化的收敛条件（有界性、单调性、终止）
+    - 位置：`skills/convergence-checker/SKILL.md`
+
+37. **improvement-budget-allocator** ⭐
+    - 描述：按照70/20/10规则分配改进预算（交付/债务/实验）
+    - 位置：`skills/improvement-budget-allocator/SKILL.md`
+
+38. **tech-debt-quantifier** ⭐
+    - 描述：量化和编目技术债务及影响分析
+    - 位置：`skills/tech-debt-quantifier/SKILL.md`
+
+39. **skill-lifecycle-manager** ⭐
+    - 描述：从创建到验证到退役的技能资产生命周期管理
+    - 位置：`skills/skill-lifecycle-manager/SKILL.md`
+
+40. **skill-optimizer** ⭐
+    - 描述：基于执行历史和成功率分析优化技能参数
+    - 位置：`skills/skill-optimizer/SKILL.md`
+
+### D8: 元能力域 (9个Skills) — 自验证与语义确认
+
+41. **derivation-chain-validator** ⭐
+    - 描述：验证五层推导链的完整性
+    - 位置：`skills/derivation-chain-validator/SKILL.md`
+
+42. **principle-consistency-checker** ⭐
+    - 描述：具有动态加权支持的原则一致性检查
+    - 位置：`skills/principle-consistency-checker/SKILL.md`
+
+43. **scenario-mode-recommender** ⭐
+    - 描述：具有置信度评分和推导参数的场景模式推荐
+    - 位置：`skills/scenario-mode-recommender/SKILL.md`
+
+44. **meta-skeptic** ⭐
+    - 描述：对Agent/Skill配置和关键推导输出进行质疑
+    - 位置：`skills/meta-skeptic/SKILL.md`
+
+45. **architecture-self-auditor** ⭐
+    - 描述：跨覆盖度、冗余度、瓶颈度、均衡度、演化度的架构自审
+    - 位置：`skills/architecture-self-auditor/SKILL.md`
+
+46. **skill-gap-analyzer** ⭐
+    - 描述：分析与方法论要求相比的技能覆盖缺口
+    - 位置：`skills/skill-gap-analyzer/SKILL.md`
+
+47. **adjustment-proposer** ⭐
+    - 描述：响应审计发现提出架构调整建议
+    - 位置：`skills/adjustment-proposer/SKILL.md`
+
+48. **adjustment-validator** ⭐
+    - 描述：验证建议调整的正确性和安全性
+    - 位置：`skills/adjustment-validator/SKILL.md`
+
+49. **semantic-intent-clarifier** ⭐
+    - 描述：在关键需求节点生成结构化反向澄清问题
+    - 位置：`skills/semantic-intent-clarifier/SKILL.md`
+
+---
+
+## 支持性Skills (38个工具类)
+
+### 质疑验证Skills (4个)
+
+50. **correctness-checker** - 验证事实正确性和逻辑一致性
+51. **completeness-checker** - 验证内容完整性和覆盖度
+52. **consistency-checker** - 验证跨层和跨域一致性
+53. **boundedness-checker** - 验证优化的有界性约束
+
+### 方法论编排 (2个)
+
+54. **methodology-fusion-orchestrator** - 协调端到端Aether.go方法论融合工作流
+55. **requirement-classifier** - 将需求分类为7类并分析跨类关系
+
+### 规范与测试 (4个)
+
+56. **spec-parser** - 将自然语言需求解析为结构化规范
+57. **bdd-scenario-writer** - 将用户故事转换为Gherkin BDD场景文件
+58. **atdd-acceptance-test-generator** - 从需求生成可执行验收测试
+59. **sit-scenario-generator** - 创建跨服务的系统集成测试场景
+
+### 宪法与追溯 (2个)
+
+60. **constitution-validator** - 验证代码和规范是否符合宪法原则
+61. **spec-to-code-tracer** - 建立规范与代码之间的双向可追溯性
+
+### AI协作与优化 (4个)
+
+62. **context-manager** - 管理项目上下文、对话历史和信息检索
+63. **skill-recommender** - 基于当前任务和上下文推荐相关Skills
+64. **recursive-optimizer** - 基于反馈优化Skills、提示词和工作流
+65. **prompt-template-manager** - 管理、版本控制和优化AI提示词模板
+
+### IT服务管理与部署 (7个)
+
+66. **deployment-orchestrator** - 高级部署策略编排（金丝雀、蓝绿、滚动）
+67. **incident-management** - ITIL对齐的事件处理流程
+68. **problem-management** - 根因分析和永久修复管理
+69. **change-management** - 受控变更流程和CAB审批
+70. **service-desk** - 单点联系管理
+71. **release-manager** - 发布计划和干系人协调
+72. **rollback-manager** - 自动化回滚程序
+
+### 全栈开发工具 (9个)
+
+73. **go-backend-scaffolder** - 生成清晰架构的Go后端代码
+74. **vue-quasar-scaffolder** - 生成Vue 3 + Quasar + TypeScript组件
+75. **fullstack-project-setup** - 初始化完整的Go + Vue + Quasar全栈项目
+76. **requirements-to-code-docs** - 生成结构化文档工作流
+77. **go-vue-fullstack-workflow** - 协调Go + Vue全栈开发
+78. **makefile-backend-generator** - 为Go项目创建生产就绪的Makefile
+79. **go-cli-builder** - 构建企业级Go CLI应用程序
+80. **rust-cli-builder** - 构建企业级Rust CLI应用程序
+81. **readme-license-generator** - 生成双语README和LICENSE文件
+
+### 其他工具 (6个)
+
+82. **business-value-mapper** - 使用BMAD将业务目标转化为可衡量指标
+83. **chaos-test-designer** - 设计混沌工程实验
+84. **generic-code-generator** - 跨多种语言生成生产代码
+85. **skill-packaging-tool** - 将Skills打包成分发包
+86. **tdd-red-green-refactor** - 使用TDD方法论实现功能
+87. **scenario-mode-selector** - 选择适当的场景模式（建议使用scenario-detector）
+
+---
+
+## Skills结构
+
+每个Skill遵循OpenCode规范：
+- YAML前导matter（名称和描述）
+- 描述以"Use when..."开头
+- 名称使用小写字母、数字和连字符
+- 文件路径：`skills/<name>/SKILL.md`
+
+---
+
+**创建日期**: 2026-01-16
+**最后更新**: 2026-04-24
+**参考文档**: `method-paper.md`, `ai-agent-architecture-proposal.md V2.1`
