@@ -10,7 +10,7 @@ A set of intelligent AI skills for the Aether.go project, based on spec-driven, 
 
 ## Overview
 
-Based on [method-paper.md](../ai-docs/layer3/aether-go/method-paper.md) and [ai-agent-architecture-proposal.md V2.1](../ai-docs/layer3/aether-go/ai-agent-architecture-proposal.md), this repository contains **87 skills** organized into **D1-D8 derivation domains** covering the complete five-layer derivation model.
+Based on [method-paper.md](../ai-docs/layer3/aether-go/method-paper.md) and [ai-agent-architecture-proposal.md V2.1](../ai-docs/layer3/aether-go/ai-agent-architecture-proposal.md), this repository contains **85 skills** organized into **D1-D8 derivation domains** covering the complete five-layer derivation model.
 
 ### Five-Layer Derivation Model
 
@@ -44,7 +44,7 @@ L5: Unit Implementation Layer
 | **D7** | Evolution Optimization | 5 | P9-P10: Recursive optimization and skill assetization |
 | **D8** | Meta-Capability | 9 | Self-verification, self-adjustment, semantic clarification |
 
-**Supporting Skills**: 38 tools (skeptic verification, methodology orchestration, IT service management, fullstack development)
+**Supporting Skills**: 36 tools (skeptic verification, methodology orchestration, IT service management, fullstack development)
 
 ---
 
@@ -81,7 +81,7 @@ skills/
 │   ├── nfr-analyzer/
 │   ├── spec-to-scenario/
 │   ├── scenario-completeness-checker/
-│   └── spec-evolution-tracker/
+│   └── spec-version-manager/
 │
 ├── D4-Contract-Derivation/        # L3→L4 (6 skills) ★ Most Critical
 │   ├── test-pyramid-deriver/
@@ -89,7 +89,7 @@ skills/
 │   ├── integration-test-generator/
 │   ├── contract-test-generator/
 │   ├── system-test-generator/
-│   └── test-pyramid-analyzer/
+│   └── test-pyramid-validator/
 │
 ├── D5-Implementation-Derivation/ # L4→L5 (6 skills)
 │   ├── unit-test-generator/
@@ -195,8 +195,8 @@ AI: Using value-decomposer skill...
 | **D6 Scenario** | 8 | 8 scenario mode adaptation |
 | **D7 Evolution** | 5 | Recursive optimization & assetization |
 | **D8 Meta** | 9 | Self-verification & adjustment |
-| **Supporting** | 38 | Tools & verification |
-| **Total** | **87** | Complete skill library |
+| **Supporting** | 36 | Tools & verification |
+| **Total** | **85** | Complete skill library |
 
 ---
 
@@ -294,5 +294,12 @@ OpenCode automatically discovers skills in the `skills/` directory.
 ---
 
 **Created**: 2026-01-16
-**Last Updated**: 2026-04-24
+**Last Updated**: 2026-04-25
 **Maintainer**: Aether.go Team
+
+## Recent Refactoring (2026-04-25)
+
+- Merged `test-pyramid-analyzer` into `test-pyramid-validator`
+- Merged `continuous-improvement-suite` into `improvement-budget-allocator`
+- Merged `spec-evolution-tracker` into `spec-version-manager`
+- Removed deprecated skills: `scenario-mode-selector`, `tdd-red-green-refactor`

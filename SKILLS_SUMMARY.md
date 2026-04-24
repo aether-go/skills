@@ -6,7 +6,7 @@
 
 ---
 
-Based on Aether.go methodology fusion framework V2.1 and OpenCode skills specifications, **87 skills** have been created covering complete eight derivation domains (D1-D8) per the five-layer derivation model.
+Based on Aether.go methodology fusion framework V2.1 and OpenCode skills specifications, **85 skills** have been created covering complete eight derivation domains (D1-D8) per the five-layer derivation model.
 
 ## Architecture Update (2026-04-24)
 
@@ -35,7 +35,7 @@ L2: System Behavior Layer
 L3: Acceptance Standard Layer
     └── spec-parser → spec-to-scenario → scenario-completeness-checker → usecase-designer → nfr-analyzer
 L4: Component Contract Layer
-    └── test-pyramid-deriver → e2e-test-generator → integration-test-generator → contract-test-generator → system-test-generator → test-pyramid-analyzer
+    └── test-pyramid-deriver → e2e-test-generator → integration-test-generator → contract-test-generator → system-test-generator → test-pyramid-validator
 L5: Unit Implementation Layer
     └── unit-test-generator → tdd-cycle-runner → contract-driven-code-generator → backend-code-generator → frontend-code-generator → code-refactor-engine
 ```
@@ -121,9 +121,9 @@ ConstitutionGuardian supports real-time dynamic weighting for principle conflict
     - Description: Validate GWT scenario coverage completeness including positive/negative paths and boundaries
     - Location: `skills/scenario-completeness-checker/SKILL.md`
 
-15. **spec-evolution-tracker**
-    - Description: Track specification change history and impact analysis
-    - Location: `skills/spec-evolution-tracker/SKILL.md`
+15. **spec-version-manager** ⭐
+     - Description: Manage specification versions with evolution tracking and impact analysis (merged with spec-evolution-tracker)
+     - Location: `skills/spec-version-manager/SKILL.md`
 
 ### D4: Contract Derivation Domain (6 Skills) — L3→L4 (Most Critical)
 
@@ -147,9 +147,9 @@ ConstitutionGuardian supports real-time dynamic weighting for principle conflict
     - Description: Generate non-functional system tests for performance, security, reliability, scalability
     - Location: `skills/system-test-generator/SKILL.md`
 
-21. **test-pyramid-analyzer**
-    - Description: Analyze test coverage, distribution, and test strategy gaps
-    - Location: `skills/test-pyramid-analyzer/SKILL.md`
+21. **test-pyramid-validator** ⭐
+     - Description: Validate test proportions and analyze coverage/distribution (merged with test-pyramid-analyzer)
+     - Location: `skills/test-pyramid-validator/SKILL.md`
 
 ### D5: Implementation Derivation Domain (6 Skills) — L4→L5
 
@@ -218,8 +218,8 @@ ConstitutionGuardian supports real-time dynamic weighting for principle conflict
     - Location: `skills/convergence-checker/SKILL.md`
 
 37. **improvement-budget-allocator** ⭐
-    - Description: Allocate improvement budget following 70/20/10 rule (delivery/debt/experimental)
-    - Location: `skills/improvement-budget-allocator/SKILL.md`
+     - Description: Allocate improvement budget with continuous improvement workflow (merged with continuous-improvement-suite)
+     - Location: `skills/improvement-budget-allocator/SKILL.md`
 
 38. **tech-debt-quantifier** ⭐
     - Description: Quantify and catalog technical debt with impact analysis
@@ -273,7 +273,7 @@ ConstitutionGuardian supports real-time dynamic weighting for principle conflict
 
 ---
 
-## Supporting Skills (38 Tools)
+## Supporting Skills (36 Tools)
 
 ### Skeptic Verification Skills (4)
 
@@ -397,13 +397,7 @@ ConstitutionGuardian supports real-time dynamic weighting for principle conflict
     - Description: Generate production code across multiple languages
 
 85. **skill-packaging-tool**
-    - Description: Package skills into distributable packages
-
-86. **tdd-red-green-refactor**
-    - Description: Implement features using TDD methodology
-
-87. **scenario-mode-selector**
-    - Description: Select appropriate scenario mode (legacy, use scenario-detector)
+     - Description: Package skills into distributable packages
 
 ---
 
@@ -418,5 +412,12 @@ Each skill follows OpenCode specifications:
 ---
 
 **Created**: 2026-01-16
-**Last Updated**: 2026-04-24
+**Last Updated**: 2026-04-25
 **Reference Documents**: `method-paper.md`, `ai-agent-architecture-proposal.md V2.1`
+
+## Recent Refactoring (2026-04-25)
+
+- Merged `test-pyramid-analyzer` into `test-pyramid-validator`
+- Merged `continuous-improvement-suite` into `improvement-budget-allocator`
+- Merged `spec-evolution-tracker` into `spec-version-manager`
+- Removed deprecated skills: `scenario-mode-selector`, `tdd-red-green-refactor`

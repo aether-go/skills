@@ -3,12 +3,12 @@
 # Updated for V2.1 with D1-D8 derivation domain structure
 
 version: "2.1"
-updated: "2026-04-24"
+updated: "2026-04-25"
 
-# Architecture Update (2026-04-24)
+# Architecture Update (2026-04-25)
 # Based on ai-agent-architecture-proposal.md V2.1
 # D1-D8 Derivation Domains: 49 core methodology skills
-# Supporting Skills: 38 tools and verification skills
+# Supporting Skills: 36 tools and verification skills
 
 # =============================================================================
 # D1: VALUE DERIVATION DOMAIN (L1→L2)
@@ -142,12 +142,12 @@ dependencies:
     stage: specification_definition
     validation: "positive/negative/boundary coverage"
 
-  # D3-5: Spec Evolution Tracker
-  spec-evolution-tracker:
+  # D3-5: Spec Version Manager (merged with spec-evolution-tracker)
+  spec-version-manager:
     domain: D3
     depends_on:
       - spec-parser
-    provides: "specification change tracking"
+    provides: "specification version management with evolution tracking"
     stage: specification_management
 
 # =============================================================================
@@ -204,15 +204,15 @@ dependencies:
     stage: integration_validation
     target_percentage: 1
 
-  # D4-6: Test Pyramid Analyzer
-  test-pyramid-analyzer:
+  # D4-6: Test Pyramid Validator (merged with test-pyramid-analyzer)
+  test-pyramid-validator:
     domain: D4
     depends_on:
       - e2e-test-generator
       - integration-test-generator
       - contract-test-generator
       - system-test-generator
-    provides: "test coverage and distribution analysis"
+    provides: "test proportion validation and coverage analysis"
     stage: integration_validation
 
 # =============================================================================
@@ -798,21 +798,7 @@ dependencies:
     provides: "skill packaging and distribution"
     stage: tools
 
-  tdd-red-green-refactor:
-    domain: testing
-    depends_on:
-      - atdd-acceptance-test-generator
-    provides: "TDD methodology"
-    stage: code_generation
-
-  scenario-mode-selector:
-    domain: scenario
-    depends_on: []
-    provides: "scenario mode selection (legacy, use scenario-detector)"
-    stage: scenario_adaptation
-    deprecated: "use scenario-detector instead"
-
-# =============================================================================
+  # =============================================================================
 # STAGE DEFINITIONS
 # =============================================================================
 
@@ -947,7 +933,7 @@ cross_cutting:
       - integration-test-generator
       - contract-test-generator
       - system-test-generator
-      - test-pyramid-analyzer
+      - test-pyramid-validator
 
   recursive_optimization:
     description: "P9 recursive self-optimization"

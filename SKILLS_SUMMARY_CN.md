@@ -6,7 +6,7 @@
 
 ---
 
-基于 Aether.go 方法论融合框架 V2.1 和 OpenCode skills 规范，已创建 **87个skills**，覆盖五层推导模型的完整八个推导域(D1-D8)。
+基于 Aether.go 方法论融合框架 V2.1 和 OpenCode skills 规范，已创建 **85个skills**，覆盖五层推导模型的完整八个推导域(D1-D8)。
 
 ## 架构更新 (2026-04-24)
 
@@ -35,7 +35,7 @@ L2: 系统行为层
 L3: 验收标准层
     └── spec-parser → spec-to-scenario → scenario-completeness-checker → usecase-designer → nfr-analyzer
 L4: 组件契约层
-    └── test-pyramid-deriver → e2e-test-generator → integration-test-generator → contract-test-generator → system-test-generator → test-pyramid-analyzer
+    └── test-pyramid-deriver → e2e-test-generator → integration-test-generator → contract-test-generator → system-test-generator → test-pyramid-validator
 L5: 单元实现层
     └── unit-test-generator → tdd-cycle-runner → contract-driven-code-generator → backend-code-generator → frontend-code-generator → code-refactor-engine
 ```
@@ -121,9 +121,9 @@ ConstitutionGuardian 支持实时动态加权以解决原则冲突：
     - 描述：验证GWT场景覆盖完整性，包括正向/负向路径和边界
     - 位置：`skills/scenario-completeness-checker/SKILL.md`
 
-15. **spec-evolution-tracker**
-    - 描述：跟踪规范变更历史和影响分析
-    - 位置：`skills/spec-evolution-tracker/SKILL.md`
+15. **spec-version-manager** ⭐
+     - 描述：管理具有演进跟踪和影响分析的规范版本（合并自spec-evolution-tracker）
+     - 位置：`skills/spec-version-manager/SKILL.md`
 
 ### D4: 契约推导域 (6个Skills) — L3→L4 (最关键域)
 
@@ -147,9 +147,9 @@ ConstitutionGuardian 支持实时动态加权以解决原则冲突：
     - 描述：为性能、安全性、可靠性、可扩展性生成非功能系统测试
     - 位置：`skills/system-test-generator/SKILL.md`
 
-21. **test-pyramid-analyzer**
-    - 描述：分析测试覆盖、分布和测试策略缺口
-    - 位置：`skills/test-pyramid-analyzer/SKILL.md`
+21. **test-pyramid-validator** ⭐
+     - 描述：验证测试比例并分析覆盖度/分布（合并自test-pyramid-analyzer）
+     - 位置：`skills/test-pyramid-validator/SKILL.md`
 
 ### D5: 实现推导域 (6个Skills) — L4→L5
 
@@ -218,8 +218,8 @@ ConstitutionGuardian 支持实时动态加权以解决原则冲突：
     - 位置：`skills/convergence-checker/SKILL.md`
 
 37. **improvement-budget-allocator** ⭐
-    - 描述：按照70/20/10规则分配改进预算（交付/债务/实验）
-    - 位置：`skills/improvement-budget-allocator/SKILL.md`
+     - 描述：具有持续改进工作流的改进预算分配（合并自continuous-improvement-suite）
+     - 位置：`skills/improvement-budget-allocator/SKILL.md`
 
 38. **tech-debt-quantifier** ⭐
     - 描述：量化和编目技术债务及影响分析
@@ -273,7 +273,7 @@ ConstitutionGuardian 支持实时动态加权以解决原则冲突：
 
 ---
 
-## 支持性Skills (38个工具类)
+## 支持性Skills (36个工具类)
 
 ### 质疑验证Skills (4个)
 
@@ -334,8 +334,6 @@ ConstitutionGuardian 支持实时动态加权以解决原则冲突：
 83. **chaos-test-designer** - 设计混沌工程实验
 84. **generic-code-generator** - 跨多种语言生成生产代码
 85. **skill-packaging-tool** - 将Skills打包成分发包
-86. **tdd-red-green-refactor** - 使用TDD方法论实现功能
-87. **scenario-mode-selector** - 选择适当的场景模式（建议使用scenario-detector）
 
 ---
 
@@ -350,5 +348,12 @@ ConstitutionGuardian 支持实时动态加权以解决原则冲突：
 ---
 
 **创建日期**: 2026-01-16
-**最后更新**: 2026-04-24
+**最后更新**: 2026-04-25
 **参考文档**: `method-paper.md`, `ai-agent-architecture-proposal.md V2.1`
+
+## 最近重构 (2026-04-25)
+
+- 将 `test-pyramid-analyzer` 合并到 `test-pyramid-validator`
+- 将 `continuous-improvement-suite` 合并到 `improvement-budget-allocator`
+- 将 `spec-evolution-tracker` 合并到 `spec-version-manager`
+- 移除已弃用技能：`scenario-mode-selector`、`tdd-red-green-refactor`
