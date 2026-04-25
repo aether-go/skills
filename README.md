@@ -206,15 +206,15 @@ AI: Using value-decomposer skill...
 - **ARGUE-001**: UniversalSkeptic → WorkflowOrchestrator
 - **ARGUE-002**: ConstitutionGuardian → ChangeAndTaskAgent
 - **ARGUE-003**: RecursiveOptimizer → WorkflowOrchestrator
-- **ARGUE-004**: ContextManager → 任意Agent
-- **ARGUE-005**: HumanAIBoundaryGuard → 用户
+- **ARGUE-004**: ContextManager → AnyAgent
+- **ARGUE-005**: HumanAIBoundaryGuard → User
 
 ### META Protocols (Meta-Argumentation)
-- **META-001**: architecture-self-auditor 架构自审
-- **META-002**: derivation-chain-validator 推导链验证
-- **META-003**: principle-consistency-checker 原则一致性
-- **META-004**: adjustment-proposer 调整方案提出
-- **META-005**: meta-skeptic 边界合理性质疑
+- **META-001**: architecture-self-auditor - Architecture Self-Audit
+- **META-002**: derivation-chain-validator - Derivation Chain Validation
+- **META-003**: principle-consistency-checker - Principle Consistency Check
+- **META-004**: adjustment-proposer - Adjustment Proposal
+- **META-005**: meta-skeptic - Boundary Rationality Challenge
 
 ---
 
@@ -226,17 +226,17 @@ Business Goals → Functional Requirements → Architecture Decisions → Accept
 ```
 
 ### Constitutional Principles (P0-P10)
-- P0: Context-Adaptation (情境适配)
-- P1: Purpose-Driven (目的主导)
-- P2: Planning-Driven (规划驱动)
-- P3: Modularity-Orthogonality (模块化与正交性)
-- P4: Interface-First (接口先行)
-- P5: Occam's Razor (奥卡姆剃刀)
-- P6: Test-First (测试先行)
-- P7: Context-First (上下文第一性)
-- P8: Human-AI Boundary (人机责任边界)
-- P9: Recursive Self-Optimization (递归自我优化)
-- P10: Skill Assetization (技能资产化)
+- P0: Context-Adaptation
+- P1: Purpose-Driven
+- P2: Planning-Driven
+- P3: Modularity-Orthogonality
+- P4: Interface-First
+- P5: Occam's Razor
+- P6: Test-First
+- P7: Context-First
+- P8: Human-AI Boundary
+- P9: Recursive Self-Optimization
+- P10: Skill Assetization
 
 ### 8 Scenario Modes
 1. **Standard**: Greenfield projects, full methodology
@@ -288,8 +288,8 @@ OpenCode automatically discovers skills in the `skills/` directory.
 
 ## Reference Documents
 
-- [method-paper.md](../ai-docs/layer3/aether-go/method-paper.md) - Aether方法论融合框架
-- [ai-agent-architecture-proposal.md](../ai-docs/layer3/aether-go/ai-agent-architecture-proposal.md) - AI Agent智能体架构方案 V2.1
+- [method-paper.md](../ai-docs/layer3/aether-go/method-paper.md) - Aether Methodology Fusion Framework
+- [ai-agent-architecture-proposal.md](../ai-docs/layer3/aether-go/ai-agent-architecture-proposal.md) - AI Agent Architecture Proposal V2.1
 
 ---
 
