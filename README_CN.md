@@ -1,10 +1,50 @@
 # Aether.go Skills
 
-Aether.go 项目的一套智能化 AI 技能，基于规范驱动、价值导向、测试先行的开发方法论。
+Aether.go 项目的一套智能化 AI 技能，基于规范驱动、价值导向、测试先行的开发方法论，实现五层推导模型和宪法原则。
 
 ---
 
 **语言**: [English](README.md) | [中文](README_CN.md)
+
+---
+
+## 概述
+
+基于 [method-paper.md](../ai-docs/layer3/aether-go/method-paper.md) 和 [ai-agent-architecture-proposal.md V2.1](../ai-docs/layer3/aether-go/ai-agent-architecture-proposal.md)，本仓库包含 **85 个技能**，按 **D1-D8 推导域** 组织，覆盖完整的五层推导模型。
+
+### 五层推导模型
+
+```
+L1: 业务价值层
+    └── D1: 价值推导 (5 个技能)
+
+L2: 系统行为层
+    └── D2: 架构推导 (5 个技能)
+
+L3: 验收标准层
+    └── D3: 规范推导 (5 个技能)
+
+L4: 组件契约层
+    └── D4: 契约推导 (6 个技能)
+
+L5: 单元实现层
+    └── D5: 实现推导 (6 个技能)
+```
+
+### 核心技能：D1-D8 域 (49 个技能)
+
+| 域 | 名称 | 技能数 | 描述 |
+|--------|------|--------|-------------|
+| **D1** | 价值推导 | 5 | L1→L2: 业务目标到功能需求 |
+| **D2** | 架构推导 | 5 | L2→L3: 功能需求到架构决策 |
+| **D3** | 规范推导 | 5 | L3→L4: 系统规范到 GWT 验收标准 |
+| **D4** | 契约推导 | 6 | L4→L5: 验收标准到测试分层 |
+| **D5** | 实现推导 | 6 | L4→L5: 契约到单元测试和代码 |
+| **D6** | 场景适配 | 8 | 8 种场景模式用于上下文敏感工作流 |
+| **D7** | 演进优化 | 5 | P9-P10: 递归优化和技能资产化 |
+| **D8** | 元能力 | 9 | 自我验证、自我调整、语义澄清 |
+
+**支持技能**: 36 个工具（质疑验证、方法论编排、IT 服务管理、全栈开发）
 
 ---
 
@@ -14,675 +54,252 @@ Aether.go 项目的一套智能化 AI 技能，基于规范驱动、价值导向
 skills/
 ├── README.md                       # 本文件（英文）
 ├── README_CN.md                    # 本文件（中文）
-├── [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md)               # 技能详细清单（英文）
-├── [SKILLS_SUMMARY_CN.md](SKILLS_SUMMARY_CN.md)               # 技能详细清单（中文）
-├── [MIGRATION.md](MIGRATION.md)                    # 迁移说明（英文）
-├── [MIGRATION_CN.md](MIGRATION_CN.md)                    # 迁移说明（中文）
+├── SKILLS_SUMMARY.md               # 技能详细清单（英文）
+├── SKILLS_SUMMARY_CN.md            # 技能详细清单（中文）
+├── MIGRATION.md                   # 迁移说明（英文）
+├── MIGRATION_CN.md                # 迁移说明（中文）
+├── skill-dependencies.yaml         # 技能依赖关系
 ├── skills.sh                       # 技能管理脚本
 ├── LICENSE                         # MIT 许可证
-├── .gitignore                      # Git 忽略配置
 │
-├── 执行层 Skills (ATDD/BDD/TDD/SIT/Chaos)
-│   ├── bdd-scenario-writer/       # BDD 场景编写器
-│   │   └── SKILL.md
-│   ├── tdd-red-green-refactor/    # TDD 循环指导
-│   │   └── SKILL.md
-│   ├── test-pyramid-analyzer/     # 测试金字塔分析
-│   │   └── SKILL.md
-│   ├── sit-scenario-generator/    # SIT 场景生成器
-│   │   └── SKILL.md
-│   ├── chaos-test-designer/       # 混沌工程实验设计
-│   │   └── SKILL.md
-│   └── atdd-acceptance-test-generator/ # ATDD 验收测试生成器
-│       └── SKILL.md
+├── D1-Value-Derivation/           # L1→L2 (5 个技能)
+│   ├── business-requirements-collector/
+│   ├── value-decomposer/
+│   ├── metrics-definer/
+│   ├── value-architecture-tracer/
+│   └── requirement-implementation-tracer/
 │
-├── 战略层 Skills (BMAD 驱动)
-│   ├── business-requirements-collector/ # 业务需求收集器
-│   │   └── SKILL.md
-│   ├── business-value-mapper/     # 业务价值映射器
-│   │   └── SKILL.md
-│   ├── metrics-definer/           # 指标定义器
-│   │   └── SKILL.md
-│   ├── architecture-decision-recorder/ # 架构决策记录器
-│   │   └── SKILL.md
-│   └── data-flow-analyzer/        # 数据流分析器
-│       └── SKILL.md
+├── D2-Architecture-Derivation/    # L2→L3 (5 个技能)
+│   ├── architecture-decision-recorder/
+│   ├── architecture-pattern-selector/
+│   ├── tech-stack-selector/
+│   ├── data-flow-analyzer/
+│   └── interface-contract-designer/
 │
-├── 战术层 Skills (SDD + 宪法约束)
-│   ├── spec-parser/               # 规范解析器
-│   │   └── SKILL.md
-│   ├── constitution-validator/    # 宪法验证器
-│   │   └── SKILL.md
-│   ├── spec-to-code-tracer/       # 规范代码追溯器
-│   │   └── SKILL.md
-│   ├── spec-evolution-tracker/    # 规范演进跟踪器
-│   │   └── SKILL.md
-│   ├── architecture-pattern-selector/ # 架构模式选择器
-│   │   └── SKILL.md
-│   ├── tech-stack-selector/       # 技术栈选择器
-│   │   └── SKILL.md
-│   ├── generic-code-generator/    # 通用代码生成器
-│   │   └── SKILL.md
-│   └── contract-test-generator/    # 契约测试生成器
-│       └── SKILL.md
+├── D3-Specification-Derivation/  # L3→L4 (5 个技能)
+│   ├── usecase-designer/
+│   ├── nfr-analyzer/
+│   ├── spec-to-scenario/
+│   ├── scenario-completeness-checker/
+│   └── spec-version-manager/
 │
-├── AI 协作与优化 Skills
-│   ├── context-manager/           # 上下文管理器
-│   │   └── SKILL.md
-│   ├── skill-recommender/         # 技能推荐器
-│   │   └── SKILL.md
-│   ├── recursive-optimizer/       # 递归优化器
-│   │   └── SKILL.md
-│   └── prompt-template-manager/   # 提示词模板管理器
-│       └── SKILL.md
+├── D4-Contract-Derivation/        # L3→L4 (6 个技能) ★ 最关键
+│   ├── test-pyramid-deriver/
+│   ├── e2e-test-generator/
+│   ├── integration-test-generator/
+│   ├── contract-test-generator/
+│   ├── system-test-generator/
+│   └── test-pyramid-validator/
 │
-├── Go + Vue + Quasar 全栈开发 Skills (生产级模式)
-│   ├── go-backend-scaffolder/     # Go 后端脚手架
-│   │   └── SKILL.md
-│   ├── vue-quasar-scaffolder/     # Vue + Quasar 前端脚手架
-│   │   └── SKILL.md
-│   ├── fullstack-project-setup/   # 全栈项目初始化
-│   │   └── SKILL.md
-│   ├── requirements-to-code-docs/ # 需求到代码文档生成
-│   │   └── SKILL.md
-│   ├── go-vue-fullstack-workflow/ # Go + Vue 全栈工作流
-│   │   └── SKILL.md
-│   └── makefile-backend-generator/ # Makefile 生成器
-│       └── SKILL.md
+├── D5-Implementation-Derivation/ # L4→L5 (6 个技能)
+│   ├── unit-test-generator/
+│   ├── tdd-cycle-runner/
+│   ├── contract-driven-code-generator/
+│   ├── backend-code-generator/
+│   ├── frontend-code-generator/
+│   └── code-refactor-engine/
 │
-├── 工具与集成 Skills
-│   ├── skill-packaging-tool/      # 技能打包工具
-│   │   └── SKILL.md
-│   ├── go-cli-builder/            # Go CLI 应用构建器
-│   │   └── SKILL.md
-│   ├── rust-cli-builder/          # Rust CLI 应用构建器
-│   │   └── SKILL.md
-│   └── readme-license-generator/  # README & LICENSE 生成器
-│       └── SKILL.md
+├── D6-Scenario-Adaptation/        # 8 种场景模式 (8 个技能)
+│   ├── scenario-detector/
+│   ├── standard-mode-workflow/
+│   ├── reverse-engineering-suite/
+│   ├── dual-track-validator/
+│   ├── strangler-pattern-suite/
+│   ├── poc-exemption-manager/
+│   ├── wartime-hotfix-workflow/
+│   └── federal-constitution-manager/
 │
-├── 方法论融合协调层 Skills
-│   └── methodology-fusion-orchestrator/ # 方法论融合协调器
-│       └── SKILL.md
+├── D7-Evolution-Optimization/     # P9-P10 (5 个技能)
+│   ├── convergence-checker/
+│   ├── improvement-budget-allocator/
+│   ├── tech-debt-quantifier/
+│   ├── skill-lifecycle-manager/
+│   └── skill-optimizer/
 │
-├── 场景适配层 Skills
-│   └── scenario-mode-selector/    # 场景模式选择器
-│       └── SKILL.md
+├── D8-Meta-Capability/           # 自我验证 (9 个技能)
+│   ├── derivation-chain-validator/
+│   ├── principle-consistency-checker/
+│   ├── scenario-mode-recommender/
+│   ├── meta-skeptic/
+│   ├── architecture-self-auditor/
+│   ├── skill-gap-analyzer/
+│   ├── adjustment-proposer/
+│   ├── adjustment-validator/
+│   └── semantic-intent-clarifier/
 │
-└── 质疑层 Skills（验证与校验）
-    ├── correctness-checker/       # 正确性验证
-    │   └── SKILL.md
-    ├── completeness-checker/      # 完整性验证
-    │   └── SKILL.md
-    ├── consistency-checker/       # 跨层一致性验证
-    │   └── SKILL.md
-    └── boundedness-checker/       # 有界性验证
-        └── SKILL.md
+├── Skeptic-Verification/          # 验证 (4 个技能)
+│   ├── correctness-checker/
+│   ├── completeness-checker/
+│   ├── consistency-checker/
+│   └── boundedness-checker/
+│
+├── Methodology-Orchestration/     # 编排 (2 个技能)
+│   ├── methodology-fusion-orchestrator/
+│   └── requirement-classifier/
+│
+├── IT-Service-Management/        # ITIL & 部署 (7 个技能)
+│   ├── deployment-orchestrator/
+│   ├── incident-management/
+│   ├── problem-management/
+│   ├── change-management/
+│   ├── service-desk/
+│   ├── release-manager/
+│   └── rollback-manager/
+│
+└── Fullstack-Tools/             # 开发工具 (9 个技能)
+    ├── go-backend-scaffolder/
+    ├── vue-quasar-scaffolder/
+    ├── fullstack-project-setup/
+    ├── requirements-to-code-docs/
+    ├── go-vue-fullstack-workflow/
+    ├── makefile-backend-generator/
+    ├── go-cli-builder/
+    ├── rust-cli-builder/
+    └── readme-license-generator/
 ```
 
-## 技能分类
+---
 
-### 快速开始
+## 快速开始
 
-#### 1. 查看技能清单
-查看 [SKILLS_SUMMARY.md](SKILLS_SUMMARY_CN.md) 了解所有 39 个技能的详细说明。
+### 1. 查看技能清单
+参见 [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md) 了解所有 85 个技能的详细描述。
 
-#### 2. 选择合适的技能
-根据你的开发阶段选择合适的技能：
-- **项目初始化**: `fullstack-project-setup`, `go-backend-scaffolder`, `vue-quasar-scaffolder`
-- **需求分析**: `business-requirements-collector`, `business-value-mapper`, `metrics-definer`
-- **规范定义**: `spec-parser`, `bdd-scenario-writer`, `atdd-acceptance-test-generator`
-- **代码开发**: `tdd-red-green-refactor`, `generic-code-generator`
-- **测试验证**: `test-pyramid-analyzer`, `sit-scenario-generator`, `chaos-test-designer`
-- **部署运维**: `deployment-orchestrator`, `release-manager`, `incident-management`
+### 2. 选择合适的技能
 
-#### 3. 使用技能
-在对话中直接请求使用特定技能，AI 助手会自动加载并执行。
+| 开发阶段 | 技能 |
+|-----------------|--------|
+| **L1 业务分析** | `business-requirements-collector`, `value-decomposer`, `metrics-definer` |
+| **L2 架构** | `architecture-pattern-selector`, `tech-stack-selector`, `interface-contract-designer` |
+| **L3 规范** | `spec-to-scenario`, `usecase-designer`, `nfr-analyzer` |
+| **L4 测试规划** | `test-pyramid-deriver`, `e2e-test-generator`, `integration-test-generator` |
+| **L5 实现** | `tdd-cycle-runner`, `unit-test-generator`, `code-refactor-engine` |
+| **场景适配** | `scenario-detector`, `standard-mode-workflow`, `reverse-engineering-suite` |
+| **优化** | `recursive-optimizer`, `convergence-checker`, `skill-optimizer` |
+| **元能力** | `derivation-chain-validator`, `semantic-intent-clarifier`, `meta-skeptic` |
 
-#### 4. 查看迁移说明
-如果从旧版本迁移，请查看 [MIGRATION.md](MIGRATION_CN.md) 了解详细迁移步骤。
+### 3. 使用技能
+在对话中直接请求使用特定技能：
+```
+用户: "我需要将业务目标分解为功能需求"
+AI: 使用 value-decomposer 技能...
+```
 
 ---
 
-### 执行层 (6个)
-- `bdd-scenario-writer` - 将需求转为 Gherkin BDD 场景
-- `tdd-red-green-refactor` - 指导 TDD RED-GREEN-REFACTOR 循环
-- `test-pyramid-analyzer` - 分析测试分布和覆盖率
-- `sit-scenario-generator` - 生成系统集成测试场景
-- `chaos-test-designer` - 设计混沌工程实验
-- `atdd-acceptance-test-generator` - 生成 ATDD 验收测试
+## 技能统计
 
-### 战略层 (9个)
-- `business-requirements-collector` - 业务需求收集与分析，支持7类别分类
-- `requirement-classifier` - 自动将需求分类到7个类别，支持跨类别关系分析
-- `usecase-designer` - 设计用例，支持与需求的双向追溯
-- `nfr-analyzer` - 分析非功能性需求，提供可度量指标
-- `business-value-mapper` - BMAD 业务价值映射
-- `metrics-definer` - 定义业务和技术指标
-- `architecture-decision-recorder` - 记录架构决策 (ADR)
-- `data-flow-analyzer` - 分析数据流和价值链
-- `requirement-implementation-tracer` - 需求、用例、实现三层双向追溯
-
-### 战术层 (8个)
-- `spec-parser` - 解析自然语言需求为结构化规范
-- `constitution-validator` - 验证宪法原则合规性
-- `spec-to-code-tracer` - 建立规范与代码双向追溯
-- `spec-evolution-tracker` - 跟踪规范变更历史
-- `architecture-pattern-selector` - 基于需求选择架构模式
-- `tech-stack-selector` - 交互式技术栈选择，提供全面的选项
-- `generic-code-generator` - 根据规范、模板或TDD模式跨语言生成代码
-- `contract-test-generator` - 生成消费者驱动的契约测试，确保微服务API兼容性
-
-### AI 协作层 (4个)
-- `context-manager` - 管理项目上下文
-- `skill-recommender` - 智能推荐相关技能
-- `recursive-optimizer` - 基于反馈优化技能
-- `prompt-template-manager` - 管理提示词模板
-
-### Go + Vue + Quasar 全栈开发层 (6个)
-- `go-backend-scaffolder` - 基于生产级模式生成 Go 后端代码
-- `vue-quasar-scaffolder` - 基于生产级模式生成 Vue 3 + Quasar 前端组件
-- `fullstack-project-setup` - 初始化完整的 Go + Vue + Quasar 全栈项目
-- `requirements-to-code-docs` - 从需求到用例到实现生成结构化文档
-- `go-vue-fullstack-workflow` - 协调 Go + Vue + Quasar 全栈开发工作流
-- `makefile-backend-generator` - 为 Go 后端项目创建生产级 Makefile
-
-### 工具与集成层 (3个)
-- `skill-packaging-tool` - 打包技能为可分发包
-- `go-cli-builder` - 构建企业级 Go CLI 应用，基于 cobra+viper 最佳实践
-- `rust-cli-builder` - 构建企业级 Rust CLI 应用，基于 clap+serde+config 最佳实践
-
-### 方法论融合协调层 (1个)
-- `methodology-fusion-orchestrator` - 协调端到端方法论融合工作流
-
-### 场景适配层 (1个)
-- `scenario-mode-selector` - 根据项目上下文和约束选择适当的开发模式
-
-### 质疑层 - 验证与校验 (4个)
-- `correctness-checker` - 验证内容的事实正确性、逻辑一致性和有效性
-- `completeness-checker` - 验证内容包含所有必需元素和场景
-- `consistency-checker` - 验证跨层和跨域的一致性
-- `boundedness-checker` - 验证优化变更保持在定义边界内
+| 类别 | 技能数 | 描述 |
+|---------|--------|-------------|
+| **D1-D5 推导** | 27 | 五层推导模型技能 |
+| **D6 场景** | 8 | 8 种场景模式适配 |
+| **D7 演进** | 5 | 递归优化与资产化 |
+| **D8 元** | 9 | 自我验证与调整 |
+| **支持** | 36 | 工具与验证 |
+| **总计** | **85** | 完整技能库 |
 
 ---
 
-**总计**: 50 个技能，覆盖完整的软件开发生命周期
+## 协议支持
+
+### ARGUE 协议（Agent 交互）
+- **ARGUE-001**: UniversalSkeptic → WorkflowOrchestrator
+- **ARGUE-002**: ConstitutionGuardian → ChangeAndTaskAgent
+- **ARGUE-003**: RecursiveOptimizer → WorkflowOrchestrator
+- **ARGUE-004**: ContextManager → 任意Agent
+- **ARGUE-005**: HumanAIBoundaryGuard → 用户
+
+### META 协议（元论证）
+- **META-001**: architecture-self-auditor 架构自审
+- **META-002**: derivation-chain-validator 推导链验证
+- **META-003**: principle-consistency-checker 原则一致性
+- **META-004**: adjustment-proposer 调整方案提出
+- **META-005**: meta-skeptic 边界合理性质疑
+
+---
+
+## 关键特性
+
+### 五层推导链
+```
+业务目标 → 功能需求 → 架构决策 → 验收标准 → 测试分层 → 单元测试 → 代码
+```
+
+### 宪法原则 (P0-P10)
+- P0: Context-Adaptation (情境适配)
+- P1: Purpose-Driven (目的主导)
+- P2: Planning-Driven (规划驱动)
+- P3: Modularity-Orthogonality (模块化与正交性)
+- P4: Interface-First (接口先行)
+- P5: Occam's Razor (奥卡姆剃刀)
+- P6: Test-First (测试先行)
+- P7: Context-First (上下文第一性)
+- P8: Human-AI Boundary (人机责任边界)
+- P9: Recursive Self-Optimization (递归自我优化)
+- P10: Skill Assetization (技能资产化)
+
+### 8 种场景模式
+1. **Standard**: 绿地项目，完整方法论
+2. **Reverse Engineering**: 遗留系统理解
+3. **Language Migration**: 技术栈迁移
+4. **Refactoring**: 增量架构升级
+5. **POC**: 概念验证，快速验证
+6. **Emergency**: 生产热修复
+7. **Federal**: 多团队分布式开发
+8. **Continuous Improvement**: 长期演进
+
+---
 
 ## 使用方式
 
 ### 通过 OpenCode 自动发现
 
-OpenCode 会从当前工作目录向上搜索，自动发现 `skills/` 目录下的所有技能。
+OpenCode 自动发现 `skills/` 目录下的技能。
 
-```bash
-# 在用户目录下
-git clone https://github.com/aether-go/skills.git
-cp -Rv skills/* .opencode/skill/
-
-# OpenCode 会自动发现 skills/ 目录下的所有技能
-```
-
-### Skills 管理脚本
-
-项目提供了便捷的 `skills.sh` 脚本来管理技能（详见 [MIGRATION.md](MIGRATION_CN.md)）：
+### 技能管理脚本
 
 ```bash
 # 列出所有技能
-cd skills
 ./skills.sh list
 
 # 显示技能详细信息
-./skills.sh show bdd-scenario-writer
+./skills.sh show test-pyramid-deriver
 
 # 搜索技能
-./skills.sh search testing
+./skills.sh search "test"
 
 # 查看统计信息
 ./skills.sh stats
 
 # 验证技能格式
 ./skills.sh validate
-
-# 安装技能到全局位置
-./skills.sh install bdd-scenario-writer
 ```
 
-### 手动调用技能
-
-在对话中，AI 助手会根据任务自动推荐和加载相关技能：
-
-```
-用户: "我需要为用户登录功能编写 BDD 测试场景"
-
-AI助手: 使用 bdd-scenario-writer 技能来转换需求为 Gherkin 场景...
-```
-
-### 方法论融合协调器使用示例
-
-`methodology-fusion-orchestrator` 是最强大的技能，它协调所有其他技能执行完整的八阶段工作流。以下是实际使用示例：
-
-#### 示例1：电商用户认证系统（基础版）
-
-```
-我需要开发一个电商用户认证系统。
-
-业务目标：
-- 主要：提升用户注册转化率30%
-- 次要：降低认证相关客服咨询50%
-
-成功指标：
-- 注册成功率 > 95%
-- 平均注册时间 < 60秒
-- 第三方登录使用率 > 40%
-- 认证API P99延迟 < 200ms
-
-技术栈：
-- 后端：Go + Gin + PostgreSQL + Redis
-- 前端：Vue 3 + Quasar + Pinia
-
-请使用methodology-fusion-orchestrator执行完整的八阶段工作流，确保宪法合规，启用递归优化和资产化。
-```
-
-#### 示例2：微服务订单管理系统（标准版）
-
-```
-项目类型：微服务架构
-技术栈：Go后端 + Vue前端
-
-BMAD框架：
-Business：
-  - 主要目标：提升订单处理效率50%
-  - 次要目标：降低订单错误率到0.1%以下
-
-Metrics：
-  业务：
-    - 订单处理时间 < 2秒
-    - 订单准确率 > 99.9%
-  技术：
-    - API P99延迟 < 100ms
-    - 系统可用性 > 99.95%
-
-Architecture：
-  - 架构风格：DDD + 事件驱动
-  - 关键约束：支持10万并发订单
-
-Data：
-  - 数据类型：订单数据、用户数据、支付数据
-  - 数据流向：订单创建 → 支付处理 → 库存更新 → 物流通知
-
-请使用methodology-fusion-orchestrator执行完整工作流，启用所有优化和资产化功能。
-```
-
-#### 示例3：企业级全栈应用（高级版）
-
-```yaml
-# Aether.go 方法论融合编排请求
-
-## 项目概览
-project:
-  name: "企业资源规划系统"
-  type: "fullstack-web"
-  version: "1.0.0"
-  business_criticality: "high"
-  compliance_requirements: ["SOC2", "GDPR"]
-
-## BMAD 业务价值框架
-business:
-  primary_goals:
-    - id: "BG-001"
-      description: "优化库存管理"
-      priority: "high"
-      success_criteria: "库存处理时间减少40%"
-    - id: "BG-002"
-      description: "改进订单履行"
-      priority: "medium"
-      success_criteria: "订单准确率达到99.5%"
-
-metrics:
-  business:
-    - name: "库存周转率"
-      target: "12次/年"
-      measurement: "从库存日志计算"
-      frequency: "monthly"
-      owner: "运营经理"
-  
-  technical:
-    - name: "API响应时间"
-      target: "P99 < 150ms"
-      measurement: "APM监控"
-      frequency: "continuous"
-      owner: "DevOps团队"
-
-architecture:
-  style: "Clean Architecture + DDD"
-  patterns: ["CQRS", "Event Sourcing"]
-  constraints:
-    - type: "performance"
-      requirement: "支持1万并发用户"
-    - type: "security"
-      requirement: "符合OWASP Top 10"
-
-data:
-  entities:
-    - name: "客户数据"
-      sensitivity: "confidential"
-      retention: "7年"
-      compliance: "GDPR"
-  flows:
-    - from: "订单服务"
-      to: "库存服务"
-      transformation: "扣减库存"
-      validation: "库存可用性检查"
-
-## 宪法与合规配置
-constitution:
-  file: "./constitution.yaml"
-  strict_mode: true
-  auto_evolve: true
-  evolution_threshold: 0.85
-
-## 优化与资产化配置
-optimization:
-  enabled: true
-  frequency: "after_each_stage"
-  scope: ["skills", "constitution", "workflow"]
-
-skill_effectiveness:
-  tracking:
-    - success_rate
-    - execution_time
-    - output_quality
-    - constitution_compliance
-  reporting:
-    frequency: "daily"
-    dashboard: true
-    alerts:
-      - condition: "success_rate < 0.7"
-        action: "notify_team"
-
-## 执行要求
-
-请使用methodology-fusion-orchestrator执行完整的八阶段工作流，并提供：
-1. 每个阶段的详细执行报告
-2. 宪法合规检查结果
-3. 度量指标汇总
-4. 优化建议和资产化结果
-5. 可视化仪表板链接
-
-## 预期成果
-- 宪法合规得分 ≥ 95%
-- 需求可追溯性 = 100%
-- 测试覆盖率 ≥ 90%
-- 业务价值对齐度 ≥ 90%
-- 优化效率提升 ≥ 15%
-- 资产化成功模式数量 ≥ 2
-```
-
-### Prompt优化建议
-
-1. **明确业务价值**：始终从BMAD框架开始，明确业务目标、度量、架构和数据
-2. **指定技术栈**：明确后端、前端、数据库等技术选型
-3. **配置宪法选项**：根据项目需求调整宪法严格程度和进化阈值
-4. **启用优化功能**：明确要求启用递归优化、资产化和自动化
-5. **指定输出格式**：要求提供详细的执行报告、可视化仪表板和优化建议
-6. **设置质量门禁**：明确宪法合规、测试覆盖率、代码质量的最低要求
-7. **配置协作流程**：指定需要审批的阶段和审批人
-8. **启用可视化**：要求生成实时更新的仪表板和多种导出格式
-
-### 技能统计
-
-根据 [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md) 的详细清单：
-
-- **总技能数**: 45
-- **执行层**: 6 (BDD, TDD, 测试分析, SIT, Chaos, ATDD)
-- **战略层**: 9 (BMAD, 指标, ADR, 数据流, 需求收集, 需求分类, 用例设计, NFR分析, 可追溯性)
-- **战术层**: 8 (解析, 宪法, 追溯, 演进, 架构选择, 技术栈选择, 代码生成, 契约测试)
-- **AI协作层**: 4 (上下文, 推荐, 优化, 模板)
-- **Go + Vue + Quasar 全栈开发层**: 6 (后端脚手架, 前端脚手架, 项目初始化, 文档生成, 工作流协调, Makefile生成)
-- **工具与集成层**: 4 (技能打包, CLI构建器, README生成器)
-- **ITIL服务管理层**: 7 (事件, 问题, 变更, 服务台, 部署, 发布, 回滚)
-- **方法论融合协调层**: 1 (方法论融合协调器)
-- **场景适配层**: 1 (场景模式选择器)
-- **质疑层**: 4 (正确性、完整性、一致性、有界性验证器)
-
-### 技能文件格式
-
-每个技能遵循 OpenCode 规范：
-
-```markdown
----
-name: skill-name
-description: Use when [specific triggering conditions]
 ---
 
-# Skill Title
-
-## Overview
-[What this skill does in 1-2 sentences]
-
-## When to Use
-[When to apply this skill]
-
-## Core Pattern
-[Before/After comparison]
-
-## Quick Reference
-[Table of common operations]
-
-## Implementation
-[Code examples and patterns]
-
-## Common Mistakes
-[What goes wrong and how to fix it]
-
-## Real-World Impact
-[Concrete results and benefits]
-```
-
-## Aether.go 方法论集成
-
-这些技能与 Aether.go 核心方法论深度集成，覆盖完整的软件开发生命周期：
-
-### 八阶段方法论融合工作流
-
-详见 [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md) 中的完整工作流图示：
-
-1. **阶段1: 业务分析 (Business Analysis)**
-   - `business-requirements-collector` - 收集和分析业务需求，支持7类别分类
-   - `requirement-classifier` - 自动将需求分类到7个类别
-   - `usecase-designer` - 设计用例，支持双向追溯
-   - `nfr-analyzer` - 分析非功能性需求，提供可度量指标
-   - `business-value-mapper` - 将业务目标映射到技术指标
-   - `metrics-definer` - 定义可衡量的业务和技术指标
-
-2. **阶段2: 规范定义 (Specification Definition)**
-   - `spec-parser` - 解析自然语言需求为结构化规范
-   - `bdd-scenario-writer` - 转换需求为 Gherkin BDD 场景
-   - `atdd-acceptance-test-generator` - 生成可执行验收测试
-
-3. **阶段3: 宪法审查 (Constitutional Review)**
-   - `constitution-validator` - 验证代码和规范符合架构原则
-
-4. **阶段4: 实现计划 (Implementation Planning)**
-   - `architecture-decision-recorder` - 记录架构决策 (ADR)
-   - `data-flow-analyzer` - 分析数据流和价值链
-   - `architecture-pattern-selector` - 选择合适的架构模式
-   - `tech-stack-selector` - 交互式技术栈选择
-
-5. **阶段5: 代码生成 (Code Generation)**
-   - `tdd-red-green-refactor` - 使用 TDD 方法实现功能
-   - `go-backend-scaffolder` - 生成 Go 后端代码
-   - `vue-quasar-scaffolder` - 生成 Vue 前端组件
-   - `generic-code-generator` - 跨语言生成代码
-
-6. **阶段6: 集成验证 (Integration Validation)**
-   - `sit-scenario-generator` - 生成系统集成测试场景
-   - `chaos-test-designer` - 设计混沌工程实验
-   - `test-pyramid-analyzer` - 分析测试覆盖率和分布
-   - `contract-test-generator` - 生成契约测试
-
-7. **阶段7: 部署与运维 (Deployment & Operations)**
-   - `deployment-orchestrator` - 高级部署策略编排
-   - `release-manager` - 发布规划和版本管理
-   - `incident-management` - ITIL 对齐的事件处理
-   - `problem-management` - 根本原因分析
-   - `change-management` - 受控变更流程
-   - `service-desk` - 用户请求和问题管理
-   - `rollback-manager` - 失败部署的自动回滚
-
-8. **阶段8: 递归优化 (Recursive Optimization)**
-   - `methodology-fusion-orchestrator` - 协调端到端方法论融合工作流
-   - `recursive-optimizer` - 基于反馈优化技能
-   - `skill-recommender` - 智能推荐相关技能
-   - `prompt-template-manager` - 管理提示词模板
-
-### 核心方法论
-
-- **BMAD** (Business-Driven Metrics) - 业务驱动指标
-  - `business-requirements-collector` - 收集和分析业务需求，支持7类别分类
-  - `requirement-classifier` - 自动将需求分类到7个类别
-  - `usecase-designer` - 设计用例，支持双向追溯
-  - `nfr-analyzer` - 分析非功能性需求，提供可度量指标
-  - `business-value-mapper` - BMAD 业务价值映射
-  - `metrics-definer` - 定义业务和技术指标
-
-- **SDD** (Spec-Driven Development) - 规范驱动开发
-  - `spec-parser` - 解析自然语言需求为结构化规范，支持7类别分类
-  - `spec-to-code-tracer` - 建立规范与代码双向追溯
-  - `spec-evolution-tracker` - 跟踪规范变更历史
-  - `requirement-implementation-tracer` - 三层双向追溯
-
-- **Constitution** - 宪法约束原则
-  - `constitution-validator` - 验证宪法原则合规性
-  - `architecture-decision-recorder` - 记录架构决策 (ADR)
-
-- **Testing** - 测试驱动开发
-  - `bdd-scenario-writer` - 将需求转为 Gherkin BDD 场景
-  - `tdd-red-green-refactor` - 指导 TDD RED-GREEN-REFACTOR 循环
-  - `test-pyramid-analyzer` - 分析测试分布和覆盖率
-  - `atdd-acceptance-test-generator` - 生成 ATDD 验收测试
-
-- **Resilience** - 弹性和可靠性
-  - `sit-scenario-generator` - 生成系统集成测试场景
-  - `chaos-test-designer` - 设计混沌工程实验
-  - `contract-test-generator` - 生成契约测试确保微服务兼容性
-
-- **Methodology Fusion** - 方法论融合协调
-  - `methodology-fusion-orchestrator` - 协调端到端方法论融合工作流
-  - `context-manager` - 管理项目上下文
-  - `recursive-optimizer` - 基于反馈优化技能
-
-- **Scenario Adaptation** - 场景适配
-  - `scenario-mode-selector` - 根据项目上下文选择适当的开发场景模式
-
-## 开发与维护
-
-### 添加新技能
-
-1. 在 `skills/` 目录下创建新子目录
-2. 添加 `SKILL.md` 文件
-3. 遵循 writing-skills 规范和 TDD 原则
-4. 运行 `./skills.sh validate` 验证格式
-5. 更新 [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md) 添加新技能说明
-
-### 修改现有技能
-
-1. 阅读 `SKILL.md` 文件
-2. 使用 TDD 方法修改（先写测试）
-3. 使用 recursive-optimizer 持续改进
-4. 运行 `./skills.sh validate` 验证格式
-5. 更新 [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md) 中的技能描述
-
-### 测试技能
-
-使用 subagent 驱动开发进行技能验证：
-
-```bash
-# 测试技能有效性
-python scripts/test-skill.py <skill-name>
-
-# 或使用 skills.sh 验证
-./skills.sh validate <skill-name>
-```
-
-### 技能版本管理
-
-所有技能文件应纳入 Git 版本控制：
-
-```bash
-# 添加新技能或修改
-git add skills/<skill-name>/SKILL.md
-git add SKILLS_SUMMARY.md
-git add README.md
-
-# 提交更改
-git commit -m "feat: add/update <skill-name> skill"
-```
-
-## 相关文档
-
-- **[SKILLS_SUMMARY.md](SKILLS_SUMMARY.md)** - 所有技能的详细清单和说明
-  - 包含 39 个技能的完整描述
-  - 每个技能的功能、位置和特点
-  - 技能集成与工作流说明
-  - 八阶段方法论融合工作流图示
-  - 宪法贯穿执行和智能技能调度机制
-  
-- **[MIGRATION.md](MIGRATION.md)** - Skills 目录迁移说明
-  - 从 `.opencode/skill/` 到 `skills/` 的迁移详情
-  - 新目录结构说明
-  - Skills 管理脚本使用方法
-  - 技能统计和验证结果
-  - OpenCode 集成配置
-  - 问题排查指南
-  
 ## 贡献
 
-欢迎贡献新技能和改进！
-
-### 贡献流程
-
-1. Fork 项目
-2. 创建特性分支 (`git checkout -b feature/my-skill`)
-3. 遵循 writing-skills 规范
+1. 在相应的 D 域目录下创建新技能目录
+2. 添加遵循 OpenCode 规范的 `SKILL.md` 文件
+3. 更新 `SKILLS_SUMMARY.md` 和 `skill-dependencies.yaml`
 4. 运行 `./skills.sh validate` 验证格式
-5. 更新 [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md) 添加新技能说明
-6. 更新 [README.md](README.md) 中的相关文档链接
-7. 提交 Pull Request
-
-### 技能规范
-
-每个技能必须遵循以下规范：
-
-1. **文件命名**: `skills/<skill-name>/SKILL.md` (SKILL.md 必须大写)
-2. **YAML Frontmatter**: 必须包含 `name` 和 `description` 字段
-3. **Description 格式**: 必须以 "Use when" 开头
-4. **命名规范**: 技能名称使用小写字母、数字和连字符
-5. **内容结构**: 包含 Overview, When to Use, Core Pattern, Quick Reference, Implementation, Common Mistakes, Real-World Impact
-
-### 代码审查清单
-
-- [ ] 技能文件位于正确目录
-- [ ] 文件名为 `SKILL.md` (大写)
-- [ ] 包含必需的 YAML frontmatter
-- [ ] description 以 "Use when" 开头
-- [ ] 遵循 OpenCode 规范
-- [ ] 已更新 SKILLS_SUMMARY.md
-- [ ] 已运行 `./skills.sh validate`
-- [ ] 已添加必要的测试
-
-## 许可证
-
-本项目采用 MIT License - 详见 [LICENSE](LICENSE) 文件
 
 ---
 
-创建日期：2026-01-16  
-最后更新：2026-04-10  
-维护者：Aether.go Team
+## 参考文档
 
-### 架构更新 (2026-04-10)
-基于 [Agent-Skill 分析报告](D:\repos\bison\ai-docs\layer3\aether-go\agent-skill-analysis-report.md)，已实施以下架构改进：
+- [method-paper.md](../ai-docs/layer3/aether-go/method-paper.md) - Aether 方法论融合框架
+- [ai-agent-architecture-proposal.md](../ai-docs/layer3/aether-go/ai-agent-architecture-proposal.md) - AI Agent 智能体架构方案 V2.1
 
-- **新增质疑层 Skills**: 4个验证技能（correctness-checker、completeness-checker、consistency-checker、boundedness-checker）支持质疑机制
-- **Agent-Skill 边界明确化**: 核心 Agent（7个）协调 Skeptic Skills 进行验证，避免重复实现
-- **技能总数**: 从46个更新为50个技能
+---
+
+**创建日期**: 2026-01-16
+**最后更新**: 2026-04-25
+**维护者**: Aether.go Team
+
+## 最近重构 (2026-04-25)
+
+- 将 `test-pyramid-analyzer` 合并到 `test-pyramid-validator`
+- 将 `continuous-improvement-suite` 合并到 `improvement-budget-allocator`
+- 将 `spec-evolution-tracker` 合并到 `spec-version-manager`
+- 移除已废弃技能: `scenario-mode-selector`, `tdd-red-green-refactor`
