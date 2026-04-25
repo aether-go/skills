@@ -100,16 +100,16 @@ Prompt templates are stored in `.aether/prompts/` with categorized subdirectorie
 ├── system/                         # System-level prompts
 │   └── system-prompt.yaml
 ├── user/                           # User custom prompts
-│   └── custom-prompt.yaml
+│   └── custom-prompts/
 └── generated/                      # Generated prompts
     └── task-specific/
 ```
 
-Performance data is stored in `.aether/state/`:
+Performance data is stored in `.aether/metrics/series/`:
 
 ```
-.aether/state/
-└── prompt-performance.yaml         # Performance tracking data
+.aether/metrics/series/
+└── prompt-performance.yml          # Performance tracking data
 ```
 
 ### Output Path Helper
@@ -119,31 +119,31 @@ from pathlib import Path
 
 class PromptTemplateOutputManager:
     """Manages output paths for prompt template artifacts."""
-    
+
     BASE_PATH = '.aether/prompts'
-    PERFORMANCE_PATH = '.aether/state'
-    
+    PERFORMANCE_PATH = '.aether/metrics/series'
+
     @classmethod
     def get_system_prompts_path(cls, base_path='.'):
         """Get path for system prompts directory."""
         sys_dir = Path(base_path) / cls.BASE_PATH / 'system'
         sys_dir.mkdir(parents=True, exist_ok=True)
         return sys_dir
-    
+
     @classmethod
     def get_user_path(cls, base_path='.'):
         """Get path for user prompts directory."""
         user_dir = Path(base_path) / cls.BASE_PATH / 'user'
         user_dir.mkdir(parents=True, exist_ok=True)
         return user_dir
-    
+
     @classmethod
     def get_generated_path(cls, base_path='.'):
         """Get path for generated prompts directory."""
         gen_dir = Path(base_path) / cls.BASE_PATH / 'generated'
         gen_dir.mkdir(parents=True, exist_ok=True)
         return gen_dir
-    
+
     @classmethod
     def get_template_path(cls, template_name, category='user', base_path='.'):
         """Get path for a specific template file."""
@@ -153,15 +153,15 @@ class PromptTemplateOutputManager:
             dir_path = cls.get_generated_path(base_path)
         else:
             dir_path = cls.get_user_path(base_path)
-        
+
         return dir_path / f"{template_name}.yaml"
-    
+
     @classmethod
     def get_performance_path(cls, base_path='.'):
         """Get path for performance tracking file."""
         perf_dir = Path(base_path) / cls.PERFORMANCE_PATH
         perf_dir.mkdir(parents=True, exist_ok=True)
-        return perf_dir / 'prompt-performance.yaml'
+        return perf_dir / 'prompt-performance.yml'
 ```
 
 ## Implementation

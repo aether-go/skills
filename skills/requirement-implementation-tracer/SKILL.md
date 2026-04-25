@@ -200,7 +200,7 @@ traceability_matrix:
 
 ## Output Location
 
-Traceability matrices and reports are stored in `.aether/state/traceability/`:
+Traceability matrices are stored in `.aether/state/traceability/`:
 
 ```
 .aether/state/
@@ -208,10 +208,10 @@ Traceability matrices and reports are stored in `.aether/state/traceability/`:
 │   ├── requirement-implementation.yaml    # Main traceability matrix
 │   ├── coverage-report.yaml               # Coverage analysis
 │   └── gap-analysis.yaml                  # Gap analysis results
-└── gap-analysis.yaml                      # Summary gap analysis
+└── gap-analysis.yaml                      # Summary gap analysis (optional copy)
 ```
 
-Reports are generated in `.aether/docs/09-reports/`:
+Human-readable reports are generated in `.aether/docs/09-reports/`:
 
 ```
 .aether/docs/09-reports/

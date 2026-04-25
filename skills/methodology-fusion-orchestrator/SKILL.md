@@ -337,54 +337,120 @@ constitution_enforcement:
 Before executing the methodology fusion workflow, the orchestrator initializes the complete `.aether/` directory structure:
 
 ```yaml
-# Directory structure created by orchestrator
+# Directory structure created by orchestrator (per dot-aether-reference.md)
 .aether/
-├── context/
-│   ├── session/                    # Temporary session contexts
-│   ├── project/                    # Persistent project context
-│   │   ├── context.yaml            # Main project context
-│   │   ├── metrics/                # Stage metrics storage
-│   │   ├── traceability/           # Traceability matrices
-│   │   └── gap-analysis.yaml       # Gap analysis results
-│   └── global/                     # Global shared context
-├── prompts/
-│   ├── system/                     # System prompt templates
-│   ├── tasks/                      # Task-specific prompts
-│   └── custom/                     # Custom user prompts
-├── docs/
-│   ├── requirements/               # 13-category requirements
-│   │   ├── 01-business-requirements.md
-│   │   ├── 02-compliance-requirements.md
-│   │   ├── 03-constraint-requirements.md
-│   │   ├── 04-functional-requirements.md
-│   │   ├── 05-performance-requirements.md
-│   │   ├── 06-compatibility-requirements.md
-│   │   ├── 07-usability-requirements.md
-│   │   ├── 08-reliability-requirements.md
-│   │   ├── 09-security-requirements.md
-│   │   ├── 10-maintainability-requirements.md
-│   │   ├── 11-portability-requirements.md
-│   │   ├── 12-architecture-requirements.md
-│   │   ├── 13-data-requirements.md
-│   │   └── relations.yaml          # Cross-category relationships
-│   ├── design/                     # Design documents
-│   ├── decisions/                  # Architecture Decision Records
-│   │   └── INDEX.md                # ADR index
-│   ├── api/                        # API documentation
-│   └── reports/                    # Generated reports
-├── memory/
-│   ├── facts.md                    # Project facts
-│   ├── decisions.md                # Key decisions log
-│   ├── learnings.md                # Lessons learned
-│   └── patterns.md                 # Identified patterns
-├── skills/
-│   ├── custom/                     # Custom skills
-│   └── overrides/                  # Skill overrides
-├── workflows/
-│   ├── default.yaml                # Default workflow
-│   └── custom/                     # Custom workflows
-├── constitution.yaml               # Constitutional principles
-└── config.yaml                     # Project configuration
+├── constitution.yml                # Project宪法（YAML断言格式）
+├── workflow.yml                    # 工作流配置（不变）
+├── config.yml                     # 项目级配置（可选）
+│
+├── state/                         # 【运行时状态 - 过程性】
+│   ├── current.yml                # 当前工作流状态
+│   ├── sessions/                  # 会话历史
+│   │   ├── index.yml
+│   │   └── {session-id}/
+│   │       ├── session.yml
+│   │       ├── context.yml
+│   │       └── snapshots/
+│   └── checkpoints/               # 全量检查点（快照）
+│       ├── index.yml
+│       └── {cp-id}/
+│           ├── manifest.yml
+│           └── snapshot.tar.gz
+│
+├── context/                       # 【上下文管理 - 过程性】
+│   ├── active/                    # 当前活跃上下文
+│   │   └── conv-{timestamp}.json
+│   ├── archived/                  # 归档上下文
+│   │   └── {year-month}/
+│   └── templates/                 # 上下文模板
+│       ├── specification.json
+│       ├── coding.json
+│       └── review.json
+│
+├── prompts/                       # 【提示词管理 - 过程性】
+│   ├── system/                    # 系统提示词
+│   ├── user/                      # 用户自定义提示词
+│   │   └── custom-prompts/
+│   └── generated/                 # 生成的提示词
+│       └── task-specific/
+│
+├── memory/                        # 【长期记忆 - 记忆性】
+│   ├── facts.md                   # 事实记忆
+│   ├── decisions.md               # 决策记忆
+│   ├── learnings.md               # 学习记忆
+│   ├── patterns.md                # 模式记忆
+│   ├── .pending/                  # AI生成的待批准更新
+│   │   ├── facts-{date}-001.md
+│   │   ├── decisions-{date}-001.md
+│   │   └── rejected/
+│   └── embeddings/               # 向量嵌入数据
+│       ├── index.yml
+│       └── qdrant/
+│
+├── metrics/                       # 【度量与反馈 - 过程性】
+│   ├── series/                   # 时序度量YAML文件
+│   │   └── {year-month}/
+│   │       ├── coverage.yml
+│   │       ├── defect_rate.yml
+│   │       └── performance.yml
+│   ├── feedback/                  # 用户人工评分/修正
+│   │   └── {date}.yml
+│   └── prometheus-exporter.yml
+│
+├── analysis/                      # 【场景模式检测 - 过程性】
+│   ├── latest-report.yml         # 最新检测报告
+│   └── history/                  # 历史分析记录
+│       └── {date}.yml
+│
+├── docs/                          # 【用户产出描述性文档】
+│   ├── 01-business/               # 业务需求文档
+│   ├── 02-specification/         # 规范文档（用户故事、验收标准、BDD场景）
+│   ├── 03-architecture/           # 架构设计文档
+│   ├── 04-uml/                   # UML模型
+│   ├── 05-adr/                   # 架构决策记录
+│   │   └── INDEX.md
+│   ├── 06-api/                   # API文档+契约测试
+│   ├── 07-testing/               # 测试文档（按金字塔分层）
+│   │   ├── unit/
+│   │   ├── integration/
+│   │   ├── contract/
+│   │   ├── acceptance/
+│   │   └── e2e/
+│   ├── 08-deployment/            # 部署文档
+│   └── 09-reports/               # 报告文档
+│
+├── reference/                     # 【引用文档 - 描述性】
+│   ├── external/                 # 外部引用
+│   ├── standards/                # 标准规范
+│   └── guidelines/               # 指导原则
+│
+├── skills/                        # 【本地技能 - 过程性】
+│   ├── installed/                # 已安装技能
+│   ├── custom/                   # 自定义技能
+│   ├── templates/                # 技能模板
+│   └── meta/                     # 技能统计与质量
+│       ├── success-rates.yml
+│       └── improvement-queue/
+│           └── {skill-name}.yaml
+│
+├── workflows/                     # 【工作流定义 - 过程性】
+│   ├── custom/                   # 自定义工作流
+│   ├── templates/                # 工作流模板
+│   └── improvement/             # 技能改进任务
+│
+├── history/                      # 【操作历史 - 过程性】
+│   ├── commands.log              # 命令历史（汇总）
+│   ├── emergency_fixes.yml       # 紧急修复清单
+│   └── {year-month}/             # 按月组织的详细日志
+│       └── {date}.log
+│
+├── cache/                        # 【临时缓存 - 过程性】
+│   ├── ai-contexts/             # AI上下文缓存
+│   ├── suggestions/              # 建议缓存
+│   └── temp/                    # 临时文件
+│
+└── logs/                        # 【日志文件 - 过程性】
+    └── aether.log
 ```
 
 ### Orchestrator Configuration
@@ -398,12 +464,19 @@ orchestrator:
   
   directories:
     base: ".aether"
+    state: ".aether/state"
     context: ".aether/context"
     prompts: ".aether/prompts"
-    docs: ".aether/docs"
     memory: ".aether/memory"
+    metrics: ".aether/metrics"
+    analysis: ".aether/analysis"
+    docs: ".aether/docs"
+    reference: ".aether/reference"
     skills: ".aether/skills"
     workflows: ".aether/workflows"
+    history: ".aether/history"
+    cache: ".aether/cache"
+    logs: ".aether/logs"
   
   stages:
     enabled: [1, 2, 3, 4, 5, 6, 7, 8]
@@ -550,42 +623,96 @@ class AetherDirectoryInitializer:
     """Initializes the complete .aether directory structure."""
     
     AETHER_STRUCTURE = {
+        'state': {
+            'sessions': ['index'],
+            'checkpoints': ['index']
+        },
         'context': {
-            'session': [],
-            'project': ['metrics', 'traceability'],
-            'global': []
+            'active': [],
+            'archived': [],
+            'templates': []
         },
         'prompts': {
             'system': [],
-            'tasks': [],
-            'custom': []
+            'user': ['custom-prompts'],
+            'generated': ['task-specific']
+        },
+        'memory': {
+            '.pending': [],
+            'embeddings': ['index']
+        },
+        'metrics': {
+            'series': [],
+            'feedback': []
+        },
+        'analysis': {
+            'history': []
         },
         'docs': {
-            'requirements': [],
-            'design': [],
-            'decisions': [],
-            'api': [],
-            'reports': []
+            '01-business': [],
+            '02-specification': ['user-stories', 'acceptance-criteria', 'bdd-scenarios'],
+            '03-architecture': ['interface-contracts'],
+            '04-uml': ['use-case', 'class', 'sequence', 'state', 'activity', 'component', 'deployment'],
+            '05-adr': [],
+            '06-api': ['protobuf', 'graphql', 'contracts'],
+            '07-testing': ['unit', 'integration', 'contract', 'acceptance', 'e2e'],
+            '08-deployment': ['k8s-manifests'],
+            '09-reports': []
         },
-        'memory': [],
+        'reference': {
+            'external': [],
+            'standards': [],
+            'guidelines': []
+        },
         'skills': {
+            'installed': [],
             'custom': [],
-            'overrides': []
+            'templates': [],
+            'meta': ['success-rates', 'improvement-queue']
         },
         'workflows': {
-            'custom': []
-        }
+            'custom': [],
+            'templates': [],
+            'improvement': []
+        },
+        'history': [],
+        'cache': {
+            'ai-contexts': [],
+            'suggestions': [],
+            'temp': []
+        },
+        'logs': []
     }
     
     DEFAULT_FILES = {
+        '.aether/state/current.yml': '# Current Workflow State\n\n',
+        '.aether/context/active/.gitkeep': '',
+        '.aether/context/templates/specification.json': '{\n  "version": "1.0",\n  "description": "Context template for specification work"\n}',
+        '.aether/context/templates/coding.json': '{\n  "version": "1.0",\n  "description": "Context template for coding work"\n}',
+        '.aether/context/templates/review.json': '{\n  "version": "1.0",\n  "description": "Context template for review work"\n}',
         '.aether/memory/facts.md': '# Project Facts\n\n## Overview\n\n',
         '.aether/memory/decisions.md': '# Decision Log\n\n## Key Decisions\n\n',
         '.aether/memory/learnings.md': '# Lessons Learned\n\n## Insights\n\n',
         '.aether/memory/patterns.md': '# Patterns\n\n## Identified Patterns\n\n',
-        '.aether/docs/decisions/INDEX.md': '# Architecture Decision Records\n\n| ADR | Title | Date | Status |\n|-----|-------|------|--------|\n',
-        '.aether/workflows/default.yaml': '# Default Workflow Configuration\n',
-        '.aether/constitution.yaml': '# Constitutional Principles\n',
-        '.aether/config.yaml': '# Project Configuration\n'
+        '.aether/memory/.pending/.gitkeep': '',
+        '.aether/memory/embeddings/index.yml': 'model: "sentence-transformers/all-MiniLM-L6-v2"\nchunk_strategy: "paragraph"\n',
+        '.aether/metrics/series/.gitkeep': '',
+        '.aether/metrics/feedback/.gitkeep': '',
+        '.aether/metrics/prometheus-exporter.yml': 'enabled: true\nport: 9090\nlocal_storage:\n  path: "series/"\n  retention_days: 30\n',
+        '.aether/analysis/latest-report.yml': 'detected_mode: "standard"\nconfidence: 0.0\nuser_confirmed: false\n',
+        '.aether/docs/05-adr/INDEX.md': '# Architecture Decision Records\n\n| ADR | Title | Date | Status |\n|-----|-------|------|--------|\n',
+        '.aether/docs/07-testing/.gitkeep': '',
+        '.aether/docs/09-reports/.gitkeep': '',
+        '.aether/skills/meta/success-rates.yml': 'skills: []\n',
+        '.aether/skills/meta/improvement-queue/.gitkeep': '',
+        '.aether/workflows/improvement/.gitkeep': '',
+        '.aether/history/commands.log': '',
+        '.aether/history/emergency_fixes.yml': 'fixes: []\n',
+        '.aether/cache/temp/.gitkeep': '',
+        '.aether/logs/aether.log': '',
+        '.aether/constitution.yml': '# Constitutional Principles\n\nversion: "1"\n\nprinciples: []\n',
+        '.aether/workflow.yml': '# Workflow Configuration\n\nversion: "1"\nstages: []\n',
+        '.aether/config.yml': '# Project Configuration\n\nversion: "1"\nproject: {}\n'
     }
     
     def __init__(self, base_path='.'):
@@ -664,36 +791,34 @@ class WorkflowOutputManager:
     
     OUTPUT_PATHS = {
         # Stage 1: Business Analysis
-        'business_requirements': '.aether/docs/requirements/01-business-requirements.md',
-        'compliance_requirements': '.aether/docs/requirements/02-compliance-requirements.md',
-        'constraint_requirements': '.aether/docs/requirements/03-constraint-requirements.md',
-        'requirement_relations': '.aether/docs/requirements/relations.yaml',
+        'business_requirements': '.aether/docs/01-business/',
+        'business_goals': '.aether/docs/01-business/business-goals.md',
+        'success_metrics': '.aether/docs/01-business/success-metrics.md',
+        'stakeholder_analysis': '.aether/docs/01-business/stakeholder-analysis.md',
         
         # Stage 2: Specification
-        'functional_requirements': '.aether/docs/requirements/04-functional-requirements.md',
-        'performance_requirements': '.aether/docs/requirements/05-performance-requirements.md',
-        'compatibility_requirements': '.aether/docs/requirements/06-compatibility-requirements.md',
-        'usability_requirements': '.aether/docs/requirements/07-usability-requirements.md',
-        'reliability_requirements': '.aether/docs/requirements/08-reliability-requirements.md',
-        'security_requirements': '.aether/docs/requirements/09-security-requirements.md',
-        'maintainability_requirements': '.aether/docs/requirements/10-maintainability-requirements.md',
-        'portability_requirements': '.aether/docs/requirements/11-portability-requirements.md',
-        'architecture_requirements': '.aether/docs/requirements/12-architecture-requirements.md',
-        'data_requirements': '.aether/docs/requirements/13-data-requirements.md',
+        'user_stories': '.aether/docs/02-specification/user-stories/',
+        'acceptance_criteria': '.aether/docs/02-specification/acceptance-criteria/',
+        'bdd_scenarios': '.aether/docs/02-specification/bdd-scenarios/',
         
         # Stage 3: Constitutional Review
-        'compliance_report': '.aether/docs/reports/constitutional-compliance-report.md',
+        'compliance_report': '.aether/docs/09-reports/constitutional-compliance-report.md',
         
         # Stage 4: Implementation Planning
-        'adr_files': '.aether/docs/decisions/',
-        'adr_index': '.aether/docs/decisions/INDEX.md',
-        'design_docs': '.aether/docs/design/',
+        'adr_files': '.aether/docs/05-adr/',
+        'adr_index': '.aether/docs/05-adr/INDEX.md',
+        'system_overview': '.aether/docs/03-architecture/system-overview.md',
+        'component_diagram': '.aether/docs/03-architecture/component-diagram.md',
+        'data_model': '.aether/docs/03-architecture/data-model.md',
+        'interface_contracts': '.aether/docs/03-architecture/interface-contracts/',
+        'uml_models': '.aether/docs/04-uml/',
         
         # Stage 5-8: Execution & Optimization
-        'workflow_metrics': '.aether/context/project/metrics/',
-        'traceability_matrix': '.aether/context/project/traceability/',
-        'gap_analysis': '.aether/context/project/gap-analysis.yaml',
-        'project_context': '.aether/context/project/context.yaml',
+        'workflow_metrics': '.aether/metrics/series/',
+        'feedback': '.aether/metrics/feedback/',
+        'traceability_matrix': '.aether/state/traceability/',
+        'gap_analysis': '.aether/state/gap-analysis.yaml',
+        'project_context': '.aether/context/active/',
         'workflow_definitions': '.aether/workflows/custom/',
         'prompt_templates': '.aether/prompts/',
         
@@ -701,7 +826,29 @@ class WorkflowOutputManager:
         'facts': '.aether/memory/facts.md',
         'decisions': '.aether/memory/decisions.md',
         'learnings': '.aether/memory/learnings.md',
-        'patterns': '.aether/memory/patterns.md'
+        'patterns': '.aether/memory/patterns.md',
+        
+        # Reports
+        'traceability_report': '.aether/docs/09-reports/traceability-report.md',
+        'coverage_report': '.aether/docs/09-reports/coverage-report.html',
+        'quality_report': '.aether/docs/09-reports/quality-report.md',
+        
+        # Analysis
+        'latest_analysis': '.aether/analysis/latest-report.yml',
+        'analysis_history': '.aether/analysis/history/',
+        
+        # Skills
+        'skill_success_rates': '.aether/skills/meta/success-rates.yml',
+        'skill_improvement_queue': '.aether/skills/meta/improvement-queue/',
+        
+        # History
+        'commands_log': '.aether/history/commands.log',
+        'emergency_fixes': '.aether/history/emergency_fixes.yml',
+        
+        # Reference
+        'external_reference': '.aether/reference/external/',
+        'standards': '.aether/reference/standards/',
+        'guidelines': '.aether/reference/guidelines/'
     }
     
     def __init__(self, base_path='.'):

@@ -138,7 +138,7 @@ Examples:
 
 ### ADR Index
 
-The ADR index is maintained at `.aether/docs/decisions/INDEX.md`:
+The ADR index is maintained at `.aether/docs/05-adr/INDEX.md`:
 
 ```markdown
 # Architecture Decision Log
