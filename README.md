@@ -10,7 +10,7 @@ A set of intelligent AI skills for the Aether.go project, based on spec-driven, 
 
 ## Overview
 
-Based on [method-paper.md](../ai-docs/layer3/aether-go/method-paper.md) and [ai-agent-architecture-proposal.md V2.1](../ai-docs/layer3/aether-go/ai-agent-architecture-proposal.md), this repository contains **85 skills** organized into **D1-D8 derivation domains** covering the complete five-layer derivation model.
+Based on [method-paper.md](../ai-docs/layer3/aether-go/method-paper.md) and [ai-agent-architecture-proposal.md V2.1](../ai-docs/layer3/aether-go/ai-agent-architecture-proposal.md), this repository contains **99 skills** organized into **D1-D8 derivation domains** and extended domains (D4.5, D7.5) covering the complete five-layer derivation model.
 
 ### Five-Layer Derivation Model
 
@@ -27,6 +27,9 @@ L3: Acceptance Standard Layer
 L4: Component Contract Layer
     └── D4: Contract Derivation (6 skills)
 
+L4.5: Generation Dispatch Layer (NEW)
+    └── D4.5: Generation Dispatch (5 skills)
+
 L5: Unit Implementation Layer
     └── D5: Implementation Derivation (6 skills)
 ```
@@ -40,11 +43,18 @@ L5: Unit Implementation Layer
 | **D3** | Specification Derivation | 5 | L3→L4: System specs to GWT acceptance criteria |
 | **D4** | Contract Derivation | 6 | L4→L5: Acceptance criteria to test stratification |
 | **D5** | Implementation Derivation | 6 | L4→L5: Contracts to unit tests and code |
-| **D6** | Scenario Adaptation | 8 | 8 scenario modes for context-sensitive workflow |
+| **D6** | Scenario Adaptation | 10 | 10 scenario modes for context-sensitive workflow |
 | **D7** | Evolution Optimization | 5 | P9-P10: Recursive optimization and skill assetization |
 | **D8** | Meta-Capability | 9 | Self-verification, self-adjustment, semantic clarification |
 
-**Supporting Skills**: 36 tools (skeptic verification, methodology orchestration, IT service management, fullstack development)
+### Extended Domains (NEW)
+
+| Domain | Name | Skills | Description |
+|--------|------|--------|-------------|
+| **D4.5** | Generation Dispatch | 5 | Deterministic evaluation, code generation dispatch, contract consistency gating |
+| **D7.5** | Knowledge Engine | 2 | Code-graph analysis, repo-wiki generation |
+
+**Supporting Skills**: 41 tools (skeptic verification, methodology orchestration, IT service management, fullstack development)
 
 ---
 
@@ -91,6 +101,13 @@ skills/
 │   ├── system-test-generator/
 │   └── test-pyramid-validator/
 │
+├── D4.5-Generation-Dispatch/      # L4→L4.5 (5 skills) ★ NEW
+│   ├── deterministic-evaluator/
+│   ├── code-generator-dispatcher/
+│   ├── contract-consistency-gate/
+│   ├── confidence-based-reviewer/
+│   └── intent-hierarchizer/
+│
 ├── D5-Implementation-Derivation/ # L4→L5 (6 skills)
 │   ├── unit-test-generator/
 │   ├── tdd-cycle-runner/
@@ -99,7 +116,7 @@ skills/
 │   ├── frontend-code-generator/
 │   └── code-refactor-engine/
 │
-├── D6-Scenario-Adaptation/        # 8 Scenario Modes (8 skills)
+├── D6-Scenario-Adaptation/        # 10 Scenario Modes (10 skills)
 │   ├── scenario-detector/
 │   ├── standard-mode-workflow/
 │   ├── reverse-engineering-suite/
@@ -107,7 +124,9 @@ skills/
 │   ├── strangler-pattern-suite/
 │   ├── poc-exemption-manager/
 │   ├── wartime-hotfix-workflow/
-│   └── federal-constitution-manager/
+│   ├── federal-constitution-manager/
+│   ├── harness-reverse-construction-workflow/  # NEW
+│   └── ai-native-build-workflow/               # NEW
 │
 ├── D7-Evolution-Optimization/     # P9-P10 (5 skills)
 │   ├── convergence-checker/
@@ -115,6 +134,10 @@ skills/
 │   ├── tech-debt-quantifier/
 │   ├── skill-lifecycle-manager/
 │   └── skill-optimizer/
+│
+├── D7.5-Knowledge-Engine/         # Knowledge Engine (2 skills) ★ NEW
+│   ├── code-graph-analyzer/
+│   └── repo-wiki-generator/
 │
 ├── D8-Meta-Capability/           # Self-verification (9 skills)
 │   ├── derivation-chain-validator/
@@ -146,16 +169,33 @@ skills/
 │   ├── release-manager/
 │   └── rollback-manager/
 │
-└── Fullstack-Tools/             # Development Tools (9 skills)
-    ├── go-backend-scaffolder/
-    ├── vue-quasar-scaffolder/
-    ├── fullstack-project-setup/
-    ├── requirements-to-code-docs/
-    ├── go-vue-fullstack-workflow/
-    ├── makefile-backend-generator/
-    ├── go-cli-builder/
-    ├── rust-cli-builder/
-    └── readme-license-generator/
+├── AI-Collaboration/             # AI Collaboration (6 skills)
+│   ├── context-manager/
+│   ├── skill-recommender/
+│   ├── recursive-optimizer/
+│   ├── prompt-template-manager/
+│   ├── ai-effectiveness-tracker/   # NEW
+│   └── system-quality-tracker/     # NEW
+│
+├── Fullstack-Tools/             # Development Tools (9 skills)
+│   ├── go-backend-scaffolder/
+│   ├── vue-quasar-scaffolder/
+│   ├── fullstack-project-setup/
+│   ├── requirements-to-code-docs/
+│   ├── go-vue-fullstack-workflow/
+│   ├── makefile-backend-generator/
+│   ├── go-cli-builder/
+│   ├── rust-cli-builder/
+│   └── readme-license-generator/
+│
+└── Additional-Tools/            # Additional Tools (7 skills)
+    ├── business-value-mapper/
+    ├── chaos-test-designer/
+    ├── generic-code-generator/
+    ├── skill-packaging-tool/
+    ├── mode-selector/              # NEW
+    ├── non-functional-gate-checker/ # NEW
+    └── constraint-check-runner/    # NEW
 ```
 
 ---
@@ -163,7 +203,7 @@ skills/
 ## Quick Start
 
 ### 1. View Skills List
-See [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md) for detailed descriptions of all 87 skills.
+See [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md) for detailed descriptions of all 99 skills.
 
 ### 2. Choose the Right Skill
 
@@ -173,8 +213,10 @@ See [SKILLS_SUMMARY.md](SKILLS_SUMMARY.md) for detailed descriptions of all 87 s
 | **L2 Architecture** | `architecture-pattern-selector`, `tech-stack-selector`, `interface-contract-designer` |
 | **L3 Specification** | `spec-to-scenario`, `usecase-designer`, `nfr-analyzer` |
 | **L4 Test Planning** | `test-pyramid-deriver`, `e2e-test-generator`, `integration-test-generator` |
+| **L4.5 Generation Dispatch** | `deterministic-evaluator`, `code-generator-dispatcher`, `contract-consistency-gate` |
 | **L5 Implementation** | `tdd-cycle-runner`, `unit-test-generator`, `code-refactor-engine` |
-| **Scenario Adaptation** | `scenario-detector`, `standard-mode-workflow`, `reverse-engineering-suite` |
+| **Scenario Adaptation** | `scenario-detector`, `standard-mode-workflow`, `reverse-engineering-suite`, `ai-native-build-workflow` |
+| **Knowledge Engine** | `code-graph-analyzer`, `repo-wiki-generator` |
 | **Optimization** | `recursive-optimizer`, `convergence-checker`, `skill-optimizer` |
 | **Meta-Capability** | `derivation-chain-validator`, `semantic-intent-clarifier`, `meta-skeptic` |
 
@@ -187,119 +229,53 @@ AI: Using value-decomposer skill...
 
 ---
 
+## Recent Updates (2026-04-30)
+
+### New Skills Added (16)
+
+1. **D4.5 Generation Dispatch Domain** (5 skills)
+   - `deterministic-evaluator` - Evaluate task determinism for generation strategy selection
+   - `code-generator-dispatcher` - Dispatch to traditional code generators
+   - `contract-consistency-gate` - GATE-001 protocol implementation
+   - `confidence-based-reviewer` - Confidence-based human review routing
+   - `intent-hierarchizer` - P11 Intent-Hierarchization Principle implementation
+
+2. **D6 Scenario Adaptation** (2 skills)
+   - `harness-reverse-construction-workflow` - Reverse construction from legacy code
+   - `ai-native-build-workflow` - AI-native build mode with hybrid pipeline
+
+3. **D7.5 Knowledge Engine Domain** (2 skills)
+   - `code-graph-analyzer` - Codebase structure and dependency analysis
+   - `repo-wiki-generator` - Repository wiki and documentation generation
+
+4. **AI Collaboration & Optimization** (2 skills)
+   - `ai-effectiveness-tracker` - Dual-track AI effectiveness metrics
+   - `system-quality-tracker` - Dual-track system quality metrics
+
+5. **Additional Tools** (3 skills)
+   - `mode-selector` - Three-mode switching with principle strength adjustment
+   - `non-functional-gate-checker` - P14 NFR verification
+   - `constraint-check-runner` - P13 constraint mechanization
+
+### Architecture Enhancements
+
+- Added L4.5 Generation Dispatch layer between L4 and L5
+- Added D7.5 Knowledge Engine domain for context enrichment
+- Implemented dual-track optimization (system quality + AI effectiveness)
+- Added three-mode development support (norm-driven, emergent exploration, intent-driven)
+- Enhanced constraint mechanization with GATE-001 protocol
+
+---
+
 ## Skill Statistics
 
 | Category | Skills | Description |
 |---------|--------|-------------|
 | **D1-D5 Derivation** | 27 | Five-layer derivation model skills |
-| **D6 Scenario** | 8 | 8 scenario mode adaptation |
+| **D4.5 Generation Dispatch** | 5 | Generation strategy dispatch skills |
+| **D6 Scenario** | 10 | 10 scenario mode adaptation |
 | **D7 Evolution** | 5 | Recursive optimization & assetization |
+| **D7.5 Knowledge Engine** | 2 | Code-graph and repo-wiki generation |
 | **D8 Meta** | 9 | Self-verification & adjustment |
-| **Supporting** | 36 | Tools & verification |
-| **Total** | **85** | Complete skill library |
-
----
-
-## Protocol Support
-
-### ARGUE Protocols (Agent Interaction)
-- **ARGUE-001**: UniversalSkeptic → WorkflowOrchestrator
-- **ARGUE-002**: ConstitutionGuardian → ChangeAndTaskAgent
-- **ARGUE-003**: RecursiveOptimizer → WorkflowOrchestrator
-- **ARGUE-004**: ContextManager → AnyAgent
-- **ARGUE-005**: HumanAIBoundaryGuard → User
-
-### META Protocols (Meta-Argumentation)
-- **META-001**: architecture-self-auditor - Architecture Self-Audit
-- **META-002**: derivation-chain-validator - Derivation Chain Validation
-- **META-003**: principle-consistency-checker - Principle Consistency Check
-- **META-004**: adjustment-proposer - Adjustment Proposal
-- **META-005**: meta-skeptic - Boundary Rationality Challenge
-
----
-
-## Key Features
-
-### Five-Layer Derivation Chain
-```
-Business Goals → Functional Requirements → Architecture Decisions → Acceptance Criteria → Test Stratification → Unit Tests → Code
-```
-
-### Constitutional Principles (P0-P10)
-- P0: Context-Adaptation
-- P1: Purpose-Driven
-- P2: Planning-Driven
-- P3: Modularity-Orthogonality
-- P4: Interface-First
-- P5: Occam's Razor
-- P6: Test-First
-- P7: Context-First
-- P8: Human-AI Boundary
-- P9: Recursive Self-Optimization
-- P10: Skill Assetization
-
-### 8 Scenario Modes
-1. **Standard**: Greenfield projects, full methodology
-2. **Reverse Engineering**: Legacy system understanding
-3. **Language Migration**: Technology stack migration
-4. **Refactoring**: Incremental architecture upgrade
-5. **POC**: Proof of concept, rapid validation
-6. **Emergency**: Production hotfix
-7. **Federal**: Multi-team distributed development
-8. **Continuous Improvement**: Long-term evolution
-
----
-
-## Usage
-
-### Auto-discovery via OpenCode
-
-OpenCode automatically discovers skills in the `skills/` directory.
-
-### Skills Management Script
-
-```bash
-# List all skills
-./skills.sh list
-
-# Show skill details
-./skills.sh show test-pyramid-deriver
-
-# Search skills
-./skills.sh search "test"
-
-# View statistics
-./skills.sh stats
-
-# Validate skill format
-./skills.sh validate
-```
-
----
-
-## Contributing
-
-1. Create a new skill directory in the appropriate D-domain
-2. Add a `SKILL.md` file following OpenCode specification
-3. Update `SKILLS_SUMMARY.md` and `skill-dependencies.yaml`
-4. Run `./skills.sh validate` to verify format
-
----
-
-## Reference Documents
-
-- [method-paper.md](../ai-docs/layer3/aether-go/method-paper.md) - Aether Methodology Fusion Framework
-- [ai-agent-architecture-proposal.md](../ai-docs/layer3/aether-go/ai-agent-architecture-proposal.md) - AI Agent Architecture Proposal V2.1
-
----
-
-**Created**: 2026-01-16
-**Last Updated**: 2026-04-25
-**Maintainer**: Aether.go Team
-
-## Recent Refactoring (2026-04-25)
-
-- Merged `test-pyramid-analyzer` into `test-pyramid-validator`
-- Merged `continuous-improvement-suite` into `improvement-budget-allocator`
-- Merged `spec-evolution-tracker` into `spec-version-manager`
-- Removed deprecated skills: `scenario-mode-selector`, `tdd-red-green-refactor`
+| **Supporting** | 41 | Tools & verification |
+| **Total** | **99** | Complete skill library |

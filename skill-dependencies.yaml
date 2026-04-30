@@ -2,13 +2,15 @@
 # This file defines dependencies between skills for proper orchestration and sequencing
 # Updated for V2.1 with D1-D8 derivation domain structure
 
-version: "2.1"
-updated: "2026-04-25"
+version: "2.2"
+updated: "2026-04-30"
 
-# Architecture Update (2026-04-25)
+# Architecture Update (2026-04-30)
 # Based on ai-agent-architecture-proposal.md V2.1
 # D1-D8 Derivation Domains: 49 core methodology skills
-# Supporting Skills: 36 tools and verification skills
+# Extended Domains: D4.5 (5 skills), D7.5 (2 skills)
+# Supporting Skills: 41 tools and verification skills
+# Total: 99 skills
 
 # =============================================================================
 # D1: VALUE DERIVATION DOMAIN (L1→L2)
@@ -216,6 +218,58 @@ dependencies:
     stage: integration_validation
 
 # =============================================================================
+# D4.5: GENERATION DISPATCH DOMAIN (L4→L4.5)
+# Deterministic evaluation, code generation dispatch, contract consistency gating
+# =============================================================================
+
+  # D4.5-1: Deterministic Evaluator ⭐
+  deterministic-evaluator:
+    domain: D4.5
+    depends_on:
+      - interface-contract-designer
+    provides: "determinism score for generation strategy selection"
+    stage: generation_dispatch
+
+  # D4.5-2: Code Generator Dispatcher ⭐
+  code-generator-dispatcher:
+    domain: D4.5
+    depends_on:
+      - deterministic-evaluator
+    provides: "optimal traditional generator selection"
+    stage: generation_dispatch
+
+  # D4.5-3: Contract Consistency Gate ⭐
+  contract-consistency-gate:
+    domain: D4.5
+    depends_on:
+      - code-generator-dispatcher
+      - interface-contract-designer
+    provides: "GATE-001 protocol compliance verification"
+    stage: generation_dispatch
+    validation: "interface/type/behavior/dependency/performance checks"
+
+  # D4.5-4: Confidence-Based Reviewer ⭐
+  confidence-based-reviewer:
+    domain: D4.5
+    depends_on:
+      - contract-consistency-gate
+    provides: "confidence grading and human review routing"
+    stage: generation_dispatch
+    thresholds: 
+      auto_approve: 0.90
+      suggest_confirmation: 0.70
+      mandatory_review: 0.00
+
+  # D4.5-5: Intent Hierarchizer ⭐
+  intent-hierarchizer:
+    domain: D4.5
+    depends_on:
+      - value-decomposer
+    provides: "three-level intent layering (business/functional/implementation)"
+    stage: generation_dispatch
+    principle: "P11 Intent-Hierarchization"
+
+# =============================================================================
 # D5: IMPLEMENTATION DERIVATION DOMAIN (L4→L5)
 # Contracts to unit tests and code
 # =============================================================================
@@ -353,6 +407,29 @@ dependencies:
     scenario: federal
     stage: scenario_adaptation
 
+  # D6-9: Harness Reverse Construction Workflow ⭐
+  harness-reverse-construction-workflow:
+    domain: D6
+    depends_on:
+      - scenario-detector
+      - code-graph-analyzer
+      - repo-wiki-generator
+    provides: "reverse-engineer constraints from legacy codebase"
+    scenario: harness_reverse
+    stage: scenario_adaptation
+
+  # D6-10: AI-Native Build Workflow ⭐
+  ai-native-build-workflow:
+    domain: D6
+    depends_on:
+      - scenario-detector
+      - intent-hierarchizer
+      - deterministic-evaluator
+      - confidence-based-reviewer
+    provides: "AI-native build mode with hybrid generation pipeline"
+    scenario: ai_native
+    stage: scenario_adaptation
+
 # =============================================================================
 # D7: EVOLUTION OPTIMIZATION DOMAIN (P9-P10)
 # Recursive optimization and skill assetization
@@ -400,6 +477,28 @@ dependencies:
       - convergence-checker
     provides: "skill parameter optimization from execution history"
     stage: evolution_optimization
+
+# =============================================================================
+# D7.5: KNOWLEDGE ENGINE DOMAIN
+# Code-graph analysis, repo-wiki generation for context enrichment
+# =============================================================================
+
+  # D7.5-1: Code-Graph Analyzer ⭐
+  code-graph-analyzer:
+    domain: D7.5
+    depends_on:
+      - context-manager
+    provides: "codebase structure and dependency analysis"
+    stage: knowledge_engine
+
+  # D7.5-2: Repo-Wiki Generator ⭐
+  repo-wiki-generator:
+    domain: D7.5
+    depends_on:
+      - code-graph-analyzer
+      - architecture-decision-recorder
+    provides: "repository wiki with architecture encyclopedia and ADRs"
+    stage: knowledge_engine
 
 # =============================================================================
 # D8: META-CAPABILITY DOMAIN
@@ -631,6 +730,34 @@ dependencies:
     provides: "prompt template management"
     stage: ai_collaboration
 
+  # AI-5: AI Effectiveness Tracker (NEW)
+  ai-effectiveness-tracker:
+    domain: ai_collaboration
+    depends_on:
+      - recursive-optimizer
+      - context-manager
+    provides: "AI collaboration effectiveness metrics (token savings, quality, review reduction)"
+    stage: ai_collaboration
+    metrics:
+      - token_savings_rate
+      - generation_quality
+      - review_reduction
+      - iteration_cycles
+
+  # AI-6: System Quality Tracker (NEW)
+  system-quality-tracker:
+    domain: ai_collaboration
+    depends_on:
+      - recursive-optimizer
+      - test-pyramid-validator
+    provides: "system quality metrics (completeness, coverage, correctness, satisfaction)"
+    stage: ai_collaboration
+    metrics:
+      - completeness
+      - coverage
+      - correctness
+      - satisfaction
+
 # =============================================================================
 # IT SERVICE MANAGEMENT & DEPLOYMENT (7)
 # =============================================================================
@@ -798,7 +925,39 @@ dependencies:
     provides: "skill packaging and distribution"
     stage: tools
 
-  # =============================================================================
+  # Additional-4: Mode Selector (NEW)
+  mode-selector:
+    domain: tools
+    depends_on:
+      - scenario-detector
+      - principle-consistency-checker
+    provides: "three-mode switching with principle strength adjustment"
+    stage: tools
+    modes:
+      - norm_driven
+      - emergent_exploration
+      - intent_driven
+
+  # Additional-5: Non-Functional Gate Checker (NEW)
+  non-functional-gate-checker:
+    domain: tools
+    depends_on:
+      - nfr-analyzer
+      - system-test-generator
+    provides: "NFR verification including performance, security, compliance (P14)"
+    stage: tools
+    principle: "P14 Non-Functional-Attributes-Built-in"
+
+  # Additional-6: Constraint Check Runner (NEW)
+  constraint-check-runner:
+    domain: tools
+    depends_on:
+      - constitution-validator
+    provides: "constraint checks from constraints/*.yml files (P13, GATE-001)"
+    stage: tools
+    principle: "P13 Constraint-Mechanization"
+
+# =============================================================================
 # STAGE DEFINITIONS
 # =============================================================================
 
@@ -891,6 +1050,16 @@ stages:
   tools:
     description: "Supporting tools and utilities"
     order: 0
+
+  generation_dispatch:
+    description: "Generation strategy dispatch between L4 and L5"
+    order: 4
+    domains: [D4.5]
+
+  knowledge_engine:
+    description: "Knowledge engine for context enrichment"
+    order: 0
+    domains: [D7.5]
 
 # =============================================================================
 # CROSS-CUTTING CONCERNS

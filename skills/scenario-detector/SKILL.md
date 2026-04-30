@@ -1,402 +1,167 @@
 ---
 name: scenario-detector
-description: Use when detecting the appropriate development scenario mode (standard, reverse_engineering, language_migration, refactoring, poc, emergency, federal, continuous_improvement) based on project context
+description: Use when detecting development scenarios (AI-native build, Harness reverse construction, Traditional waterfall) and recommending appropriate mode and strategy. Part of D6 Scenario Adaptation Domain.
 ---
 
 # Scenario Detector
 
 ## Overview
-Detect the appropriate development scenario mode based on project context, constraints, and goals. Supports P0: Context-Adaptation Principle by dynamically selecting the most suitable scenario mode for the current project situation.
+Detect development scenarios (AI-native build, Harness reverse construction, Traditional waterfall) and recommend appropriate mode and strategy. Supports WorkflowOrchestrator's ModeManager by providing scenario detection and mode recommendations.
 
 ## When to Use
 
 ```
-Starting new project or phase? ──────────┐
+New project started? ────────────────────┐
                                          │
-Uncertain which scenario mode to use? ───┤
+Need scenario detection? ────────────────┤
                                          ├─► Use scenario-detector
-Project context has changed? ────────────┤
+Mode recommendation needed? ─────────────┤
                                          │
-Need scenario mode recommendation? ──────┘
+WorkflowOrchestrator needs input? ───────┘
 ```
 
 Use when:
-- Starting a new project and need to determine scenario mode
-- Project context has changed and mode may need adjustment
-- Need scenario mode recommendation with justification
-- Following P0 context-adaptation principle
-- Preparing for constitution-guardian scenario mode selection
+- New project is started and scenario needs to be detected
+- Mode recommendation is needed
+- WorkflowOrchestrator needs scenario input
+- Need to determine appropriate development strategy
 
 Don't use when:
-- Scenario mode is already determined and validated
-- Only switching between existing modes
-- Project context is stable and mode is working
+- Scenario is already known and defined
+- Only mode switching is needed
+- Project is already in progress with defined mode
 
 ## Core Pattern
 
-### Scenario Mode Detection
+### Detection Process
 
 ```
-Project Context Input
-    ├── Project Type (greenfield, brownfield, legacy)
-    ├── Constraints (time, budget, resources)
-    ├── Goals (speed, quality, innovation)
-    ├── Team Structure (single, distributed, multi-team)
-    └── Risk Profile (low, medium, high)
+Project Context
+    ├── Project Type
+    ├── Team Maturity
+    ├── Intent Clarity
+    ├── Existing Codebase
+    └── Delivery Constraints
          |
          v
-    Scenario Detector
+    Scenario Detection
          |
-         v
-Recommended Scenario Mode
-    ├── standard
-    ├── reverse_engineering
-    ├── language_migration
-    ├── refactoring
-    ├── poc
-    ├── emergency
-    ├── federal
-    └── continuous_improvement
+         ├── AI-Native Build
+         ├── Harness Reverse Construction
+         └── Traditional Waterfall
 ```
 
-### Scenario Mode Definitions
+### Scenario Definitions
 
-| Mode | Description | When to Use | Key Characteristics |
-|------|-------------|-------------|---------------------|
-| **standard** | Standard development | New project with clear requirements | Full principles, standard workflow |
-| **reverse_engineering** | Legacy system analysis | Understanding existing system | Reduced planning, focus on documentation |
-| **language_migration** | Technology stack migration | Moving to new language/framework | Parallel implementation, strangler pattern |
-| **refactoring** | System restructuring | Improving existing codebase | Strangler pattern, incremental changes |
-| **poc** | Proof of concept | Validating new technology/approach | Reduced principles, rapid validation |
-| **emergency** | Emergency production fix | Critical bug fix | Wartime mode, minimal process |
-| **federal** | Multi-team distributed | Large organization, multiple teams | Enhanced coordination, interface contracts |
-| **continuous_improvement** | Ongoing optimization | Existing system enhancement | Focus on metrics, iterative improvement |
+| Scenario | Description | Indicators | Recommended Mode |
+|----------|-------------|------------|-----------------|
+| **AI-Native Build** | Building new AI-native application | Clear intent, greenfield, AI-first | Intent-Driven |
+| **Harness Reverse Construction** | Reverse-engineering legacy system | Existing codebase, unclear constraints, refactoring | Norm-Driven with progressive constraint injection |
+| **Traditional Waterfall** | Standard regulated development | Regulated industry, strict compliance, clear requirements | Norm-Driven |
+| **Emergent Exploration** | POC or research project | Unclear requirements, experimental, rapid iteration | Emergent Exploration |
 
-### Decision Matrix
+### Detection Indicators
 
-```
-Project Type:
-├── Greenfield ────────────────────→ standard, poc
-├── Brownfield ────────────────────→ refactoring, language_migration
-├── Legacy ────────────────────────→ reverse_engineering, refactoring
-└── Emergency ─────────────────────→ emergency
+| Indicator | AI-Native | Harness | Traditional | Emergent |
+|-----------|-----------|---------|-------------|----------|
+| Codebase state | Greenfield | Legacy | Greenfield/Legacy | Greenfield |
+| Intent clarity | High | Low | High | Low |
+| Compliance needs | Low | Medium | High | Low |
+| Team maturity | High | Medium | High | Medium |
+| Delivery pressure | Medium | High | Low | Low |
+| AI utilization | High | Medium | Low | Medium |
 
-Constraints:
-├── Tight deadline (< 2 weeks) ────→ emergency, poc
-├── Limited budget ────────────────→ standard, continuous_improvement
-├── Regulatory requirements ───────→ standard, federal
-└── High risk ─────────────────────→ standard, poc
-
-Goals:
-├── Speed to market ───────────────→ poc, emergency
-├── Quality first ─────────────────→ standard, federal
-├── Innovation ────────────────────→ poc, standard
-├── Cost reduction ────────────────→ refactoring, continuous_improvement
-└── Risk mitigation ───────────────→ standard, federal
-
-Team Structure:
-├── Single team ───────────────────→ standard, poc
-├── Distributed ───────────────────→ federal
-├── Multi-team ────────────────────→ federal
-└── External vendors ──────────────→ federal
-```
-
-### Before (Without Scenario Detection)
-```yaml
-project:
-  type: "legacy_system"
-  constraints: {deadline: "2 months", budget: "limited"}
-  goals: ["modernize", "reduce_cost"]
-  
-approach:
-  mode: "standard"  # Wrong mode for legacy system
-  
-result:
-  - Excessive planning for unknown system
-  - Insufficient documentation of legacy code
-  - Migration plan doesn't account for dependencies
-  - Team frustrated with rigid process
-```
-
-### After (With Scenario Detection)
-```yaml
-project:
-  type: "legacy_system"
-  constraints: {deadline: "2 months", budget: "limited"}
-  goals: ["modernize", "reduce_cost"]
-  
-scenario_detection:
-  detected_mode: "reverse_engineering"
-  confidence: 0.92
-  rationale:
-    - "Legacy system requires understanding before modification"
-    - "Limited budget favors documentation over immediate rewrite"
-    - "2-month timeline insufficient for full migration"
-    
-  recommended_transition:
-    phase_1: "reverse_engineering"  # Months 1-2: Document and understand
-    phase_2: "refactoring"          # Month 3+: Incremental improvement
-    phase_3: "standard"             # Month 6+: Full methodology
-    
-approach:
-  mode: "reverse_engineering"
-  
-result:
-  - Systematic documentation of legacy code
-  - Clear understanding of dependencies
-  - Realistic migration plan
-  - Team confidence in approach
-```
-
-## V2.1 Enhancement: Derivation Parameter Output
-
-In V2.1, scenario-detector outputs **derivation parameters** (not just mode labels) for ConstitutionGuardian's dynamic principle weighting:
+## Input Format
 
 ```yaml
-scenario_detection:
-  detected_mode: "reverse_engineering"
-  confidence: 0.92
+detection_request:
+  project:
+    name: "New Platform"
+    type: "web_application"
+    phase: "initiation"
   
-  derivation_parameters:
-    l1_l2_depth: "comprehensive"  # comprehensive, moderate, abbreviated
-    p2_completeness_threshold: 0.7  # 0.0-1.0
-    p6_test_coverage_threshold: 0.5  # 0.0-1.0
-    p4_enforcement_level: "reduced"  # full, reduced, exempted
-    
-  principle_adjustments:
-    P2: {mode: "reduced", threshold: 0.7}
-    P4: {mode: "n_a_legacy"}
-    P5: {mode: "document_existing"}
-    P6: {mode: "reduced", threshold: 0.5}
-```
-
-### Key Derivation Parameters
-
-| Parameter | Description | Impact |
-|-----------|-------------|--------|
-| `l1_l2_depth` | Business goal decomposition depth | Affects requirements-collector depth |
-| `p2_completeness_threshold` | Planning completeness required | Affects spec completeness gate |
-| `p6_test_coverage_threshold` | Minimum test coverage | Affects implementation validation |
-| `p4_enforcement_level` | Interface-first principle strength | Affects design review gates |
-
-## Quick Reference
-
-### Scenario Mode Selection Flowchart
-
-```
-Is this an emergency production issue?
-├── YES ───────────────────────────→ emergency
-└── NO
-    Is this a new technology/approach validation?
-    ├── YES ───────────────────────→ poc
-    └── NO
-        Is this a legacy system?
-        ├── YES ───────────────────→ reverse_engineering
-        └── NO
-            Is this a technology migration?
-            ├── YES ───────────────→ language_migration
-            └── NO
-                Is this a multi-team project?
-                ├── YES ───────────→ federal
-                └── NO
-                    Is this system improvement?
-                    ├── YES ───────→ refactoring or continuous_improvement
-                    └── NO ────────→ standard
-```
-
-### Mode-Specific Principle Adjustments
-
-| Mode | P2 (Planning) | P4 (Interface) | P5 (Dependencies) | P6 (Tests) |
-|------|---------------|----------------|-------------------|------------|
-| **standard** | Full | Full | <= 5 core | Full TDD |
-| **reverse_engineering** | Reduced | N/A | Document existing | Existing tests |
-| **language_migration** | Parallel | Critical | New stack | Migration tests |
-| **refactoring** | Incremental | Maintain | Reduce | Regression tests |
-| **poc** | Minimal | Minimal | Minimal | Smoke tests |
-| **emergency** | Skip | Minimal | Existing | Post-fix tests |
-| **federal** | Enhanced | Critical | Team-specific | Contract tests |
-| **continuous_improvement** | Iterative | Maintain | Optimize | Metrics-driven |
-
-## Implementation
-
-### Detection Algorithm
-
-```python
-class ScenarioDetector:
-    def __init__(self, project_context):
-        self.context = project_context
-        self.scenarios = {
-            'standard': 0,
-            'reverse_engineering': 0,
-            'language_migration': 0,
-            'refactoring': 0,
-            'poc': 0,
-            'emergency': 0,
-            'federal': 0,
-            'continuous_improvement': 0
-        }
-        
-    def detect(self):
-        """Detect appropriate scenario mode."""
-        
-        # Score each scenario based on context
-        self.score_project_type()
-        self.score_constraints()
-        self.score_goals()
-        self.score_team_structure()
-        self.score_risk_profile()
-        
-        # Select highest scoring scenario
-        recommended_mode = max(self.scenarios, key=self.scenarios.get)
-        confidence = self.scenarios[recommended_mode] / sum(self.scenarios.values())
-        
-        return {
-            'mode': recommended_mode,
-            'confidence': confidence,
-            'scores': self.scenarios,
-            'rationale': self.generate_rationale(recommended_mode)
-        }
-    
-    def score_project_type(self):
-        """Score based on project type."""
-        
-        type_scores = {
-            'greenfield': {'standard': 3, 'poc': 2},
-            'brownfield': {'refactoring': 3, 'language_migration': 2},
-            'legacy': {'reverse_engineering': 3, 'refactoring': 2},
-            'emergency': {'emergency': 5}
-        }
-        
-        project_type = self.context.get('project_type', 'greenfield')
-        for mode, score in type_scores.get(project_type, {}).items():
-            self.scenarios[mode] += score
-    
-    def score_constraints(self):
-        """Score based on constraints."""
-        
-        constraints = self.context.get('constraints', {})
-        
-        if constraints.get('deadline') == 'tight':
-            self.scenarios['emergency'] += 2
-            self.scenarios['poc'] += 1
-        
-        if constraints.get('budget') == 'limited':
-            self.scenarios['standard'] += 1
-            self.scenarios['continuous_improvement'] += 1
-        
-        if constraints.get('regulatory'):
-            self.scenarios['standard'] += 2
-            self.scenarios['federal'] += 1
-    
-    def generate_rationale(self, mode):
-        """Generate rationale for recommended mode."""
-        
-        rationales = {
-            'standard': [
-                "Clear requirements and stable context",
-                "Full methodology application appropriate",
-                "Standard risk profile"
-            ],
-            'reverse_engineering': [
-                "Legacy system requires understanding first",
-                "Documentation priority over immediate changes",
-                "Risk of breaking unknown dependencies"
-            ],
-            'language_migration': [
-                "Technology change requires parallel approach",
-                "Strangler pattern recommended",
-                "Interface contracts critical"
-            ],
-            'refactoring': [
-                "Existing system needs structural improvement",
-                "Incremental approach reduces risk",
-                "Maintain existing functionality"
-            ],
-            'poc': [
-                "New approach needs validation",
-                "Reduced process overhead",
-                "Focus on core hypothesis"
-            ],
-            'emergency': [
-                "Critical issue requires immediate action",
-                "Standard process too slow",
-                "Post-fix validation required"
-            ],
-            'federal': [
-                "Multi-team coordination required",
-                "Interface contracts critical",
-                "Enhanced governance needed"
-            ],
-            'continuous_improvement': [
-                "Existing system optimization",
-                "Metrics-driven approach",
-                "Iterative enhancements"
-            ]
-        }
-        
-        return rationales.get(mode, ["Context-specific recommendation"])
+  context:
+    codebase_state: "greenfield"
+    intent_clarity: "high"
+    compliance_needs: "low"
+    team_maturity: "high"
+    delivery_pressure: "medium"
+    ai_utilization: "high"
+  
+  constraints:
+    regulatory_requirements: false
+    existing_systems: false
+    integration_complexity: "low"
 ```
 
 ## Output Format
 
 ```yaml
-scenario_detection:
-  detection_id: "sd-20250424-001"
-  project: "legacy-system-modernization"
+detection_result:
+  project: "New Platform"
   
-  recommended_mode:
-    mode: "reverse_engineering"
+  scenario:
+    detected: "ai_native_build"
     confidence: 0.92
     
-  scores:
-    standard: 2
-    reverse_engineering: 8
-    language_migration: 3
-    refactoring: 5
-    poc: 1
-    emergency: 0
-    federal: 2
-    continuous_improvement: 4
-    
-  rationale:
-    - "Legacy system requires understanding before modification"
-    - "Limited budget favors documentation over immediate rewrite"
-    - "2-month timeline insufficient for full migration"
-    
-  recommended_transition:
-    - phase: 1
-      mode: "reverse_engineering"
-      duration: "2 months"
-      focus: "Documentation and understanding"
-      
-    - phase: 2
-      mode: "refactoring"
-      duration: "3 months"
-      focus: "Incremental improvement"
-      
-    - phase: 3
-      mode: "standard"
-      duration: "ongoing"
-      focus: "Full methodology application"
-      
-  principle_adjustments:
-    P2: "reduced"
-    P4: "n_a"
-    P5: "document_existing"
-    P6: "existing_tests"
+    indicators:
+      - indicator: "greenfield codebase"
+        weight: 0.25
+        evidence: "No existing code detected"
+      - indicator: "high intent clarity"
+        weight: 0.30
+        evidence: "Business intent clearly documented"
+      - indicator: "high AI utilization"
+        weight: 0.25
+        evidence: "AI-first development approach specified"
+      - indicator: "low compliance needs"
+        weight: 0.20
+        evidence: "No regulatory requirements identified"
+  
+  recommendation:
+    mode: "intent_driven"
+    strategy: "ai_native_build"
+    reasoning: "High intent clarity and AI utilization indicate AI-native build scenario"
+  
+  alternatives:
+    - mode: "norm_driven"
+      probability: 0.15
+      reason: "Could be traditional if compliance needs increase"
+  
+  timestamp: "2026-04-30T10:00:00Z"
 ```
 
 ## Integration with Aether.go Methodology
 
-- **Input from**: business-requirements-collector (project context), context-manager (project state)
-- **Output to**: constitution-guardian (scenario mode selection), workflow-orchestrator (workflow adjustment)
-- **Validates with**: correctness-checker (recommendation accuracy)
+- **Input from**: WorkflowOrchestrator, project initialization
+- **Output to**: mode-selector, WorkflowOrchestrator
 - **Part of**: D6 Scenario Adaptation Domain
 
-## Validation Rules
+## Examples
 
-- Recommended mode MUST have confidence >= 0.70
-- Rationale MUST be provided for recommendation
-- Principle adjustments MUST be documented
-- Transition plan SHOULD be provided for non-standard modes
-- Detection MUST consider all context dimensions
+### Example 1: AI-Native Build
+```yaml
+project: "AI Customer Support"
+indicators: {greenfield: true, intent_clear: true, ai_first: true}
+scenario: "ai_native_build"
+mode: "intent_driven"
+confidence: 0.92
+```
+
+### Example 2: Harness Reverse Construction
+```yaml
+project: "Legacy Refactoring"
+indicators: {legacy: true, intent_unclear: true, constraints_implicit: true}
+scenario: "harness_reverse_construction"
+mode: "norm_driven"
+confidence: 0.88
+```
+
+### Example 3: Traditional Waterfall
+```yaml
+project: "Banking System"
+indicators: {regulated: true, compliance_high: true, requirements_clear: true}
+scenario: "traditional_waterfall"
+mode: "norm_driven"
+confidence: 0.95
+```
