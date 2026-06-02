@@ -1,710 +1,464 @@
 ---
 name: constitution-validator
-description: Use when validating that code and specifications comply with the Aether.go constitutional principles and architectural constraints
+description: Use when validating code and specifications against all 15 Aether constitutional principles (P0-P14), detecting principle conflicts, resolving via dynamic weighting, and enforcing mechanized constraints. This skill unifies the constitution enforcement layer and replaces constitution-validator, principle-consistency-checker, and constraint-check-runner.
 ---
 
 # Constitution Validator
 
 ## Overview
-Validate that code, specifications, and architectural decisions comply with the Aether.go constitutional principles and quality standards. Enforces consistency and prevents architectural drift across all 11 constitutional principles.
+
+The unified skill for validating compliance with the Aether constitutional principles. This skill:
+- Validates code and specs against all 15 principles (P0–P14)
+- Detects principle conflicts and resolves via dynamic weighting
+- Executes mechanized constraints (GATE-001)
+- Applies contextual exemptions (POC, emergency, legacy, AI-native)
+- Generates compliance reports with severity levels
+
+**Replaces** (consolidated from 3 skills):
+- `constitution-validator`
+- `principle-consistency-checker`
+- `constraint-check-runner`
+
+## 15 Constitutional Principles (Method Paper V3.0)
+
+### Meta Principle
+
+| # | Name | Description |
+|---|------|-------------|
+| **P0** | **Context-Adaptation** | Dynamically adjust principle strength based on project context (no rigid enforcement) |
+
+### Planning Stage
+
+| # | Name | Description |
+|---|------|-------------|
+| **P1** | **Purpose-Driven** | Technical decisions trace to business goals; ends with business value validation |
+| **P2** | **Planning-Driven** | Detailed, verifiable planning before code; can be relaxed in AI-native mode |
+| **P3** | **Intent-Hierarchization** | Layered intent (business/functional/implementation) with independent verification |
+
+### Design Stage
+
+| # | Name | Description |
+|---|------|-------------|
+| **P4** | **Modularity-Orthogonality** | High cohesion, low coupling, orthogonal concerns |
+| **P5** | **Interface-First** | Interface contracts defined and validated before implementation |
+| **P6** | **Occam's Razor** | Simplest design; core dependencies ≤ 5 |
+| **P7** | **Constraint-Mechanization** | Constraints executable as automated rules, not manual review |
+
+### Implementation & Generation Stage
+
+| # | Name | Description |
+|---|------|-------------|
+| **P8** | **Tool-System-Adaptation** | Choose optimal generator (zero-token traditional vs AI) per task |
+| **P9** | **Test-First** | Failing tests before implementation; tests protect refactoring |
+| **P10** | **Context-First** | AI-assisted dev quality ∝ input context quality |
+| **P11** | **Non-Functional-Built-in** | Performance/security/reliability defined as automated gates |
+
+### Verification Stage
+
+| # | Name | Description |
+|---|------|-------------|
+| **P12** | **Human-AI-Boundary** | Critical decisions human-confirmed; confidence-based AI routing |
+
+### Evolution Stage
+
+| # | Name | Description |
+|---|------|-------------|
+| **P13** | **Recursive-Self-Optimization** | Self-improvement via feedback ("execute-measure-learn-improve") |
+| **P14** | **Knowledge-Engine-Skill-Assetization** | Code-graph, repo-wiki, skill library as org memory |
 
 ## When to Use
 
 ```
-Code review needed? ────────────────────┐
-                                        │
-New architecture decision? ──────────────┤
-                                        ├─► Use constitution-validator
-PR ready to merge? ──────────────────────┤
-                                        │
-Compliance audit required? ──────────────┘
+Need constitution compliance check? ────────┐
+                                           │
+Detecting principle conflicts? ─────────────┤
+                                           │
+Applying exemptions for scenario? ─────────┼─► Use constitution-validator
+                                           │
+Executing mechanized constraints? ─────────┤
+                                           │
+CI gate for principle compliance? ─────────┘
 ```
 
 Use when:
-- Reviewing pull requests
-- Validating architectural decisions
-- Conducting compliance audits
-- Onboarding new developers
-- Setting up CI validation gates
-- Reviewing specifications
-- Validating against Aether.go methodology
-
-Don't use when:
-- Writing code (use IDE/Editor)
-- Simple style checks (use linters)
-- Performance profiling
+- Validating code/specs against constitutional principles
+- Resolving principle conflicts (P0 dynamic weighting)
+- Enforcing constraints in CI
+- Applying scenario-specific exemptions
+- Generating compliance reports
 
 ## Core Pattern
 
-### Aether.go Constitutional Principles (11 Principles)
+### Validation Pipeline
 
-```markdown
-## Project Constitution
-
-### P0: Context-Adaptation Principle (Meta Principle)
-**Chinese:** 情境适配原则
-**Description:** Constitutional principles should be dynamically adjusted based on project context, not rigidly enforced.
-
-**Exemption Mechanisms:**
-- POC Phase: Exempt "Planning-Driven Principle"
-- Emergency Fix: Exempt "Test-First Principle" (must complete within 24 hours)
-- Legacy System: Exempt "Specification-First Principle" (use reverse engineering)
-
-**Validation:**
-- [ ] Project context documented
-- [ ] Exemptions justified and time-boxed
-- [ ] Review criteria established
-
----
-
-### P1: Purpose-Driven Principle
-**Chinese:** 目的主导原则
-**Description:** Any technical decision must start with clear business purpose and end with business value validation.
-
-**Logical Derivation:**
-- Premise: Software development's fundamental purpose is to create business value
-- Corollary 1: Technical solutions must be traceable to business goals
-- Corollary 2: Technical decisions without business purpose are over-engineering
-- Corollary 3: Business purpose changes should trigger technical solution re-evaluation
-
-**Validation Standards:**
-- [ ] Each ADR contains "Business Purpose" section
-- [ ] Each feature linked to at least one business metric
-- [ ] Technical debt decisions based on business impact assessment
-
-**Checks:**
-- Automated: ADR template validation
-- Manual: Code review checklist
-
----
-
-### P2: Planning-Driven Principle
-**Chinese:** 规划驱动原则
-**Description:** Before generating implementation code, detailed and verifiable implementation planning must be established.
-
-**Coordination with TDD:**
-- Strictly applies in **Specification-Driven Mode**
-- In **Emergent Exploration Mode**, planning can be simplified to "hypothesis-validation" framework
-- Both modes ultimately require **planning-implementation consistency**
-
-**Planning Completeness Standards:**
-- [ ] Scope boundaries: clearly define what to do and what not to do
-- [ ] Interface contracts: define system-external interaction contracts
-- [ ] Data model: define core domain models
-- [ ] Validation criteria: define completion conditions
-
-**Exemption:** POC Phase
-
----
-
-### P3: Modularity-Orthogonality Principle
-**Chinese:** 模块化与正交性原则
-**Description:** System should be decomposed into high-cohesion, low-coupling modules with orthogonal separation of concerns.
-
-**Formal Definition:**
-- Cohesion: Internal interactions / Total interactions (maximize)
-- Coupling: Inter-module interactions / Total interactions (minimize)
-- Orthogonality: Concern(module_i) ∩ Concern(module_j) = ∅
-
-**Architecture Pattern Requirements:**
-- [ ] Layered architecture: Presentation/Application/Domain/Infrastructure
-- [ ] Dependency rule: Inner layers don't depend on outer layers
-- [ ] Interface isolation: Depend on abstractions, not concrete implementations
-
----
-
-### P4: Interface-First Principle
-**Chinese:** 接口先行原则
-**Description:** Before implementing module internal logic, module interface contracts must be defined and validated first.
-
-**Relationship with TDD:**
-- Interface definition is prerequisite for testing
-- Contract tests validate interface stability
-- Interface changes trigger contract test failures as protection mechanism
-
-**Contract Completeness:**
-- [ ] Input: type, format, constraints, boundary values
-- [ ] Output: type, format, success/failure semantics
-- [ ] Preconditions: state that must be satisfied before call
-- [ ] Postconditions: state guaranteed after call
-- [ ] Exceptions: error codes, exception types, recovery strategies
-
-**Exemption:** POC Phase
-
----
-
-### P5: Occams-Razor Principle
-**Chinese:** 奥卡姆剃刀原则
-**Description:** Choose the simplest design solution that meets requirements, minimizing external dependencies.
-
-**Quantitative Standards:**
-- [ ] Dependency count: core dependencies ≤ 5
-- [ ] Complexity metrics: cyclomatic complexity, cognitive complexity
-- [ ] Decision records: necessity documented for each dependency addition
-
-**Relationship with Recursive Optimization:**
-- Simple design reduces optimization space dimensionality
-- Fewer dependencies reduce optimization constraints
-- Necessary condition for recursive optimization convergence
-
----
-
-### P6: Test-First Principle
-**Chinese:** 测试先行原则
-**Description:** Before any feature implementation, failing tests must be written first; before any refactoring, tests must provide protection.
-
-**Red-Green-Refactor Cycle:**
 ```
-State 1 (RED): Test fails
-    ↓ Write minimal implementation
-State 2 (GREEN): Test passes
-    ↓ Refactor optimization
-State 3 (REFACTOR): Test passes, code optimized
-    ↓ New feature
-State 1 (RED): New test fails
+Subject (code or spec)
+    │
+    ├──► [1] Load Active Principles (15 with strengths)
+    │         │
+    │         │  Applies P0 dynamic weighting:
+    │         │  - emergency: reduce P9 to 0.4
+    │         │  - POC: exempt P2, P5
+    │         │  - AI-native: reduce P2 detail, strict P5+P7
+    │         │
+    │         ▼
+    │     Active Principle Set
+    │         │
+    │         ├──► [2] Per-Principle Validation
+    │         │         │
+    │         │         ▼
+    │         │     Per-Principle Reports
+    │         │         │
+    │         │         ├──► [3] Conflict Detection
+    │         │         │         │
+    │         │         │         ▼
+    │         │         │     Conflict Report
+    │         │         │
+    │         │         └──► [4] Mechanized Constraint Checks (P7)
+    │         │                   │
+    │         │                   ▼
+    │         │               Constraint Results
+    │         │
+    │         ▼
+    │     Aggregated Compliance Report
+    │         │
+    │         ▼
+    │     [5] Issue Routing
+    │         │
+    │         ├── PASS → Continue
+    │         ├── WARNING → Log, continue
+    │         └── FAIL → Block + notify
+    │
+    ▼
 ```
 
-**Test-First Levels:**
-- [ ] Unit level: TDD red-green-refactor
-- [ ] Integration level: Contract tests first
-- [ ] Acceptance level: ATDD scenario-driven
+### Dynamic Principle Weighting (P0)
 
-**Exemption:** Emergency fixes (must complete within 24 hours)
+P0 (Context-Adaptation) dynamically adjusts principle strength:
 
----
+| Scenario | Active Adjustments |
+|----------|-------------------|
+| **Standard** | All principles at 1.0 strength |
+| **Emergency** | P9 (Test-First) → 0.4; P2 (Planning) → 0.5; 24h remediation required |
+| **POC** | P2 (Planning) → exempt; P5 (Interface) → exempt; P6 (Occam) → 0.7 |
+| **Legacy** | P2 (Planning) → exempt; P6 (Occam) → 0.5 (existing deps) |
+| **AI-Native** | P2 (Planning) → 0.6 (structured intent); P5 (Interface) → 1.2 (strict); P7 (Constraint) → 1.2 (strict) |
+| **Harness Reverse** | P2 (Planning) → exempt for legacy; new code → 1.0 |
 
-### P7: Context-First Principle
-**Chinese:** 上下文第一性原则
-**Description:** AI-assisted development effectiveness depends on input context quality; context preparation precedes code generation.
+### Mechanized Constraints (P7)
 
-**Context Completeness Check:**
-- [ ] Requirements context: user stories, acceptance criteria, business rules
-- [ ] Technical context: architecture constraints, interface contracts, data models
-- [ ] Quality context: performance requirements, security constraints, compliance requirements
-
-**Special Importance in AI Era:**
-- AI-generated code quality ∝ Input context quality
-- Skill library is assetized沉淀 of context
-
----
-
-### P8: Human-AI-Boundary Principle
-**Chinese:** 人机责任边界原则
-**Description:** Clearly distinguish boundaries between human decisions and AI assistance; critical decisions must be confirmed by humans.
-
-**Responsibility Matrix:**
-
-| Decision Type | Human Responsibility | AI Assistance |
-|--------------|---------------------|---------------|
-| Business goal setting | Full authority | Provide industry benchmarks |
-| Architecture design | Approval decision | Generate alternatives |
-| Code implementation | Review confirmation | Auto-generate |
-| Test cases | Boundary confirmation | Auto-generate |
-| Deployment release | Final decision | Risk assessment |
-
-**Confidence Threshold Mechanism:**
-- AI confidence > 90%: Auto-execute
-- AI confidence 70-90%: Suggest execution, human confirmation
-- AI confidence < 70%: Escalate to human
-
----
-
-### P9: Recursive-Self-Optimization Principle
-**Chinese:** 递归自我优化原则
-**Description:** System must have capability to self-improve based on feedback, forming "execute-measure-learn-improve" closed loop.
-
-**Formal Model:**
-```
-S_{t+1} = S_t + O(F(S_t))
-```
-Where S_t = system state, O = optimization operation, F = feedback
-
-**Convergence Conditions:**
-1. **Boundedness:** ∃M, ∀t, |S_t| < M (optimization magnitude limited)
-2. **Monotonicity:** Quality(S_{t+1}) ≥ Quality(S_t) - ε (quality doesn't significantly decrease)
-3. **Termination:** |S_{t+1} - S_t| < δ or Quality(S_t) > Threshold
-
-**Prevent Over-optimization:**
-- [ ] Reserve validation set
-- [ ] Multi-objective balance (business value, code quality, development efficiency)
-- [ ] Momentum mechanism to prevent high-frequency oscillation
-
----
-
-### P10: Skill-Assetization Principle
-**Chinese:** 技能库资产化原则
-**Description:** Treat verified effective patterns, templates, and prompts as reusable skill assets, forming organizational memory.
-
-**Skill Lifecycle:**
-```
-Creation → Validation → Assetization → Application → Feedback → Optimization → Retirement
-```
-
-**Quality Standards:**
-- [ ] Success rate: Proportion achieving expected results > 85%
-- [ ] Reusability: Usage count across different projects/scenarios
-- [ ] Maintenance cost: Human effort required to update skill
-
-**Retirement Conditions:**
-- Technology stack obsolete
-- Success rate consistently below threshold
-- Replaced by better skills
-```
-
-### Validation Process
+Constraints are loaded from `constraints/*.yml` and executed as automated checks:
 
 ```yaml
-validation:
-  scope:
-    - code_review
-    - spec_review
-    - architecture_decision
-    - workflow_validation
+# constraints/dependencies.yml
+name: "Dependency Bounds (P6)"
+type: "dependency"
+rule: "core_dependencies <= 5"
+severity: "warning"
+exempt_scenarios: ["legacy"]
+tools:
+  - "go mod graph | wc -l"
+  - "npm ls --depth=0 | wc -l"
+```
 
-  principles_check:
-    - name: "P0: Context-Adaptation"
-      rule: "Project context documented, exemptions justified"
-      severity: "info"
-      
-    - name: "P1: Purpose-Driven"
-      rule: "Technical decisions traceable to business goals"
-      severity: "error"
-      
-    - name: "P2: Planning-Driven"
-      rule: "Implementation planning complete before coding"
-      severity: "error"
-      exemption: "poc_phase"
-      
-    - name: "P3: Modularity-Orthogonality"
-      rule: "High cohesion, low coupling, orthogonal concerns"
-      severity: "warning"
-      
-    - name: "P4: Interface-First"
-      rule: "Interface contracts defined before implementation"
-      severity: "error"
-      exemption: "poc_phase"
-      
-    - name: "P5: Occams-Razor"
-      rule: "Dependencies ≤ 5, minimal complexity"
-      severity: "warning"
-      
-    - name: "P6: Test-First"
-      rule: "Tests written before implementation"
-      severity: "error"
-      exemption: "emergency_fix"
-      
-    - name: "P7: Context-First"
-      rule: "Complete context prepared before code generation"
-      severity: "warning"
-      
-    - name: "P8: Human-AI-Boundary"
-      rule: "Critical decisions have human confirmation"
-      severity: "error"
-      
-    - name: "P9: Recursive-Self-Optimization"
-      rule: "Feedback loops established and active"
-      severity: "info"
-      
-    - name: "P10: Skill-Assetization"
-      rule: "Patterns documented as reusable skills"
-      severity: "info"
+```yaml
+# constraints/naming.yml
+name: "Naming Conventions"
+type: "naming"
+rule: "package names lowercase, no underscores"
+severity: "warning"
+tools: ["golangci-lint"]
+```
 
-  report:
-    format: "markdown"
-    output: ".aether/docs/09-reports/constitution-validation-report.md"
+```yaml
+# constraints/interface.yml
+name: "Interface Compliance (P5)"
+type: "interface"
+rule: "all exported functions have declared interfaces"
+severity: "error"
+tools: ["go vet", "tsc --noEmit"]
+```
+
+```yaml
+# constraints/performance.yml
+name: "Performance Budget (P11)"
+type: "performance"
+rule: "p95 latency < 200ms for signup endpoint"
+severity: "error"
+tools: ["k6"]
+```
+
+### Confidence-Based Human-AI Boundary (P12)
+
+| AI Confidence | Action | Human Review |
+|---------------|--------|--------------|
+| ≥ 0.90 | Auto-approve | None (audit log) |
+| 0.70 – 0.90 | Suggest confirmation | Reviewer confirms |
+| < 0.70 | Mandatory review | Required before merge |
+
+## Input Format
+
+```yaml
+validation_request:
+  subject:
+    type: "code"  # code | spec | architecture
+    path: "internal/auth/"
+    files: ["user_service.go", "user_handler.go"]
+  
+  # Or for spec validation
+  spec:
+    type: "specification"
+    id: "SPEC-FUNC-001"
+  
+  # Active scenario (drives P0 weighting)
+  scenario: "standard"  # standard | emergency | poc | legacy | ai-native | harness-reverse
+  
+  # Override principle strengths (optional)
+  principle_overrides:
+    p9_test_first: 0.4  # For emergency
+  
+  # Constraints to enforce
+  constraints:
+    - path: "constraints/dependencies.yml"
+    - path: "constraints/naming.yml"
+    - path: "constraints/interface.yml"
+    - path: "constraints/performance.yml"
+  
+  # Reporting
+  report_format: "detailed"  # summary | detailed | json
+  fail_on: "error"  # error | warning | never
+```
+
+## Output Format
+
+### Summary Report
+
+```yaml
+validation_report:
+  subject: "internal/auth/"
+  scenario: "standard"
+  timestamp: "2026-06-02T10:00:00Z"
+  
+  overall: "PASS"  # PASS | WARNING | FAIL
+  summary:
+    principles_checked: 15
+    principles_passed: 14
+    principles_warned: 1
+    principles_failed: 0
+    constraints_executed: 4
+    constraints_passed: 4
+    constraints_failed: 0
+  
+  principle_results:
+    p0_context_adaptation: 
+      status: PASS
+      note: "Standard scenario, all principles at full strength"
+    p1_purpose_driven:
+      status: PASS
+      evidence: "All functions trace to REQ-FUNC-001 via @purpose annotation"
+    p2_planning_driven:
+      status: PASS
+      evidence: "ADR-003 exists for auth approach"
+    p5_interface_first:
+      status: PASS
+      evidence: "UserService interface declared before implementation"
+    p6_occams_razor:
+      status: WARNING
+      detail: "6 core dependencies detected (target ≤5)"
+      suggestion: "Consider replacing custom logger with zap (already imported)"
+    p7_constraint_mechanization:
+      status: PASS
+      evidence: "Constraints executed via GATE-001"
+    p9_test_first:
+      status: PASS
+      evidence: "Test coverage: 87% (target 80%)"
+    p11_non_functional_built_in:
+      status: PASS
+      evidence: "Performance budget configured, NFR tests in CI"
+    # ... other principles
+  
+  constraint_results:
+    - name: "Dependency Bounds (P6)"
+      status: PASS
+      result: "5 core dependencies"
+    - name: "Naming Conventions"
+      status: PASS
+      result: "All packages comply"
+    - name: "Interface Compliance (P5)"
+      status: PASS
+      result: "All exports have interfaces"
+    - name: "Performance Budget (P11)"
+      status: PASS
+      result: "p95: 145ms < 200ms target"
+  
+  conflicts:
+    - principles: ["P5", "P6"]
+      description: "Interface segregation adds files vs Occam's minimalism"
+      resolution: "Apply P5 (higher priority in AI-native mode)"
+      weighted_score: {p5: 1.2, p6: 0.7}
+  
+  exemptions:
+    - principle: "P2"
+      scenario: "ai-native"
+      rationale: "Structured intent replaces detailed planning"
+  
+  next_action: "proceed"
 ```
 
 ## Implementation
 
-### Validation Rules
+### Step 1: Load Active Principles
 
 ```python
-class ConstitutionValidator:
-    """Validate code and specifications against Aether.go constitutional principles."""
+def load_active_principles(scenario: str, overrides: dict = None) -> dict:
+    """Load principle strengths adjusted for scenario."""
+    base = {p: 1.0 for p in PRINCIPLES}  # All 15 at 1.0
     
-    PRINCIPLES = {
-        'P0': 'context-adaptation-principle',
-        'P1': 'purpose-driven-principle',
-        'P2': 'planning-driven-principle',
-        'P3': 'modularity-orthogonality-principle',
-        'P4': 'interface-first-principle',
-        'P5': 'occams-razor-principle',
-        'P6': 'test-first-principle',
-        'P7': 'context-first-principle',
-        'P8': 'human-ai-boundary-principle',
-        'P9': 'recursive-self-optimization-principle',
-        'P10': 'skill-assetization-principle'
+    adjustments = {
+        "emergency": {"p9": 0.4, "p2": 0.5},
+        "poc": {"p2": 0, "p5": 0, "p6": 0.7},  # 0 = exempt
+        "legacy": {"p2": 0, "p6": 0.5},
+        "ai-native": {"p2": 0.6, "p5": 1.2, "p7": 1.2, "p8": 1.3},
+        "harness-reverse": {"p2": 0},  # For legacy parts
     }
     
-    EXEMPTIONS = {
-        'poc_phase': ['P2', 'P4'],
-        'emergency_fix': ['P6'],
-        'legacy_system': ['P4']
-    }
+    if scenario in adjustments:
+        for p, strength in adjustments[scenario].items():
+            base[p] = strength
     
-    def validate(self, artifact, context):
-        """Validate artifact against all applicable principles."""
-        violations = []
-        
-        # Check which principles apply based on context
-        applicable_principles = self._get_applicable_principles(context)
-        
-        for principle_id in applicable_principles:
-            principle_violations = self._validate_principle(
-                principle_id, artifact, context
-            )
-            violations.extend(principle_violations)
-        
-        return {
-            'valid': len(violations) == 0,
-            'violations': violations,
-            'compliance_score': self._calculate_compliance_score(violations)
-        }
+    if overrides:
+        base.update(overrides)
     
-    def _get_applicable_principles(self, context):
-        """Get list of principles applicable to current context."""
-        all_principles = list(self.PRINCIPLES.keys())
-        
-        # Remove exempted principles
-        for exemption_type, exempted in self.EXEMPTIONS.items():
-            if context.get(exemption_type):
-                all_principles = [p for p in all_principles if p not in exempted]
-        
-        return all_principles
-    
-    def _validate_principle(self, principle_id, artifact, context):
-        """Validate single principle."""
-        violations = []
-        
-        if principle_id == 'P1':  # Purpose-Driven
-            if not self._has_business_traceability(artifact):
-                violations.append({
-                    'principle': 'P1: Purpose-Driven',
-                    'rule': 'Technical decisions must be traceable to business goals',
-                    'severity': 'error',
-                    'suggestion': 'Add business purpose section to ADR'
-                })
-        
-        elif principle_id == 'P6':  # Test-First
-            if not self._has_tests_before_code(artifact):
-                violations.append({
-                    'principle': 'P6: Test-First',
-                    'rule': 'Tests must be written before implementation',
-                    'severity': 'error',
-                    'suggestion': 'Write failing test before implementation'
-                })
-        
-        elif principle_id == 'P8':  # Human-AI-Boundary
-            if not self._has_human_confirmation(artifact):
-                violations.append({
-                    'principle': 'P8: Human-AI-Boundary',
-                    'rule': 'Critical decisions must have human confirmation',
-                    'severity': 'error',
-                    'suggestion': 'Add human review checkpoint'
-                })
-        
-        return violations
-    
-    def _calculate_compliance_score(self, violations):
-        """Calculate overall constitutional compliance score."""
-        error_count = sum(1 for v in violations if v['severity'] == 'error')
-        warning_count = sum(1 for v in violations if v['severity'] == 'warning')
-        
-        # Score: 100 - (errors * 10) - (warnings * 2)
-        score = 100 - (error_count * 10) - (warning_count * 2)
-        return max(0, score)
+    return base
 ```
 
-### Automated CI Gate
+### Step 2: Per-Principle Validation
+
+For each principle, run automated checks:
+
+| Principle | Automated Check | Tool |
+|-----------|----------------|------|
+| P1 Purpose-Driven | Trace from code to business goal | `@purpose` annotation, AST analysis |
+| P2 Planning-Driven | ADRs exist for major decisions | ADR file presence |
+| P3 Intent-Hierarchization | Intent layers present | `.aether/intent/` structure |
+| P4 Modularity | Cyclomatic complexity, coupling | golangci-lint, custom metric |
+| P5 Interface-First | Interfaces declared before impl | go vet, tsc |
+| P6 Occam's Razor | Core deps ≤ 5 | go.mod, package.json |
+| P7 Constraint-Mechanization | Constraints executable | GATE-001 presence |
+| P8 Tool-System-Adaptation | Generator coverage tracked | metrics-tracker |
+| P9 Test-First | Test coverage, test-first order | Coverage tool, git log |
+| P10 Context-First | Context quality score | context-manager |
+| P11 NFR-Built-in | NFR tests in CI | k6, OWASP ZAP |
+| P12 Human-AI-Boundary | Confidence routing | generation-dispatcher |
+| P13 Recursive-Optimization | Feedback loops present | recursive-optimizer |
+| P14 Knowledge-Engine | Code graph exists | code-graph-analyzer |
+
+### Step 3: Conflict Detection
+
+Detect principles that conflict:
+
+```python
+def detect_conflicts(results: dict) -> list:
+    """Identify principle conflicts and resolve."""
+    conflicts = []
+    # Example: P5 (Interface segregation) vs P6 (Occam's minimalism)
+    if results["p5"]["status"] == "PASS" and results["p6"]["status"] == "WARNING":
+        # Likely too many small interfaces
+        if count_interfaces() > threshold:
+            conflicts.append({
+                "principles": ["p5", "p6"],
+                "description": "Interface proliferation conflicts with minimalism",
+                "resolution": "Apply P5 (interface stability) but consolidate related interfaces",
+            })
+    return conflicts
+```
+
+### Step 4: Mechanized Constraint Execution
+
+```python
+def execute_constraints(constraints: list, subject: dict) -> list:
+    """Execute constraint checks from constraints/*.yml."""
+    results = []
+    for constraint in constraints:
+        tool = constraint["tool"]
+        rule = constraint["rule"]
+        try:
+            output = run_tool(tool, subject)
+            result = evaluate_rule(rule, output)
+            results.append({
+                "name": constraint["name"],
+                "status": "PASS" if result.passed else "FAIL",
+                "result": result.detail,
+            })
+        except Exception as e:
+            results.append({
+                "name": constraint["name"],
+                "status": "ERROR",
+                "error": str(e),
+            })
+    return results
+```
+
+### Step 5: Issue Routing
+
+```python
+def route_issues(report: dict, fail_on: str) -> str:
+    """Determine action based on report and threshold."""
+    if report["summary"]["principles_failed"] > 0 and fail_on == "error":
+        return "BLOCK"
+    if report["summary"]["principles_warned"] > 0 and fail_on == "warning":
+        return "WARN"
+    return "PROCEED"
+```
+
+## Validation Rules
+
+- ✅ All 15 principles evaluated for any subject
+- ✅ Dynamic weighting applied per P0
+- ✅ Conflicts detected and resolved with weighted priority
+- ✅ Exemptions applied per scenario
+- ✅ Constraints executed via GATE-001
+- ✅ Compliance report generated with severity
+
+## Integration with Aether.go Methodology
+
+- **Input from**: Any code/spec subject
+- **Output to**:
+  - CI/CD pipeline (gate enforcement)
+  - `architecture-auditor` (deep audit)
+  - `metrics-tracker` (compliance trends)
+- **Part of**: Constitution Enforcement Layer
+- **Principle alignment**: Validates **all 15 principles** (P0-P14)
+
+## CI/CD Integration
 
 ```yaml
-# .github/workflows/constitution-check.yaml
-name: Aether.go Constitution Validation
-
-on: [pull_request]
-
+# .github/workflows/constitution.yml
+name: Constitution Check
+on: [push, pull_request]
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup Aether Validator
+      - uses: actions/checkout@v4
+      - name: Run constitution-validator
         run: |
-          pip install aether-constitution-validator
-
-      - name: Validate Against Constitution
-        run: |
-          aether-validate \
-            --principles P1,P2,P3,P4,P5,P6,P7,P8,P9,P10 \
-            --exemptions ${{ github.event.label }} \
-            --output validation-report.json
-
-      - name: Check Compliance Score
-        run: |
-          score=$(jq '.compliance_score' validation-report.json)
-          if (( $(echo "$score < 80" | bc -l) )); then
-            echo "❌ Constitutional compliance $score% below 80% threshold"
-            exit 1
-          fi
-          echo "✅ Constitutional compliance: $score%"
-
-      - name: Upload Report
-        uses: actions/upload-artifact@v3
-        with:
-          name: constitution-validation-report
-          path: validation-report.json
+          constitution-validator validate \
+            --scenario "${{ vars.SCENARIO || 'standard' }}" \
+            --constraints constraints/*.yml \
+            --fail-on error
 ```
 
-### Validation Report Template
+## Migration Notes
 
-```markdown
-# Aether.go Constitution Validation Report
+This skill consolidates 3 previously separate skills:
+- `constitution-validator` — Per-principle validation
+- `principle-consistency-checker` — Conflict detection + dynamic weighting
+- `constraint-check-runner` — Mechanized constraint execution (GATE-001)
 
-**Date:** {{date}}
-**Scope:** {{scope}}
-**Context:** {{context}}
-
-## Compliance Summary
-
-| Metric | Value |
-|--------|-------|
-| Overall Score | {{compliance_score}}% |
-| Principles Checked | {{principles_checked}} |
-| Errors | {{error_count}} |
-| Warnings | {{warning_count}} |
-| Status | {{status}} |
-
-## Principle-by-Principle Results
-
-### P0: Context-Adaptation Principle
-**Status:** {{P0.status}}
-{{#if P0.exemptions}}
-**Active Exemptions:**
-{{#each P0.exemptions}}
-- {{this}}
-{{/each}}
-{{/if}}
-
-### P1: Purpose-Driven Principle
-**Status:** {{P1.status}}
-{{#if P1.violations}}
-**Violations:**
-{{#each P1.violations}}
-- {{this.rule}}
-  - Severity: {{this.severity}}
-  - Suggestion: {{this.suggestion}}
-{{/each}}
-{{/if}}
-
-### P2: Planning-Driven Principle
-**Status:** {{P2.status}}
-...
-
-### P3-P10
-[Similar sections for each principle]
-
-## Conclusion
-
-{{#if all_passed}}
-✅ **All constitutional principles satisfied.** Ready for merge.
-{{else}}
-❌ **Constitutional violations detected.** Please address before merge.
-{{/if}}
-
-## Next Steps
-
-{{#each action_items}}
-{{@index}}. [{{this.priority}}] {{this.action}}
-{{/each}}
-```
-
-### Constitution Configuration
-
-```yaml
-# .aether/constitution.yaml
-constitution:
-  version: "2.0"
-  methodology: "aether-go"
-  
-  principles:
-    P0:
-      name: "context-adaptation-principle"
-      chinese: "情境适配原则"
-      enabled: true
-      
-    P1:
-      name: "purpose-driven-principle"
-      chinese: "目的主导原则"
-      enabled: true
-      enforcement: strict
-      
-    P2:
-      name: "planning-driven-principle"
-      chinese: "规划驱动原则"
-      enabled: true
-      enforcement: strict
-      exemptions:
-        - poc_phase
-        
-    P3:
-      name: "modularity-orthogonality-principle"
-      chinese: "模块化与正交性原则"
-      enabled: true
-      enforcement: warning
-      
-    P4:
-      name: "interface-first-principle"
-      chinese: "接口先行原则"
-      enabled: true
-      enforcement: strict
-      exemptions:
-        - poc_phase
-        
-    P5:
-      name: "occams-razor-principle"
-      chinese: "奥卡姆剃刀原则"
-      enabled: true
-      enforcement: warning
-      max_dependencies: 5
-      
-    P6:
-      name: "test-first-principle"
-      chinese: "测试先行原则"
-      enabled: true
-      enforcement: strict
-      exemptions:
-        - emergency_fix
-      
-    P7:
-      name: "context-first-principle"
-      chinese: "上下文第一性原则"
-      enabled: true
-      enforcement: warning
-      
-    P8:
-      name: "human-ai-boundary-principle"
-      chinese: "人机责任边界原则"
-      enabled: true
-      enforcement: strict
-      confidence_thresholds:
-        auto_execute: 0.90
-        suggest_confirm: 0.70
-        escalate_human: 0.00
-        
-    P9:
-      name: "recursive-self-optimization-principle"
-      chinese: "递归自我优化原则"
-      enabled: true
-      enforcement: info
-      convergence:
-        bounded: true
-        monotonic: true
-        termination_delta: 0.01
-        
-    P10:
-      name: "skill-assetization-principle"
-      chinese: "技能库资产化原则"
-      enabled: true
-      enforcement: info
-      quality_thresholds:
-        success_rate: 0.85
-        reusability: 3
-
-  exemptions:
-    poc_phase:
-      description: "Proof of concept phase"
-      exempt_principles: ["P2", "P4"]
-      max_duration: "4 weeks"
-      
-    emergency_fix:
-      description: "Emergency production fix"
-      exempt_principles: ["P6"]
-      completion_deadline: "24 hours"
-      
-    legacy_system:
-      description: "Legacy system maintenance"
-      exempt_principles: ["P4"]
-      approach: "reverse-engineering"
-```
-
-## Quick Reference
-
-### Principle Severity Levels
-
-| Level | Description | Action Required |
-|-------|-------------|-----------------|
-| **error** | Principle violated | Must fix before merge |
-| **warning** | Principle not fully satisfied | Should address, can proceed with justification |
-| **info** | Principle satisfied or not applicable | No action required |
-
-### Exemption Types
-
-| Exemption | Exempted Principles | Conditions |
-|-----------|---------------------|------------|
-| `poc_phase` | P2, P4 | POC duration ≤ 4 weeks |
-| `emergency_fix` | P6 | Fix within 24 hours |
-| `legacy_system` | P4 | Using reverse engineering |
-
-### Compliance Score Calculation
-
-```
-Score = 100 - (errors × 10) - (warnings × 2)
-
-Pass: Score ≥ 80
-Conditional Pass: 60 ≤ Score < 80
-Fail: Score < 60
-```
-
-## Integration with Aether.go Methodology
-
-### Stage Gates
-
-```yaml
-stage_validation:
-  stage_1_business_analysis:
-    required_principles: [P0, P1]
-    
-  stage_2_specification:
-    required_principles: [P0, P1, P7]
-    
-  stage_3_constitutional_review:
-    required_principles: [P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10]
-    gate: true  # Must pass to proceed
-    
-  stage_4_implementation_planning:
-    required_principles: [P2, P3, P4, P5]
-    
-  stage_5_code_generation:
-    required_principles: [P6, P7, P8]
-    
-  stage_6_integration_validation:
-    required_principles: [P6, P9]
-    
-  stage_7_deployment:
-    required_principles: [P8]
-    
-  stage_8_recursive_optimization:
-    required_principles: [P9, P10]
-```
-
-### Metrics Collection
-
-```yaml
-metrics:
-  constitutional_compliance:
-    collection_points:
-      - stage_start
-      - principle_validation
-      - stage_completion
-    aggregation: realtime
-    
-  principle_effectiveness:
-    tracking:
-      - violation_frequency
-      - exemption_usage
-      - compliance_trends
-    reporting:
-      frequency: weekly
-      dashboard: true
-```
+**Invocation parameters**:
+- `action: validate` → All steps
+- `action: weight` → Step 1 only (P0 dynamic weighting)
+- `action: detect-conflicts` → Step 3
+- `action: execute-constraints` → Step 4
+- `action: report` → Generate report

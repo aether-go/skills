@@ -1,578 +1,348 @@
 ---
 name: recursive-optimizer
-description: Use when optimizing AI skills, prompts, and workflows based on execution results and user feedback
+description: Use when optimizing skills, prompts, and workflows based on execution results and feedback, with convergence guarantees (Lipschitz learning rate). This skill unifies P13 Recursive-Self-Optimization and replaces recursive-optimizer, convergence-checker, improvement-budget-allocator, and tech-debt-quantifier.
 ---
 
 # Recursive Optimizer
 
 ## Overview
-Continuously optimize AI skills, prompt templates, and workflows based on execution results, success rates, and user feedback. Implements recursive improvement cycle for better AI assistance.
+
+The unified skill for recursive self-optimization of the Aether system. This skill:
+- Implements the dual-track optimization model (system quality + AI effectiveness)
+- Allocates improvement budget using 70/20/10 rule
+- Quantifies and prioritizes technical debt
+- Validates convergence conditions (boundedness, monotonicity, termination)
+- Drives skill library and knowledge engine updates
+
+**Replaces** (consolidated from 4 skills):
+- `recursive-optimizer`
+- `convergence-checker`
+- `improvement-budget-allocator`
+- `tech-debt-quantifier`
 
 ## When to Use
 
 ```
-Skill performance issues? ───────────────┐
-                                        │
-Need to improve prompts? ───────────────┤
-                                        ├─► Use recursive-optimizer
-Collecting user feedback? ──────────────┤
-                                        │
-Running A/B tests on prompts? ──────────┘
+Need to optimize skills / prompts? ──────────┐
+                                             │
+Allocating improvement budget? ──────────────┤
+                                             │
+Tracking convergence conditions? ─────────────┼─► Use recursive-optimizer
+                                             │
+Quantifying technical debt? ─────────────────┤
+                                             │
+Need dual-track optimization? ───────────────┘
 ```
 
-Use when:
-- Skills underperform
-- Users report issues
-- Running A/B tests
-- Collecting metrics on effectiveness
-- Quarterly skill maintenance
-- Promoting skills to production
-
-Don't use when:
-- First deployment of skill
-- No metrics/feedback available
-- One-off optimization
-
-## Core Pattern
-
-### Recursive Self-Optimization (P9: Recursive-Self-Optimization Principle)
-
-Implements the Aether.go constitutional principle P9: Recursive-Self-Optimization Principle (递归自我优化原则).
-
-**Formal Model:**
-```
-S_{t+1} = S_t + O(F(S_t))
-```
-Where:
-- S_t = System state at time t (skill state)
-- O = Optimization operation
-- F = Feedback function
-
-### Optimization Cycle with Convergence
+## Dual-Track Optimization Model
 
 ```
-┌───────────────┐
-│  Deploy Skill │
-└───────┬───────┘
-        ↓
-┌───────────────┐
-│ Collect Data │  Usage, feedback, metrics
-└───────┬───────┘
-        ↓
-┌───────────────┐
-│ Analyze Gaps │  Identify issues, patterns
-└───────┬───────┘
-        ↓
-┌───────────────┐
-│ Optimize     │  Update prompts, add content
-└───────┬───────┘
-        ↓
-┌───────────────┐
-│ Test Impact  │  A/B test, validate improvements
-└───────┬───────┘
-        ↓
-┌───────────────┐
-│ Check        │  Verify convergence conditions
-│ Convergence  │  Bounded? Monotonic? Terminated?
-└───────┬───────┘
-        │
-        ├─ Converged? ──► Stop optimization
-        │
-        └─ Not converged ──► (Loop back)
+Track 1: System Quality Optimization
+    S_{t+1} = S_t + α · ∇Q(S_t)
+    where:
+    - S_t: System state at time t
+    - Q(S): Quality function (coverage, complexity, performance)
+    - α: Learning rate (< 2/L, where L is Lipschitz constant)
+
+Track 2: AI Collaboration Effectiveness
+    Ctx_{t+1} = Ctx_t + β · ∇E(Ctx_t)
+    where:
+    - Ctx_t: Context/prompt state
+    - E(Ctx): Effectiveness function (pass rate, confidence, token savings)
+    - β: Learning rate (< 2/L)
+
+Joint Feedback:
+    Check convergence on both tracks
+    Adjust meta-parameters (α, β) if needed
 ```
 
-### Convergence Conditions (P9 Implementation)
+## Convergence Conditions (P13)
 
-Per Aether.go methodology, recursive optimization must satisfy three convergence conditions:
+For stable recursive optimization:
 
-#### 1. Boundedness (有界性)
-**Condition:** ∃M, ∀t, |S_t| < M
+| Condition | Formula | Purpose |
+|-----------|---------|---------|
+| **Boundedness** | ∃M, ∀t: ‖S_t‖ < M | Prevent unbounded growth |
+| **Monotonicity** | Q(S_{t+1}) ≥ Q(S_t) − ε | Quality non-decreasing |
+| **Termination** | ‖S_{t+1} − S_t‖ < δ or target reached | Stop criteria |
 
-**Interpretation:** Optimization magnitude must be limited to prevent runaway changes.
+**Learning rate constraint**: α < 2/L, β < 2/L (Lipschitz)
 
-**Implementation:**
+## Improvement Budget (70/20/10)
+
+| Allocation | Purpose | Example |
+|------------|---------|---------|
+| **70%** | Business feature delivery | New features, customer requests |
+| **20%** | Technical debt repayment | Refactoring, dependency updates, test coverage |
+| **10%** | Experimental improvements | New patterns, PoC, optimization experiments |
+
+## Skill Lifecycle Integration
+
+```
+Create → Validate → Assetize → Apply → Feedback → Optimize → Retire
+  │        │          │         │        │          │         │
+  ▼        ▼          ▼         ▼        ▼          ▼         ▼
+skill    success    skill    task    metrics   this skill  archive
+creator   rate    library   exec   collected   (here)
+          ≥85%
+```
+
+## Input Format
+
 ```yaml
-boundedness:
-  max_changes_per_iteration: 3
-  max_prompt_length_change: 20%
-  max_new_examples_per_iteration: 5
-  rollback_threshold: "quality_decrease > 10%"
+optimization_request:
+  context: "weekly_review"
+  
+  # Current metrics
+  metrics:
+    system_quality:
+      test_coverage: 0.78
+      avg_cyclomatic_complexity: 8.5
+      code_duplication: 0.12
+      tech_debt_hours: 240
+    ai_effectiveness:
+      token_savings_rate: 0.65
+      generation_quality_score: 0.87
+      first_pass_rate: 0.72
+      avg_iteration_cycles: 2.3
+  
+  # Targets
+  targets:
+    system_quality:
+      test_coverage: 0.85
+      avg_cyclomatic_complexity: 6.0
+      code_duplication: 0.08
+      tech_debt_hours: 100
+    ai_effectiveness:
+      token_savings_rate: 0.75
+      generation_quality_score: 0.92
+      first_pass_rate: 0.85
+      avg_iteration_cycles: 1.5
+  
+  # Budget allocation
+  budget:
+    feature_work: 0.70
+    debt_repayment: 0.20
+    experimental: 0.10
+  
+  # Skill candidates for optimization
+  skill_candidates:
+    - name: "requirement-analyzer"
+      success_rate: 0.92
+      avg_execution_time: 45
+      feedback: "Works well, occasional false positives in classification"
+    - name: "test-planner"
+      success_rate: 0.78  # Below 85% threshold
+      avg_execution_time: 120
+      feedback: "Chaos experiment generation has edge cases"
+  
+  # Convergence state
+  convergence:
+    last_iteration: 12
+    quality_delta: 0.02
+    iterations_since_improvement: 1
 ```
 
-#### 2. Monotonicity (单调性)
-**Condition:** Quality(S_{t+1}) ≥ Quality(S_t) - ε
+## Output Format
 
-**Interpretation:** Quality should not significantly decrease between iterations.
-
-**Implementation:**
 ```yaml
-monotonicity:
-  quality_metrics:
-    - success_rate
-    - user_satisfaction
-    - execution_time
+optimization_result:
+  context: "weekly_review"
+  timestamp: "2026-06-02T10:00:00Z"
   
-  tolerance_epsilon: 0.05  # 5% tolerance
+  # Budget allocation
+  budget_plan:
+    total_capacity: 100  # person-hours/week
+    allocations:
+      feature_work: {hours: 70, percent: 0.70, items: [...]}
+      debt_repayment: {hours: 20, percent: 0.20, items: [...]}
+      experimental: {hours: 10, percent: 0.10, items: [...]}
   
-  validation:
-    - compare_before_after: true
-    - statistical_significance: 0.95
-    - min_sample_size: 30
-```
-
-#### 3. Termination (终止条件)
-**Condition:** |S_{t+1} - S_t| < δ OR Quality(S_t) > Threshold
-
-**Interpretation:** Stop when changes become negligible or quality reaches target.
-
-**Implementation:**
-```yaml
-termination:
-  delta_threshold: 0.02  # 2% change threshold
-  
-  quality_thresholds:
-    success_rate: 0.95
-    user_satisfaction: 4.5  # out of 5
+  # Technical debt analysis
+  tech_debt:
+    total_estimated_hours: 240
+    by_category:
+      - {category: "test_coverage_gaps", hours: 80, impact: "high", priority: 1}
+      - {category: "outdated_dependencies", hours: 60, impact: "medium", priority: 2}
+      - {category: "code_duplication", hours: 50, impact: "medium", priority: 3}
+      - {category: "missing_documentation", hours: 30, impact: "low", priority: 4}
+      - {category: "performance_hotspots", hours: 20, impact: "high", priority: 1}
     
-  max_iterations: 10
+    repayment_plan:
+      - item: "Increase test coverage from 78% to 85%"
+        hours: 40
+        priority: 1
+        target_completion: "2026-06-16"
+      - item: "Refactor duplicated auth logic"
+        hours: 16
+        priority: 2
+        target_completion: "2026-06-09"
   
-  early_stop:
-    - no_improvement_for: 3
-    - quality_plateau: true
+  # Dual-track progress
+  tracks:
+    system_quality:
+      current_score: 0.78
+      target_score: 0.85
+      delta: +0.02
+      trend: "improving"
+      bottleneck: "test coverage in legacy modules"
+    ai_effectiveness:
+      current_score: 0.87
+      target_score: 0.92
+      delta: +0.03
+      trend: "improving"
+      bottleneck: "chaos experiment edge cases"
+  
+  # Convergence check
+  convergence:
+    status: "CONVERGING"  # CONVERGED | CONVERGING | DIVERGING
+    boundedness: "ok"  # Within M
+    monotonicity: "ok"  # Quality non-decreasing
+    termination_predicted_at: "iteration 18"
+    iterations_remaining: 6
+    
+    # Learning rate adjustment
+    learning_rate:
+      system: {alpha: 0.05, constraint: "< 2/L_Q where L_Q=20", status: "ok"}
+      ai: {beta: 0.03, constraint: "< 2/L_E where L_E=30", status: "ok"}
+  
+  # Skill optimizations
+  skill_updates:
+    - skill: "test-planner"
+      action: "optimize"
+      reason: "Success rate 78% < 85% threshold"
+      changes:
+        - "Improve chaos experiment edge case handling"
+        - "Add 3 example scenarios"
+      expected_improvement: "+5% success rate"
+      
+    - skill: "requirement-analyzer"
+      action: "monitor"
+      reason: "Success rate 92% > 90% target"
+      changes: []
+  
+  # Skill retirements
+  skill_retirements:
+    - skill: "old-test-generator"
+      reason: "Replaced by test-planner (unified)"
+      archive_path: "skills/.archive/old-test-generator/"
+  
+  # Next iteration actions
+  next_actions:
+    - "Run optimized test-planner with new examples, measure success rate"
+    - "Increase test coverage in identified modules"
+    - "Refactor auth duplication"
+    - "Update skill library with new pattern: chaos edge cases"
+  
+  # Convergence prediction
+  prediction:
+    will_converge: true
+    estimated_iterations: 6
+    estimated_target_met: "2026-06-09"
 ```
 
 ## Implementation
 
-### Metrics Collection
+### Convergence Check
 
 ```python
-class SkillMetrics:
-    def __init__(self):
-        self.usage_count = 0
-        self.success_rate = 0.0
-        self.average_satisfaction = 0.0
-        self.common_errors = []
-        self.execution_time = []
-
-    def record_execution(self, success, satisfaction=None, duration=None, error=None):
-        """Record skill execution metrics."""
-
-        self.usage_count += 1
-
-        if success:
-            self.success_rate = (
-                self.success_rate * (self.usage_count - 1) + 1
-            ) / self.usage_count
-        else:
-            self.success_rate = (
-                self.success_rate * (self.usage_count - 1) + 0
-            ) / self.usage_count
-
-        if satisfaction:
-            self.average_satisfaction = (
-                self.average_satisfaction * (self.usage_count - 1) + satisfaction
-            ) / self.usage_count
-
-        if duration:
-            self.execution_time.append(duration)
-
-        if error:
-            self.track_error(error)
-
-    def track_error(self, error):
-        """Track common error patterns."""
-
-        for existing in self.common_errors:
-            if existing['type'] == error.type:
-                existing['count'] += 1
-                return
-
-        self.common_errors.append({
-            'type': error.type,
-            'message': error.message,
-            'count': 1
-        })
-```
-
-### Gap Analysis
-
-```python
-def analyze_gaps(skill, metrics, user_feedback):
-    """Analyze where skill is underperforming."""
-
-    gaps = []
-
-    # Low success rate
-    if metrics.success_rate < 0.8:
-        gaps.append({
-            'issue': 'Low success rate',
-            'current': f"{metrics.success_rate*100:.1f}%",
-            'target': '80%',
-            'action': 'Review skill content, add missing scenarios'
-        })
-
-    # Common errors
-    for error in metrics.common_errors:
-        if error['count'] > metrics.usage_count * 0.1:
-            gaps.append({
-                'issue': f'Frequent error: {error["type"]}',
-                'count': error['count'],
-                'action': f'Add guidance to prevent {error["type"]}'
-            })
-
-    # Negative feedback
-    negative_feedback = [f for f in user_feedback if f.sentiment < 3]
-    if negative_feedback:
-        themes = extract_themes(negative_feedback)
-        for theme in themes:
-            gaps.append({
-                'issue': f'User complaint: {theme}',
-                'count': len([f for f in negative_feedback if theme in f.comment]),
-                'action': f'Improve content addressing {theme}'
-            })
-
-    return gaps
-```
-
-### Optimization Strategies
-
-```python
-def optimize_skill(skill, gaps):
-    """Generate optimization recommendations."""
-
-    optimizations = []
-
-    for gap in gaps:
-        if gap['issue'] == 'Low success rate':
-            optimizations.extend([
-                'Add more examples',
-                'Simplify instructions',
-                'Add edge case coverage'
-            ])
-
-        elif 'Frequent error' in gap['issue']:
-            optimizations.append(
-                f'Add explicit error handling for {gap["issue"]}'
-            )
-
-        elif 'User complaint' in gap['issue']:
-            optimizations.append(
-                f'Rewrite confusing section about {gap["issue"]}'
-            )
-
-    return optimizations
-```
-
-### A/B Testing
-
-```python
-class PromptABTest:
-    def __init__(self, prompt_a, prompt_b):
-        self.prompt_a = prompt_a
-        self.prompt_b = prompt_b
-        self.results_a = []
-        self.results_b = []
-
-    def record_result(self, variant, success, satisfaction):
-        """Record result for A/B test variant."""
-
-        if variant == 'A':
-            self.results_a.append({'success': success, 'satisfaction': satisfaction})
-        else:
-            self.results_b.append({'success': success, 'satisfaction': satisfaction})
-
-    def analyze(self):
-        """Analyze A/B test results."""
-
-        success_a = sum(1 for r in self.results_a if r['success']) / len(self.results_a)
-        success_b = sum(1 for r in self.results_b if r['success']) / len(self.results_b)
-
-        sat_a = sum(r['satisfaction'] for r in self.results_a) / len(self.results_a)
-        sat_b = sum(r['satisfaction'] for r in self.results_b) / len(self.results_b)
-
-        return {
-            'winner': 'A' if success_a > success_b else 'B',
-            'a_success': success_a,
-            'b_success': success_b,
-            'a_satisfaction': sat_a,
-            'b_satisfaction': sat_b
-        }
-```
-
-### Convergence Checker (P9 Implementation)
-
-```python
-class ConvergenceChecker:
+def check_convergence(state: dict) -> dict:
     """Check convergence conditions for recursive optimization."""
+    # Boundedness: state norm < M
+    bounded = norm(state["system_state"]) < state["bound_M"]
     
-    def __init__(self, config):
-        self.config = config
-        self.iteration_history = []
-        
-    def check_convergence(self, current_state, previous_state=None):
-        """
-        Check all three convergence conditions:
-        1. Boundedness
-        2. Monotonicity  
-        3. Termination
-        """
-        results = {
-            'boundedness': self._check_boundedness(current_state),
-            'monotonicity': self._check_monotonicity(current_state, previous_state),
-            'termination': self._check_termination(current_state, previous_state),
-            'converged': False
-        }
-        
-        # Converged if termination condition met AND boundedness satisfied
-        results['converged'] = (
-            results['termination']['should_terminate'] and 
-            results['boundedness']['satisfied']
-        )
-        
-        return results
+    # Monotonicity: quality non-decreasing
+    monotonic = (
+        state["quality_t"] >= state["quality_t_minus_1"] - state["epsilon"]
+    )
     
-    def _check_boundedness(self, state):
-        """Check boundedness condition: |S_t| < M"""
-        checks = {
-            'changes_count': state.get('changes_count', 0) <= self.config['max_changes_per_iteration'],
-            'prompt_length_change': state.get('prompt_length_change', 0) <= self.config['max_prompt_length_change'],
-            'new_examples': state.get('new_examples', 0) <= self.config['max_new_examples_per_iteration'],
-        }
-        
-        return {
-            'satisfied': all(checks.values()),
-            'checks': checks,
-            'recommendation': 'Reduce changes per iteration' if not all(checks.values()) else None
-        }
+    # Termination: change < delta
+    terminated = (
+        abs(state["quality_t"] - state["quality_t_minus_1"]) < state["delta"]
+    )
     
-    def _check_monotonicity(self, current_state, previous_state):
-        """Check monotonicity: Quality(S_{t+1}) >= Quality(S_t) - epsilon"""
-        if previous_state is None:
-            return {'satisfied': True, 'quality_delta': None}
-        
-        epsilon = self.config['tolerance_epsilon']
-        
-        quality_metrics = ['success_rate', 'user_satisfaction']
-        quality_deltas = {}
-        
-        for metric in quality_metrics:
-            current = current_state.get(metric, 0)
-            previous = previous_state.get(metric, 0)
-            delta = current - previous
-            quality_deltas[metric] = delta
-        
-        # Check if any metric decreased significantly
-        monotonic = all(
-            delta >= -epsilon for delta in quality_deltas.values()
-        )
-        
-        return {
-            'satisfied': monotonic,
-            'quality_deltas': quality_deltas,
-            'epsilon': epsilon,
-            'recommendation': 'Consider rollback' if not monotonic else None
-        }
+    if terminated:
+        status = "CONVERGED"
+    elif bounded and monotonic:
+        status = "CONVERGING"
+    else:
+        status = "DIVERGING"
     
-    def _check_termination(self, current_state, previous_state):
-        """Check termination conditions"""
-        reasons = []
-        
-        # Check 1: Change magnitude below threshold
-        if previous_state:
-            state_diff = self._calculate_state_diff(current_state, previous_state)
-            if state_diff < self.config['delta_threshold']:
-                reasons.append(f'State change ({state_diff:.3f}) below threshold')
-        
-        # Check 2: Quality above threshold
-        quality_thresholds = self.config.get('quality_thresholds', {})
-        for metric, threshold in quality_thresholds.items():
-            if current_state.get(metric, 0) >= threshold:
-                reasons.append(f'{metric} ({current_state.get(metric, 0):.3f}) above threshold ({threshold})')
-        
-        # Check 3: Max iterations reached
-        iteration = current_state.get('iteration', 0)
-        if iteration >= self.config.get('max_iterations', 10):
-            reasons.append(f'Max iterations ({self.config["max_iterations"]}) reached')
-        
-        # Check 4: No improvement for N iterations
-        if self._check_plateau():
-            reasons.append('Quality plateau detected')
-        
-        return {
-            'should_terminate': len(reasons) > 0,
-            'reasons': reasons,
-            'iteration': iteration
-        }
-    
-    def _calculate_state_diff(self, state_a, state_b):
-        """Calculate difference between two states"""
-        # Simplified: compare key metrics
-        metrics = ['success_rate', 'user_satisfaction', 'execution_time']
-        diffs = []
-        
-        for metric in metrics:
-            if metric in state_a and metric in state_b:
-                diffs.append(abs(state_a[metric] - state_b[metric]))
-        
-        return sum(diffs) / len(diffs) if diffs else 1.0
-    
-    def _check_plateau(self):
-        """Check if quality has plateaued"""
-        if len(self.iteration_history) < 3:
-            return False
-        
-        recent = self.iteration_history[-3:]
-        quality_changes = [
-            abs(recent[i]['quality'] - recent[i-1]['quality'])
-            for i in range(1, len(recent))
-        ]
-        
-        return all(change < self.config['delta_threshold'] for change in quality_changes)
-```
-
-## V2.1 Enhancement: ChangeAndTaskAgent Linkage
-
-In V2.1, RecursiveOptimizer integrates with ChangeAndTaskAgent for task-based optimization execution:
-
-```yaml
-recursive_optimizer_with_cta:
-  linkage:
-    - RecursiveOptimizer generates optimization task清单
-    - ChangeAndTaskAgent schedules and executes tasks
-    - /opsx-ff: Fast feedback phase (quick validation)
-    - /opsx-apply: Formal application phase (persistent changes)
-    
-  convergence_control:
-    - convergence-checker判定 directly controls task调度
-    - When converged: RecursiveOptimizer stops, notifies ChangeAndTaskAgent
-    - ChangeAndTaskAgent persists final state to .aether/state/
-```
-
-### ARGUE-003 Protocol Integration
-
-```
-RecursiveOptimizer detects convergence
-    │
-    ├── ARGUE-003 → WorkflowOrchestrator
-    │     └── optimization suggestions + convergence status
-    │
-    └── If converged:
-          └── ChangeAndTaskAgent finalizes optimization tasks
-```
-
-### Recursive Optimization Runner
-
-```python
-class RecursiveOptimizer:
-    """Main optimizer implementing P9 recursive self-optimization."""
-    
-    def __init__(self, skill, config):
-        self.skill = skill
-        self.config = config
-        self.convergence_checker = ConvergenceChecker(config)
-        self.iteration = 0
-        self.history = []
-        
-    def optimize(self, max_iterations=10):
-        """Run recursive optimization with convergence checking."""
-        
-        print(f"Starting recursive optimization for skill: {self.skill.name}")
-        
-        while self.iteration < max_iterations:
-            self.iteration += 1
-            print(f"\n=== Iteration {self.iteration} ===")
-            
-            # 1. Collect current state
-            current_state = self._collect_state()
-            
-            # 2. Check convergence
-            previous_state = self.history[-1] if self.history else None
-            convergence = self.convergence_checker.check_convergence(
-                current_state, previous_state
-            )
-            
-            if convergence['converged']:
-                print(f"✅ Convergence achieved!")
-                print(f"Reasons: {convergence['termination']['reasons']}")
-                return {
-                    'success': True,
-                    'iterations': self.iteration,
-                    'final_state': current_state,
-                    'convergence': convergence
-                }
-            
-            # 3. Analyze gaps
-            gaps = self._analyze_gaps(current_state)
-            
-            # 4. Optimize
-            optimized_skill = self._optimize_skill(gaps)
-            
-            # 5. Validate boundedness
-            if not convergence['boundedness']['satisfied']:
-                print(f"⚠️ Boundedness check failed, reducing changes")
-                optimized_skill = self._reduce_changes(optimized_skill)
-            
-            # 6. Test impact
-            test_results = self._test_impact(optimized_skill)
-            
-            # 7. Check monotonicity
-            if not convergence['monotonicity']['satisfied']:
-                print(f"⚠️ Monotonicity check failed, considering rollback")
-                if self._should_rollback(test_results):
-                    print(f"Rolling back to previous version")
-                    continue
-            
-            # 8. Update skill and record
-            self.skill = optimized_skill
-            self.history.append(current_state)
-            
-            print(f"Iteration {self.iteration} complete")
-            print(f"Success rate: {current_state.get('success_rate', 0):.2%}")
-        
-        print(f"\n⚠️ Max iterations ({max_iterations}) reached without convergence")
-        return {
-            'success': False,
-            'iterations': self.iteration,
-            'final_state': current_state,
-            'reason': 'max_iterations_reached'
-        }
-    
-    def _collect_state(self):
-        """Collect current skill state metrics"""
-        return {
-            'iteration': self.iteration,
-            'success_rate': self.skill.metrics.success_rate,
-            'user_satisfaction': self.skill.metrics.average_satisfaction,
-            'execution_time': self.skill.metrics.average_execution_time,
-            'changes_count': self.skill.get_changes_count(),
-            'prompt_length': len(self.skill.prompt),
-            'new_examples': self.skill.get_new_examples_count()
-        }
-```
-
-### Feedback Collection
-
-```python
-def collect_user_feedback(task, skill, execution_time):
-    """Collect structured feedback from user."""
-
-    questions = [
-        "Did the skill help you complete the task? (1-5)",
-        "Was the skill easy to understand? (1-5)",
-        "What could be improved?",
-        "What was most helpful?"
-    ]
-
-    feedback = ask_user(questions)
-
     return {
-        'task': task,
-        'skill': skill,
-        'timestamp': datetime.now(),
-        'execution_time': execution_time,
-        'helpful_rating': feedback[0],
-        'clarity_rating': feedback[1],
-        'improvement_suggestion': feedback[2],
-        'most_helpful': feedback[3]
+        "status": status,
+        "boundedness": "ok" if bounded else "violated",
+        "monotonicity": "ok" if monotonic else "violated",
+        "termination": "ok" if terminated else "pending",
     }
 ```
+
+### Learning Rate Validation
+
+```python
+def validate_learning_rate(alpha: float, L: float) -> bool:
+    """Ensure learning rate satisfies α < 2/L (Lipschitz)."""
+    return alpha < 2.0 / L
+```
+
+### Skill Optimization
+
+```python
+def optimize_skill(skill_name: str, metrics: dict, feedback: str) -> dict:
+    """Propose optimization for a skill."""
+    if metrics["success_rate"] < 0.85:
+        return {
+            "skill": skill_name,
+            "action": "optimize",
+            "changes": analyze_feedback(feedback),
+            "expected_improvement": estimate_improvement(metrics),
+        }
+    return {"skill": skill_name, "action": "monitor", "changes": []}
+```
+
+### Budget Allocation
+
+```python
+def allocate_budget(total_hours: float, debt: list, features: list, experiments: list) -> dict:
+    """Allocate 70/20/10 budget across work categories."""
+    feature_hours = total_hours * 0.70
+    debt_hours = total_hours * 0.20
+    experimental_hours = total_hours * 0.10
+    
+    return {
+        "feature_work": {"hours": feature_hours, "items": prioritize(features, feature_hours)},
+        "debt_repayment": {"hours": debt_hours, "items": prioritize(debt, debt_hours)},
+        "experimental": {"hours": experimental_hours, "items": prioritize(experiments, experimental_hours)},
+    }
+```
+
+## Validation Rules
+
+- ✅ Learning rates within Lipschitz constraints (α < 2/L)
+- ✅ Quality monotonically non-decreasing
+- ✅ State bounded (no unbounded growth)
+- ✅ Termination condition defined
+- ✅ 70/20/10 budget respected
+- ✅ Skills below 85% success rate get optimization proposals
+
+## Integration with Aether.go Methodology
+
+- **Input from**:
+  - `metrics-tracker` (system + AI metrics)
+  - `skill-manager` (skill library state)
+  - `architecture-auditor` (audit findings)
+- **Output to**:
+  - `skill-manager` (optimized skills)
+  - `metrics-tracker` (improvement targets)
+  - `constitution-validator` (compliance trends)
+- **Part of**: Evolution Layer
+- **Principle alignment**:
+  - **P13 Recursive-Self-Optimization**: Core implementation
+  - **P14 Knowledge-Engine**: Skill library updates
+
+## Migration Notes
+
+This skill consolidates 4 previously separate skills:
+- `recursive-optimizer` → Core optimization loop
+- `convergence-checker` → Convergence validation
+- `improvement-budget-allocator` → 70/20/10 allocation
+- `tech-debt-quantifier` → Debt cataloging

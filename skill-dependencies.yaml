@@ -1,1120 +1,421 @@
-# Skill Dependencies Metadata
-# This file defines dependencies between skills for proper orchestration and sequencing
-# Updated for V2.1 with D1-D8 derivation domain structure
+# Skill Dependencies - Aether.go V3.0 Consolidated
+# Generated: 2026-06-02
+# Total: 25 skills (16 merged + 9 standalone)
+# Coverage: P0-P14 (15 principles), L1-L5+4.5 (6 layers), 3 modes, 10 scenarios
 
-version: "2.2"
-updated: "2026-04-30"
+version: "3.0"
+methodology_alignment:
+  principles: "P0-P14 (15 constitutional principles)"
+  derivation_layers: "L1-L5 + L4.5 (six-layer derivation)"
+  modes: ["standard", "poc", "emergency"]
+  scenarios: ["ai-native-build", "harness-reverse-construction", "traditional-waterfall", "greenfield", "brownfield", "wartime", "federated", "parallel", "poc-validation", "migration"]
 
-# Architecture Update (2026-04-30)
-# Based on ai-agent-architecture-proposal.md V2.1
-# D1-D8 Derivation Domains: 49 core methodology skills
-# Extended Domains: D4.5 (5 skills), D7.5 (2 skills)
-# Supporting Skills: 41 tools and verification skills
-# Total: 99 skills
+# ============================================================================
+# GROUP A: DERIVATION CHAIN (6 skills)
+# Linear pipeline: L1 → L2 → L3 → L4 → L4.5 → L5
+# ============================================================================
 
-# =============================================================================
-# D1: VALUE DERIVATION DOMAIN (L1→L2)
-# Business goals to functional requirements
-# =============================================================================
-
-dependencies:
-  # D1-1: Business Requirements Collector
-  business-requirements-collector:
-    domain: D1
-    depends_on: []
-    provides: "structured business requirements"
-    stage: business_analysis
-
-  # D1-2: Value Decomposer ⭐
-  value-decomposer:
-    domain: D1
-    depends_on:
+A_derivation_chain:
+  - name: requirement-analyzer
+    type: merged
+    role: L1
+    description: "Collect, classify (13 categories per ISO/IEC 25010:2023), decompose business goals into measurable functional requirements"
+    merges:
       - business-requirements-collector
-    provides: "measurable functional requirements from business goals"
-    stage: business_analysis
-
-  # D1-3: Metrics Definer
-  metrics-definer:
-    domain: D1
-    depends_on:
-      - business-requirements-collector
-    provides: "business and technical metrics definition"
-    stage: business_analysis
-
-  # D1-4: Value Architecture Tracer ⭐
-  value-architecture-tracer:
-    domain: D1
-    depends_on:
-      - value-decomposer
-      - architecture-decision-recorder
-    provides: "bidirectional mapping between FR and ADR"
-    stage: business_analysis
-    validation: "complete bipartite graph"
-
-  # D1-5: Requirement Implementation Tracer
-  requirement-implementation-tracer:
-    domain: D1
-    depends_on:
-      - usecase-designer
-      - spec-parser
-    provides: "three-layer bidirectional traceability"
-    stage: traceability
-
-# =============================================================================
-# D2: ARCHITECTURE DERIVATION DOMAIN (L2→L3)
-# Functional requirements to architecture decisions
-# =============================================================================
-
-  # D2-1: Architecture Decision Recorder
-  architecture-decision-recorder:
-    domain: D2
-    depends_on:
-      - value-decomposer
-    provides: "architecture decision records (ADRs)"
-    stage: implementation_planning
-
-  # D2-2: Architecture Pattern Selector
-  architecture-pattern-selector:
-    domain: D2
-    depends_on:
-      - architecture-decision-recorder
-    provides: "architecture pattern selection"
-    stage: implementation_planning
-
-  # D2-3: Tech Stack Selector
-  tech-stack-selector:
-    domain: D2
-    depends_on:
-      - architecture-pattern-selector
-    provides: "technology stack selection"
-    stage: implementation_planning
-
-  # D2-4: Data Flow Analyzer
-  data-flow-analyzer:
-    domain: D2
-    depends_on:
-      - architecture-decision-recorder
-    provides: "data flow diagrams and analysis"
-    stage: implementation_planning
-
-  # D2-5: Interface Contract Designer ⭐
-  interface-contract-designer:
-    domain: D2
-    depends_on:
-      - data-flow-analyzer
-    provides: "interface contracts with I/O/pre/post conditions"
-    stage: implementation_planning
-    validation: "P4 Interface-First compliance"
-
-# =============================================================================
-# D3: SPECIFICATION DERIVATION DOMAIN (L3→L4)
-# System specs to GWT acceptance criteria
-# =============================================================================
-
-  # D3-1: Use Case Designer
-  usecase-designer:
-    domain: D3
-    depends_on:
-      - requirement-classifier
-    provides: "use cases with bidirectional traceability"
-    stage: specification_definition
-
-  # D3-2: NFR Analyzer
-  nfr-analyzer:
-    domain: D3
-    depends_on:
-      - requirement-classifier
-    provides: "non-functional requirements with metrics"
-    stage: specification_definition
-
-  # D3-3: Spec to Scenario ⭐
-  spec-to-scenario:
-    domain: D3
-    depends_on:
-      - spec-parser
-    provides: "GWT acceptance scenarios from specs"
-    stage: specification_definition
-
-  # D3-4: Scenario Completeness Checker ⭐
-  scenario-completeness-checker:
-    domain: D3
-    depends_on:
-      - spec-to-scenario
-    provides: "scenario coverage validation"
-    stage: specification_definition
-    validation: "positive/negative/boundary coverage"
-
-  # D3-5: Spec Version Manager (merged with spec-evolution-tracker)
-  spec-version-manager:
-    domain: D3
-    depends_on:
-      - spec-parser
-    provides: "specification version management with evolution tracking"
-    stage: specification_management
-
-# =============================================================================
-# D4: CONTRACT DERIVATION DOMAIN (L3→L4) ★ MOST CRITICAL
-# Acceptance criteria to test stratification
-# =============================================================================
-
-  # D4-1: Test Pyramid Deriver ⭐⭐
-  test-pyramid-deriver:
-    domain: D4
-    depends_on:
-      - spec-to-scenario
-    provides: "test stratification plan with boundary identification"
-    stage: implementation_planning
-    validation: "META-005 boundary rationale"
-    critical: true
-
-  # D4-2: E2E Test Generator ⭐
-  e2e-test-generator:
-    domain: D4
-    depends_on:
-      - test-pyramid-deriver
-    provides: "end-to-end user journey tests"
-    stage: integration_validation
-    target_percentage: 4
-
-  # D4-3: Integration Test Generator ⭐
-  integration-test-generator:
-    domain: D4
-    depends_on:
-      - test-pyramid-deriver
-      - interface-contract-designer
-    provides: "component collaboration tests"
-    stage: integration_validation
-    target_percentage: 15
-
-  # D4-4: Contract Test Generator
-  contract-test-generator:
-    domain: D4
-    depends_on:
-      - test-pyramid-deriver
-      - interface-contract-designer
-    provides: "API contract tests (consumer-driven)"
-    stage: integration_validation
-    target_percentage: 10
-
-  # D4-5: System Test Generator ⭐
-  system-test-generator:
-    domain: D4
-    depends_on:
-      - test-pyramid-deriver
-      - nfr-analyzer
-    provides: "non-functional system tests (perf/security)"
-    stage: integration_validation
-    target_percentage: 1
-
-  # D4-6: Test Pyramid Validator (merged with test-pyramid-analyzer)
-  test-pyramid-validator:
-    domain: D4
-    depends_on:
-      - e2e-test-generator
-      - integration-test-generator
-      - contract-test-generator
-      - system-test-generator
-    provides: "test proportion validation and coverage analysis"
-    stage: integration_validation
-
-# =============================================================================
-# D4.5: GENERATION DISPATCH DOMAIN (L4→L4.5)
-# Deterministic evaluation, code generation dispatch, contract consistency gating
-# =============================================================================
-
-  # D4.5-1: Deterministic Evaluator ⭐
-  deterministic-evaluator:
-    domain: D4.5
-    depends_on:
-      - interface-contract-designer
-    provides: "determinism score for generation strategy selection"
-    stage: generation_dispatch
-
-  # D4.5-2: Code Generator Dispatcher ⭐
-  code-generator-dispatcher:
-    domain: D4.5
-    depends_on:
-      - deterministic-evaluator
-    provides: "optimal traditional generator selection"
-    stage: generation_dispatch
-
-  # D4.5-3: Contract Consistency Gate ⭐
-  contract-consistency-gate:
-    domain: D4.5
-    depends_on:
-      - code-generator-dispatcher
-      - interface-contract-designer
-    provides: "GATE-001 protocol compliance verification"
-    stage: generation_dispatch
-    validation: "interface/type/behavior/dependency/performance checks"
-
-  # D4.5-4: Confidence-Based Reviewer ⭐
-  confidence-based-reviewer:
-    domain: D4.5
-    depends_on:
-      - contract-consistency-gate
-    provides: "confidence grading and human review routing"
-    stage: generation_dispatch
-    thresholds: 
-      auto_approve: 0.90
-      suggest_confirmation: 0.70
-      mandatory_review: 0.00
-
-  # D4.5-5: Intent Hierarchizer ⭐
-  intent-hierarchizer:
-    domain: D4.5
-    depends_on:
-      - value-decomposer
-    provides: "three-level intent layering (business/functional/implementation)"
-    stage: generation_dispatch
-    principle: "P11 Intent-Hierarchization"
-
-# =============================================================================
-# D5: IMPLEMENTATION DERIVATION DOMAIN (L4→L5)
-# Contracts to unit tests and code
-# =============================================================================
-
-  # D5-1: Unit Test Generator ⭐
-  unit-test-generator:
-    domain: D5
-    depends_on:
-      - interface-contract-designer
-    provides: "unit tests with boundary value analysis"
-    stage: code_generation
-    target_percentage: 70
-
-  # D5-2: TDD Cycle Runner ⭐
-  tdd-cycle-runner:
-    domain: D5
-    depends_on:
-      - unit-test-generator
-    provides: "complete TDD red-green-refactor cycle"
-    stage: code_generation
-    validation: "P6 Test-First compliance"
-
-  # D5-3: Contract Driven Code Generator ⭐
-  contract-driven-code-generator:
-    domain: D5
-    depends_on:
-      - interface-contract-designer
-    provides: "skeleton code from contracts"
-    stage: code_generation
-
-  # D5-4: Backend Code Generator ⭐
-  backend-code-generator:
-    domain: D5
-    depends_on:
-      - contract-driven-code-generator
-      - unit-test-generator
-    provides: "backend implementation from contracts"
-    stage: code_generation
-
-  # D5-5: Frontend Code Generator ⭐
-  frontend-code-generator:
-    domain: D5
-    depends_on:
-      - contract-driven-code-generator
-      - e2e-test-generator
-    provides: "frontend implementation from specs"
-    stage: code_generation
-
-  # D5-6: Code Refactor Engine ⭐
-  code-refactor-engine:
-    domain: D5
-    depends_on:
-      - tdd-cycle-runner
-    provides: "automated refactoring with behavior preservation"
-    stage: code_generation
-
-# =============================================================================
-# D6: SCENARIO ADAPTATION DOMAIN
-# 8 scenario modes for context-sensitive workflow
-# =============================================================================
-
-  # D6-1: Scenario Detector ⭐
-  scenario-detector:
-    domain: D6
-    depends_on:
-      - business-requirements-collector
-    provides: "scenario mode detection with derivation parameters"
-    stage: scenario_adaptation
-    outputs: "mode + confidence + derivation_parameters"
-
-  # D6-2: Standard Mode Workflow ⭐
-  standard-mode-workflow:
-    domain: D6
-    depends_on:
-      - scenario-detector
-    provides: "standard workflow for greenfield projects"
-    scenario: standard
-    stage: scenario_adaptation
-
-  # D6-3: Reverse Engineering Suite ⭐
-  reverse-engineering-suite:
-    domain: D6
-    depends_on:
-      - scenario-detector
-    provides: "legacy system extraction and documentation"
-    scenario: reverse_engineering
-    stage: scenario_adaptation
-    exemptions: ["P2", "P4"]
-
-  # D6-4: Dual Track Validator ⭐
-  dual-track-validator:
-    domain: D6
-    depends_on:
-      - scenario-detector
-    provides: "parallel verification for language migration"
-    scenario: language_migration
-    stage: scenario_adaptation
-
-  # D6-5: Strangler Pattern Suite ⭐
-  strangler-pattern-suite:
-    domain: D6
-    depends_on:
-      - scenario-detector
-    provides: "incremental component replacement"
-    scenario: refactoring
-    stage: scenario_adaptation
-
-  # D6-6: POC Exemption Manager ⭐
-  poc-exemption-manager:
-    domain: D6
-    depends_on:
-      - scenario-detector
-    provides: "constitution principle exemptions for POC"
-    scenario: poc
-    stage: scenario_adaptation
-    exemptions: ["P2", "P4", "P6"]
-
-  # D6-7: Wartime Hotfix Workflow ⭐
-  wartime-hotfix-workflow:
-    domain: D6
-    depends_on:
-      - scenario-detector
-      - incident-management
-    provides: "emergency production fix with two-phase process"
-    scenario: emergency
-    stage: scenario_adaptation
-    exemptions: ["P6"]
-
-  # D6-8: Federal Constitution Manager ⭐
-  federal-constitution-manager:
-    domain: D6
-    depends_on:
-      - scenario-detector
-    provides: "multi-team development with CDC contracts"
-    scenario: federal
-    stage: scenario_adaptation
-
-  # D6-9: Harness Reverse Construction Workflow ⭐
-  harness-reverse-construction-workflow:
-    domain: D6
-    depends_on:
-      - scenario-detector
-      - code-graph-analyzer
-      - repo-wiki-generator
-    provides: "reverse-engineer constraints from legacy codebase"
-    scenario: harness_reverse
-    stage: scenario_adaptation
-
-  # D6-10: AI-Native Build Workflow ⭐
-  ai-native-build-workflow:
-    domain: D6
-    depends_on:
-      - scenario-detector
-      - intent-hierarchizer
-      - deterministic-evaluator
-      - confidence-based-reviewer
-    provides: "AI-native build mode with hybrid generation pipeline"
-    scenario: ai_native
-    stage: scenario_adaptation
-
-# =============================================================================
-# D7: EVOLUTION OPTIMIZATION DOMAIN (P9-P10)
-# Recursive optimization and skill assetization
-# =============================================================================
-
-  # D7-1: Convergence Checker ⭐
-  convergence-checker:
-    domain: D7
-    depends_on:
-      - recursive-optimizer
-    provides: "convergence condition validation"
-    stage: evolution_optimization
-    validation: "boundedness + monotonicity + termination"
-
-  # D7-2: Improvement Budget Allocator ⭐
-  improvement-budget-allocator:
-    domain: D7
-    depends_on:
-      - recursive-optimizer
-    provides: "70/20/10 budget allocation"
-    stage: evolution_optimization
-
-  # D7-3: Tech Debt Quantifier ⭐
-  tech-debt-quantifier:
-    domain: D7
-    depends_on:
-      - context-manager
-    provides: "technical debt catalog with impact analysis"
-    stage: evolution_optimization
-
-  # D7-4: Skill Lifecycle Manager ⭐
-  skill-lifecycle-manager:
-    domain: D7
-    depends_on:
-      - skill-optimizer
-    provides: "skill asset lifecycle management"
-    stage: evolution_optimization
-    validation: "success_rate > 85%"
-
-  # D7-5: Skill Optimizer ⭐
-  skill-optimizer:
-    domain: D7
-    depends_on:
-      - skill-lifecycle-manager
-      - convergence-checker
-    provides: "skill parameter optimization from execution history"
-    stage: evolution_optimization
-
-# =============================================================================
-# D7.5: KNOWLEDGE ENGINE DOMAIN
-# Code-graph analysis, repo-wiki generation for context enrichment
-# =============================================================================
-
-  # D7.5-1: Code-Graph Analyzer ⭐
-  code-graph-analyzer:
-    domain: D7.5
-    depends_on:
-      - context-manager
-    provides: "codebase structure and dependency analysis"
-    stage: knowledge_engine
-
-  # D7.5-2: Repo-Wiki Generator ⭐
-  repo-wiki-generator:
-    domain: D7.5
-    depends_on:
-      - code-graph-analyzer
-      - architecture-decision-recorder
-    provides: "repository wiki with architecture encyclopedia and ADRs"
-    stage: knowledge_engine
-
-# =============================================================================
-# D8: META-CAPABILITY DOMAIN
-# Self-verification, self-adjustment, semantic clarification
-# =============================================================================
-
-  # D8-1: Derivation Chain Validator ⭐
-  derivation-chain-validator:
-    domain: D8
-    depends_on: []
-    provides: "five-layer derivation chain completeness"
-    stage: meta_verification
-    protocol: META-002
-
-  # D8-2: Principle Consistency Checker ⭐
-  principle-consistency-checker:
-    domain: D8
-    depends_on:
-      - constitution-validator
-    provides: "principle consistency with dynamic weighting"
-    stage: meta_verification
-    protocol: META-003
-
-  # D8-3: Scenario Mode Recommender ⭐
-  scenario-mode-recommender:
-    domain: D8
-    depends_on:
-      - scenario-detector
-    provides: "scenario mode recommendation with confidence"
-    stage: meta_verification
-
-  # D8-4: Meta Skeptic ⭐
-  meta-skeptic:
-    domain: D8
-    depends_on:
-      - derivation-chain-validator
-      - test-pyramid-deriver
-    provides: "challenge agent/skill configurations"
-    stage: meta_verification
-    protocol: META-005
-
-  # D8-5: Architecture Self Auditor ⭐
-  architecture-self-auditor:
-    domain: D8
-    depends_on: []
-    provides: "architecture self-audit (coverage/redundancy/bottleneck)"
-    stage: meta_verification
-    protocol: META-001
-
-  # D8-6: Skill Gap Analyzer ⭐
-  skill-gap-analyzer:
-    domain: D8
-    depends_on:
-      - derivation-chain-validator
-    provides: "skill coverage gap analysis"
-    stage: meta_verification
-
-  # D8-7: Adjustment Proposer ⭐
-  adjustment-proposer:
-    domain: D8
-    depends_on:
-      - architecture-self-auditor
-      - derivation-chain-validator
-    provides: "architecture adjustment proposals"
-    stage: meta_verification
-    protocol: META-004
-
-  # D8-8: Adjustment Validator ⭐
-  adjustment-validator:
-    domain: D8
-    depends_on:
-      - adjustment-proposer
-    provides: "adjustment validation (correctness/safety)"
-    stage: meta_verification
-    protocol: META-004
-
-  # D8-9: Semantic Intent Clarifier ⭐
-  semantic-intent-clarifier:
-    domain: D8
-    depends_on:
-      - value-decomposer
-    provides: "structured reverse clarification questions"
-    stage: meta_verification
-    protocol: ARGUE-005
-
-# =============================================================================
-# SKEPTIC VERIFICATION SKILLS (4)
-# =============================================================================
-
-  correctness-checker:
-    domain: skeptic
-    depends_on: []
-    provides: "factual accuracy and logical consistency verification"
-    stage: verification
-
-  completeness-checker:
-    domain: skeptic
-    depends_on: []
-    provides: "content completeness and coverage verification"
-    stage: verification
-
-  consistency-checker:
-    domain: skeptic
-    depends_on:
-      - spec-parser
-      - spec-to-code-tracer
-    provides: "cross-layer and cross-domain consistency"
-    stage: verification
-
-  boundedness-checker:
-    domain: skeptic
-    depends_on:
-      - recursive-optimizer
-    provides: "optimization boundedness verification"
-    stage: verification
-
-# =============================================================================
-# METHODOLOGY ORCHESTRATION (2)
-# =============================================================================
-
-  methodology-fusion-orchestrator:
-    domain: orchestration
-    depends_on:
-      - scenario-detector
-      - business-requirements-collector
-      - value-decomposer
-      - spec-to-scenario
-      - test-pyramid-deriver
-      - tdd-cycle-runner
-      - constitution-validator
-      - recursive-optimizer
-    provides: "end-to-end methodology orchestration"
-    stage: coordination
-
-  requirement-classifier:
-    domain: orchestration
-    depends_on:
-      - business-requirements-collector
-    provides: "7-category requirement classification"
-    stage: business_analysis
-
-# =============================================================================
-# SPECIFICATION & TESTING (4)
-# =============================================================================
-
-  spec-parser:
-    domain: specification
-    depends_on:
       - business-value-mapper
       - requirement-classifier
-    provides: "structured technical specifications"
-    stage: specification_definition
-
-  bdd-scenario-writer:
-    domain: specification
-    depends_on:
-      - spec-parser
-      - usecase-designer
-    provides: "Gherkin BDD scenarios"
-    stage: specification_definition
-
-  atdd-acceptance-test-generator:
-    domain: specification
-    depends_on:
-      - bdd-scenario-writer
-    provides: "executable acceptance tests"
-    stage: specification_definition
-
-  sit-scenario-generator:
-    domain: specification
-    depends_on:
-      - go-backend-scaffolder
-      - vue-quasar-scaffolder
-    provides: "system integration test scenarios"
-    stage: integration_validation
-
-# =============================================================================
-# CONSTITUTION & TRACEABILITY (2)
-# =============================================================================
-
-  constitution-validator:
-    domain: constitution
-    depends_on:
-      - spec-parser
-      - bdd-scenario-writer
-    provides: "constitutional compliance report"
-    stage: constitutional_review
-
-  spec-to-code-tracer:
-    domain: traceability
-    depends_on:
-      - spec-parser
-      - generic-code-generator
-    provides: "spec to code traceability"
-    stage: traceability
-
-# =============================================================================
-# AI COLLABORATION & OPTIMIZATION (4)
-# =============================================================================
-
-  context-manager:
-    domain: ai_collaboration
-    depends_on: []
-    provides: "context management across sessions"
-    stage: ai_collaboration
-
-  skill-recommender:
-    domain: ai_collaboration
-    depends_on:
-      - context-manager
-    provides: "skill recommendation based on context"
-    stage: ai_collaboration
-
-  recursive-optimizer:
-    domain: ai_collaboration
-    depends_on:
-      - metrics-definer
-      - skill-recommender
-      - boundedness-checker
-      - convergence-checker
-    provides: "recursive optimization of skills and processes"
-    stage: ai_collaboration
-    linkage: "ChangeAndTaskAgent"
-
-  prompt-template-manager:
-    domain: ai_collaboration
-    depends_on:
-      - recursive-optimizer
-    provides: "prompt template management"
-    stage: ai_collaboration
-
-  # AI-5: AI Effectiveness Tracker (NEW)
-  ai-effectiveness-tracker:
-    domain: ai_collaboration
-    depends_on:
-      - recursive-optimizer
-      - context-manager
-    provides: "AI collaboration effectiveness metrics (token savings, quality, review reduction)"
-    stage: ai_collaboration
-    metrics:
-      - token_savings_rate
-      - generation_quality
-      - review_reduction
-      - iteration_cycles
-
-  # AI-6: System Quality Tracker (NEW)
-  system-quality-tracker:
-    domain: ai_collaboration
-    depends_on:
-      - recursive-optimizer
-      - test-pyramid-validator
-    provides: "system quality metrics (completeness, coverage, correctness, satisfaction)"
-    stage: ai_collaboration
-    metrics:
-      - completeness
-      - coverage
-      - correctness
-      - satisfaction
-
-# =============================================================================
-# IT SERVICE MANAGEMENT & DEPLOYMENT (7)
-# =============================================================================
-
-  deployment-orchestrator:
-    domain: deployment
-    depends_on:
-      - go-backend-scaffolder
-      - vue-quasar-scaffolder
-      - metrics-definer
-    provides: "deployment orchestration"
-    stage: deployment_operations
-
-  incident-management:
-    domain: deployment
-    depends_on:
-      - deployment-orchestrator
-      - metrics-definer
-    provides: "ITIL incident management"
-    stage: deployment_operations
-
-  problem-management:
-    domain: deployment
-    depends_on:
-      - incident-management
-    provides: "ITIL problem management"
-    stage: deployment_operations
-
-  change-management:
-    domain: deployment
-    depends_on:
-      - deployment-orchestrator
-      - incident-management
-    provides: "ITIL change management"
-    stage: deployment_operations
-
-  service-desk:
-    domain: deployment
-    depends_on:
-      - incident-management
-      - change-management
-    provides: "ITIL service desk"
-    stage: deployment_operations
-
-  release-manager:
-    domain: deployment
-    depends_on:
-      - deployment-orchestrator
-    provides: "release planning and coordination"
-    stage: deployment_operations
-
-  rollback-manager:
-    domain: deployment
-    depends_on:
-      - deployment-orchestrator
-      - incident-management
-    provides: "automated rollback"
-    stage: deployment_operations
-
-# =============================================================================
-# FULLSTACK DEVELOPMENT TOOLS (9)
-# =============================================================================
-
-  go-backend-scaffolder:
-    domain: fullstack
-    depends_on:
-      - generic-code-generator
-      - architecture-pattern-selector
-    provides: "Go backend scaffolding"
-    stage: code_generation
-
-  vue-quasar-scaffolder:
-    domain: fullstack
-    depends_on:
-      - generic-code-generator
-      - architecture-pattern-selector
-    provides: "Vue + Quasar frontend scaffolding"
-    stage: code_generation
-
-  fullstack-project-setup:
-    domain: fullstack
-    depends_on:
-      - go-backend-scaffolder
-      - vue-quasar-scaffolder
-      - requirements-to-code-docs
-    provides: "complete fullstack project setup"
-    stage: project_initialization
-
-  requirements-to-code-docs:
-    domain: fullstack
-    depends_on:
-      - business-requirements-collector
-      - requirement-classifier
-      - usecase-designer
-      - spec-parser
-    provides: "structured documentation workflow"
-    stage: documentation
-
-  go-vue-fullstack-workflow:
-    domain: fullstack
-    depends_on:
-      - fullstack-project-setup
-      - methodology-fusion-orchestrator
-    provides: "integrated Go + Vue workflow"
-    stage: project_workflow
-
-  makefile-backend-generator:
-    domain: fullstack
-    depends_on:
-      - go-backend-scaffolder
-    provides: "Makefile generation"
-    stage: build_automation
-
-  go-cli-builder:
-    domain: fullstack
-    depends_on:
-      - generic-code-generator
-      - makefile-backend-generator
-    provides: "Go CLI scaffolding"
-    stage: code_generation
-
-  rust-cli-builder:
-    domain: fullstack
-    depends_on:
-      - generic-code-generator
-    provides: "Rust CLI scaffolding"
-    stage: code_generation
-
-  readme-license-generator:
-    domain: fullstack
-    depends_on: []
-    provides: "bilingual README and LICENSE"
-    stage: tools
-
-# =============================================================================
-# ADDITIONAL SKILLS (3)
-# =============================================================================
-
-  business-value-mapper:
-    domain: strategic
-    depends_on:
-      - business-requirements-collector
-      - requirement-classifier
-    provides: "BMAD matrix"
-    stage: business_analysis
-
-  chaos-test-designer:
-    domain: testing
-    depends_on:
-      - sit-scenario-generator
-    provides: "chaos engineering experiments"
-    stage: integration_validation
-
-  generic-code-generator:
-    domain: tactical
-    depends_on:
-      - spec-parser
-      - architecture-pattern-selector
-    provides: "language-agnostic code generation"
-    stage: code_generation
-
-  skill-packaging-tool:
-    domain: tools
-    depends_on: []
-    provides: "skill packaging and distribution"
-    stage: tools
-
-  # Additional-4: Mode Selector (NEW)
-  mode-selector:
-    domain: tools
-    depends_on:
-      - scenario-detector
-      - principle-consistency-checker
-    provides: "three-mode switching with principle strength adjustment"
-    stage: tools
-    modes:
-      - norm_driven
-      - emergent_exploration
-      - intent_driven
-
-  # Additional-5: Non-Functional Gate Checker (NEW)
-  non-functional-gate-checker:
-    domain: tools
-    depends_on:
-      - nfr-analyzer
-      - system-test-generator
-    provides: "NFR verification including performance, security, compliance (P14)"
-    stage: tools
-    principle: "P14 Non-Functional-Attributes-Built-in"
-
-  # Additional-6: Constraint Check Runner (NEW)
-  constraint-check-runner:
-    domain: tools
-    depends_on:
-      - constitution-validator
-    provides: "constraint checks from constraints/*.yml files (P13, GATE-001)"
-    stage: tools
-    principle: "P13 Constraint-Mechanization"
-
-# =============================================================================
-# STAGE DEFINITIONS
-# =============================================================================
-
-stages:
-  business_analysis:
-    description: "Business requirements collection and analysis"
-    order: 1
-    domains: [D1]
-
-  specification_definition:
-    description: "Technical specification creation"
-    order: 2
-    domains: [D3]
-
-  constitutional_review:
-    description: "Constitutional compliance validation"
-    order: 3
-    domains: [D8]
-
-  implementation_planning:
-    description: "Architecture and implementation planning"
-    order: 4
-    domains: [D2, D4]
-
-  code_generation:
-    description: "Code implementation and generation"
-    order: 5
-    domains: [D5]
-
-  integration_validation:
-    description: "Testing and quality validation"
-    order: 6
-    domains: [D4]
-
-  deployment_operations:
-    description: "Deployment and ITIL operations management"
-    order: 7
-
-  scenario_adaptation:
-    description: "Scenario mode selection and adaptation"
-    order: 0
-    domains: [D6]
-
-  evolution_optimization:
-    description: "Recursive optimization and skill assetization"
-    order: 8
-    domains: [D7]
-
-  meta_verification:
-    description: "Meta-argumentation and self-verification"
-    order: 0
-    domains: [D8]
-
-  coordination:
-    description: "Workflow orchestration"
-    order: 0
-
-  verification:
-    description: "Skeptic verification and validation"
-    order: 0
-
-  traceability:
-    description: "Traceability management"
-    order: 0
-
-  specification_management:
-    description: "Specification evolution management"
-    order: 0
-
-  ai_collaboration:
-    description: "AI collaboration and optimization"
-    order: 0
-
-  project_initialization:
-    description: "Project setup"
-    order: 0
-
-  project_workflow:
-    description: "Integrated development workflows"
-    order: 0
-
-  documentation:
-    description: "Documentation generation"
-    order: 0
-
-  build_automation:
-    description: "Build and automation tools"
-    order: 0
-
-  tools:
-    description: "Supporting tools and utilities"
-    order: 0
-
-  generation_dispatch:
-    description: "Generation strategy dispatch between L4 and L5"
-    order: 4
-    domains: [D4.5]
-
-  knowledge_engine:
-    description: "Knowledge engine for context enrichment"
-    order: 0
-    domains: [D7.5]
-
-# =============================================================================
-# CROSS-CUTTING CONCERNS
-# =============================================================================
-
-cross_cutting:
-  five_layer_derivation:
-    description: "Complete derivation from business value to code"
-    domains: [D1, D2, D3, D4, D5]
-    skills:
-      - business-requirements-collector
       - value-decomposer
+      - metrics-definer
+      - requirements-to-code-docs
+    outputs: ["L1 functional_requirements", "L1 NFRs", "L1 metrics"]
+    principles_aligned: ["P0", "P1", "P3", "P7", "P14"]
+    dependencies: []
+    next: ["architecture-planner"]
+
+  - name: architecture-planner
+    type: merged
+    role: L2
+    description: "Select architecture patterns, tech stack, design data flow, define interface contracts (P4)"
+    merges:
       - architecture-decision-recorder
+      - architecture-pattern-selector
+      - tech-stack-selector
+      - data-flow-analyzer
       - interface-contract-designer
+      - strangler-pattern-suite
+    outputs: ["L2 architecture_decision_records", "L2 interface_contracts", "L2 tech_stack"]
+    principles_aligned: ["P2", "P4", "P6"]
+    dependencies: ["requirement-analyzer"]
+    next: ["spec-engineer"]
+
+  - name: spec-engineer
+    type: merged
+    role: L3
+    description: "Parse specs, design use cases, write BDD/ATDD scenarios (GWT), classify NFRs, manage version history"
+    merges:
+      - spec-parser
+      - usecase-designer
+      - bdd-scenario-writer
+      - atdd-acceptance-test-generator
       - spec-to-scenario
+      - scenario-completeness-checker
+      - nfr-analyzer
+      - spec-version-manager
+    outputs: ["L3 use_cases", "L3 GWT_scenarios", "L3 NFRs_validated", "L3 spec_versions"]
+    principles_aligned: ["P0", "P1", "P4", "P7"]
+    dependencies: ["architecture-planner"]
+    next: ["test-planner"]
+
+  - name: test-planner
+    type: merged
+    role: L4
+    description: "Derive test pyramid stratification (unit/integration/contract/system/e2e/non-functional) from GWT acceptance criteria"
+    merges:
       - test-pyramid-deriver
-      - tdd-cycle-runner
-      - unit-test-generator
-
-  constitution_enforcement:
-    description: "Constitutional principle validation"
-    skills:
-      - constitution-validator
-      - principle-consistency-checker
-      - scenario-detector
-
-  protocol_support:
-    description: "ARGUE and META protocol implementations"
-    skills:
-      - semantic-intent-clarifier
-      - derivation-chain-validator
-      - meta-skeptic
-      - adjustment-proposer
-
-  quality_assurance:
-    description: "Testing and quality validation"
-    skills:
-      - test-pyramid-deriver
+      - test-pyramid-validator
       - e2e-test-generator
       - integration-test-generator
       - contract-test-generator
       - system-test-generator
-      - test-pyramid-validator
+      - unit-test-generator
+      - sit-scenario-generator
+      - chaos-test-designer
+    outputs: ["L4 test_pyramid", "L4 test_specifications", "L4 contract_tests"]
+    principles_aligned: ["P8", "P9", "P11"]
+    dependencies: ["spec-engineer"]
+    next: ["generation-dispatcher"]
 
-  recursive_optimization:
-    description: "P9 recursive self-optimization"
-    skills:
-      - recursive-optimizer
-      - convergence-checker
-      - skill-optimizer
-      - improvement-budget-allocator
+  - name: generation-dispatcher
+    type: merged
+    role: L4.5
+    description: "Determine what to generate deterministically (based on confidence) vs. what to leave for humans; enforce contract consistency gate"
+    merges:
+      - deterministic-evaluator
+      - code-generator-dispatcher
+      - contract-consistency-gate
+      - confidence-based-reviewer
+    outputs: ["L4.5 generation_plan", "L4.5 confidence_scores", "L4.5 contract_violations"]
+    principles_aligned: ["P4", "P9", "P11", "P12"]
+    dependencies: ["test-planner"]
+    next: ["code-generator"]
 
-  skill_assetization:
-    description: "P10 skill library assetization"
-    skills:
-      - skill-lifecycle-manager
-      - skill-gap-analyzer
-      - skill-optimizer
+  - name: code-generator
+    type: merged
+    role: L5
+    description: "Generate code from interface contracts (frontend + backend + language-agnostic)"
+    merges:
+      - contract-driven-code-generator
+      - backend-code-generator
+      - frontend-code-generator
+      - generic-code-generator
+    outputs: ["L5 implementation_code", "L5 generated_tests"]
+    principles_aligned: ["P4", "P9", "P11"]
+    dependencies: ["generation-dispatcher"]
+    next: []
+
+# ============================================================================
+# GROUP B: PROJECT SUPPORT (3 skills)
+# Cross-cutting concerns used throughout the pipeline
+# ============================================================================
+
+B_project_support:
+  - name: go-fullstack-scaffolder
+    type: merged
+    role: scaffolding
+    description: "Generate Go + Vue + Quasar fullstack project with Makefile, README, LICENSE; production-ready"
+    merges:
+      - go-backend-scaffolder
+      - go-cli-builder
+      - vue-quasar-scaffolder
+      - fullstack-project-setup
+      - go-vue-fullstack-workflow
+      - makefile-backend-generator
+      - readme-license-generator
+    outputs: ["project_skeleton", "Makefile", "README_CN_EN", "LICENSE"]
+    principles_aligned: ["P0", "P1", "P6"]
+    dependencies: []
+    next: ["architecture-planner", "code-generator"]
+
+  - name: constitution-validator
+    type: merged
+    role: cross_cutting
+    description: "Validate code/specs against P0-P14 constitutional principles; resolve principle conflicts via dynamic weighting"
+    merges:
+      - constitution-validator
+      - principle-consistency-checker
+      - constraint-check-runner
+    outputs: ["principle_compliance_report", "principle_conflict_resolution"]
+    principles_aligned: ["P0", "P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9", "P10", "P11", "P12", "P13", "P14"]
+    dependencies: []
+    next: []
+
+  - name: context-manager
+    type: standalone
+    role: cross_cutting
+    description: "Manage project context, conversation history, derivation matrix (P7 Context-First Principle)"
+    outputs: ["context_state", "derivation_matrix", "session_history"]
+    principles_aligned: ["P7"]
+    dependencies: []
+    next: []
+
+# ============================================================================
+# GROUP C: SCENARIO ADAPTATION (3 skills)
+# Select and adapt workflow based on project scenario
+# ============================================================================
+
+C_scenario_adaptation:
+  - name: scenario-engine
+    type: merged
+    role: scenario_dispatch
+    description: "Detect scenario (greenfield/brownfield/AI-native/etc.), recommend mode (standard/POC/wartime), support federal and dual-track modes"
+    merges:
+      - scenario-detector
+      - scenario-mode-recommender
+      - mode-selector
+      - poc-exemption-manager
+      - dual-track-validator
+      - ai-native-build-workflow
+      - standard-mode-workflow
+      - federal-constitution-manager
+      - harness-reverse-construction-workflow
+    outputs: ["detected_scenario", "recommended_mode", "derivation_parameters", "federal_constitution_map"]
+    principles_aligned: ["P0", "P6", "P14"]
+    dependencies: ["context-manager"]
+    next: ["requirement-analyzer", "reverse-engineering-suite", "wartime-hotfix-workflow"]
+
+  - name: reverse-engineering-suite
+    type: standalone
+    role: scenario_specialized
+    description: "Extract specs from legacy systems via static + dynamic analysis; generate characterization tests"
+    outputs: ["L1_extracted_specs", "characterization_tests", "migration_plan"]
+    principles_aligned: ["P0", "P9", "P13"]
+    dependencies: ["scenario-engine"]
+    next: ["requirement-analyzer", "test-planner"]
+
+  - name: wartime-hotfix-workflow
+    type: standalone
+    role: scenario_specialized
+    description: "Two-phase emergency response (immediate + 24h normalization); battle rhythm; skill library update"
+    outputs: ["incident_resolution", "retroactive_spec", "skill_library_update"]
+    principles_aligned: ["P0", "P9", "P12", "P14"]
+    dependencies: ["scenario-engine"]
+    next: ["incident-manager", "requirement-analyzer", "test-planner", "skill-manager"]
+
+# ============================================================================
+# GROUP D: OPERATIONS (2 skills)
+# Production runtime concerns
+# ============================================================================
+
+D_operations:
+  - name: deployment-orchestrator
+    type: merged
+    role: operations
+    description: "Multi-environment deployment (blue-green/canary/rolling) + rollback + release coordination + change management"
+    merges:
+      - deployment-orchestrator
+      - rollback-manager
+      - release-manager
+      - change-management
+    outputs: ["deployment_plan", "rollback_procedure", "release_notes", "change_record"]
+    principles_aligned: ["P0", "P9", "P11"]
+    dependencies: ["code-generator", "constitution-validator"]
+    next: []
+
+  - name: incident-manager
+    type: standalone
+    role: operations
+    description: "Full ITIL incident + problem management lifecycle (used for all incidents; wartime-hotfix-workflow for emergencies)"
+    outputs: ["incident_record", "rca_report", "permanent_fix_plan"]
+    principles_aligned: ["P0", "P9", "P14"]
+    dependencies: ["deployment-orchestrator"]
+    next: ["skill-manager", "recursive-optimizer"]
+
+# ============================================================================
+# GROUP E: EVOLUTION (3 skills)
+# Continuous improvement and self-optimization
+# ============================================================================
+
+E_evolution:
+  - name: recursive-optimizer
+    type: standalone
+    role: meta_capability
+    description: "Recursive self-optimization of skills, prompts, workflows based on execution results and feedback"
+    outputs: ["optimization_recommendations", "convergence_status", "defect_fixes"]
+    principles_aligned: ["P9", "P11", "P14"]
+    dependencies: ["metrics-tracker", "architecture-auditor"]
+    next: ["skill-manager"]
+
+  - name: skill-manager
+    type: standalone
+    role: meta_capability
+    description: "Manage skill library lifecycle: creation, validation, assetization, application, feedback, optimization, retirement"
+    outputs: ["skill_lifecycle_records", "skill_quality_metrics", "skill_recommendations"]
+    principles_aligned: ["P14"]
+    dependencies: ["recursive-optimizer"]
+    next: []
+
+  - name: metrics-tracker
+    type: standalone
+    role: meta_capability
+    description: "Track AI effectiveness (token/cost/quality) and system quality (defect rates/perf/reliability)"
+    outputs: ["ai_metrics", "system_metrics", "dashboard_data"]
+    principles_aligned: ["P11", "P14"]
+    dependencies: []
+    next: ["recursive-optimizer"]
+
+# ============================================================================
+# GROUP F: META (2 skills)
+# Cross-domain auditing and validation
+# ============================================================================
+
+F_meta:
+  - name: architecture-auditor
+    type: merged
+    role: meta_capability
+    description: "Audit overall architecture for completeness, consistency, derivation chain integrity (L1-L5); propose adjustments"
+    merges:
+      - architecture-self-auditor
+      - derivation-chain-validator
+      - adjustment-proposer
+      - adjustment-validator
+    outputs: ["architecture_audit_report", "derivation_gaps", "adjustment_proposals"]
+    principles_aligned: ["P0", "P4", "P11", "P14"]
+    dependencies: ["constitution-validator", "universal-skeptic"]
+    next: ["recursive-optimizer"]
+
+  - name: universal-skeptic
+    type: merged
+    role: meta_capability
+    description: "Cross-domain validation: correctness, completeness, consistency, boundedness (skeptic skill layer)"
+    merges:
+      - correctness-checker
+      - completeness-checker
+      - consistency-checker
+      - boundedness-checker
+    outputs: ["validation_report", "defect_list", "rationale_challenge"]
+    principles_aligned: ["P0", "P4", "P11", "P14"]
+    dependencies: []
+    next: ["architecture-auditor"]
+
+# ============================================================================
+# GROUP G: STANDALONE (5 skills)
+# Independent core capabilities
+# ============================================================================
+
+G_standalone:
+  - name: intent-hierarchizer
+    type: standalone
+    role: pre_derivation
+    description: "Hierarchize user intent into Goal → Sub-Goal → Task → Sub-Task; prevent perfect derivation but wrong software"
+    outputs: ["intent_hierarchy", "task_decomposition"]
+    principles_aligned: ["P0", "P12"]
+    dependencies: []
+    next: ["scenario-engine", "requirement-analyzer"]
+
+  - name: methodology-fusion-orchestrator
+    type: standalone
+    role: meta_capability
+    description: "Orchestrate end-to-end Aether methodology fusion across all eight lifecycle stages"
+    outputs: ["orchestration_plan", "stage_transitions", "methodology_adherence_report"]
+    principles_aligned: ["P0", "P1", "P7", "P14"]
+    dependencies: ["context-manager", "scenario-engine"]
+    next: []
+
+  - name: tdd-cycle-runner
+    type: standalone
+    role: implementation
+    description: "Execute complete TDD red-green-refactor cycle as atomic skill, bridging L4 tests to L5 implementation"
+    outputs: ["failing_tests", "passing_tests", "refactored_code"]
+    principles_aligned: ["P9"]
+    dependencies: ["test-planner", "code-generator"]
+    next: []
+
+  - name: code-refactor-engine
+    type: standalone
+    role: implementation
+    description: "Refactor code to improve design while maintaining test coverage; supports P9 recursive optimization"
+    outputs: ["refactored_code", "behavior_preservation_evidence"]
+    principles_aligned: ["P9", "P11", "P14"]
+    dependencies: ["tdd-cycle-runner"]
+    next: []
+
+  - name: meta-skeptic
+    type: standalone
+    role: meta_capability
+    description: "Challenge boundary rationality of test-pyramid-deriver and similar outputs with META-005 protocol"
+    outputs: ["rationale_challenge", "boundary_violations"]
+    principles_aligned: ["P0", "P4", "P11"]
+    dependencies: ["universal-skeptic", "test-planner"]
+    next: []
+
+  - name: semantic-intent-clarifier
+    type: standalone
+    role: pre_derivation
+    description: "Generate structured reverse clarification questions at critical requirement semantic nodes"
+    outputs: ["clarification_questions", "intent_disambiguation"]
+    principles_aligned: ["P0", "P12"]
+    dependencies: []
+    next: ["intent-hierarchizer", "requirement-analyzer"]
+
+# ============================================================================
+# DERIVATION PIPELINE (Standard Mode)
+# ============================================================================
+
+derivation_pipeline_standard:
+  - step: 0
+    stage: "Pre-derivation"
+    skills: ["intent-hierarchizer", "semantic-intent-clarifier", "context-manager"]
+  - step: 1
+    stage: "Scenario detection"
+    skills: ["scenario-engine"]
+  - step: 2
+    stage: "L1 Requirements"
+    skills: ["requirement-analyzer"]
+  - step: 3
+    stage: "L2 Architecture"
+    skills: ["architecture-planner", "go-fullstack-scaffolder"]
+  - step: 4
+    stage: "L3 Specifications"
+    skills: ["spec-engineer"]
+  - step: 5
+    stage: "L4 Tests"
+    skills: ["test-planner"]
+  - step: 6
+    stage: "L4.5 Dispatch"
+    skills: ["generation-dispatcher"]
+  - step: 7
+    stage: "L5 Code"
+    skills: ["code-generator", "tdd-cycle-runner", "code-refactor-engine"]
+  - step: 8
+    stage: "Validation"
+    skills: ["constitution-validator", "architecture-auditor", "universal-skeptic", "meta-skeptic"]
+  - step: 9
+    stage: "Deployment"
+    skills: ["deployment-orchestrator"]
+  - step: 10
+    stage: "Operations"
+    skills: ["incident-manager", "wartime-hotfix-workflow"]
+  - step: 11
+    stage: "Evolution"
+    skills: ["metrics-tracker", "recursive-optimizer", "skill-manager"]
+
+# ============================================================================
+# STATISTICS
+# ============================================================================
+
+statistics:
+  total_skills: 25
+  merged_skills: 16
+  standalone_skills: 9
+  source_skills: 99
+  reduction: 0.748  # 75% reduction (99 → 25)
+  total_skill_md_lines: 10759
+  average_lines_per_skill: 430
+  groups:
+    A_derivation_chain: 6
+    B_project_support: 3
+    C_scenario_adaptation: 3
+    D_operations: 2
+    E_evolution: 3
+    F_meta: 2
+    G_standalone: 6  # intent-hierarchizer, methodology-fusion-orchestrator, tdd-cycle-runner, code-refactor-engine, meta-skeptic, semantic-intent-clarifier
